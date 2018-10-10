@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 860d03416208d4740beb62a480da6c8e
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Microsoft YaHei
+  fontNames:
+  - CloudYuanZhunGBK
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 4e975094aa5d1f34f84e2080f74dc159, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: uifont
+  assetBundleVariant: ft

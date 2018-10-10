@@ -1,0 +1,18 @@
+{
+  "debug": true,
+  "ReferenceUrl": "http://192.168.1.170:5984/develop",
+  "uiEditor": false,
+  "version": false,
+  "localDB": false,
+  "gm": true,
+  "sdk": false,
+  "checkUrl": "http://192.168.1.75:8089/auth",
+  "GVoiceAppID": "1871441083",
+  "GVoiceAppKey": "39187275247f1c119e3cd225ba5b883a",
+  "GVoice": false,
+  "gameID": 2181,
+  "userProtocol": "https://game.qq.com/contract.shtml",
+  "userProtocolEn": "https://game.qq.com/contract_en.shtml",
+  "userPrivaty": "https://privacy.qq.com/",
+  "userPrivatyEn": "https://privacy.qq.com/yszc-en.htm"
+}
