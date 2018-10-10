@@ -1,0 +1,773 @@
+fileFormatVersion: 2
+guid: f42489178b712f942be1286193969f74
+timeCreated: 1537262438
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: BG_001
+    21300002: BG_002
+    21300004: BG_003
+    21300006: BG_Black
+    21300008: Btn_Close
+    21300010: Btn_Exit
+    21300012: Btn_Main_BeiBao
+    21300014: Btn_Main_ChongZhi
+    21300016: Btn_Main_ChouJiang
+    21300018: Btn_Main_FuBen
+    21300020: Btn_Main_GongHui
+    21300022: Btn_Main_HuoDong
+    21300024: Btn_Main_JiNeng
+    21300026: Btn_Main_JingMai
+    21300028: Btn_Main_JinJie
+    21300030: Btn_Main_PaiHang
+    21300032: Btn_Main_QiangHua
+    21300034: Btn_Main_RenWu
+    21300036: Btn_Main_RiChang
+    21300038: Btn_Main_RongLian
+    21300040: Btn_Main_ShangCheng
+    21300042: Btn_Main_SheZhi
+    21300044: Btn_Main_YouJian
+    21300046: Btn_ShaiZi
+    21300048: Btn_Style1_Down
+    21300050: Btn_Style1_Hover
+    21300052: Btn_Style1_Normal
+    21300054: Btn_Style2_Disable
+    21300056: Btn_Style2_Down
+    21300058: Btn_Style2_Hover
+    21300060: Btn_Style2_Normal
+    21300062: Ico_Blood
+    21300064: Ico_Exp
+    21300066: Ico_YuanBao
+    21300068: monster_HP
+    21300070: monster_HP_BG
+    21300072: Monster_Info_BG
+    21300074: Player_Info_BG
+    21300076: Player_Info_Blood
+    21300078: Player_Info_MP
+    21300080: ProgressBar1_BG
+    21300082: ProgressBar1_Front
+    21300084: Skill_BG
+    21300086: TitleBar_001
+    21300088: TitleBar_002
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 1
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Android
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: 64
+    textureCompression: 1
+    compressionQuality: 90
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    androidETC2FallbackOverride: 0
+  - buildTarget: iPhone
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: 64
+    textureCompression: 1
+    compressionQuality: 90
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 1
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: BG_001
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 760
+        width: 202
+        height: 234
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 66, y: 115, z: 103, w: 81}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: BG_002
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 343
+        width: 85
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 24, y: 42, z: 26, w: 31}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: BG_003
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 473
+        width: 90
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: BG_Black
+      rect:
+        serializedVersion: 2
+        x: 462
+        y: 676
+        width: 36
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Close
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 447
+        width: 60
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Exit
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 401
+        width: 123
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Main_BeiBao
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 658
+        width: 88
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Main_ChongZhi
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 284
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Main_ChouJiang
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 138
+        width: 82
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Main_FuBen
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 565
+        width: 91
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Main_GongHui
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 230
+        width: 85
+        height: 82
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Main_HuoDong
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 105
+        width: 81
+        height: 81
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Main_JiNeng
+      rect:
+        serializedVersion: 2
+        x: 387
+        y: 164
+        width: 82
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Main_JingMai
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 373
+        width: 88
+        height: 85
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Main_JinJie
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 188
+        width: 83
+        height: 86
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Main_PaiHang
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 359
+        width: 89
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Main_QiangHua
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 196
+        width: 84
+        height: 86
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Main_RenWu
+      rect:
+        serializedVersion: 2
+        x: 174
+        y: 112
+        width: 81
+        height: 82
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Main_RiChang
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 276
+        width: 87
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Main_RongLian
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 182
+        width: 83
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Main_ShangCheng
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 257
+        width: 86
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Main_SheZhi
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 314
+        width: 88
+        height: 85
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Main_YouJian
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 267
+        width: 86
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_ShaiZi
+      rect:
+        serializedVersion: 2
+        x: 462
+        y: 714
+        width: 41
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Style1_Down
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 617
+        width: 206
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Style1_Hover
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 552
+        width: 206
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Style1_Normal
+      rect:
+        serializedVersion: 2
+        x: 302
+        y: 571
+        width: 206
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Style2_Disable
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 698
+        width: 154
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Style2_Down
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 636
+        width: 154
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Style2_Hover
+      rect:
+        serializedVersion: 2
+        x: 302
+        y: 509
+        width: 154
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Btn_Style2_Normal
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 490
+        width: 154
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Ico_Blood
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 519
+        width: 35
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Ico_Exp
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 136
+        width: 76
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Ico_YuanBao
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 83
+        width: 74
+        height: 51
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: monster_HP
+      rect:
+        serializedVersion: 2
+        x: 505
+        y: 752
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: monster_HP_BG
+      rect:
+        serializedVersion: 2
+        x: 505
+        y: 744
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Monster_Info_BG
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 888
+        width: 303
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Player_Info_BG
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 751
+        width: 303
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Player_Info_Blood
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 491
+        width: 145
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Player_Info_MP
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 445
+        width: 110
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: ProgressBar1_BG
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 460
+        width: 152
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: ProgressBar1_Front
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 460
+        width: 113
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Skill_BG
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 362
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: TitleBar_001
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 996
+        width: 203
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: TitleBar_002
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 682
+        width: 213
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: commonatlas
+  assetBundleVariant: tex

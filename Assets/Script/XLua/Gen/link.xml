@@ -1,0 +1,13 @@
+﻿
+
+<linker>
+
+	<assembly fullname="Assembly-CSharp">
+	    <type fullname="Global" preserve="all"/>
+		<type fullname="TestProto" preserve="all"/>
+		<type fullname="MapObjectData" preserve="all"/>
+		<type fullname="CClientRoleData" preserve="all"/>
+		
+	</assembly>
+
+</linker>
