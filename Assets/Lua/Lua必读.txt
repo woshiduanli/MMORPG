@@ -1,0 +1,35 @@
+Lua编码规范：
+
+1.文件头需要写注释,描述本lua模块实现了什么功能
+格式如下:
+--[["
+	desc: 逻辑层协议相关约定及常量
+	author: CJ
+	since: 2018-06-28
+	copyright: CJ1
+ "]]
+2.代码里的公共方法,需要写上注释,对于私有方法,如果实现的逻辑比较复杂或算法比较特殊的,也要写上合理的注释
+格式如下:(table类型必须写上注释)
+-- desc: 注释代码范例
+-- param: table
+function Test:Func(xx, yy)
+	return 1
+end
+2.包名,路径名大驼峰式
+3.文件名及类名大驼峰式
+4.公,私有变量采用大驼峰式
+5.常量采用大驼峰式
+6.方法采用大驼峰式
+
+
+Lua 注意事项：
+1. new()时不会自动依次调用继承链基类的ctor,只能使用base.ctor(self, ...)
+2. 访问基类的属性调用使用self.xxx,如果本类中有同名的属性会覆盖掉基类的
+3. 访问基类的方法调用使用base.func(self, ...)，！！！！！注意不是冒号 ：是 .
+4. 调用self:func()可以访问基类的方法,并依继承链序往顶层找,找到后就直接返回
+5. 禁止使用类的local全局变量
+5. 禁止使用self.XX保存其他对象实例
+6. 劲量在OnDispose中去给table = nil，配置表也是一个table
+7. 继承CObject的类，禁止使用Global.RegEvent注册事件，因为内部已经封装了RegEvent方法
+8. 继承GameUI，UIElement的类，禁止写UIEnable，UIDisable， 请写OnUIEnable()和OnUIDisable()
+9. 一定要记住当你使用完Lua的某些功能时，是否需要销毁它
