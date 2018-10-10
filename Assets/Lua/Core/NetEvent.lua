@@ -1,9 +1,4 @@
-﻿--[[
-	desc: LUA层网络事件
-	author: CJ
-	create: 2018-06-23
-]]
-
+﻿
 local Log = require "LuaHelper.Log"
 
 local NetEvent = class()

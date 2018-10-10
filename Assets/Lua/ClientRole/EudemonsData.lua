@@ -1,8 +1,4 @@
---[[
-	desc: 场景实体数据-幻兽
-	author: CJ
-	create: 2018-06-22
- ]]
+
 
  local PropertyType = GameDef.PropertyType
  local BuffSystem = require "GameSystem.BuffSystem"

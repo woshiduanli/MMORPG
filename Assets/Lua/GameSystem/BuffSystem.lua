@@ -1,8 +1,4 @@
---[[
-	desc: 场景实体buff数据
-	author: CJ
-	create: 2018-06-22
- ]]
+
  local Log = require "LuaHelper.Log"
  local ReferenceMgr = require "Manager.ReferenceManager"
  local Def = require "LuaHelper.GameDef"

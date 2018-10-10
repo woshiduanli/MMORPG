@@ -1,8 +1,4 @@
---[[
-	desc: lua 活动管理器
-	author: CJ
-	create: 2018-06-20
-]]
+
 local ActDef = GameDef.ActivityType
 
 local ActivityManager = {}

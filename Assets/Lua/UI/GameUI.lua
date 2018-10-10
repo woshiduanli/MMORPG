@@ -1,8 +1,4 @@
---[[
-	desc: lua UI基类
-	author: CJ
-	create: 2018-06-15
-]]
+
 local Base = require "core.Object"
 local UILayer = UIManager.Layer
 local Timer = require("util.Timer")

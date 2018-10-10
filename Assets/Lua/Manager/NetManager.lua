@@ -1,8 +1,4 @@
-﻿--[[
-	desc: LUA层网络事件管理器
-	author: CJ
-	create: 2018-07-03
-]]
+﻿
 
 local Json = require "LuaHelper.JsonHelper"
 local Log = require "LuaHelper.Log"

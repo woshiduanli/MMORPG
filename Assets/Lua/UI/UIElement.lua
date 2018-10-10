@@ -1,8 +1,3 @@
---[[
-	desc: lua UI 模块基类
-	author: CJ
-	create: 2018-07-02
-]]
 
 local Base = require "core.Object"
 

@@ -1,8 +1,4 @@
---[[
-	desc: 场景实体对象-怪
-	author: CJ
-	create: 2018-06-21
- ]]
+
 local MonsterType = GameDef.MonsterType
 local PropertyType = GameDef.PropertyType
 local BuffSystem = require "GameSystem.BuffSystem"

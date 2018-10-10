@@ -1,8 +1,4 @@
---[[
-	desc: lua CObject的实现
-	author: CJ
-	create: 2018-06-15
-]]
+
 local CommonUtil = require "Util.CommonUtil"
 require "core.Class"
 local CObject = class()

@@ -1,8 +1,4 @@
---[[
-	desc: 场景实体对象-其他玩家 
-	author: CJ
-	create: 2018-06-21
- ]]
+
  local tblinsert = table.insert
  local ReferenceDef = GameDef.ReferenceDef
  local PropertyType = GameDef.PropertyType

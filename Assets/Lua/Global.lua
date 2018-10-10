@@ -1,8 +1,4 @@
---[[
-	desc: Lua提供给C#调用的函数集合类
-	author: CJ
-	create: 2018-06-20
-]]
+
 local Def = require "LuaHelper.GameDef"
 local ReferenceDef = Def.ReferenceDef
 local EventMgr = require "Core.Event"

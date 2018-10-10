@@ -1,8 +1,4 @@
---[[
-	desc: 场景实体对象-地图物件
-	author: CJ
-	create: 2018-06-21
- ]]
+
 
  local Base = require "core.Object"
  local CSGlobal = CS.Global

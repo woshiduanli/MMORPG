@@ -1,8 +1,4 @@
---[[
-	desc: 	定义LUA层的所有事件 注意事件代号不能出现相同的
-	author: CJ
-	create: 2018-06-16
-]]
+
 
 local EventTag = { }
 

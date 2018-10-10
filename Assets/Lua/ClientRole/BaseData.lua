@@ -1,8 +1,3 @@
---[[
-	desc: 场景实体数据-基类
-	author: CJ
-	create: 2018-06-21
- ]]
 
  local Base = require "core.Object"
  local PropertyType = GameDef.PropertyType

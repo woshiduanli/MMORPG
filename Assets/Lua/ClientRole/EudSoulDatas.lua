@@ -1,8 +1,4 @@
---[[
-	desc: 场景实体对象-死亡幻兽容器
-	author: CJ
-	create: 2018-06-22
- ]]
+
  local EudSoul = require "ClientRole.EudSoulData"
  local EudSoulDatas = class()
  

@@ -1,8 +1,4 @@
-﻿--[[
-	desc: LUA层事件管理器
-	author: figo
-	create: 2018-01-22
-]]
+﻿
 
 local xpcall = xpcall
 local tblinsert = table.insert

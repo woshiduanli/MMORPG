@@ -1,8 +1,3 @@
---[[
-	desc: lua 游戏管理器
-	author: CJ
-	create: 2018-06-16
-]]
 
 local Input = CS.UnityEngine.Input
 local KeyCode = CS.UnityEngine.KeyCode
@@ -18,11 +13,8 @@ local GameState = require "GameState.GameState"
 local GameManager = {}
 
 function GameManager.InitData()
-
     LuaDebugHelper.InitData()
     Config.LoadConfig()
-
-
 
     -- if Config.isEditor then
     --     LuaDebugHelper.InitData()
@@ -34,7 +26,7 @@ function GameManager.InitData()
     GameManager.RefMgr = ReferenceManager
     GameManager.RegEvents()
     GameManager.InitManagers()
-end 
+end
 
 --注册事件
 function GameManager.RegEvents()
@@ -47,14 +39,14 @@ function GameManager.InitManagers()
     UIManager.InitData()
     ActivityManager.InitData()
 
-    ObjectManager.CreateSingleObj("GameSystem.LoginSystemData","LoginSystemData")
+    ObjectManager.CreateSingleObj("GameSystem.LoginSystemData", "LoginSystemData")
 end
 
-function GameManager.Update(deltaTime,realtimeSinceStartup,frameCount,severtime)
+function GameManager.Update(deltaTime, realtimeSinceStartup, frameCount, severtime)
     if Config.isEditor then
         LuaDebugHelper.Update()
     end
-    Global.Update(deltaTime,realtimeSinceStartup,frameCount,severtime)
+    Global.Update(deltaTime, realtimeSinceStartup, frameCount, severtime)
 end
 
 function GameManager.RateUpdate()

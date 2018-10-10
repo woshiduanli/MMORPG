@@ -1,8 +1,4 @@
---[[
-	desc: lua 游戏状态
-	author: CJ
-	create: 2018-07-03
-]]
+
 local MainPlayer = require "ClientRole.MainPlayerData"
 local World = require "World.World"
 

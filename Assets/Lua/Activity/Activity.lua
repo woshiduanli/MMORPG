@@ -1,8 +1,4 @@
---[[
-	desc: lua 活动基类
-	author: CJ
-	create: 2018-06-20
-]]
+
 local Base = require "core.Object"
 local EventCode = require "LuaHelper.EventCode"
 

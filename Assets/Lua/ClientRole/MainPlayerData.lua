@@ -1,8 +1,4 @@
---[[
-	desc: 场景实体对象-主角
-	author: CJ
-	create: 2018-06-22
- ]]
+
  local ReferenceDef = GameDef.ReferenceDef
  local PropertyType = GameDef.PropertyType
  local BuffSystem = require "GameSystem.BuffSystem"

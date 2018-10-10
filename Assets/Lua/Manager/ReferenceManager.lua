@@ -1,8 +1,4 @@
---[[
-	desc: lua 配置管理器
-	author: CJ
-	create: 2018-06-15
-]]
+
 local ReferenceDef = GameDef.ReferenceDef
 
 local ReferenceManager = {}

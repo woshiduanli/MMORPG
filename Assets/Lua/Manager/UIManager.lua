@@ -1,8 +1,4 @@
---[[
-	desc: lua UI管理器
-	author: CJ
-	create: 2018-06-16
-]]
+
 local UIManager = {}
 
 UIManager.Layer = {

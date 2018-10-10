@@ -1,8 +1,4 @@
---[[
-	desc: lua 游戏相关常量定义
-	author: CJ
-	create: 2018-06-15
-]]
+
 
 local GameDef = {}
 

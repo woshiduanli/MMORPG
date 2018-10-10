@@ -1,8 +1,4 @@
---[[
-	desc: 场景管理器，负责管理场景里面所有的实体对象
-	author: CJ
-	create: 2018-06-22
- ]]
+
 
 local DunGeonType = GameDef.DunGeonType
 local MapType = GameDef.MapType
