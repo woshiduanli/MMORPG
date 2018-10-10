@@ -1,8 +1,4 @@
-//===================================================
-//作    者：边涯  http://www.u3dol.com  QQ群：87481002
-//创建时间：2016-01-28 21:56:56
-//备    注：
-//===================================================
+
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;

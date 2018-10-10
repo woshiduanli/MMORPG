@@ -689,11 +689,7 @@ namespace ZCore.InternalUtil {
     //}
 
 
-    /*! 固定长度的队列
-    \brief
-    \author     figo
-    \date       Jan, 04,2016
-    */
+    
     internal class FixQueue<T> {
         private T[] queue = null;
         private readonly int capacity;
