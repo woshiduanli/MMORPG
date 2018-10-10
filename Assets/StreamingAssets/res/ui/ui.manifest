@@ -1,0 +1,23 @@
+ManifestFileVersion: 0
+CRC: 2724725405
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: myshader.sd
+      Dependencies: {}
+    Info_1:
+      Name: font/uifont.ft
+      Dependencies: {}
+    Info_2:
+      Name: tex/commonatlas.tex
+      Dependencies:
+        Dependency_0: myshader.sd
+    Info_3:
+      Name: tex/logon_bg.tex
+      Dependencies: {}
+    Info_4:
+      Name: uiprefab/login.ui
+      Dependencies:
+        Dependency_0: font/uifont.ft
+        Dependency_1: tex/commonatlas.tex
+        Dependency_2: tex/logon_bg.tex

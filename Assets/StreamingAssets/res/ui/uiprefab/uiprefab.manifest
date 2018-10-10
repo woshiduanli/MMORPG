@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 2082013817
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: login.ui
+      Dependencies: {}

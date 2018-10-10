@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 766261269
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: login.cfg
+      Dependencies: {}

@@ -1,0 +1,22 @@
+ManifestFileVersion: 0
+CRC: 2208049003
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: a69544ade49cdf1d8edb456e11e6c522
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 0bb4c37c915d5352389eeb93c1a3b27a
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+Assets:
+- Assets/MyResources/UI/Login/Font/uifont.TTF
+Dependencies: []

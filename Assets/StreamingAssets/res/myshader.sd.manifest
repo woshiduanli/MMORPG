@@ -1,0 +1,90 @@
+ManifestFileVersion: 0
+CRC: 1234331930
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 052b0d516c2e05371b31fe6bde58894f
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 34f9d9a41d19d7bdab61391abc54ba6e
+HashAppended: 0
+ClassTypes:
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 109
+  Script: {instanceID: 0}
+Assets:
+- Assets/MyResources/Shader/MOYU/MYFogOff.shader
+- Assets/MyResources/Shader/MOYU/MYParticlesBlend.shader
+- Assets/MyResources/Shader/MOYU/MYPBRPlayerAlpha.shader
+- Assets/MyResources/Shader/MOYU/MYRadiaBlur.shader
+- Assets/MyResources/Shader/MOYU/MYAlphaTestBump.shader
+- Assets/MyResources/Shader/MOYU/MYBKGodRays.shader
+- Assets/MyResources/Shader/MOYU/MYPBRPlayer.shader
+- Assets/MyResources/Shader/MOYU/MYParticlesAdd.shader
+- Assets/MyResources/Shader/MOYU/MYWind.shader
+- Assets/MyResources/Shader/MOYU/MYDistortionEX.shader
+- Assets/MyResources/Shader/MOYU/TMP_SDF-Surface-Mobile.shader
+- Assets/MyResources/Shader/MOYU/MYFogOffWithOutAlphaBlend.shader
+- Assets/MyResources/Shader/MOYU/MYPlayer.shader
+- Assets/MyResources/Shader/MOYU/MYAlphaBlendWaveTree.shader
+- Assets/MyResources/Shader/MOYU/TMP_SDF-Mobile.shader
+- Assets/MyResources/Shader/MOYU/MYFresnelGlow.shader
+- Assets/MyResources/Shader/MOYU/MYT4M4Bump.shader
+- Assets/MyResources/Shader/MOYU/MYT4M6Bump.shader
+- Assets/MyResources/Shader/MOYU/MYT4M4Textures.shader
+- Assets/MyResources/Shader/MOYU/MYGrayscale.shader
+- Assets/MyResources/Shader/MOYU/MYGhost.shader
+- Assets/MyResources/Shader/MOYU/TMP_Sprite.shader
+- Assets/MyResources/Shader/MOYU/MYPlayerAlpha.shader
+- Assets/MyResources/Shader/MOYU/MYDissolutionAdd.shader
+- Assets/MyResources/Shader/MOYU/TMPro_Properties.cginc
+- Assets/MyResources/Shader/MOYU/TMP_SDF.shader
+- Assets/MyResources/Shader/MOYU/MYClipper.shader
+- Assets/MyResources/Shader/MOYU/MYWater.shader
+- Assets/MyResources/Shader/MOYU/MYAlphaTestWaveTree.shader
+- Assets/MyResources/Shader/MOYU/MYDistortion.shader
+- Assets/MyResources/Shader/MOYU/MYUIDefault.shader
+- Assets/MyResources/Shader/MOYU/MYFoam_add.shader
+- Assets/MyResources/Shader/MOYU/MYBBGodRays.shader
+- Assets/MyResources/Shader/MOYU/TMPro.cginc
+- Assets/MyResources/Shader/MOYU/MYAddMaskClipping.shader
+- Assets/MyResources/Shader/MOYU/MYPBRVertexLit.shader
+- Assets/MyResources/Shader/MOYU/MYUIParticleBlend.shader
+- Assets/MyResources/Shader/MOYU/MYBlur.shader
+- Assets/MyResources/Shader/MOYU/MYVertexLit.shader
+- Assets/MyResources/Shader/MOYU/MYUIImageGray.shader
+- Assets/MyResources/Shader/MOYU/MYUI.shader
+- Assets/MyResources/Shader/MOYU/MYDissolutionBlend.shader
+- Assets/MyResources/Shader/MOYU/TMP_Bitmap.shader
+- Assets/MyResources/Shader/MOYU/MYT4M6Textures.shader
+- Assets/MyResources/Shader/MOYU/MYParticlesBlendGlow.shader
+- Assets/MyResources/Shader/MOYU/MYUIParticleAdd.shader
+- Assets/MyResources/Shader/MOYU/TMP_Bitmap-Mobile.shader
+- Assets/MyResources/Shader/MOYU/MYPBRWater2.shader
+- Assets/MyResources/Shader/MOYU/MYParticlesAddGlow.shader
+- Assets/MyResources/Shader/MOYU/MYVertexLitBump.shader
+- Assets/MyResources/Shader/MOYU/MYShadow.shader
+- Assets/MyResources/Shader/MOYU/MYUVMove.shader
+- Assets/MyResources/Shader/MOYU/MYSpecular.shader
+- Assets/MyResources/Shader/MOYU/MYAlphaBlendMask.shader
+- Assets/MyResources/Shader/MOYU/MYGodRays.shader
+- Assets/MyResources/Shader/MOYU/MYParticlesBlendOcclusion.shader
+- Assets/MyResources/Shader/MOYU/MYSrcAddOff.shader
+- Assets/MyResources/Shader/MOYU/TMP_SDF-Mobile Masking.shader
+- Assets/MyResources/Shader/MOYU/TMP_SDF-Surface.shader
+- Assets/MyResources/Shader/MOYU/MYAlphaTest.shader
+- Assets/MyResources/Shader/MOYU/MYBingdong_vogeo.shader
+- Assets/MyResources/Shader/MOYU/MYDissolveBurn.shader
+- Assets/MyResources/Shader/MOYU/MYParticlesAddOcclusion.shader
+- Assets/MyResources/Shader/MOYU/MYAlphaBlendOn.shader
+- Assets/MyResources/Shader/MOYU/MYParticlesAddClipping.shader
+- Assets/MyResources/Shader/MOYU/MYPBRWater.shader
+- Assets/MyResources/Shader/MOYU/MYBloom.shader
+- Assets/MyResources/Shader/MOYU/TMP_SDF Overlay.shader
+- Assets/MyResources/Shader/MOYU/TMP_SDF-Mobile Overlay.shader
+- Assets/MyResources/Shader/MOYU/MYSrcAdd.shader
+- Assets/MyResources/Shader/MOYU/TMPro_Surface.cginc
+- Assets/MyResources/Shader/MOYU/MYAlphaBlend.shader
+- Assets/MyResources/Shader/MOYU/MYAddMask.shader
+Dependencies: []

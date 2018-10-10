@@ -1,0 +1,54 @@
+ManifestFileVersion: 0
+CRC: 1923962163
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 6173c90b0c94b1bb9457e523beb88382
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: fedc1b9576f887394a4a008ab6a0bca5
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 575553740, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 1573420865, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 108628007, guid: ccd080483553f1f42915de5f153c390e, type: 3}
+- Class: 114
+  Script: {fileID: -410078474, guid: ccd080483553f1f42915de5f153c390e, type: 3}
+- Class: 114
+  Script: {fileID: -1650267983, guid: ccd080483553f1f42915de5f153c390e, type: 3}
+- Class: 114
+  Script: {fileID: 21000848, guid: ccd080483553f1f42915de5f153c390e, type: 3}
+- Class: 114
+  Script: {fileID: 698900038, guid: ccd080483553f1f42915de5f153c390e, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 223
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+Assets:
+- Assets/MyResources/UIPrefab/Login.prefab
+Dependencies: []
