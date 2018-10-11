@@ -37,12 +37,12 @@ public class NetWorkHttp : SingletonMono<NetWorkHttp>
     }
     #endregion
 
-   
+
     string url = "http://localhost:8080/api/account";
     protected override void OnStart()
     {
         //m_CallBack = CallBack;
-        
+
         m_CallBackArgs = new CallBackArgs();
     }
 
@@ -149,8 +149,15 @@ public class NetWorkHttp : SingletonMono<NetWorkHttp>
                 MyDebug.debug("wwww dui: " + data.text);
                 if (m_CallBack != null)
                 {
-                    m_CallBackArgs.HasError = false;
+                    JsonData data2 = JsonMapper.ToObject<JsonData>(data.text);
+
+
+
+                    m_CallBackArgs.HasError = (bool)data2["HasError"];
                     m_CallBackArgs.Value = data.text;
+
+
+                    MyDebug.debug("11:" + JsonMapper.ToJson(m_CallBackArgs));
                     m_CallBack(JsonMapper.ToJson(m_CallBackArgs));
                 }
             }
@@ -188,6 +195,9 @@ public class NetWorkHttp : SingletonMono<NetWorkHttp>
         /// 返回值
         /// </summary>
         public string Value;
+
+        public string Type;
+
     }
     #endregion
 }

@@ -1,5 +1,6 @@
 local base = GameUI
 local CLoginUI = class(base)
+local ObjectManager = ObjectManager
 
 function CLoginUI:ctor(ui)
     base.ctor(self, ui)
@@ -41,6 +42,9 @@ function CLoginUI:ChangePage()
 end
 
 function CLoginUI:OnClickLogin()
+    local data = ObjectManager.GetSingleObj("LoginSystemData")
+    data.ClickPanel = "Login"
+
     if self.CurPage ~= "Login" then
         self.CurPage = "Login"
         self:ChangePage()
@@ -52,11 +56,14 @@ function CLoginUI:OnClickLogin()
         data.Pwd = self:GetCText(self.HashIDTable.mimaText)
 
         local login = ObjectManager.GetSingleObj("LoginSystemData")
-        CSGlobal.SendData(login.url, login.CallBack, true, Json.encode(data))
+        CSGlobal.SendData(login.url, login:GetSelfFunc( login.CallBack ), true, Json.encode(data))
     end
 end
 
 function CLoginUI:OnClickRegister()
+    local data = ObjectManager.GetSingleObj("LoginSystemData")
+    data.ClickPanel = "Register"
+
     if self.CurPage ~= "Register" then
         self.CurPage = "Register"
         self:ChangePage()
@@ -67,7 +74,7 @@ function CLoginUI:OnClickRegister()
         data.ChannelId = "22"
         data.Pwd = self:GetCText(self.HashIDTable.mimaText)
         local login = ObjectManager.GetSingleObj("LoginSystemData")
-        CSGlobal.SendData(login.url, login.CallBack, true, Json.encode(data))
+        CSGlobal.SendData(login.url, login:GetSelfFunc( login.CallBack ), true, Json.encode(data))
     end
 end
 

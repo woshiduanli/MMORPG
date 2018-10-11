@@ -16,57 +16,9 @@ using UnityEngine.UI;
 using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 
-[AttributeUsage(AttributeTargets.All)]
-public class HelpAttribute : System.Attribute
-{
-    public readonly string Url;
-
-    public string Topic // Topic 是一个命名（named）参数
-    {
-        get
-        {
-               return topic;
-        }
-        set
-        {
-
-            topic = value;
-        }
-    }
-
-    public HelpAttribute(string url) // url 是一个定位（positional）参数
-    {
-        this.Url = url;
-    }
-
-    private string topic;
-}
 
 
 
-
-[HelpAttribute("url")]
-public class TestAttribute
-{
-    [Conditional("DEBUG28")]
-    public static void Message(string msg)
-    {
-        UnityEngine.Debug.LogError("message");
-    }
-
-    [Conditional("DEBUG28")]
-    public void Test44()
-    {
-        UnityEngine.Debug.LogError("test44");
-    }
-
-    [Obsolete("not use", false)]
-    public void Test55()
-    {
-
-    }
-
-}
 
 public class BaseClass
 {
@@ -80,45 +32,11 @@ public class BaseClass
     }
 }
 
-[CLSCompliant(true)]
-public class DerivedClass : BaseClass
-{
-    public int i;
-    public int I;
-    public override uint MethodA()
-    {
-        total++;
-        return 200;
-    }
-}
 
-public class Monster3333 : Role3333
-{
 
-    public override void AttackOther()
-    {
 
-        UnityEngine.Debug.LogError("怪物开始攻击");
-    }
-}
-public class Player3333 : Role3333
-{
-    public string attack;
-    public string hp;
 
-    public override void AttackOther()
-    {
-        UnityEngine.Debug.LogError("玩家开始攻击");
-    }
-}
 
-public class Role3333 : MonoBehaviour
-{
-    public string name;
-    public string id;
-    public List<int> list = new List<int>();
-    public virtual void AttackOther() { }
-}
 public class stu
 {
     public string s1;
@@ -134,22 +52,8 @@ public class stu
 
 public class ApplicationEditor : Editor
 {
-    public static void AttackOther(Role3333 role)
-    {
-        role.AttackOther();
-    }
-    //    float angle=Mathf.Acos( Vector3.Dot(a.normalized,b.normalized))*Mathf.Rad2Deg;  
-    public void CaculateAttack(Player3333 attack, Monster3333 attacked)
-    {
-        //Mathf.Sqrt(1 - Vector3.Dot(a.normalized, b.normalized) * Vector3.Dot(a.normalized, b.normalized));
-        Vector3 tempV3 = attacked.transform.position - attack.transform.position;
-        if (Vector3.Dot(attack.transform.forward, attacked.transform.position - attack.transform.position) > 0)
-        {
 
-        }
-
-    }
-
+   
     /// <summary>
     /// 
     /// </summary>

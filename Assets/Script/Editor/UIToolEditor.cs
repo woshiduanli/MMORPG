@@ -719,14 +719,15 @@ static public class MOYU_UIToolsEditor
         }
         FileInfo t2 = new FileInfo(file2);
         StreamWriter write2 = File.CreateText(file2);
-        string luastr2 = CString.Format("local {0} = class(GameUI)\n\n" +
+        string luastr2 = CString.Format(
+            "local {0} = class(GameUI)\n\n" +
 
             "function {1}:ctor(ui)\n    GameUI.ctor(self, ui)\n" +
             "    self.isFullScreen = true\n" +
             "    self.Layer = UIManager.Layer.FullWindow\n\n" +
             "end\n\n" +
 
-            "function {2}.Awake(self)\n\n" +
+            "function {2}.Initialize(self)\n\n" +
             "end\n\n" +
 
             "function {3}.UIEnable(self)\n\n" +

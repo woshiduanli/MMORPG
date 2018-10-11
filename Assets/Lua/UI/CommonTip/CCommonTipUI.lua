@@ -1,13 +1,16 @@
-local CCommonTipUI = class(GameUI)
+local Base = GameUI
+local CCommonTipUI = class(Base)
 
 function CCommonTipUI:ctor(ui)
-    GameUI.ctor(self, ui)
+    Base.ctor(self, ui)
     self.isFullScreen = true
     self.Layer = UIManager.Layer.FullWindow
 
+    print("CCommonTipUI:ct")
+
 end
 
-function CCommonTipUI.Awake(self)
+function CCommonTipUI.Initialize(self)
 
 end
 
