@@ -513,7 +513,7 @@ public class UIToolEditor
 
     private static void CreateCtrlScript(string LuaFile, string path)
     {
-        string file2 = string.Format("{0}/{1}.lua", path, LuaFile);
+        string file2 = string.Format("{0}/{1}.lua.txt", path, LuaFile);
 
         if (File.Exists(file2))
         {
@@ -551,7 +551,7 @@ public class UIToolEditor
     {
         NGUILink[] links = Selection.activeGameObject.GetComponentsInChildren<NGUILink>(true);
         linknames.Clear();
-        string file = string.Format("{0}/{1}.lua", path, LuaFile);
+        string file = string.Format("{0}/{1}.lua.txt", path, LuaFile);
 
         if (!Directory.Exists(path))
             Directory.CreateDirectory(path);
@@ -711,7 +711,7 @@ static public class MOYU_UIToolsEditor
 
     private static void CreateCtrlScript(string LuaFile, string path)
     {
-        string file2 = string.Format("{0}/{1}.lua", path, LuaFile);
+        string file2 = string.Format("{0}/{1}.lua.txt", path, LuaFile);
 
         if (File.Exists(file2))
         {
@@ -750,7 +750,7 @@ static public class MOYU_UIToolsEditor
     {
         NGUILink[] links = Selection.activeGameObject.GetComponentsInChildren<NGUILink>(true);
         linknames.Clear();
-        string file = string.Format("{0}/{1}.lua", path, LuaFile);
+        string file = string.Format("{0}/{1}.lua.txt", path, LuaFile);
 
         if (!Directory.Exists(path))
             Directory.CreateDirectory(path);

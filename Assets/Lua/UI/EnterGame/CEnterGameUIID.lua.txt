@@ -1,0 +1,9 @@
+local CEnterGameUIID = { }
+
+
+CEnterGameUIID.HashID = -507406
+CEnterGameUIID.btn_cancel = -1513419331
+CEnterGameUIID.Desc = 2126513
+CEnterGameUIID.btn_zhuce = 942467590
+CEnterGameUIID.zhuceText = -1208550794 
+ return CEnterGameUIID

@@ -1,7 +1,7 @@
 ManifestFileVersion: 0
-CRC: 3849790706
+CRC: 3543278356
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: commontip.cfg
+      Name: entergame.cfg
       Dependencies: {}

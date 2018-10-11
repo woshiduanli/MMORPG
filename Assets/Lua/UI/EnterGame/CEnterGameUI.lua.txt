@@ -1,0 +1,26 @@
+local CEnterGameUI = class(GameUI)
+
+function CEnterGameUI:ctor(ui)
+    GameUI.ctor(self, ui)
+    self.isFullScreen = true
+    self.Layer = UIManager.Layer.FullWindow
+
+end
+
+function CEnterGameUI.Initialize(self)
+
+end
+
+function CEnterGameUI.UIEnable(self)
+
+end
+
+function CEnterGameUI.LoadUICallback(self)
+
+end
+
+function CEnterGameUI.OnDestroy(self)
+
+end
+
+return CEnterGameUI

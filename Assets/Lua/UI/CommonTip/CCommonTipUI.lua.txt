@@ -8,6 +8,7 @@ function CCommonTipUI:ctor(ui, data)
 end
 
 function CCommonTipUI.Initialize(self)
+    print("chu shihua ")
     self:SetEvent(
         self.HashIDTable.btn_sure,
         UIManager.TriggerEventID.PointerClick,

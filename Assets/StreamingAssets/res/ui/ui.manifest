@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 1248941966
+CRC: 3161303674
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -13,7 +13,7 @@ AssetBundleManifest:
       Dependencies:
         Dependency_0: myshader.sd
     Info_3:
-      Name: uiprefab/commontip.ui
+      Name: uiprefab/entergame.ui
       Dependencies:
         Dependency_0: font/uifont.ft
         Dependency_1: tex/uicommonatlas.tex
