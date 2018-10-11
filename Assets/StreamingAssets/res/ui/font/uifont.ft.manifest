@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2208049003
+CRC: 2608979567
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: a69544ade49cdf1d8edb456e11e6c522
+    Hash: 2780ea74892ff30bbe748cf706be3107
   TypeTreeHash:
     serializedVersion: 2
     Hash: 0bb4c37c915d5352389eeb93c1a3b27a
@@ -18,5 +18,5 @@ ClassTypes:
 - Class: 128
   Script: {instanceID: 0}
 Assets:
-- Assets/MyResources/UI/Login/Font/uifont.TTF
+- Assets/Resources/UI/Login/uifont.TTF
 Dependencies: []

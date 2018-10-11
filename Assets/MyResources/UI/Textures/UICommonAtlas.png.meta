@@ -95,7 +95,7 @@ TextureImporter:
     wrapU: 1
     wrapV: 1
     wrapW: 1
-  nPOTScale: 0
+  nPOTScale: 1
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
@@ -228,7 +228,7 @@ TextureImporter:
         height: 176
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 41, y: 51, z: 48, w: 43}
       outline: []
       physicsShape: []
       tessellationDetail: -1
@@ -326,7 +326,7 @@ TextureImporter:
         height: 69
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 16, y: 15, z: 14, w: 16}
       outline: []
       physicsShape: []
       tessellationDetail: -1
@@ -964,5 +964,5 @@ TextureImporter:
     physicsShape: []
   spritePackingTag: 
   userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+  assetBundleName: uicommonatlas
+  assetBundleVariant: tex
