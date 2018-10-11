@@ -20,10 +20,12 @@ function LoginSystemData:CallBack(json)
 
             CCommonTipUIData.SureCallBack = function(...)
                 -- body
+                print("sure ")
             end
 
             CCommonTipUIData.CancelCallBack = function(...)
                 -- body
+                print("cancel ")
             end
 
             CCommonTipUIData.SubJect = "提示"
