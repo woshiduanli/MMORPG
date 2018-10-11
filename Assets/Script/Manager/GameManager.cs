@@ -8,7 +8,7 @@ public class CGameManager : CLoopObject
         CreateSingleT<CCoroutineEngine>();
         CreateSingleT<XLuaManager>();
         CreateSingleT<CSceneManager>();
-        CreateSingleT<LoginSystem>();
+      
         CreateSingleT<CResourceFactory>(); 
         CreateSingleT<CUIManager>();
         CreateSingleT<CGameState_Init>();

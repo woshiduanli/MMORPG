@@ -831,6 +831,40 @@ static public class MOYU_UIToolsEditor
         start += "\n }";
         return start;
     }
+    public static string GetDictory()
+    {
+        UnityEngine.Object obj = Selection.activeObject;
+        string path = AssetDatabase.GetAssetPath(obj);
+        string filename = Path.GetFileName(path);
+        path = path.Replace("/" + filename, "");
+        return path;
+    }
+    [MenuItem("Assets/UI相关/把后缀名改为lua")]
+    public static void ChangeFileName()
+    {
+        string path = GetDictory();
+        foreach (string d in Directory.GetFileSystemEntries(path))
+        {
+            if (File.Exists(d))
+            {
+                if (d.Contains("lua"))
+                {
+
+                    string d2 = d.Replace("lua", "lua.txt");
+                    FileInfo fi = new FileInfo(d);
+                    File.Move(d, d2);
+                }
+                else if (d.Contains(".cs"))
+                {
+                    string d2 = d.Replace(".cs", ".lua");
+                    FileInfo fi = new FileInfo(d);
+                    File.Move(d, d2);
+                }
+
+            }
+        }
+        AssetDatabase.Refresh();
+    }
 
     [MenuItem("Assets/UI相关/生成所有UI的HashID")]
     static void CreateUIsHashID()

@@ -75,7 +75,7 @@ public class XLuaManager : CLoopObject
 
             string str = string.Empty;
             if (ConfigHelper.uiEditor_)
-                str = File.ReadAllText(CString.Concat(Application.dataPath, CString.Format("/Lua/{0}.lua", filename)));
+                str = File.ReadAllText(CString.Concat(Application.dataPath, CString.Format("/Lua/{0}.lua.txt", filename)));
             //MyDebug.debug(CString.Concat(Application.dataPath, CString.Format("/Lua/{0}.lua", filename)) + ":d3");
             //MyDebug.debug(str + "d4"); 
             if (string.IsNullOrEmpty(str))
