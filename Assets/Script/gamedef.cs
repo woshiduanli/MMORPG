@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 public struct Def
 {
+    public const int UIDisableDistance = -100000; // 无效ID
     public const int INVALID_ID = -1; // 无效ID
     public const int MAX_MAP_STATE = 30; // 最大地图状态]
     public const int MaxLoginRoleCount = 4;

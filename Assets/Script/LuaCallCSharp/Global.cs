@@ -88,14 +88,7 @@ public static partial class Global
     //    UIMgr.FireEvent(new CEvent.UI.CloseUI(CString.Concat("C", ui, "UI")));
     //}
 
-    //public static void UIClose(string ui)
-    //{
-    //    if (!UIMgr)
-    //        return;
-    //    CGameUI UI = UIMgr.Get(ui);
-    //    if (UI)
-    //        UI.Close();
-    //}
+   
 
     //public static void UISimpleClose(string ui)
     //{

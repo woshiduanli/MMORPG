@@ -31,12 +31,13 @@ namespace XLua.CSObjectWrap
 			Utils.EndObjectRegister(type, L, translator, null, null,
 			    null, null, null);
 
-		    Utils.BeginClassRegister(type, L, __CreateInstance, 13, 4, 4);
+		    Utils.BeginClassRegister(type, L, __CreateInstance, 14, 4, 4);
 			Utils.RegisterFunc(L, Utils.CLS_IDX, "SetEvent", _m_SetEvent_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "SetCText", _m_SetCText_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "GetCText", _m_GetCText_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "CreateSprite", _m_CreateSprite_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "SetGoActive", _m_SetGoActive_xlua_st_);
+            Utils.RegisterFunc(L, Utils.CLS_IDX, "UIClose", _m_UIClose_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "InitData", _m_InitData_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "AddEventListener", _m_AddEventListener_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "CloseUIByTouch", _m_CloseUIByTouch_xlua_st_);
@@ -201,6 +202,30 @@ namespace XLua.CSObjectWrap
                     int active = LuaAPI.xlua_tointeger(L, 4);
                     
                     Global.SetGoActive( ui, linkid, gid, active );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception __gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + __gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_UIClose_xlua_st_(RealStatePtr L)
+        {
+		    try {
+            
+            
+            
+                
+                {
+                    string ui = LuaAPI.lua_tostring(L, 1);
+                    
+                    Global.UIClose( ui );
                     
                     
                     

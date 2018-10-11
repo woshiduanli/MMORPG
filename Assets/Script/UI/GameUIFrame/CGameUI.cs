@@ -268,15 +268,15 @@ public abstract class CGameUI : MonoBehaviour
     {
         if (disposed)
             return false;
-        CClientCommon.SetActiveOverload(this.gameObject, true);
+        CClientCommon.SetActiveOverload(gameObject, true); 
         if (this.Layer == CUILayer.MainFace && this.ui_mgr.HasFullWindowUI())
         {
-            CClientCommon.SetUIActive(this.gameObject, false);
+            SetActive(false);
             return false;
         }
         if (!IsShow())
         {
-            CClientCommon.SetUIActive(this.gameObject, true);
+            SetActive(true);
             return true;
         }
         return false;
@@ -308,6 +308,8 @@ public abstract class CGameUI : MonoBehaviour
         if (IsShow())
         {
             SetActive(false);
+            if (this.Layer == CUILayer.Free) return;
+
             if (this.ui_mgr.Hold)
                 return;
             for (ClosedDic.Begin(); ClosedDic.Next();)
@@ -359,7 +361,9 @@ public abstract class CGameUI : MonoBehaviour
     {
         if (disposed)
             return false;
-        return transform.localScale == Vector3.one;
+        if (Canvas && Canvas.planeDistance == Def.UIDisableDistance)
+            return false;
+        return true;
     }
 
     protected void Awake() { }
@@ -416,7 +420,7 @@ public abstract class CGameUI : MonoBehaviour
     protected void OnDisable()
     {
         if (Canvas)
-            Canvas.planeDistance = MAXDISTANCE;
+            Canvas.planeDistance = Def.UIDisableDistance;
         //CloseTime = GameTimer.time;
         //OnUIDisable();
         //FireEvent(new CEvent.UI.UICloseEvent(this));

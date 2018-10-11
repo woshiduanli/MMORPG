@@ -57,5 +57,13 @@ public static partial class Global
             (UI as CGameLuaUI).SetGoActive(linkid, gid, active);
     }
 
+    public static void UIClose(string ui)
+    {
+        if (UIMgr == null)
+            return;
+        CGameUI UI = UIMgr.Get(ui);
+        if (UI)
+            UI.Close();
+    }
 
 }

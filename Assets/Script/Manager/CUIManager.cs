@@ -11,6 +11,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using ZCore;
 
+
+
 public class CUIManager : CLoopObject {
     // 访问的基本格式
     // http://localhost:8080/api/account/2
