@@ -39,7 +39,7 @@ function GameManager.InitManagers()
     UIManager.InitData()
     ActivityManager.InitData()
 
-    ObjectManager.CreateSingleObj("GameSystem.LoginSystemData", "LoginSystemData")
+    ObjectManager.CreateSingleObj("GameData.LoginSystemData", "LoginSystemData")
 end
 
 function GameManager.Update(deltaTime, realtimeSinceStartup, frameCount, severtime)

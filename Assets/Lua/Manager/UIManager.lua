@@ -83,6 +83,8 @@ end
 
 -- 创建ui 
 function UIManager.OnCreateUIEvent(ui, ...)
+
+    local d = ...
     local window = UIManager.uis[ui]
     if window == nil or window == -1 then
         local path = string.format("UI.%s.C%sUI", ui, ui)

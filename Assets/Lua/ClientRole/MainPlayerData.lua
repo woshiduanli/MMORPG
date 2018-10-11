@@ -1,7 +1,7 @@
 
  local ReferenceDef = GameDef.ReferenceDef
  local PropertyType = GameDef.PropertyType
- local BuffSystem = require "GameSystem.BuffSystem"
+ local BuffSystem = require "GameData.BuffSystem"
 
  local Base= require "ClientRole.BaseData"
  local MainPlayerData = class(Base)

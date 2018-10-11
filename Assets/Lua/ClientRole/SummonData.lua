@@ -1,5 +1,5 @@
 
- local BuffSystem = require "GameSystem.BuffSystem"
+ local BuffSystem = require "GameData.BuffSystem"
  
  local Base = require "ClientRole.BaseData"
  local SummonData = class(Base)

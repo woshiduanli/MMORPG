@@ -60,6 +60,8 @@ function CObject:FireEvent(evt, ...)
     if disposed then
         return
     end
+
+    local s = ...
     Global.FireEvent(evt, ...)
 end
 
