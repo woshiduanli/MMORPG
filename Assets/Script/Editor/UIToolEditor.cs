@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEditor;
 using UnityEngine.Events;
 using System.IO;
+using System.Text;
 
 public class UIToolEditor
 {
@@ -253,7 +254,7 @@ public class UIToolEditor
     [MenuItem("Assets/UI相关/我的测试")]
     public static void BuildAsset2()
     {
-      
+
         UnityEngine.Object[] objArr = Selection.objects;
         if (objArr == null) return;
         if (!(objArr[0] is GameObject)) return;
@@ -268,6 +269,7 @@ public class UIToolEditor
 
     static void BuildUI(GameObject go)
     {
+        // 重新生成hashId和脚本
         MOYU_UIToolsEditor.CreateUILuaScript2(go);
         string uipath = AssetDatabase.GetAssetPath(go);
         if (Path.GetDirectoryName(uipath) != "Assets/MyResources/UIPrefab")
@@ -276,9 +278,7 @@ public class UIToolEditor
 
 
         GameObject UI = go as GameObject;
-        UICacheComponents uICache = UI.GetComponent<UICacheComponents>();
-        if (!uICache)
-            uICache = UI.AddComponent<UICacheComponents>();
+        UICacheComponents uICache = CClientCommon.AddComponent<UICacheComponents>(UI);
         uICache.Buttons.Clear();
         uICache.Toggles.Clear();
         uICache.CTexts.Clear();
@@ -466,7 +466,37 @@ public class UIToolEditor
     }
 
 
+    [MenuItem("Assets/UI相关/把Image组件改成CImage")]
+    static void ImageToCimage()
+    {
+        Object[] obj = Selection.objects;
+        for (int i = 0; i < obj.Length; i++)
+        {
+            if (obj[i] is GameObject)
+            {
+                GameObject obj2 = (GameObject)obj[i];
+                GetImage(obj2.transform);
+            }
+        }
+    }
 
+    public static void GetImage(Transform tr)
+    {
+        //CClientCommon.DestroyImmediate();
+        Image image = tr.GetComponent<Image>();
+        if (image != null && !(image is CImage))
+            UnityEngine.Object.DestroyImmediate(image, true);
+
+        if (tr.GetComponent<Image>() == null)
+            tr.gameObject.AddComponent<CImage>();
+
+        if (tr.childCount <= 0) return;
+
+        for (int i = 0; i < tr.childCount; i++)
+        {
+            GetImage(tr.GetChild(i));
+        }
+    }
 
 
 
@@ -698,6 +728,7 @@ static public class MOYU_UIToolsEditor
         }
     }
 
+    // 创建hashid, 然后生成脚本
     public static void CreateUILuaScript2(GameObject obj)
     {
         NGUILink[] links = obj.GetComponentsInChildren<NGUILink>(true);
@@ -706,43 +737,120 @@ static public class MOYU_UIToolsEditor
 
         NGUILink link = obj.GetComponent<NGUILink>();
         CreateLua("C" + link.gameObject.name + "UIID", "Assets/Lua/UI/" + link.gameObject.name);
-        CreateCtrlScript("C" + link.gameObject.name + "UI", "Assets/Lua/UI/" + link.gameObject.name);
+        CreateCtrlScript("C" + link.gameObject.name + "UI", "Assets/Lua/UI/" + link.gameObject.name, obj.GetComponent<NGUILink>());
     }
 
-    private static void CreateCtrlScript(string LuaFile, string path)
+    private static void CreateCtrlScript(string LuaFile, string path, NGUILink link)
     {
         string file2 = string.Format("{0}/{1}.lua.txt", path, LuaFile);
 
-        if (File.Exists(file2))
-        {
-            return;
-        }
-        FileInfo t2 = new FileInfo(file2);
-        StreamWriter write2 = File.CreateText(file2);
-        string luastr2 = CString.Format(
-            "local {0} = class(GameUI)\n\n" +
 
-            "function {1}:ctor(ui)\n    GameUI.ctor(self, ui)\n" +
+        StringBuilder OnClickSB = new StringBuilder("");
+        for (int i = 0; i < link.Links.Count; i++)
+        {
+            if (link.Links[i].Name.ToLower().StartsWith("btn"))
+            {
+                // 按钮事件注册
+                OnClickSB.Append(CString.Format("    self:SetEvent(self.HashIDTable.{0}, UIManager.TriggerEventID.PointerClick,self:GetSelfFunc({1}.OnClick{2}))\n", link.Links[i].Name, LuaFile, link.Links[i].Name));
+            }
+        }
+        OnClickSB.Append("\n");
+        // 客户端内部事件注册
+        for (int i = 0; i < link.ClientEvent.Count; i++)
+        {
+            OnClickSB.Append(CString.Format("    self:RegEvent(1,self:GetSelfFunc({0}.{1}Event))\n", LuaFile, link.ClientEvent[i]));
+        }
+        OnClickSB.Append("\n");
+        // 文本的赋值
+        OnClickSB.Append(CString.Format("-- 待用的text和image"));
+        for (int i = 0; i < link.Links.Count; i++)
+        {
+            if (link.Links[i].Name.ToLower().StartsWith("text"))
+            {
+                OnClickSB.Append(CString.Format("    --self:SetCText(self.HashIDTable.{0},\"待赋的值\")\n", link.Links[i].Name));
+            }
+        }
+        OnClickSB.Append("\n");
+        // 图片赋值
+        OnClickSB.Append(CString.Format("-- 待用的text和image"));
+        for (int i = 0; i < link.Links.Count; i++)
+        {
+            if (link.Links[i].Name.ToLower().StartsWith("image"))
+            {
+                OnClickSB.Append(CString.Format("    --self:CreateSprite(self.HashIDTable.{0},\"spName\", \"spriteName\")\n", link.Links[i].Name));
+            }
+        }
+
+        // 这里初始化函数结束
+        OnClickSB.Append("end\n\n");
+
+        for (int i = 0; i < link.Links.Count; i++)
+        {
+            if (link.Links[i].Name.ToLower().StartsWith("btn"))
+            {
+                OnClickSB.Append(CString.Format("function {0}:OnClick{1}()  \n"
+                    + "    print(\"" + "OnClick{2}\")\n" +
+            "end\n\n", LuaFile, link.Links[i].Name, link.Links[i].Name));
+            }
+        }
+
+        for (int i = 0; i < link.ClientEvent.Count; i++)
+        {
+            OnClickSB.Append(CString.Format("function {0}:{1}Event()  \n"
+                    + "    print(\"" + "Event:{2}\")\n" +
+            "end\n\n", LuaFile, link.ClientEvent[i], link.ClientEvent[i]));
+        }
+
+        string OnClickSBstr = OnClickSB.ToString();
+
+
+
+
+
+        string luastr2 = CString.Format(
+            "local Base = GameUI\n"+
+            "local {0} = class(Base)\n\n" +
+
+            "function {1}:ctor(ui)\n    Base:ctor( ui)\n" +
             "    self.isFullScreen = true\n" +
             "    self.Layer = UIManager.Layer.FullWindow\n\n" +
             "end\n\n" +
 
-            "function {2}.Initialize(self)\n\n" +
+            "function {2}:Initialize()\n" +
+                 "{3}" +
+
+            "function {4}:UIEnable()\n\n" +
             "end\n\n" +
 
-            "function {3}.UIEnable(self)\n\n" +
+            "function {5}:LoadUICallback()\n\n" +
             "end\n\n" +
 
-            "function {4}.LoadUICallback(self)\n\n" +
+            "function {6}:OnDestroy()\n\n" +
             "end\n\n" +
+            "return {7}",
+            LuaFile, LuaFile, LuaFile, OnClickSBstr, LuaFile, LuaFile, LuaFile, LuaFile);
 
-            "function {5}.OnDestroy(self)\n\n" +
-            "end\n\n" +
-            "return {6}",
-            LuaFile, LuaFile, LuaFile, LuaFile, LuaFile, LuaFile, LuaFile);
-        write2.Write(luastr2);
+        CreateTxtFile(file2, luastr2, false);
+    }
+
+    /// <summary>
+    /// 创建文本文件, 
+    /// </summary>
+    /// <param name="fullPath"> 全路径， 路径加上 文件名和后缀</param>
+    /// <param name="content">文本的内容</param>
+    /// <returns></returns>
+    public static bool CreateTxtFile(string fullPath, string content, bool isCover = true)
+    {
+        if (File.Exists(fullPath) && !isCover) return false;
+
+        if (File.Exists(fullPath))
+            File.Delete(fullPath);
+        StreamWriter write2 = File.CreateText(fullPath);
+
+        write2.Write(content);
         write2.Close();
         write2.Dispose();
+        return true;
     }
 
     static Dictionary<string, int> linknames = new Dictionary<string, int>();

@@ -1,0 +1,39 @@
+local Base = GameUI
+local CSelectZoneUI = class(Base)
+
+function CSelectZoneUI:ctor(ui)
+    Base:ctor( ui)
+    self.isFullScreen = true
+    self.Layer = UIManager.Layer.FullWindow
+
+end
+
+function CSelectZoneUI:Initialize()
+    self:SetEvent(self.HashIDTable.btn_EnterGame, UIManager.TriggerEventID.PointerClick,self:GetSelfFunc(CSelectZoneUI.OnClickbtn_EnterGame))
+    self:SetEvent(self.HashIDTable.btn_Exit, UIManager.TriggerEventID.PointerClick,self:GetSelfFunc(CSelectZoneUI.OnClickbtn_Exit))
+
+    --self:SetCText(self.HashIDTable.text_zone,"待赋的值")
+
+end
+
+function CSelectZoneUI:OnClickbtn_EnterGame()  
+    print("OnClickbtn_EnterGame")
+end
+
+function CSelectZoneUI:OnClickbtn_Exit()  
+    print("OnClickbtn_Exit")
+end
+
+function CSelectZoneUI:UIEnable()
+
+end
+
+function CSelectZoneUI:LoadUICallback()
+
+end
+
+function CSelectZoneUI:OnDestroy()
+
+end
+
+return CSelectZoneUI
