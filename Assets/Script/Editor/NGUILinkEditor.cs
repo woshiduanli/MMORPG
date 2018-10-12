@@ -73,6 +73,10 @@ public class NGUILinkEditor : Editor
                 {
                     if (string.IsNullOrEmpty(uilink.Name) || uilink.Name == errostr)
                         uilink.Name = linkobj.name;
+                    if (uilink.Name != linkobj.name)
+                    {
+                        uilink.Name = linkobj.name; 
+                    }
                     if (!uilink.component || uilink.component.gameObject != linkobj.gameObject)
                         uilink.component = linkobj.gameObject.GetComponent<MonoBehaviour>();
                 }
