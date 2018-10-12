@@ -1,11 +1,7 @@
 local CCommonTipUIID = { }
 
 
-<<<<<<< HEAD
-CCommonTipUIID.HashID = 11768
-=======
-CCommonTipUIID.HashID = 22248
->>>>>>> 0b083184f3cf8e59cba882ce4ed4ece98d92e729
+CCommonTipUIID.HashID = 26076
 CCommonTipUIID.btn_sure = 2108416024
 CCommonTipUIID.btn_cancel = -1513419331
 CCommonTipUIID.Desc = 2126513

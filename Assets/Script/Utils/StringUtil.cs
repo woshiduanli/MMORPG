@@ -12,12 +12,12 @@ public static class StringUtil
     /// </summary>
     /// <param name="str"></param>
     /// <returns></returns>
-    public static int ToInt(this string str)
-    {
-        int temp = 0;
-        int.TryParse(str, out temp);
-        return temp;
-    }
+    //public static int ToInt(this string str)
+    //{
+    //    int temp = 0;
+    //    int.TryParse(str, out temp);
+    //    return temp;
+    //}
 
     /// <summary>
     /// 把string类型转换成long
