@@ -1,0 +1,24 @@
+ManifestFileVersion: 0
+CRC: 2602598277
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 5965cd77adf99eb0b0730b35a166b354
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: c5855eae7bf95040a896b507074b4366
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/MyResources/UI/Textures/UICommonAtlas.png
+- Assets/MyResources/UI/Textures/Material/UICommonAtlasmat.mat
+Dependencies:
+- G:/FanFanKeTang/MMORPG2/Assets/StreamingAssets/res/ui/myshader.sd
