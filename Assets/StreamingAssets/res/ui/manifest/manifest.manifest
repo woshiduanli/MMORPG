@@ -1,7 +1,7 @@
 ManifestFileVersion: 0
-CRC: 1934040694
+CRC: 1277985865
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: commontip.cfg
+      Name: selectzone.cfg
       Dependencies: {}

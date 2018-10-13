@@ -13,17 +13,18 @@ using ZCore;
 
 
 
-public class CUIManager : CLoopObject {
+public class CUIManager : CLoopObject
+{
     // 访问的基本格式
     // http://localhost:8080/api/account/2
 
     private int MaxUICount = 4;
-    private List<string> UIQueue = new List<string> ();
-    private List<string> idles = new List<string> ();
-    private UniqueIndex index_pool = new UniqueIndex (MAX_UI_COUNT);
+    private List<string> UIQueue = new List<string>();
+    private List<string> idles = new List<string>();
+    private UniqueIndex index_pool = new UniqueIndex(MAX_UI_COUNT);
     public const int MAX_UI_COUNT = 100;
     private CGameUI[] uis = new CGameUI[MAX_UI_COUNT];
-    private Map<string, CGameUI> names = new Map<string, CGameUI> ();
+    private Map<string, CGameUI> names = new Map<string, CGameUI>();
     public const int DISPOS_TIME = 30;
     public const int UPDATE_TIME = 5;
     public bool Hold { private set; get; }
@@ -43,20 +44,21 @@ public class CUIManager : CLoopObject {
     private Camera ScreenCamera;
     private RectTransform ScreenRect;
     private MonoBehaviour PostProcessing;
-    private Map<CGameUI, bool> MirrRos = new Map<CGameUI, bool> ();
-    private Map<CGameUI, bool> SimpleRos = new Map<CGameUI, bool> ();
+    private Map<CGameUI, bool> MirrRos = new Map<CGameUI, bool>();
+    private Map<CGameUI, bool> SimpleRos = new Map<CGameUI, bool>();
     private string CacheUI;
     public Font uifont { private set; get; }
     public Font uifont_title { private set; get; }
-    protected override void InitData () {
-        LoadFont ();
+    protected override void InitData()
+    {
+        LoadFont();
         //        this.SetRepeat(1, 1);
-        UIRoot = UnityEngine.Object.Instantiate<GameObject> (Resources.Load ("UI/Login/UIPrefab/UIRoot") as GameObject);
-        UnityEngine.Object.DontDestroyOnLoad (UIRoot);
-        CClientCommon.SetActiveOverload (UIRoot, true);
+        UIRoot = UnityEngine.Object.Instantiate<GameObject>(Resources.Load("UI/Login/UIPrefab/UIRoot") as GameObject);
+        UnityEngine.Object.DontDestroyOnLoad(UIRoot);
+        CClientCommon.SetActiveOverload(UIRoot, true);
         UIRoot.transform.position = Vector3.one * 1000;
-        Link = UIRoot.GetComponent<NGUILink> ();
-        UICamera = Link.Get ("UICamera").GetComponent<Camera> ();
+        Link = UIRoot.GetComponent<NGUILink>();
+        UICamera = Link.Get("UICamera").GetComponent<Camera>();
 
         //#if UNITY_IPHONE || UNITY_IOS
         //        if (UnityEngine.iOS.Device.generation == UnityEngine.iOS.DeviceGeneration.iPhoneX)
@@ -122,121 +124,156 @@ public class CUIManager : CLoopObject {
         //        UILight.gameObject.SetActive(false);
     }
 
-    public void Add (CGameUI ui, bool show) {
-        if (!index_pool.CanAlloc ()) {
-            LOG.TraceRed ("ERROR: ui数量超出上限。ui name:{0}", ui.Name);
+    public void Add(CGameUI ui, bool show)
+    {
+        if (!index_pool.CanAlloc())
+        {
+            LOG.TraceRed("ERROR: ui数量超出上限。ui name:{0}", ui.Name);
             return;
         }
-        int index = index_pool.Alloc ();
+        int index = index_pool.Alloc();
 
         if (uis[index] != null)
-            throw new Exception (CString.Format ("[CUIManager] ui index:{0} is already in use", index));
-        if (names.ContainsKey (ui.Name))
-            throw new Exception (CString.Format ("[CUIManager] ui name:{0} is already exist", ui.Name));
+            throw new Exception(CString.Format("[CUIManager] ui index:{0} is already in use", index));
+        if (names.ContainsKey(ui.Name))
+            throw new Exception(CString.Format("[CUIManager] ui name:{0} is already exist", ui.Name));
         uis[index] = ui;
         names[ui.Name] = ui;
         ui.index = index;
         // 最后显示该ui
-        ui.InitLua ();
+        ui.InitLua();
         if (show)
-            ui.Show ();
-        else {
+            ui.Show();
+        else
+        {
             if (ui.gameObject)
-                ui.gameObject.SetActive (false);
+                ui.gameObject.SetActive(false);
         }
-        idles.Add (ui.Name);
-        if (ui.Layer == CUILayer.FullWindow && ui.isFullScreen) {
+        idles.Add(ui.Name);
+        if (ui.Layer == CUILayer.FullWindow && ui.isFullScreen)
+        {
             if (UIQueue.Count >= MaxUICount)
-                this.Remove (Get (UIQueue[0]));
-            UIQueue.Add (ui.Name);
+                this.Remove(Get(UIQueue[0]));
+            UIQueue.Add(ui.Name);
         }
         // CPROFILE.SAMPLE(false, "show ui");
     }
 
-    public bool HasFullWindowUI () {
-        for (int i = 0; i < uis.Length; i++) {
+    public bool HasFullWindowUI()
+    {
+        for (int i = 0; i < uis.Length; i++)
+        {
             CGameUI ui = uis[i];
             if (!ui)
                 continue;
-            if (CUILayer.FullWindow == ui.Layer && ui.IsShow ())
+            if (CUILayer.FullWindow == ui.Layer && ui.IsShow())
                 return true;
         }
         return false;
     }
 
-    public void Remove (CGameUI ui) {
+    public void Remove(CGameUI ui)
+    {
         if (!ui || ui.disposed)
             return;
         if (ui.index < 0)
             return;
-        UIQueue.Remove (ui.Name);
-        names.Remove (ui.Name);
-        ui.ClosedDic.Clear ();
+        UIQueue.Remove(ui.Name);
+        names.Remove(ui.Name);
+        ui.ClosedDic.Clear();
         ui.enabled = false;
         uis[ui.index] = null;
-        index_pool.Free (ui.index);
+        index_pool.Free(ui.index);
         ui.index = -1;
 
-        if (loading.ContainsKey (ui.Name)) {
+        if (loading.ContainsKey(ui.Name))
+        {
             CGameUIAsset asset = loading[ui.Name];
             if (asset != null)
-                asset.Destroy ();
-            loading.Remove (ui.Name);
+                asset.Destroy();
+            loading.Remove(ui.Name);
         }
-        ui.Dispose ();
+        ui.Dispose();
     }
 
-    private void LoadFont () {
-        uifont = Resources.Load<Font> ("UI/Login/uifont");
-        uifont_title = Resources.Load<Font> ("UI/Login/uifont_title");
+    private void LoadFont()
+    {
+        uifont = Resources.Load<Font>("UI/Login/uifont");
+        uifont_title = Resources.Load<Font>("UI/Login/uifont_title");
     }
 
-    protected override void RegEvents () {
-        RegEvent<CEvent.Scene.LevelWasLoaded> (OnLevelWasLoaded);
-        RegEvent<CEvent.UI.ShowUI> (OnShowUIEvent);
-        RegEvent<CEvent.UI.OpenUI> (OnCreateUIEvent);
+    protected override void RegEvents()
+    {
+        RegEvent<CEvent.Scene.LevelWasLoaded>(OnLevelWasLoaded);
+        RegEvent<CEvent.UI.ShowUI>(OnShowUIEvent);
+        RegEvent<CEvent.UI.OpenUI>(OnCreateUIEvent);
+        RegEvent<CEvent.UI.CloseUI>(OnCloseUI);
+    }
+    private void OnCloseUI(CObject sender, CEvent.UI.CloseUI e)
+    {
+
+        string uiname = rg.Match(e.UI).Value;
+        CGameUI ui = Get(uiname);
+
+        if (ui)
+            ui.Close();
+
+        if (loading.ContainsKey(uiname))
+        {
+            CGameUIAsset asset = loading[uiname];
+            if (asset != null)
+                asset.SetVisible(false);
+        }
     }
 
-    private void OnShowUIEvent (CObject sender, CEvent.UI.ShowUI e) {
+    private void OnShowUIEvent(CObject sender, CEvent.UI.ShowUI e)
+    {
         if (Hold)
             return;
-        CGameUI exists = Get (e.UI) as CGameUI;
+        CGameUI exists = Get(e.UI) as CGameUI;
         if (exists)
-            exists.Show ();
+            exists.Show();
     }
-    private void OnCreateUIEvent (CObject sender, CEvent.UI.OpenUI e) {
+    private void OnCreateUIEvent(CObject sender, CEvent.UI.OpenUI e)
+    {
         if (Hold)
             return;
-        if (string.IsNullOrEmpty (e.UI))
+        if (string.IsNullOrEmpty(e.UI))
             return;
-        this.LoadUI (e.UI, e.Args);
+        this.LoadUI(e.UI, e.Args);
     }
-    public void CloseActiveUIs (CGameUI other) {
+    public void CloseActiveUIs(CGameUI other)
+    {
         if (Hold)
             return;
-        if (other.Layer == CUILayer.FullWindow) {
-            for (int i = 0; i < uis.Length; i++) {
+        if (other.Layer == CUILayer.FullWindow)
+        {
+            for (int i = 0; i < uis.Length; i++)
+            {
                 CGameUI ui = uis[i];
-                if (!ui || !ui.IsShow () || other == ui)
+                if (!ui || !ui.IsShow() || other == ui)
                     continue;
                 if (CUILayer.Tip == ui.Layer)
-                    ui.Close ();
+                    ui.Close();
                 if (CUILayer.FullWindow == ui.Layer || CUILayer.MainFace == ui.Layer)
-                    other.AddCloseUI (ui);
+                    other.AddCloseUI(ui);
             }
-            if (other.ClosedDic.Count == 0) {
-                for (int i = 0; i < uis.Length; i++) {
+            if (other.ClosedDic.Count == 0)
+            {
+                for (int i = 0; i < uis.Length; i++)
+                {
                     CGameUI ui = uis[i];
                     if (!ui || other == ui)
                         continue;
                     if (CUILayer.MainFace == ui.Layer)
-                        other.AddCloseUI (ui);
+                        other.AddCloseUI(ui);
                 }
             }
         }
     }
 
-    protected override void OnUpdate () {
+    protected override void OnUpdate()
+    {
 
         //if (Input.GetKeyDown (KeyCode.A))
         //{
@@ -248,9 +285,10 @@ public class CUIManager : CLoopObject {
         if (Hold)
             return;
 
-        for (loading.Begin (); loading.Next ();) {
+        for (loading.Begin(); loading.Next();)
+        {
             if (loading.Value != null)
-                loading.Value.Update ();
+                loading.Value.Update();
         }
 
         //if (idles.Count > 0)
@@ -271,19 +309,22 @@ public class CUIManager : CLoopObject {
         //    UIRoot.SetActive(!isPlayTl);
         //}
         #region 回车键打开GM窗口
-        if (Application.isEditor) {
-            if (Input.GetKeyDown (KeyCode.Return)) {
-                FireEvent (new CEvent.UI.OpenUI ("CGmCmdUI"));
+        if (Application.isEditor)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                FireEvent(new CEvent.UI.OpenUI("CGmCmdUI"));
             }
         }
         #endregion
     }
 
-    private void OnLevelWasLoaded (CObject sender, CEvent.Scene.LevelWasLoaded reale) {
+    private void OnLevelWasLoaded(CObject sender, CEvent.Scene.LevelWasLoaded reale)
+    {
         Hold = false;
-        CheckGameState ();
-        string loadedLevelName = SceneManager.GetActiveScene ().name;
-        UICamera.gameObject.SetActive (loadedLevelName != SceneName.ASYNC_LOADER_SCENE);
+        CheckGameState();
+        string loadedLevelName = SceneManager.GetActiveScene().name;
+        UICamera.gameObject.SetActive(loadedLevelName != SceneName.ASYNC_LOADER_SCENE);
         // 过图清理资源
         //FireEvent(new CEvent.ResourceFactory.ClearResource(loadedLevelName));
 
@@ -294,55 +335,61 @@ public class CUIManager : CLoopObject {
         //else if (loadedLevelName == SceneName.ROLE_SELECT_SCENE)
         //    this.LoadUI("CRoleSelectUI");
     }
-    private Map<string, CGameUIAsset> loading = new Map<string, CGameUIAsset> ();
-    public Regex rg = new Regex ("(?<=(" + "C" + "))[.\\s\\S]*?(?=(" + "UI" + "))", RegexOptions.Singleline);
-    public void LoadUI (string ui_name, params object[] Args) {
+    private Map<string, CGameUIAsset> loading = new Map<string, CGameUIAsset>();
+    public Regex rg = new Regex("(?<=(" + "C" + "))[.\\s\\S]*?(?=(" + "UI" + "))", RegexOptions.Singleline);
+    public void LoadUI(string ui_name, params object[] Args)
+    {
         if (Hold)
             return;
-        if (string.IsNullOrEmpty (ui_name))
+        if (string.IsNullOrEmpty(ui_name))
             return;
 
-        Type ui_type = Type.GetType (ui_name);
+        Type ui_type = Type.GetType(ui_name);
         if (ui_type == null)
-            ui_type = typeof (CGameLuaUI);
+            ui_type = typeof(CGameLuaUI);
 
-        ui_name = rg.Match (ui_name).Value;
-        CGameUI exists = Get (ui_name) as CGameUI;
-        if (exists != null) {
+        ui_name = rg.Match(ui_name).Value;
+        CGameUI exists = Get(ui_name) as CGameUI;
+        if (exists != null)
+        {
             exists.ui_mgr = this;
             exists.args = Args; //在界面还没有show前赋值所传的参数
-            if (exists.isActiveAndEnabled) {
+            if (exists.isActiveAndEnabled)
+            {
                 //exists.OnContextChange();
             }
-            exists.Show ();
-            exists.LoadUICallback ();
+            exists.Show();
+            exists.LoadUICallback();
             return;
         }
         //防止重复加载
-        if (loading.ContainsKey (ui_name))
+        if (loading.ContainsKey(ui_name))
             return;
 
-        CGameUIAsset asset = CResourceFactory.CreateEmptyInstance<CGameUIAsset> (null, this, ui_name, ui_type, Args);
-        loading.Add (ui_name, asset);
+        CGameUIAsset asset = CResourceFactory.CreateEmptyInstance<CGameUIAsset>(null, this, ui_name, ui_type, Args);
+        loading.Add(ui_name, asset);
     }
 
-    public CGameUI Get (string name) {
+    public CGameUI Get(string name)
+    {
         CGameUI ui;
-        if (names.TryGetValue (name, out ui))
+        if (names.TryGetValue(name, out ui))
             return ui;
         else
             return null;
     }
 
-    public T Get<T> () where T : CGameUI {
-        Type ui_type = typeof (T);
-        string ui_name = rg.Match (ui_type.Name).Value;
+    public T Get<T>() where T : CGameUI
+    {
+        Type ui_type = typeof(T);
+        string ui_name = rg.Match(ui_type.Name).Value;
 
-        return Get (ui_name) as T;
+        return Get(ui_name) as T;
     }
 }
 
-public class CUILayer {
+public class CUILayer
+{
     /// <summary>
     /// 主界面(或者能和主界面共存的界面)
     /// </summary>

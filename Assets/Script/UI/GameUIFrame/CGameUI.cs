@@ -420,7 +420,10 @@ public abstract class CGameUI : MonoBehaviour
     protected void OnDisable()
     {
         if (Canvas)
-            Canvas.planeDistance = Def.UIDisableDistance;
+        {
+
+        Canvas.planeDistance = Def.UIDisableDistance;
+        }
         //CloseTime = GameTimer.time;
         //OnUIDisable();
         //FireEvent(new CEvent.UI.UICloseEvent(this));

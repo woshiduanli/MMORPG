@@ -10,8 +10,8 @@ end
 function CShortTreasureMainUI.Initialize(self)
     print("Initialize")
     self.ItemList = {}
-    self:SetEvent(self.HashIDTable.Close, UIManager.TriggerEventID.PointerClick, self:GetSelfFunc(self.Close))
-    self:SetEvent(self.HashIDTable.BtnJoin,UIManager.TriggerEventID.PointerClick,self:GetSelfFunc(self.ReqPlayerEnter))
+    self:SetEvent(self.HashIDTable.Close, UIManager.EID.PointerClick, self:GetSelfFunc(self.Close))
+    self:SetEvent(self.HashIDTable.BtnJoin,UIManager.EID.PointerClick,self:GetSelfFunc(self.ReqPlayerEnter))
 
     -- 测试赋值item
     -- local uie =

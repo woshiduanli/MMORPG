@@ -18,4 +18,11 @@ public static partial class Global
         UIMgr.FireEvent(new CEvent.UI.OpenUI(CString.Concat("C", ui, "UI"), args));
     }
 
+    public static void CloseUIEvent(string ui)
+    {
+        if (UIMgr == null)
+            return;
+        UIMgr.FireEvent(new CEvent.UI.CloseUI(CString.Concat("C", ui, "UI")));
+    }
+
 }

@@ -16,6 +16,9 @@ public class EventDispatcher : Singleton<EventDispatcher>
     [CSharpCallLua]
     public delegate void OnActionHandler(IProto buffer);
 
+    [CSharpCallLua]
+    public delegate void OnLuaActionHandler(byte[] arr);
+
     //委托字典
     private Map<ushort, IHander> dic = new Map<ushort, IHander>();
 
@@ -47,9 +50,12 @@ public class EventDispatcher : Singleton<EventDispatcher>
 
     public struct Hander2 : IHander
     {
-        delegate IProto OnActionGetIProto(byte[] buffer);
+        public delegate IProto OnActionGetIProto(byte[] buffer);
+        [CSharpCallLua]
         OnActionGetIProto getProto;
         OnActionHandler handle1;
+
+        EventDispatcher.OnLuaActionHandler luaCall;
 
         public void Create(OnActionHandler d, IProto pro)
         {
@@ -57,16 +63,26 @@ public class EventDispatcher : Singleton<EventDispatcher>
             getProto = pro.GetProto;
         }
 
+        public void Create(EventDispatcher.OnLuaActionHandler getProto)
+        {
+            this.luaCall = getProto;
+        }
+
         public void Call(byte[] arr)
         {
-            if (arr == null || handle1 == null) return;
-            handle1(getProto(arr));
+            if (arr == null) return;
+            if (handle1 != null)
+                handle1(getProto(arr));
+
+            if (luaCall != null) luaCall(arr);
         }
+
 
         public void Dispose()
         {
             getProto = null;
             handle1 = null;
+            luaCall = null;
         }
     }
 
@@ -108,12 +124,14 @@ public class EventDispatcher : Singleton<EventDispatcher>
     /// <param name="protoCode"></param>
     /// <param name="handler"></param>
     /// <param name="type"></param>
-    public void RegProto(ushort protoCode, OnActionHandler handler, IProto iProto)
+
+
+    public void RegProto(ushort protoCode, OnLuaActionHandler handler)
     {
         if (dic.ContainsKey(protoCode))
             return;
         Hander2 handle2 = new Hander2();
-        handle2.Create(handler, iProto);
+        handle2.Create(handler);
 
         IHander ihandle = handle2;
         dic.Add(protoCode, ihandle);

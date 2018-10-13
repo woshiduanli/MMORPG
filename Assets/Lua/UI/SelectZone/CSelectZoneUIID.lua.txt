@@ -1,7 +1,7 @@
 local CSelectZoneUIID = { }
 
 
-CSelectZoneUIID.HashID = -11092312
+CSelectZoneUIID.HashID = 21706
 CSelectZoneUIID.btn_EnterGame = -1334513497
 CSelectZoneUIID.btn_Exit = 2107048257
 CSelectZoneUIID.text_zone = -1037382786 

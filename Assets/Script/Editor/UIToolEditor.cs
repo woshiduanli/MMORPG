@@ -751,7 +751,7 @@ static public class MOYU_UIToolsEditor
             if (link.Links[i].Name.ToLower().StartsWith("btn"))
             {
                 // 按钮事件注册
-                OnClickSB.Append(CString.Format("    self:SetEvent(self.HashIDTable.{0}, UIManager.TriggerEventID.PointerClick,self:GetSelfFunc({1}.OnClick{2}))\n", link.Links[i].Name, LuaFile, link.Links[i].Name));
+                OnClickSB.Append(CString.Format("    self:SetEvent(self.HashIDTable.{0}, UIManager.EID.PointerClick,self:GetSelfFunc({1}.OnClick{2}))\n", link.Links[i].Name, LuaFile, link.Links[i].Name));
             }
         }
         OnClickSB.Append("\n");

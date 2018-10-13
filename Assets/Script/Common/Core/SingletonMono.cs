@@ -14,6 +14,7 @@ public class SingletonMono<T> : MonoBehaviour where T : MonoBehaviour
             if (instance == null)
             {
                 GameObject obj = new GameObject(typeof(T).Name);
+                CategorySettings.Attach(obj.transform, "_loops/", false);
                 DontDestroyOnLoad(obj);
                 instance = obj.GetOrCreatComponent<T>();
             }

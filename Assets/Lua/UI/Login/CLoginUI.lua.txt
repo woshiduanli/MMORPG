@@ -13,12 +13,12 @@ function CLoginUI:Initialize()
     self:ChangePage()
     self:SetEvent(
         self.HashIDTable.btn_denglu,
-        UIManager.TriggerEventID.PointerClick,
+        UIManager.EID.PointerClick,
         self:GetSelfFunc(CLoginUI.OnClickLogin)
     )
     self:SetEvent(
         self.HashIDTable.btn_zhuce,
-        UIManager.TriggerEventID.PointerClick,
+        UIManager.EID.PointerClick,
         self:GetSelfFunc(CLoginUI.OnClickRegister)
     )
 end

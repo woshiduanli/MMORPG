@@ -8,32 +8,21 @@ function CCommonTipUI:ctor(ui, data)
 end
 
 function CCommonTipUI.Initialize(self)
-    self:SetEvent(
-        self.HashIDTable.btn_sure,
-        UIManager.EID.PointerClick,
-        self:GetSelfFunc(CCommonTipUI.OnClickSure)
-    )
-    self:SetEvent(
-        self.HashIDTable.btn_cancel,
-        UIManager.EID.PointerClick,
-        self:GetSelfFunc(CCommonTipUI.OnClickCancel)
-    )
+    self:SetEvent(self.HashIDTable.btn_sure, UIManager.EID.PointerClick, self:GetSelfFunc(CCommonTipUI.OnClickSure))
+    self:SetEvent(self.HashIDTable.btn_cancel, UIManager.EID.PointerClick, self:GetSelfFunc(CCommonTipUI.OnClickCancel))
 end
 
 function CCommonTipUI:OnClickSure()
-
-
-    
     self.paraDataTab.SureCallBack()
 end
 
 function CCommonTipUI:OnClickCancel()
-    self:Close ()
+    self:Close()
     self.paraDataTab.CancelCallBack()
 end
 
 function CCommonTipUI.UIEnable(self)
-   self:SetCText(self.HashIDTable.Desc,self.paraDataTab.Desc)
+    self:SetCText(self.HashIDTable.Desc, self.paraDataTab.Desc)
 end
 
 function CCommonTipUI.LoadUICallback(self)

@@ -23,9 +23,9 @@ function LoginData:CallBack(json)
                 -- body
                 local data = {}
                 data.Type = 1
-                data.ChannelId= 0
+                data.ChannelId = 0
                 data.InnerVersion = 1001
-                data.pageIndex= 1
+                data.pageIndex = 1
                 -- data.UserName = self:GetCText(self.HashIDTable.nichegnText)
                 data.ChannelId = "22"
                 -- data.Pwd = self:GetCText(self.HashIDTable.mimaText)
@@ -53,6 +53,14 @@ function LoginData:CallBack(json)
             self:FireEvent(EventCode.UI.OpenUI, "CommonTip", CCommonTipUIData)
             print("you cuo ")
         else
+            if self.ClickPanel == "Login" then
+                print("登录成功")
+                CSGlobal.Connect("192.168.1.243", 1011)
+                self:FireEvent(EventCode.UI.CloseUI, "Login")
+                self:FireEvent(EventCode.UI.OpenUI, "SelectZone")
+            else
+
+            end
             print(" not you cuo ")
         end
     end
@@ -61,9 +69,8 @@ function LoginData:CallBack(json)
 end
 
 function LoginData:urlGetPageFun(json)
-
-print("getpage:".. json)
-end 
+    print("getpage:" .. json)
+end
 
 function LoginData:OnDispose()
     Base:OnDispose()

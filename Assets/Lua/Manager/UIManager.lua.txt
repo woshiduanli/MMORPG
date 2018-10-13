@@ -9,7 +9,7 @@ UIManager.Layer = {
     Free = 2
 }
 
-UIManager.TriggerEventID = {
+UIManager.EID = {
     PointerEnter = 0,
     PointerExit = 1,
     PointerDown = 2,
@@ -95,6 +95,7 @@ end
 
 -- 关闭ui
 function UIManager.OnCloseUI(ui)
+    print("1")
     CSGlobal.CloseUIEvent(ui)
 end
 

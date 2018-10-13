@@ -9,11 +9,11 @@ function CCommonConfirmUI:ctor(ui)
 end
 
 function CCommonConfirmUI.Initialize(self)
-    self:SetEvent(self.HashIDTable.button_close, UIManager.TriggerEventID.PointerClick, self:GetSelfFunc(self.Close))
+    self:SetEvent(self.HashIDTable.button_close, UIManager.EID.PointerClick, self:GetSelfFunc(self.Close))
 
-    self:SetEvent(self.HashIDTable.button_OkNode, UIManager.TriggerEventID.PointerClick, CCommonConfirmUI.ReqExit)
+    self:SetEvent(self.HashIDTable.button_OkNode, UIManager.EID.PointerClick, CCommonConfirmUI.ReqExit)
 
-    --  self:SetEvent(self.HashIDTable.button_OkNode, UIManager.TriggerEventID.PointerClick,CCommonConfirmUIReqExit)
+    --  self:SetEvent(self.HashIDTable.button_OkNode, UIManager.EID.PointerClick,CCommonConfirmUIReqExit)
 end
 
 function CCommonConfirmUI.ReqExit()

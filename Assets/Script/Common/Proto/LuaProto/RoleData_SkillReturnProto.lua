@@ -24,7 +24,7 @@ end
 --发送协议
 function RoleData_SkillReturnProto.SendProto(proto)
 
-    local ms = CS.LuaHelper.Instance:CreateMemoryStream();
+    local ms =CSGlobal.CreateMemoryStream();
     ms:WriteUShort(proto.ProtoCode);
 
     ms:WriteByte(proto.SkillCount);
@@ -34,7 +34,7 @@ function RoleData_SkillReturnProto.SendProto(proto)
         ms:WriteByte(CurrSkillDataList[i].SlotsNo);
     end
 
-    CS.LuaHelper.Instance:SendProto(ms:ToArray());
+   CSGlobal.SendProto(ms:ToArray());
     ms:Dispose();
 end
 
@@ -43,7 +43,7 @@ end
 function RoleData_SkillReturnProto.GetProto(buffer)
 
     local proto = RoleData_SkillReturnProto.New(); --实例化一个协议对象
-    local ms = CS.LuaHelper.Instance:CreateMemoryStream(buffer);
+    local ms =CSGlobal.CreateMemoryStream(buffer);
 
     proto.SkillCount = ms:ReadByte();
 	proto.CurrSkillDataTable = {};

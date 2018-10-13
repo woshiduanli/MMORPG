@@ -1,53 +1,77 @@
-﻿
-
-local Json = require "LuaHelper.JsonHelper"
+﻿local Json = require "LuaHelper.JsonHelper"
 local Log = require "LuaHelper.Log"
 local NetEvent = require "Core.NetEvent"
 local GameDef = require "LuaHelper.GameDef"
 local NetManager = {}
 
 function NetManager.InitData()
-	NetManager.NetEvent = NetEvent.new()
-    NetManager.NetInfo = NetEvent.new()
-	NetManager.NetResponse = NetEvent.new()
+    NetManager.newEvent2 = {}
+
+    NetManager.NetEvent = NetEvent.new()
 end
 
-function NetManager.RegEvent(eid,tag,handle)
-	if eid == GameDef.NetEvent.Event  then
-		NetManager.NetEvent:RegEvent(tag,handle)
-	elseif eid == GameDef.NetEvent.Info  then
-		NetManager.NetInfo:RegEvent(tag,handle)
-	else
-		NetManager.NetResponse:RegEvent(tag,handle)
-	end
+function NetManager.RegEvent(eid, tag, handle)
+    if eid == GameDef.NetEvent.Event then
+        NetManager.NetEvent:RegEvent(tag, handle)
+    elseif eid == GameDef.NetEvent.Info then
+        NetManager.NetInfo:RegEvent(tag, handle)
+    else
+        NetManager.NetResponse:RegEvent(tag, handle)
+    end
 end
 
-function NetManager.HandleMsg( msg )
-	--[[local obj, a, error = Json.decode(msg)
+function NetManager.RegEvent2(protoObj, cb)
+    if protoObj == nil then
+        return
+    end
+    local data = NetManager.newEvent2[protoObj.ProtoCode]
+    if (data ~= nil) then
+        return
+    end
+
+    NetManager.newEvent2[protoObj.ProtoCode] = {protoObj = protoObj, cb = cb}
+end
+
+function NetManager.RecServer(buffer)
+    local ms = CSGlobal.CreateMemoryStream(buffer)
+    local ProtoCode = ms.ReadUShort()
+
+    local data = NetManager.newEvent2[ProtoCode]
+    if (data == nil or data == -1) then
+        return
+    end
+
+    data.cb(data.GetProto(buffer, ms))
+end
+
+function NetManager.FireEvent(protoObj, cb)
+end
+
+function NetManager.HandleMsg(msg) --
+    --[[local obj, a, error = Json.decode(msg)
     if (error ~= nil) then
         return
 	end
 	
-	NetManager.Dispatch(table.unpack(obj))]]--
+	NetManager.Dispatch(table.unpack(obj))]]
 end
 
-function NetManager.Dispatch(tag,...)
-	if tag == "message" then
-		return 
-	end
+function NetManager.Dispatch(tag, ...)
+    if tag == "message" then
+        return
+    end
 
-	if tag == "event" then
-		for _,value in ipairs({...}) do
-			NetManager.NetEvent:FireEvent(table.unpack(value))
-		end
-		
-	elseif tag == "info" then
-		for _,value in ipairs({...}) do
-			NetManager.NetInfo:FireEvent(table.unpack(value))
-		end
-	else
-		NetManager.NetResponse:FireEvent(tag,...)
-	end
+    if tag == "event" then
+        for _, value in ipairs({...}) do
+            NetManager.NetEvent:FireEvent(table.unpack(value))
+        end
+    elseif tag == "info" then
+        for _, value in ipairs({...}) do
+            NetManager.NetInfo:FireEvent(table.unpack(value))
+        end
+    else
+        NetManager.NetResponse:FireEvent(tag, ...)
+    end
 end
 
 return NetManager

@@ -22,6 +22,8 @@ function GameUI:ctor(ui)
     self.PlaneDistance = 2
     self.NeedRefresh = true
     self.Loop = false
+    self.SortingOrder = 2
+    self.PlaneDistance = 2
     self.Elements = {}
 end
 

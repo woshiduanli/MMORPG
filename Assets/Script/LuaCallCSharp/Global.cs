@@ -51,10 +51,7 @@ public static partial class Global
         Link = uimgr.Link;
     }
 
-    public static void AddEventListener(ushort protoCode, EventDispatcher.OnActionHandler handler, IProto iProto)
-    {
-        EventDispatcher.Instance.RegProto(protoCode, handler, iProto);
-    }
+  
 
 
 
@@ -81,14 +78,9 @@ public static partial class Global
 
 
 
-    //public static void CloseUIEvent(string ui)
-    //{
-    //    if (!UIMgr)
-    //        return;
-    //    UIMgr.FireEvent(new CEvent.UI.CloseUI(CString.Concat("C", ui, "UI")));
-    //}
-
    
+
+
 
     //public static void UISimpleClose(string ui)
     //{
@@ -153,7 +145,7 @@ public static partial class Global
     /// <param name="linkid"></param>
     /// <param name="gid"></param>
     /// <param name="active"></param>
-   
+
     //public static void RemoveUIParent(string ui)
     //{
     //    if (!UIMgr)

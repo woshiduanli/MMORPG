@@ -14,12 +14,12 @@ end
 --发送协议
 function Shop_BuyProductProto.SendProto(proto)
 
-    local ms = CS.LuaHelper.Instance:CreateMemoryStream();
+    local ms =CSGlobal.CreateMemoryStream();
     ms:WriteUShort(proto.ProtoCode);
 
     ms:WriteInt(proto.ProductId);
 
-    CS.LuaHelper.Instance:SendProto(ms:ToArray());
+   CSGlobal.SendProto(ms:ToArray());
     ms:Dispose();
 end
 
@@ -28,7 +28,7 @@ end
 function Shop_BuyProductProto.GetProto(buffer)
 
     local proto = Shop_BuyProductProto.New(); --实例化一个协议对象
-    local ms = CS.LuaHelper.Instance:CreateMemoryStream(buffer);
+    local ms =CSGlobal.CreateMemoryStream(buffer);
 
     proto.ProductId = ms:ReadInt();
 
