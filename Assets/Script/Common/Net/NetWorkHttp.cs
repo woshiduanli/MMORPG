@@ -151,9 +151,9 @@ public class NetWorkHttp : SingletonMono<NetWorkHttp>
                 {
                     JsonData data2 = JsonMapper.ToObject<JsonData>(data.text);
 
-
-
-                    m_CallBackArgs.HasError = (bool)data2["HasError"];
+                    //data2.con
+                    if (data2.IsObject && data2.ContainsKey("HasError") && data2["HasError"].IsBoolean)
+                        m_CallBackArgs.HasError = (bool)data2["HasError"];
                     m_CallBackArgs.Value = data.text;
 
 

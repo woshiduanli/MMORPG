@@ -21,6 +21,9 @@ function CCommonTipUI.Initialize(self)
 end
 
 function CCommonTipUI:OnClickSure()
+
+
+    
     self.paraDataTab.SureCallBack()
 end
 

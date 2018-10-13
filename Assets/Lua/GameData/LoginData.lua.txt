@@ -19,7 +19,20 @@ function LoginData:CallBack(json)
             local CCommonTipUIData = require("GameData.CCommonTipUIData")
 
             CCommonTipUIData.SureCallBack = function(...)
+                -- 点击确定以后弹出的数据
                 -- body
+                local data = {}
+                data.Type = 1
+                data.ChannelId= 0
+                data.InnerVersion = 1001
+                data.pageIndex= 1
+                -- data.UserName = self:GetCText(self.HashIDTable.nichegnText)
+                data.ChannelId = "22"
+                -- data.Pwd = self:GetCText(self.HashIDTable.mimaText)
+
+                local login = ObjectManager.GetSingleObj("LoginData")
+                CSGlobal.SendData(login.urlGetPage, login:GetSelfFunc(login.urlGetPageFun), true, Json.encode(data))
+
                 print("sure ")
             end
 
@@ -47,10 +60,16 @@ function LoginData:CallBack(json)
     -- if then
 end
 
+function LoginData:urlGetPageFun(json)
+
+print("getpage:".. json)
+end 
+
 function LoginData:OnDispose()
     Base:OnDispose()
 end
 
+LoginData.urlGetPage = "http://localhost:8080/api/GameServer"
 LoginData.url = "http://localhost:8080/api/account"
 
 return LoginData
