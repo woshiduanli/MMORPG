@@ -1,0 +1,66 @@
+ManifestFileVersion: 0
+CRC: 2619082875
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: d9ca0f08370670bab9143bdd5a6d14e3
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 626fb342c49ae471fb00c3e2b84bed10
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9cc37c01cb847464fb03903dfe1018f5, type: 3}
+- Class: 114
+  Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: 1741964061, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: -2095666955, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: -1200242548, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: 1367256648, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: 108628007, guid: ccd080483553f1f42915de5f153c390e, type: 3}
+- Class: 114
+  Script: {fileID: -410078474, guid: ccd080483553f1f42915de5f153c390e, type: 3}
+- Class: 114
+  Script: {fileID: -1650267983, guid: ccd080483553f1f42915de5f153c390e, type: 3}
+- Class: 114
+  Script: {fileID: 21000848, guid: ccd080483553f1f42915de5f153c390e, type: 3}
+- Class: 114
+  Script: {fileID: 698900038, guid: ccd080483553f1f42915de5f153c390e, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 223
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+Assets:
+- Assets/MyResources/UIPrefab/SelectZone.prefab
+Dependencies:
+- G:/FanFanKeTang/MMORPG2/Assets/StreamingAssets/res/ui/font/uifont.ft
+- G:/FanFanKeTang/MMORPG2/Assets/StreamingAssets/res/ui/font/font_jcy.ft
+- G:/FanFanKeTang/MMORPG2/Assets/StreamingAssets/res/ui/tex/logon_bg.tex
+- G:/FanFanKeTang/MMORPG2/Assets/StreamingAssets/res/ui/tex/uicommonatlas.tex
