@@ -25,11 +25,9 @@ function NetManager.RegEvent2(protoObj, cb)
         return
     end
     local data = NetManager.newEvent2[protoObj.ProtoCode]
-    if (data ~= nil) then
-        return
+    if (data == nil or data == -1) then
+        NetManager.newEvent2[protoObj.ProtoCode] = {protoObj = protoObj, cb = cb}
     end
-
-    NetManager.newEvent2[protoObj.ProtoCode] = {protoObj = protoObj, cb = cb}
 end
 
 function NetManager.RecServer(buffer)
@@ -41,7 +39,7 @@ function NetManager.RecServer(buffer)
         return
     end
 
-    data.cb(data.GetProto(buffer, ms))
+    data.cb(data.protoObj.GetProto(buffer, ms))
 end
 
 function NetManager.FireEvent(protoObj, cb)
