@@ -9,7 +9,7 @@ function CExitTimeUI:ctor(ui)
 end
 
 function CExitTimeUI.Initialize(self)
-    self:SetEvent(self.HashIDTable.button_exit, UIManager.TriggerEventID.PointerClick, thisData.exitBtnClick)
+    self:SetEvent(self.HashIDTable.button_exit, UIManager.EID.PointerClick, thisData.exitBtnClick)
 end
 
 function CExitTimeUI.UIEnable(self)
@@ -20,7 +20,7 @@ end
 
 -- 当前每秒执行一次
 function CExitTimeUI:OnUpdate()
-    if thisData.GetRemainTime() <0 then
+    if thisData.GetRemainTime() < 0 then
         return
     end
 

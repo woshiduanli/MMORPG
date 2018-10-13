@@ -9,8 +9,8 @@ function CSelectZoneUI:ctor(ui)
 end
 
 function CSelectZoneUI:Initialize()
-    self:SetEvent(self.HashIDTable.btn_EnterGame, UIManager.TriggerEventID.PointerClick,self:GetSelfFunc(CSelectZoneUI.OnClickbtn_EnterGame))
-    self:SetEvent(self.HashIDTable.btn_Exit, UIManager.TriggerEventID.PointerClick,self:GetSelfFunc(CSelectZoneUI.OnClickbtn_Exit))
+    self:SetEvent(self.HashIDTable.btn_EnterGame, UIManager.EID.PointerClick,self:GetSelfFunc(CSelectZoneUI.OnClickbtn_EnterGame))
+    self:SetEvent(self.HashIDTable.btn_Exit, UIManager.EID.PointerClick,self:GetSelfFunc(CSelectZoneUI.OnClickbtn_Exit))
 
     --self:SetCText(self.HashIDTable.text_zone,"待赋的值")
 

@@ -10,12 +10,12 @@ end
 function CCommonTipUI.Initialize(self)
     self:SetEvent(
         self.HashIDTable.btn_sure,
-        UIManager.TriggerEventID.PointerClick,
+        UIManager.EID.PointerClick,
         self:GetSelfFunc(CCommonTipUI.OnClickSure)
     )
     self:SetEvent(
         self.HashIDTable.btn_cancel,
-        UIManager.TriggerEventID.PointerClick,
+        UIManager.EID.PointerClick,
         self:GetSelfFunc(CCommonTipUI.OnClickCancel)
     )
 end
