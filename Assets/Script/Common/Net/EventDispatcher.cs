@@ -158,6 +158,7 @@ public class EventDispatcher : Singleton<EventDispatcher>
     /// <param name="param"></param>
     public void Dispatch(ushort protoCode, byte[] buffer)
     {
+        MyDebug.debug("c#收到了: " + protoCode);
         if (recServer != null)
             recServer(protoCode, buffer);
 

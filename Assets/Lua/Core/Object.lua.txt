@@ -3,6 +3,7 @@ local CommonUtil = require "Util.CommonUtil"
 require "core.Class"
 local CObject = class()
 local Timer = require("util.Timer")
+local ObjectManager = require ("Manager.ObjectManager" )
 -- local ObjectManager = require("Manager.ObjectManager")
 
 function CObject:InitData(...)
@@ -59,9 +60,6 @@ function CObject:UnRegEvent(eid)
 end
 
 function CObject:RegProto(protoName, cb)
-    if (ObjectManager == nil) then
-        ObjectManager = require("Manager.ObjectManager")
-    end
     ObjectManager.GetSingleObj("NetManager").RegProto(require("Proto." .. protoName).New(), cb)
 end
 
@@ -90,10 +88,6 @@ function CObject:FireEvent(evt, ...)
     end
 
     local s = ...
-    if (ObjectManager == nil) then
-        ObjectManager = require("Manager.ObjectManager")
-    end
-
     ObjectManager.GetSingleObj("EventManager"):FireEvent(evt, ...)
 end
 

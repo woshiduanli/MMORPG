@@ -49,8 +49,6 @@ function UIManager:InitData()
     UIManager.uiFont = CSGlobal.uiFontID
     UIManager.uiTitleFont = CSGlobal.uiTitleFontID
     UIManager.Hold = false
-
-    -- self:RegEvents()
 end
 
 function UIManager:RegEvents()

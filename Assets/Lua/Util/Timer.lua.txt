@@ -60,7 +60,7 @@ function Timer:Process()
                 end
             end
         else
-            self.CalTime = self.CalTime + 0.03
+            self.CalTime = self.CalTime + ObjectManager.GetSingleObj("TimeManager").deltaTime
         end
     end
 end
