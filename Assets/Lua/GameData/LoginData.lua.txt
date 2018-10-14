@@ -4,15 +4,20 @@ local LoginData = class(Base)
 local Json = Json
 
 function LoginData:ctor(data)
-    Base:ctor(data)
+    Base.ctor(self, data)
 end
 
 function LoginData:RegEvents()
-    self:RegEvent(3, "")
+    -- self:RegProto("RoleOperation_LogOnGameServerReturnProto", LoginData.RecServerData)
+end
+
+function LoginData.RecServerData(RoleOperation_LogOnGameServerReturnProto)
+    local d = Json.encode(RoleOperation_LogOnGameServerReturnProto)
+    print(d)
 end
 
 function LoginData:CallBack(json)
-    print(json)
+    print("shuju " .. json)
     local obj, pos, err = Json.decode(json)
     if err == nil then
         if obj.HasError == true then
@@ -55,11 +60,16 @@ function LoginData:CallBack(json)
         else
             if self.ClickPanel == "Login" then
                 print("登录成功")
+                local v1 = Json.decode(obj.Value)
+                local v2 = Json.decode(v1.Value)
+                self.AccountId = v2.Id
+                -- 链接服务器
                 CSGlobal.Connect()
+
+                -- 打开选择区服ui 
                 self:FireEvent(EventCode.UI.CloseUI, "Login")
                 self:FireEvent(EventCode.UI.OpenUI, "SelectZone")
             else
-
             end
             print(" not you cuo ")
         end
@@ -78,5 +88,6 @@ end
 
 LoginData.urlGetPage = "http://localhost:8080/api/GameServer"
 LoginData.url = "http://localhost:8080/api/account"
+LoginData.AccountId = 0
 
 return LoginData

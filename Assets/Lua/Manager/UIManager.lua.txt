@@ -1,4 +1,8 @@
-local UIManager = {}
+local require = require
+local Base = require "core.Object"
+local UIManager = class(Base)
+local table = table
+local ObjectManager = require("Manager.ObjectManager")
 
 UIManager.Layer = {
     --主界面(或者能和主界面共存的界面)
@@ -31,7 +35,8 @@ UIManager.EID = {
 
 local UILayer = UIManager.Layer
 
-function UIManager.InitData()
+function UIManager:InitData()
+    print("这是UI管理")
     UIManager.uis = {}
     UIManager.ButtomAudio = CSGlobal.ButtomAudioID
     UIManager.UIAudio = CSGlobal.UIAudioID
@@ -45,14 +50,14 @@ function UIManager.InitData()
     UIManager.uiTitleFont = CSGlobal.uiTitleFontID
     UIManager.Hold = false
 
-    UIManager.RegEvents()
+    -- self:RegEvents()
 end
 
-function UIManager.RegEvents()
-    Global.RegEvent(EventCode.Scene.LevelWasLoaded, UIManager.OnLevelWasLoaded)
-    Global.RegEvent(EventCode.UI.OpenUI, UIManager.OnCreateUIEvent)
-    Global.RegEvent(EventCode.UI.CloseUI, UIManager.OnCloseUI)
-    Global.RegEvent(EventCode.UI.DisposeEvent, UIManager.OnDisposeEvent)
+function UIManager:RegEvents()
+    self:RegEvent(EventCode.Scene.LevelWasLoaded, UIManager.OnLevelWasLoaded)
+    self:RegEvent(EventCode.UI.OpenUI, UIManager.OnCreateUIEvent)
+    self:RegEvent(EventCode.UI.CloseUI, UIManager.OnCloseUI)
+    self:RegEvent(EventCode.UI.DisposeEvent, UIManager.OnDisposeEvent)
 end
 
 function UIManager.Get(ui)

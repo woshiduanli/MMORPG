@@ -1,0 +1,43 @@
+local require = require
+local Base = require "core.Object"
+local TimeManager = class(Base)
+local table = table
+
+--[[
+    @desc:  计时器管理器 
+    author:{author}
+    time:2018-10-14 12:40:48
+    --@args: 
+    @return:
+]]
+function TimeManager:ctor(...)
+    Base.ctor(self, ...)
+end
+
+function TimeManager:InitData(...)
+    TimeManager.AllTimer = {}
+    CSGlobal.RegUpdate(TimeManager.Update)
+end
+
+function TimeManager.Update(deltaTime, realtimeSinceStartup, unscaledDeltaTime, severtime)
+    TimeManager.UpdateTimer()
+    print("realtimeSinceStartup，" .. realtimeSinceStartup)
+end
+
+function TimeManager.UpdateTimer()
+    local i = 1
+    while i <= #TimeManager.AllTimer do
+        if (TimeManager.AllTimer[i]).destory then
+            table.remove(TimeManager.AllTimer, i)
+        else
+            (TimeManager.AllTimer[i]):Process()
+            i = i + 1
+        end
+    end
+end
+
+function TimeManager:AddTimer(timer)
+    table.insert(TimeManager.AllTimer, timer)
+end
+
+return TimeManager

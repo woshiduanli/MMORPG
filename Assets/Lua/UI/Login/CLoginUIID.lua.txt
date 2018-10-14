@@ -1,7 +1,7 @@
 local CLoginUIID = { }
 
 
-CLoginUIID.HashID = 25412
+CLoginUIID.HashID = 25694
 CLoginUIID.initTextureBG = 536244080
 CLoginUIID.nichegnText = 1260632057
 CLoginUIID.mimaText = -1395833475

@@ -31,7 +31,7 @@ end
 
 function ActivityManager.RegEvents()
     Global.RegEvent(EventCode.MainPlayer.ReadData , ActivityManager.OnReadActivityData)
-    NetManager.RegEvent(GameDef.NetEvent.Event, EventTag.Activity.Update , ActivityManager.UpdateActivityData)
+    -- NetManager.RegEvent(GameDef.NetEvent.Event, EventTag.Activity.Update , ActivityManager.UpdateActivityData)
 end
 
 function ActivityManager.OnReadActivityData(data)

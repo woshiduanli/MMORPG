@@ -125,8 +125,9 @@ namespace ZCore
 
             if (mapProto != null)
             {
-                for (mapProto.Begin(); mapProto.Next();)
+                for (mapProto.Begin(); mapProto.Next(); )
                 {
+
                     EventDispatcher.Instance.RemoveProto(mapProto.Key);
                 }
             }

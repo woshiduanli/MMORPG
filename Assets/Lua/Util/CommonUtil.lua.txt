@@ -10,7 +10,7 @@ function CommonUtil.GetSelfFunc(self, func)
     end
 
     local ret = function(...)
-        func(self, ...)
+        return func(self, ...)
     end
 
     return ret
@@ -37,7 +37,6 @@ end
 function CommonUtil.MOD(a, b)
     return a - math.floor(a / b) * b
 end
-
 
 function CommonUtil.IntegerToChinese(value)
     local sb = {}
@@ -128,7 +127,6 @@ function CommonUtil.ToString2f(x)
     return s
 end
 
-
 --@desc: 求字符串长度
 function CommonUtil.Strlength(str)
     if StringUtil.IsNilOrEmpty(str) then
@@ -154,12 +152,24 @@ function CommonUtil.Strlength(str)
 end
 
 function CommonUtil.GetColorStrByQualityNum(quality)
-    if(quality == 1) then return "#FFFFFF" end
-    if(quality == 2) then return "#77FF25" end
-    if(quality == 3) then return "#0799FF" end
-    if(quality == 4) then return "#EE0DED" end
-    if(quality == 5) then return "#FF8213" end
-    if(quality == 6) then return "#FF1313" end
+    if (quality == 1) then
+        return "#FFFFFF"
+    end
+    if (quality == 2) then
+        return "#77FF25"
+    end
+    if (quality == 3) then
+        return "#0799FF"
+    end
+    if (quality == 4) then
+        return "#EE0DED"
+    end
+    if (quality == 5) then
+        return "#FF8213"
+    end
+    if (quality == 6) then
+        return "#FF1313"
+    end
     return "#FFFFFF"
 end
 
@@ -172,7 +182,7 @@ function CommonUtil.GenerateItems(item, list, count)
         end
     elseif count < length then
         for index = count + 1, length do
-            list[index]:SetActive(0);
+            list[index]:SetActive(0)
         end
     end
 end

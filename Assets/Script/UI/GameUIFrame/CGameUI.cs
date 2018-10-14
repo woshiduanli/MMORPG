@@ -425,7 +425,7 @@ public abstract class CGameUI : MonoBehaviour
         Canvas.planeDistance = Def.UIDisableDistance;
         }
         //CloseTime = GameTimer.time;
-        //OnUIDisable();
+        OnUIDisable();
         //FireEvent(new CEvent.UI.UICloseEvent(this));
 
         //if (ui_mgr.curFullWindow == this && this.isFullScreen)

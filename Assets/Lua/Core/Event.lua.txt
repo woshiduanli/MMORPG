@@ -22,7 +22,8 @@ function EventMgr:RegEvent(eid, handle)
 	-- 重复注册检查
 	for i = 1, #handles do 
 		if handles[i] == handle then
-			Log.erro(string.format('CEventManager:RegEvent:%d, handle is repeat', eid))			
+			print("repeat id is"..eid )
+			-- Log.erro(string.format('CEventManager:RegEvent:%d, handle is repeat', eid))			
 			return
 		end
 	end

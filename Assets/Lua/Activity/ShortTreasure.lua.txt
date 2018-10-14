@@ -12,9 +12,9 @@ function ShortTreasure:ctor(at, name)
 end
 
 function ShortTreasure:RegEvents()
-    NetManager.RegEvent(GameDef.NetEvent.Event, EventTag.ShortTreasure.ResPickUpScore, ShortTreasure.ResPickUp)
-    NetManager.RegEvent(GameDef.NetEvent.Event, EventTag.ShortTreasure.ResPlayerInfo, ShortTreasure.ResPickUp)
-    NetManager.RegEvent(GameDef.NetEvent.Event, EventTag.ShortTreasure.ResFinish, ShortTreasure.ResFinish)
+    -- NetManager.RegEvent(GameDef.NetEvent.Event, EventTag.ShortTreasure.ResPickUpScore, ShortTreasure.ResPickUp)
+    -- NetManager.RegEvent(GameDef.NetEvent.Event, EventTag.ShortTreasure.ResPlayerInfo, ShortTreasure.ResPickUp)
+    -- NetManager.RegEvent(GameDef.NetEvent.Event, EventTag.ShortTreasure.ResFinish, ShortTreasure.ResFinish)
 end
 
 function ShortTreasure.ResPlayerInfo(sn, obj)

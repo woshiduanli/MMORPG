@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 1986019748
+CRC: 3713021902
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -9,19 +9,15 @@ AssetBundleManifest:
       Name: font/uifont.ft
       Dependencies: {}
     Info_2:
-      Name: font/font_jcy.ft
-      Dependencies: {}
+      Name: tex/commonatlas.tex
+      Dependencies:
+        Dependency_0: myshader.sd
     Info_3:
       Name: tex/logon_bg.tex
       Dependencies: {}
     Info_4:
-      Name: tex/uicommonatlas.tex
-      Dependencies:
-        Dependency_0: myshader.sd
-    Info_5:
-      Name: uiprefab/selectzone.ui
+      Name: uiprefab/login.ui
       Dependencies:
         Dependency_0: font/uifont.ft
-        Dependency_1: font/font_jcy.ft
+        Dependency_1: tex/commonatlas.tex
         Dependency_2: tex/logon_bg.tex
-        Dependency_3: tex/uicommonatlas.tex

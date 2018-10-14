@@ -16,8 +16,8 @@ end
 function Duplicate:RegEvents( )
     print("duplicate regevents")
     Base.RegEvents(self)
-    NetManager.RegEvent(GameDef.NetEvent.Event,EventTag.Duplicate.BattleResult,CommonUtil.GetSelfFunc(self,self.OnBattleResult))
-    NetManager.RegEvent(GameDef.NetEvent.Event,EventTag.Duplicate.TargetChange,Duplicate.OnTargetChange)
+    -- NetManager.RegEvent(GameDef.NetEvent.Event,EventTag.Duplicate.BattleResult,CommonUtil.GetSelfFunc(self,self.OnBattleResult))
+    -- NetManager.RegEvent(GameDef.NetEvent.Event,EventTag.Duplicate.TargetChange,Duplicate.OnTargetChange)
 end
 
 

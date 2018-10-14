@@ -575,6 +575,9 @@ public class ApplicationEditor : Editor
     [MenuItem("开发场景悠悠/代码测试 %u", false, 100)]
     public static void TestCode代码测试()
     {
+
+        MyDebug.debug(System.Net.Dns.GetHostName()); 
+
         uint m_timestamp = 1537340159 + 3600;
         DateTime dt = GetTime(m_timestamp.ToString());
         Debug.Log(string.Format("将时间戳转换成日期_2 = {0} -> {1}", m_timestamp, dt.ToString("yyyy-MM-dd HH:mm:ss")));

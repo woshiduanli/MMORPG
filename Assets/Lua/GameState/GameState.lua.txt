@@ -6,11 +6,11 @@ local GameState = {}
 
 --注册网络事件，游戏内部事件
 function GameState.RegEvents()
-	NetManager.RegEvent(GameDef.NetEvent.Response, EventTag.Login.PlayerDBList , GameState.OnPlayerDBList)
-    NetManager.RegEvent(GameDef.NetEvent.Response, EventTag.Login.Login , GameState.OnLogin)
-    NetManager.RegEvent(GameDef.NetEvent.Info, EventTag.Login.LoginInfo , GameState.OnLoginInfo)
-    NetManager.RegEvent(GameDef.NetEvent.Response, EventTag.Login.EnterGame , GameState.OnEnterWorld)
-    NetManager.RegEvent(GameDef.NetEvent.Event, EventTag.Login.GotoScene, GameState.OnGotoScene)
+	-- NetManager.RegEvent(GameDef.NetEvent.Response, EventTag.Login.PlayerDBList , GameState.OnPlayerDBList)
+    -- NetManager.RegEvent(GameDef.NetEvent.Response, EventTag.Login.Login , GameState.OnLogin)
+    -- NetManager.RegEvent(GameDef.NetEvent.Info, EventTag.Login.LoginInfo , GameState.OnLoginInfo)
+    -- NetManager.RegEvent(GameDef.NetEvent.Response, EventTag.Login.EnterGame , GameState.OnEnterWorld)
+    -- NetManager.RegEvent(GameDef.NetEvent.Event, EventTag.Login.GotoScene, GameState.OnGotoScene)
     Global.RegEvent(EventCode.Scene.LevelWasLoaded , GameState.LevelWasLoaded)
 end
 

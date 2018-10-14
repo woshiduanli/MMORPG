@@ -485,10 +485,11 @@ public class UIToolEditor
         //CClientCommon.DestroyImmediate();
         Image image = tr.GetComponent<Image>();
         if (image != null && !(image is CImage))
+        {
             UnityEngine.Object.DestroyImmediate(image, true);
-
-        if (tr.GetComponent<Image>() == null)
             tr.gameObject.AddComponent<CImage>();
+        }
+
 
         if (tr.childCount <= 0) return;
 

@@ -8,6 +8,8 @@ function CSelectZoneUI:ctor(ui)
 end
 
 function CSelectZoneUI:Initialize()
+     self.timeraaa = self:AddTimer(self:GetSelfFunc(self.Update), false, 1, 100)
+    -- self:RegEvent(EventCode.UnityUpdate.FrameUpdate, self:GetSelfFunc(self.Update2))
     self:SetEvent(
         self.HashIDTable.btn_EnterGame,
         UIManager.EID.PointerClick,
@@ -20,38 +22,56 @@ function CSelectZoneUI:Initialize()
     )
     --self:SetCText(self.HashIDTable.text_zone,"待赋的值")
 end
+CSelectZoneUI.i = 0
+
+CSelectZoneUI.istrue = false
+
+function CSelectZoneUI:Update2()
+     print("更新吧孩子1")
+end 
+
+function CSelectZoneUI:Update()
+    print("更新吧孩子")
+    CSelectZoneUI.i = CSelectZoneUI.i + 1
+    print("我的计数" .. CSelectZoneUI.i)
+    -- if (CSelectZoneUI.i > 10) then
+    --     return true
+    -- end
+
+    if self.istrue then
+        self:UnRegEvent(EventCode.UnityUpdate.FrameUpdate)
+    end
+   
+end
 
 function CSelectZoneUI:OnClickbtn_EnterGame()
+    -- self.timeraaa.pause = false
+
     print("OnClickbtn_EnterGame")
 
-    -- CSGlobal.RegProto(10002, CSelectZoneUI.RecServerData)
-    -- CSelectZoneUI.CSelectZoneUI(
-    --     10002,
-    --     require("Proto.RoleOperation_LogOnGameServerReturnProto").New(),
-    --     CSelectZoneUI.RecServerData
-    -- )
-
-    NetManager.RegEvent2(require("Proto.RoleOperation_LogOnGameServerReturnProto").New(), CSelectZoneUI.RecServerData)
-
+    -- NetManager.RegE(require("Proto.RoleOperation_LogOnGameServerReturnProto").New(), CSelectZoneUI.RecServerData)
+    
     -- CSGlobal.RegProto(10002, CSelectZoneUI.RecServerData)
     local proto = require("Proto.RoleOperation_LogOnGameServerProto").New() --实例化一个协议对象
-    proto.AccountId = 9999
+    proto.AccountId = ObjectManager.GetSingleObj("LoginData").AccountId
     proto.SendProto(proto)
 end
 
-function CSelectZoneUI.RecServerData(RoleOperation_LogOnGameServerReturnProto)
-    local d = Json.encode(RoleOperation_LogOnGameServerReturnProto)
-    print(d)
-end
+
 
 function CSelectZoneUI:OnClickbtn_Exit()
-    print("OnClickbtn_Exit")
     self:Close()
     self:FireEvent(EventCode.UI.OpenUI, "Login")
 end
 
 function CSelectZoneUI:UIEnable()
+    Base.UIEnable (self)
 end
+
+function CSelectZoneUI:UIDisable()
+    Base.UIDisable (self)
+end
+
 
 function CSelectZoneUI:LoadUICallback()
 end

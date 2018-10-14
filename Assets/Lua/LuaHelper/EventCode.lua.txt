@@ -111,4 +111,8 @@ EventCode.MindQuiz = {
     BeginAnswer = 177,
 }
 
+EventCode.UnityUpdate = {
+    FrameUpdate = 181
+}
+
 return EventCode

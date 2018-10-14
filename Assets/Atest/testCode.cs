@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 public class testCode : MonoBehaviour
 {
-    private static string m_serverIP = "192.168.1.243";
+    private static string m_serverIP = "192.168.0.101";
     private static int m_point = 1011;
     // Use this for initialization
     void Start()
@@ -166,7 +166,6 @@ public struct RoleOperation_LogOnGameServerReturnProto : IProto
         using (MMO_MemoryStream ms = new MMO_MemoryStream())
         {
             ms.WriteUShort(ProtoCode);
-        
             ms.WriteInt(RoleCount);
             for (int i = 0; i < RoleCount; i++)
             {
@@ -184,6 +183,7 @@ public struct RoleOperation_LogOnGameServerReturnProto : IProto
         RoleOperation_LogOnGameServerReturnProto proto = new RoleOperation_LogOnGameServerReturnProto();
         using (MMO_MemoryStream ms = new MMO_MemoryStream(buffer))
         {
+            proto.RoleCount = ms.ReadUShort();
             proto.RoleCount = ms.ReadInt();
             proto.RoleList = new List<RoleItem>();
             for (int i = 0; i < proto.RoleCount; i++)

@@ -1,8 +1,9 @@
-
+local require = require
 local CommonUtil = require "Util.CommonUtil"
 require "core.Class"
 local CObject = class()
 local Timer = require("util.Timer")
+local ObjectManager = require("Manager.ObjectManager")
 
 function CObject:InitData(...)
 end
@@ -11,6 +12,7 @@ function CObject:RegEvents()
 end
 
 function CObject:ctor(...)
+    -- print(self.Name .. "这是什么")
     self.disposed = false
     -- 存放事件及回调信息
     self.callbacks = {}
@@ -26,20 +28,38 @@ end
 function CObject:Dispose()
     self.disposed = true
     for _, v in ipairs(self.callbacks) do
-        Global.UnregEvent(v.eid, v.func)
+        ObjectManager.GetSingleObj("EventManager").UnregEvent(v.eid, v.func)
     end
-    
+
     for _, v in ipairs(self.timers) do
         if (v ~= nil) then
             v:Stop()
         end
     end
-    
+
     self.timers = {}
     self.callbacks = nil
     self.class = nil
 
     self:OnDispose()
+end
+
+function CObject:UnRegEvent(eid)
+    local index = -1
+    for _, v in ipairs(self.callbacks) do
+        if (v.eid == eid) then
+            ObjectManager.GetSingleObj("EventManager").UnregEvent(v.eid, v.func)
+            index = _
+        end
+    end
+
+    if index ~= -1 then
+        table.remove(self.callbacks, index)
+    end
+end
+
+function CObject:RegProto(protoName, cb)
+    ObjectManager.GetSingleObj("NetManager").RegProto(require("Proto." .. protoName).New(), cb)
 end
 
 -- 注册事件
@@ -50,8 +70,13 @@ function CObject:RegEvent(evt, cb)
     if evt == nil or cb == nil then
         return
     end
+    for _, v in ipairs(self.callbacks) do
+        if (v.eid == evt) then
+            return
+        end
+    end
 
-    Global.RegEvent(evt, cb)
+    ObjectManager.GetSingleObj("EventManager").RegEvent(evt, cb)
     table.insert(self.callbacks, {eid = evt, func = cb})
 end
 
@@ -62,7 +87,7 @@ function CObject:FireEvent(evt, ...)
     end
 
     local s = ...
-    Global.FireEvent(evt, ...)
+    ObjectManager.GetSingleObj("EventManager").FireEvent(evt, ...)
 end
 
 function CObject:GetSelfFunc(func)
@@ -70,14 +95,14 @@ function CObject:GetSelfFunc(func)
 end
 
 --[[
-	@duration: 间隔时间
-	@loopcount: 循环次数，-1为无限循环
+	@interval: 间隔时间
+	@PrcessCount: 循环次数，0为无限循环
 	@return [util.Timer#Timer]
 --]]
-function CObject:AddTimer(func, duration, loopcount)
+function CObject:AddTimer(func, IsEveryFrame, interval, PrcessCount)
     --@RefType [util.Timer#Timer]
-    local timer = Timer.new(func, duration, loopcount, true)
-    timer:Start()
+    local timer = Timer.new(func, IsEveryFrame, interval, PrcessCount)
+    ObjectManager.GetSingleObj("TimeManager"):AddTimer(timer)
     table.insert(self.timers, timer)
     return timer
 end

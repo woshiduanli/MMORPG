@@ -1,7 +1,7 @@
 ManifestFileVersion: 0
-CRC: 1277985865
+CRC: 2329151775
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: selectzone.cfg
+      Name: login.cfg
       Dependencies: {}

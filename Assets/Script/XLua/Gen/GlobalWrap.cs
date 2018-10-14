@@ -31,7 +31,7 @@ namespace XLua.CSObjectWrap
 			Utils.EndObjectRegister(type, L, translator, null, null,
 			    null, null, null);
 
-		    Utils.BeginClassRegister(type, L, __CreateInstance, 18, 4, 4);
+		    Utils.BeginClassRegister(type, L, __CreateInstance, 21, 4, 4);
 			Utils.RegisterFunc(L, Utils.CLS_IDX, "SetEvent", _m_SetEvent_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "SetCText", _m_SetCText_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "GetCText", _m_GetCText_xlua_st_);
@@ -44,11 +44,14 @@ namespace XLua.CSObjectWrap
             Utils.RegisterFunc(L, Utils.CLS_IDX, "SendData", _m_SendData_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "Connect", _m_Connect_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "RegProto", _m_RegProto_xlua_st_);
+            Utils.RegisterFunc(L, Utils.CLS_IDX, "RegProtoLua", _m_RegProtoLua_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "CreateMemoryStream", _m_CreateMemoryStream_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "SendProto", _m_SendProto_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "SetLocalPos", _m_SetLocalPos_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "CreateUIEvent", _m_CreateUIEvent_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "CloseUIEvent", _m_CloseUIEvent_xlua_st_);
+            Utils.RegisterFunc(L, Utils.CLS_IDX, "RegUpdate", _m_RegUpdate_xlua_st_);
+            Utils.RegisterFunc(L, Utils.CLS_IDX, "RegLevelWasLoaded", _m_RegLevelWasLoaded_xlua_st_);
             
 			
             
@@ -395,10 +398,8 @@ namespace XLua.CSObjectWrap
             
                 
                 {
-                    string ip = LuaAPI.lua_tostring(L, 1);
-                    int port = LuaAPI.xlua_tointeger(L, 2);
                     
-                    Global.Connect( ip, port );
+                    Global.Connect(  );
                     
                     
                     
@@ -426,6 +427,32 @@ namespace XLua.CSObjectWrap
                     EventDispatcher.OnLuaActionHandler action = translator.GetDelegate<EventDispatcher.OnLuaActionHandler>(L, 2);
                     
                     Global.RegProto( protoCode, action );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception __gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + __gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_RegProtoLua_xlua_st_(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+            
+                
+                {
+                    System.Action<ushort, byte[]> RecServer = translator.GetDelegate<System.Action<ushort, byte[]>>(L, 1);
+                    
+                    Global.RegProtoLua( RecServer );
                     
                     
                     
@@ -571,6 +598,58 @@ namespace XLua.CSObjectWrap
                     string ui = LuaAPI.lua_tostring(L, 1);
                     
                     Global.CloseUIEvent( ui );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception __gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + __gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_RegUpdate_xlua_st_(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+            
+                
+                {
+                    System.Action<float, float, float, uint> LuaUpdate = translator.GetDelegate<System.Action<float, float, float, uint>>(L, 1);
+                    
+                    Global.RegUpdate( LuaUpdate );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception __gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + __gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_RegLevelWasLoaded_xlua_st_(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+            
+                
+                {
+                    System.Action<string> SceneChange = translator.GetDelegate<System.Action<string>>(L, 1);
+                    
+                    Global.RegLevelWasLoaded( SceneChange );
                     
                     
                     

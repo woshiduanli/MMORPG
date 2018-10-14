@@ -84,15 +84,9 @@ public class CGameLuaUI : CGameUI
     }
 
     #region C# 驱动 Lua
-    public override void OnUIEnable()
-    {
-        luaEnable(this.scriptEnv);
-    }
+   
 
-    public override void OnUIDisable()
-    {
-        luaDisable(this.scriptEnv);
-    }
+  
 
     protected override void OnWakeUp()
     {
@@ -146,6 +140,22 @@ public class CGameLuaUI : CGameUI
         return link.HashID;
     }
 
+    public override void OnUIEnable()
+    {
+        if (luaEnable != null)
+        {
+            luaEnable(this.scriptEnv);
+        }
+    }
+
+    public override void OnUIDisable()
+    {
+        if (luaDisable != null)
+        {
+            luaDisable(this.scriptEnv);
+        }
+    }
+
     public void SetGoActive(int linkid, int id, int active)
     {
         NGUILink link = GetLink(linkid);
@@ -156,6 +166,17 @@ public class CGameLuaUI : CGameUI
                 CClientCommon.SetUIActive(go, active == 1);
         }
     }
+
+    //public void SetGoActive(int linkid, int id, int active)
+    //{
+    //    NGUILink link = GetLink(linkid);
+    //    if (link)
+    //    {
+    //        GameObject go = link.Get(id);
+    //        if (go)
+    //            CClientCommon.SetUIActive(go, active == 1);
+    //    }
+    //}
 
     public void SetElementActive(int linkid, int active)
     {
@@ -204,7 +225,7 @@ public class CGameLuaUI : CGameUI
             if (cText)
                 return cText.text;
         }
-        return ""; 
+        return "";
     }
 
     public void SetLocalPos(int linkid, int tid, int x, int y, int z)

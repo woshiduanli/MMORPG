@@ -21,6 +21,10 @@ function CLoginUI:Initialize()
         UIManager.EID.PointerClick,
         self:GetSelfFunc(CLoginUI.OnClickRegister)
     )
+
+    self:SetCText(self.HashIDTable.nichegnText,1 )
+    self:SetCText(self.HashIDTable.mimaText,1 )
+    self:OnClickLogin()
 end
 
 function CLoginUI:ChangePage()

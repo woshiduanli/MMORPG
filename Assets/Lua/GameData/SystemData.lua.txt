@@ -1,19 +1,15 @@
- local Base = require "core.Object"
- local SystemData = class(Base)
- 
- function SystemData:ctor(data)
-	 Base:ctor (data)
-	 
- end
+local Base = require "core.Object"
+local SystemData = class(Base)
+
+function SystemData:ctor(...)
+    Base.ctor(self, ...)
+end
 
 function SystemData:ClearData()
-	 
- end
+end
 
- function SystemData:OnDispose()
-	Base:OnDispose()
- end
-
-
+function SystemData:OnDispose()
+    Base:OnDispose()
+end
 
 return SystemData

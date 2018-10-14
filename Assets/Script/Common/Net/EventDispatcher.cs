@@ -145,6 +145,11 @@ public class EventDispatcher : Singleton<EventDispatcher>
         dic.Remove(protoCode);
     }
 
+    System.Action<ushort, byte[]> recServer;
+    public void RecServer(System.Action<ushort, byte[]> recServer)
+    {
+        this.recServer = recServer;
+    }
 
     /// <summary>
     /// 派发协议
@@ -153,6 +158,9 @@ public class EventDispatcher : Singleton<EventDispatcher>
     /// <param name="param"></param>
     public void Dispatch(ushort protoCode, byte[] buffer)
     {
+        if (recServer != null)
+            recServer(protoCode, buffer);
+
         if (dic.ContainsKey(protoCode))
         {
             IHander d = dic[protoCode];

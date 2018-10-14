@@ -1,0 +1,99 @@
+local require = require
+local Base = require "core.Object"
+local SceneManager = class(Base)
+local table = table
+local ObjectManager = require("Manager.ObjectManager")
+
+
+function SceneManager:InitData()
+
+    CSGlobal.RegLevelWasLoaded( self:GetSelfFunc(self.LevelWasLoaded) )
+    -- SceneManager:RegEvents()
+end
+
+function SceneManager:LevelWasLoaded (sceneName)
+print("场景名字"..sceneName)
+end 
+
+
+
+function SceneManager.RegEvents()
+end
+
+function SceneManager.Get(ui)
+    return SceneManager.uis[ui]
+end
+
+function SceneManager.Remove(ui)
+    SceneManager.uis[ui] = nil
+end
+
+function SceneManager.HasFullWindow()
+    value = CSGlobal.HasFullWindow()
+    if value == 1 then
+        return true
+    end
+    return false
+end
+
+--事件相关-------------------------------------------------
+
+-- 过图回调
+function SceneManager.OnLevelWasLoaded(scene)
+    if (scene == GameDef.SceneName.LOGIN) then
+        SceneManager.OnCreateUIEvent("Login")
+    end
+end
+
+-- 创建ui
+function SceneManager.OnCreateUIEvent(ui, paraDataTab)
+    local window = SceneManager.uis[ui]
+    if window == nil or window == -1 then
+        local path = string.format("UI.%s.C%sUI", ui, ui)
+        local def = require(path)
+        window = def.new(ui)
+        SceneManager.uis[ui] = window
+    end
+    window.paraDataTab = paraDataTab
+    CSGlobal.CreateUIEvent(ui, window, paraDataTab)
+end
+
+-- 关闭ui
+function SceneManager.OnCloseUI(ui)
+    print("1")
+    CSGlobal.CloseUIEvent(ui)
+end
+
+function SceneManager.OnDisposeEvent(scene)
+    SceneManager.Hold = true
+    local forever = (scene == "Login" or scene == "SelecteRole")
+    local temp = {}
+    for _, ui in pairs(SceneManager.uis) do
+        if not ui.DontDestoryOnLoad or forever then
+            table.insert(temp, ui)
+        end
+    end
+    for _, ui in pairs(temp) do
+        SceneManager.Remove(ui.Name)
+    end
+
+    if forever then
+        SceneManager.uis = {}
+    end
+end
+
+--UI相关的全局方法----------------------------------------------------
+
+function SceneManager.IsPointerOverUI(x, y)
+    local value = CSGlobal.LuaIsPointerOverUI(x, y)
+    if value == 1 then
+        return true
+    end
+    return false
+end
+
+function SceneManager.ActiveShahow(active)
+    CSGlobal.LuaActiveShahow(active)
+end
+
+return SceneManager

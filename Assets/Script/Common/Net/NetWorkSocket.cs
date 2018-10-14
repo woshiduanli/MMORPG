@@ -101,6 +101,7 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
     // 真正发送数据包到服务器
     void Send(byte[] buffer)
     {
+        MyDebug.debug("开始发送的地方");
         client.BeginSend(buffer, 0, buffer.Length, SocketFlags.None, SendCallBack, client);
     }
 

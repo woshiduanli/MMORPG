@@ -3,7 +3,7 @@ local KeyCode = CS.UnityEngine.KeyCode
 require "Core.Class"
 local Config = require "LuaHelper.ConfigHelper"
 local LuaDebugHelper = require "LuaHelper.LuaDebugHelper"
-
+_G.CSGlobal = CS.Global
 _G.Log = require "LuaHelper.Log"
 _G.NetManager = require "Manager.NetManager"
 _G.Global = require "Global"
@@ -18,15 +18,24 @@ function GameManager.InitData()
     -- if Config.isEditor then
     --     LuaDebugHelper.InitData()
     -- end
-    NetManager.InitData()
+    ObjectManager.InitData()
+    ObjectManager.CreateSingleObj("Core.Event", "EventManager")
+    ObjectManager.CreateSingleObj("Manager.NetManager", "NetManager")
+    ObjectManager.CreateSingleObj("Manager.TimeManager", "TimeManager")
+
+    ObjectManager.CreateSingleObj("Manager.UIManager", "UIManager")
+    ObjectManager.CreateSingleObj("Manager.SceneManager", "SceneManager")
+
+
+    -- NetManager.InitData()
     Global.InitData()
-    GameManager.NetMgr = NetManager
     GameManager.Global = Global
-    GameManager.RefMgr = ReferenceManager
     GameManager.RegEvents()
     GameManager.InitManagers()
 
-    CSGlobal.RegProto2(NetManager.RecServer)
+    -- CSGlobal.RegProto2(NetManager.RecServer)
+
+    
 end
 
 --注册事件
@@ -41,12 +50,15 @@ function GameManager.InitManagers()
     ActivityManager.InitData()
 
     ObjectManager.CreateSingleObj("GameData.LoginData", "LoginData")
+    ObjectManager.CreateSingleObj("Manager.TimeManager", "TimeManager")
 end
 
 function GameManager.Update(deltaTime, realtimeSinceStartup, frameCount, severtime)
+    -- print("在update" .. realtimeSinceStartup)
     if Config.isEditor then
         LuaDebugHelper.Update()
     end
+
     Global.Update(deltaTime, realtimeSinceStartup, frameCount, severtime)
 end
 

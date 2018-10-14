@@ -5,7 +5,7 @@ local CCommonConfirmUIData   = require("UI.CommonConfirm.CCommonConfirmUIData")
 
 function ShortTreasureWorld:InitData(mr)
     base.InitData(self, mr)
-    NetManager.RegEvent(GameDef.NetEvent.Event, EventTag.ShortTreasure.ResTimeInfo, ShortTreasureWorld.ResTimeInfo)
+    -- NetManager.RegEvent(GameDef.NetEvent.Event, EventTag.ShortTreasure.ResTimeInfo, ShortTreasureWorld.ResTimeInfo)
 end
 
 function ShortTreasureWorld.ResTimeInfo(sn, t)

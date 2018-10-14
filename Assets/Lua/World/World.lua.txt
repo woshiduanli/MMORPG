@@ -25,10 +25,10 @@ end
 
 function World:RegEvents()
 	self:RegEvent(EventCode.Scene.LevelWasLoaded ,CommonUtil.GetSelfFunc(self,self.OnLevelWasLoaded))
-	NetManager.RegEvent(GameDef.NetEvent.Event, EventTag.World.EnterPlayer, CommonUtil.GetSelfFunc(self,self.OnEnterPlayer))
-	NetManager.RegEvent(GameDef.NetEvent.Event, EventTag.World.EnterMonster, CommonUtil.GetSelfFunc(self,self.OnEnterMonsetr))
-	NetManager.RegEvent(GameDef.NetEvent.Event, EventTag.World.DeleteRole, CommonUtil.GetSelfFunc(self,self.LeaveRole))
-	NetManager.RegEvent(GameDef.NetEvent.Event, EventTag.World.RefreshMonster, CommonUtil.GetSelfFunc(self,self.OnMonsetrPropChange))
+	-- NetManager.RegEvent(GameDef.NetEvent.Event, EventTag.World.EnterPlayer, CommonUtil.GetSelfFunc(self,self.OnEnterPlayer))
+	-- NetManager.RegEvent(GameDef.NetEvent.Event, EventTag.World.EnterMonster, CommonUtil.GetSelfFunc(self,self.OnEnterMonsetr))
+	-- NetManager.RegEvent(GameDef.NetEvent.Event, EventTag.World.DeleteRole, CommonUtil.GetSelfFunc(self,self.LeaveRole))
+	-- NetManager.RegEvent(GameDef.NetEvent.Event, EventTag.World.RefreshMonster, CommonUtil.GetSelfFunc(self,self.OnMonsetrPropChange))
 end
 
 function World:Update()

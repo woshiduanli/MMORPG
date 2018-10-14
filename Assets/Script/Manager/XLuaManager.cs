@@ -30,9 +30,10 @@ public class XLuaManager : CLoopObject
     private System.Action<string, object[]> LuaOpenUI;
 
     [CSharpCallLua]
-    private System.Action<float, float, float, uint> LuaUpdate;
+    public System.Action<float, float, float, uint> LuaUpdate;
     private Action LuaRateUpdate;
     private Action<string> LuaOnLevelWasLoaded;
+    private System.Action<ushort, byte[]> RecServer;
     private Action<string> LuaDisposeEvent;
     private Action LuaNetDisConnect;
     private Action LuaNetConnect;
@@ -101,21 +102,22 @@ public class XLuaManager : CLoopObject
         Action LuaInitData;
         GlobalEnv.Get("InitData", out LuaInitData);
         LuaInitData();
-        GlobalEnv.Get("Update", out LuaUpdate);
+        //GlobalEnv.Get("Update", out LuaUpdate);
         GlobalEnv.Get("RateUpdate", out LuaRateUpdate);
 
-        LuaTable NetMgr = GlobalEnv.Get<LuaTable>("NetMgr");
-        this.handleMsg = NetMgr.GetInPath<LuaHandleMsg>("HandleMsg");
-        NetMgr.Dispose();
+        //LuaTable NetMgr = GlobalEnv.Get<LuaTable>("NetMgr");
+        //this.handleMsg = NetMgr.GetInPath<LuaHandleMsg>("HandleMsg");
+        //NetMgr.Dispose();
 
         LuaTable Global = GlobalEnv.Get<LuaTable>("Global");
 
-        Global.Get("OnLevelWasLoaded", out LuaOnLevelWasLoaded);
-        Global.Get("OpenUI", out LuaOpenUI);
-        Global.Get("DisposeEvent", out LuaDisposeEvent);
-        Global.Get("NetDisConnect", out LuaNetDisConnect);
-        Global.Get("NetConnect", out LuaNetConnect);
-        Global.Dispose();
+
+        //Global.Get("OnLevelWasLoaded", out LuaOnLevelWasLoaded);
+        //Global.Get("OpenUI", out LuaOpenUI);
+        //Global.Get("DisposeEvent", out LuaDisposeEvent);
+        //Global.Get("NetDisConnect", out LuaNetDisConnect);
+        //Global.Get("NetConnect", out LuaNetConnect);
+        //Global.Dispose();
 
         this.Reference = GlobalEnv.Get<LuaTable>("RefMgr");
         GlobalEnv.Dispose();
@@ -128,7 +130,7 @@ public class XLuaManager : CLoopObject
         //RegEvent<CEvent.UI.LuaOpenUI>((a, b) => { if (LuaOpenUI != null) { LuaOpenUI(b.ui, b.objs); } });
         //RegEvent<CEvent.UI.DisposeEvent>((a, b) => { LuaDisposeEvent(b.sceneName); });
 
-        RegEvent<CEvent.Scene.LevelWasLoaded>((a, b) => { LuaOnLevelWasLoaded(SceneManager.GetActiveScene().name); });
+        RegEvent<CEvent.Scene.LevelWasLoaded>((a, b) => { if (LuaOnLevelWasLoaded!= null) LuaOnLevelWasLoaded(SceneManager.GetActiveScene().name); });
         //RegEvent<CEvent.NetWork.NetDisconnect>((a, b) => { LuaNetDisConnect(); });
         //RegEvent<CEvent.NetWork.NetConnect>((a, b) => { LuaNetConnect(); });
     }
@@ -137,7 +139,7 @@ public class XLuaManager : CLoopObject
     {
         if (LuaUpdate != null)
         {
-            //LuaUpdate(Time.deltaTime, Time.realtimeSinceStartup, Time.unscaledDeltaTime, CTime.time_tick);
+            LuaUpdate(Time.deltaTime, Time.realtimeSinceStartup, Time.unscaledDeltaTime, 44);
         }
 
         if (ulimit_ms == 0f)

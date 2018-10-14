@@ -33,6 +33,7 @@ public static class GenConfig
         typeof (System.Action<float, float, float, uint>),
         typeof (System.Action<  System.Object[]>),
         typeof (System.Action<string>),
+        typeof (System.Action<ushort, byte[]>),
         typeof (System.Action),
         typeof (Action<LuaTable,int>),
         typeof (Action<LuaTable>),
@@ -154,7 +155,7 @@ public static class GenConfig
             types.AddRange(assembly.GetExportedTypes()
                 .Where(type =>
                     (type.IsSubclassOf(typeof(CGameUI))) ||
-                    //type.IsSubclassOf(typeof(CActivity)) ||
+                        //type.IsSubclassOf(typeof(CActivity)) ||
                     type.IsSubclassOf(typeof(CUIElement)) ||
                     type.IsSubclassOf(typeof(ZRender.IRenderObject)) ||
                     type.IsSubclassOf(typeof(CObject)))
