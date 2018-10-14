@@ -21,7 +21,7 @@ end
 
 function TimeManager.Update(deltaTime, realtimeSinceStartup, unscaledDeltaTime, severtime)
     TimeManager.UpdateTimer()
-    print("realtimeSinceStartup，" .. realtimeSinceStartup)
+    -- print("realtimeSinceStartup，" .. realtimeSinceStartup)
 end
 
 function TimeManager.UpdateTimer()

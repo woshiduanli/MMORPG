@@ -27,11 +27,14 @@ function GameManager.InitData()
     ObjectManager.CreateSingleObj("Manager.SceneManager", "SceneManager")
 
 
+    ObjectManager.CreateSingleObj("GameData.LoginData", "LoginData")
+    ObjectManager.CreateSingleObj("Manager.TimeManager", "TimeManager")
+
     -- NetManager.InitData()
-    Global.InitData()
-    GameManager.Global = Global
-    GameManager.RegEvents()
-    GameManager.InitManagers()
+    -- Global.InitData()
+    -- GameManager.Global = Global
+    -- GameManager.RegEvents()
+    -- GameManager.InitManagers()
 
     -- CSGlobal.RegProto2(NetManager.RecServer)
 
@@ -45,12 +48,11 @@ end
 
 --所有Manager的初始化
 function GameManager.InitManagers()
-    ObjectManager.InitData()
-    UIManager.InitData()
-    ActivityManager.InitData()
+    -- ObjectManager.InitData()
+    -- UIManager.InitData()
+    -- ActivityManager.InitData()
 
-    ObjectManager.CreateSingleObj("GameData.LoginData", "LoginData")
-    ObjectManager.CreateSingleObj("Manager.TimeManager", "TimeManager")
+   
 end
 
 function GameManager.Update(deltaTime, realtimeSinceStartup, frameCount, severtime)

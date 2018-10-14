@@ -3,7 +3,7 @@ local CommonUtil = require "Util.CommonUtil"
 require "core.Class"
 local CObject = class()
 local Timer = require("util.Timer")
-local ObjectManager = require("Manager.ObjectManager")
+-- local ObjectManager = require("Manager.ObjectManager")
 
 function CObject:InitData(...)
 end
@@ -59,6 +59,9 @@ function CObject:UnRegEvent(eid)
 end
 
 function CObject:RegProto(protoName, cb)
+    if (ObjectManager == nil) then
+        ObjectManager = require("Manager.ObjectManager")
+    end
     ObjectManager.GetSingleObj("NetManager").RegProto(require("Proto." .. protoName).New(), cb)
 end
 
@@ -76,7 +79,7 @@ function CObject:RegEvent(evt, cb)
         end
     end
 
-    ObjectManager.GetSingleObj("EventManager").RegEvent(evt, cb)
+    ObjectManager.GetSingleObj("EventManager"):RegEvent(evt, cb)
     table.insert(self.callbacks, {eid = evt, func = cb})
 end
 
@@ -87,7 +90,11 @@ function CObject:FireEvent(evt, ...)
     end
 
     local s = ...
-    ObjectManager.GetSingleObj("EventManager").FireEvent(evt, ...)
+    if (ObjectManager == nil) then
+        ObjectManager = require("Manager.ObjectManager")
+    end
+
+    ObjectManager.GetSingleObj("EventManager"):FireEvent(evt, ...)
 end
 
 function CObject:GetSelfFunc(func)
@@ -102,6 +109,9 @@ end
 function CObject:AddTimer(func, IsEveryFrame, interval, PrcessCount)
     --@RefType [util.Timer#Timer]
     local timer = Timer.new(func, IsEveryFrame, interval, PrcessCount)
+    if (ObjectManager == nil) then
+        ObjectManager = require("Manager.ObjectManager")
+    end
     ObjectManager.GetSingleObj("TimeManager"):AddTimer(timer)
     table.insert(self.timers, timer)
     return timer

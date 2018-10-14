@@ -1,5 +1,7 @@
 --计时器帮助类
+local require = require
 require "core.Class"
+local ObjectManager = require ("Manager.ObjectManager" )
 local CommonUtil = require "util.CommonUtil"
 -- local Global = Global
 local Timer = class()
@@ -32,7 +34,7 @@ function Timer:ctor(func, IsEveryFrame, interval, PrcessCount)
         self.CallCount = 0
     end
 
-    if (PrcessCount == 0 or PrcessCount == nil ) then
+    if (PrcessCount == 0 or PrcessCount == nil) then
         self.PrcessCount = nil
     end
 
@@ -58,7 +60,7 @@ function Timer:Process()
                 end
             end
         else
-            self.CalTime = self.CalTime + Global.deltaTime
+            self.CalTime = self.CalTime + 0.03
         end
     end
 end

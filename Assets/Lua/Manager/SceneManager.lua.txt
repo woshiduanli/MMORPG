@@ -4,18 +4,15 @@ local SceneManager = class(Base)
 local table = table
 local ObjectManager = require("Manager.ObjectManager")
 
-
 function SceneManager:InitData()
-
-    CSGlobal.RegLevelWasLoaded( self:GetSelfFunc(self.LevelWasLoaded) )
+    CSGlobal.RegLevelWasLoaded(self:GetSelfFunc(self.LevelWasLoaded))
     -- SceneManager:RegEvents()
 end
 
-function SceneManager:LevelWasLoaded (sceneName)
-print("场景名字"..sceneName)
-end 
-
-
+function SceneManager:LevelWasLoaded(sceneName)
+    print("场景名字" .. sceneName)
+    self:FireEvent(EventCode.Scene.LevelWasLoaded, sceneName)
+end
 
 function SceneManager.RegEvents()
 end
