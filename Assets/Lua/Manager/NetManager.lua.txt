@@ -6,8 +6,9 @@ local NetManager = {}
 
 function NetManager.InitData()
     NetManager.newEvent2 = {}
-
     NetManager.NetEvent = NetEvent.new()
+    NetManager.NetInfo = NetEvent.new()
+    NetManager.NetResponse = NetEvent.new()
 end
 
 function NetManager.RegEvent(eid, tag, handle)
@@ -30,16 +31,13 @@ function NetManager.RegEvent2(protoObj, cb)
     end
 end
 
-function NetManager.RecServer(buffer)
-    local ms = CSGlobal.CreateMemoryStream(buffer)
-    local ProtoCode = ms.ReadUShort()
-
+function NetManager.RecServer(ProtoCode, buffer)
     local data = NetManager.newEvent2[ProtoCode]
     if (data == nil or data == -1) then
         return
     end
 
-    data.cb(data.protoObj.GetProto(buffer, ms))
+    data.cb(data.protoObj.GetProto(buffer))
 end
 
 function NetManager.FireEvent(protoObj, cb)

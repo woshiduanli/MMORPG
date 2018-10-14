@@ -24,56 +24,24 @@ end
 function CSelectZoneUI:OnClickbtn_EnterGame()
     print("OnClickbtn_EnterGame")
 
-    CSGlobal.RegProto(10002, CSelectZoneUI.RecServerData)
-    CSelectZoneUI.CSelectZoneUI(
-        10002,
-        require("Proto.RoleOperation_LogOnGameServerReturnProto").New(),
-        CSelectZoneUI.RecServerData
-    )
+    -- CSGlobal.RegProto(10002, CSelectZoneUI.RecServerData)
+    -- CSelectZoneUI.CSelectZoneUI(
+    --     10002,
+    --     require("Proto.RoleOperation_LogOnGameServerReturnProto").New(),
+    --     CSelectZoneUI.RecServerData
+    -- )
 
+    NetManager.RegEvent2(require("Proto.RoleOperation_LogOnGameServerReturnProto").New(), CSelectZoneUI.RecServerData)
+
+    -- CSGlobal.RegProto(10002, CSelectZoneUI.RecServerData)
     local proto = require("Proto.RoleOperation_LogOnGameServerProto").New() --实例化一个协议对象
     proto.AccountId = 9999
     proto.SendProto(proto)
 end
 
-function CSelectZoneUI.RecInfo(id, obj, fun)
-
-
-    CSGlobal.RegProto(10002, CSelectZoneUI.RecServerData)
-end
-
-function CSelectZoneUI.RecInfo(buffer)
-
-    local dic = {}
-local id =  buffer.readUshort
-    dic[id] (   )
-    
-
-    CSGlobal.RegProto(10002, CSelectZoneUI.RecServerData)
-end
-
-function CSelectZoneUI.RecInfo22(buffer)
-    local fun ; 
-  fun (  obj.GetProto (buffer) )
-end 
-
-function CSelectZoneUI.RecInfo22(buffer)
-    -- 注册一个方法， 然后注册的
-end 
-
-
-
-
-function CSelectZoneUI.RecServerData(buffer)
-    -- 通用的
-end 
-
-function CSelectZoneUI.RecServerData(buffer)
-    print("lua 收到了buffer")
-    local RoleOperation_LogOnGameServerReturnProto = require("Proto.RoleOperation_LogOnGameServerReturnProto").New() --实例化一个协议对象
-    RoleOperation_LogOnGameServerReturnProto = RoleOperation_LogOnGameServerReturnProto.GetProto(buffer)
-
-    print(RoleOperation_LogOnGameServerReturnProto.RoleTable[1].RoleNickName .. "mm")
+function CSelectZoneUI.RecServerData(RoleOperation_LogOnGameServerReturnProto)
+    local d = Json.encode(RoleOperation_LogOnGameServerReturnProto)
+    print(d)
 end
 
 function CSelectZoneUI:OnClickbtn_Exit()

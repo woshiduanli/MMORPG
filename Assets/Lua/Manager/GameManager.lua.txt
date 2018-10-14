@@ -1,4 +1,3 @@
-
 local Input = CS.UnityEngine.Input
 local KeyCode = CS.UnityEngine.KeyCode
 require "Core.Class"
@@ -26,6 +25,8 @@ function GameManager.InitData()
     GameManager.RefMgr = ReferenceManager
     GameManager.RegEvents()
     GameManager.InitManagers()
+
+    CSGlobal.RegProto2(NetManager.RecServer)
 end
 
 --注册事件

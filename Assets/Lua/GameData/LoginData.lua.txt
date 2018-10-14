@@ -55,7 +55,7 @@ function LoginData:CallBack(json)
         else
             if self.ClickPanel == "Login" then
                 print("登录成功")
-                CSGlobal.Connect("192.168.1.243", 1011)
+                CSGlobal.Connect()
                 self:FireEvent(EventCode.UI.CloseUI, "Login")
                 self:FireEvent(EventCode.UI.OpenUI, "SelectZone")
             else

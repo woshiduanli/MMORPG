@@ -50,6 +50,10 @@ function Global.FireEvent(eid, ...)
     Global.Event:FireEvent(eid, ...)
 end
 
+function Global.RecServer(buffer)
+    NetManager.RecServer (buffer)
+end
+
 function Global.RegEvent(eid, handle)
     Global.Event:RegEvent(eid, handle)
 end
