@@ -3,7 +3,7 @@ local CommonUtil = require "Util.CommonUtil"
 require "core.Class"
 local CObject = class()
 local Timer = require("util.Timer")
-local ObjectManager = require ("Manager.ObjectManager" )
+local ObjectManager = require("Manager.ObjectManager")
 -- local ObjectManager = require("Manager.ObjectManager")
 
 function CObject:InitData(...)
@@ -13,7 +13,6 @@ function CObject:RegEvents()
 end
 
 function CObject:ctor(...)
-    -- print(self.Name .. "这是什么")
     self.disposed = false
     -- 存放事件及回调信息
     self.callbacks = {}
@@ -28,13 +27,17 @@ end
 
 function CObject:Dispose()
     self.disposed = true
+    -- 销毁事件
     for _, v in ipairs(self.callbacks) do
         ObjectManager.GetSingleObj("EventManager").UnregEvent(v.eid, v.func)
     end
 
-    for _, v in ipairs(self.timers) do
-        if (v ~= nil) then
-            v:Stop()
+    --销毁所有的计时器
+    if self.timers then
+        for _, v in ipairs(self.timers) do
+            if (v ~= nil) then
+                v.destory = true
+            end
         end
     end
 
@@ -103,12 +106,22 @@ end
 function CObject:AddTimer(func, IsEveryFrame, interval, PrcessCount)
     --@RefType [util.Timer#Timer]
     local timer = Timer.new(func, IsEveryFrame, interval, PrcessCount)
-    if (ObjectManager == nil) then
-        ObjectManager = require("Manager.ObjectManager")
-    end
     ObjectManager.GetSingleObj("TimeManager"):AddTimer(timer)
     table.insert(self.timers, timer)
     return timer
+end
+
+function CObject:DestoryTimer(timer)
+    table.removevalue(self.timers, timer)
+    timer.destory = true
+end
+
+function CObject:IsPauseTime(timer, isPause)
+    if ((isPause == nil) or (isPause == true)) then
+        timer.pause = true
+    else
+        timer.pause = false
+    end
 end
 
 return CObject

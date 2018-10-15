@@ -720,6 +720,68 @@ static public class MOYU_UIToolsEditor
         }
     }
 
+    [MenuItem("Assets/UI相关/自动生成NguiLink中的link")]
+    static void CreateNguiLinkValue()
+    {
+        if (Selection.activeGameObject)
+        {
+            if ((Selection.activeGameObject is GameObject) == false) return;
+
+            GameObject obj = (GameObject)Selection.activeGameObject;
+            if (obj.GetComponent<NGUILink>() == false) return;
+            NGUILink link = obj.GetComponent<NGUILink>();
+            link.Links = new List<NGUILink.UILink>();
+            CImage[] CImages = obj.transform.GetComponentsInChildren<CImage>();
+            for (int i = 0; i < CImages.Length; i++)
+            {
+                if (CImages[i].name.ToLower().StartsWith("image"))
+                {
+                    NGUILink.UILink link2 = new NGUILink.UILink();
+                    link2.LinkObj = CImages[i].gameObject;
+                    link.Links.Add(link2);
+                }
+            }
+
+            Text[] Texts = obj.transform.GetComponentsInChildren<Text>();
+            for (int i = 0; i < Texts.Length; i++)
+            {
+                if (Texts[i].name.ToLower().StartsWith("text"))
+                {
+                    NGUILink.UILink link2 = new NGUILink.UILink();
+                    link2.LinkObj = Texts[i].gameObject;
+                    link.Links.Add(link2);
+                }
+            }
+
+
+            GetChild(obj.transform, (a) =>
+            {
+                NGUILink.UILink link2 = new NGUILink.UILink();
+                link2.LinkObj = a.gameObject;
+                link.Links.Add(link2);
+            });
+        }
+    }
+
+    [MenuItem("Assets/UI相关/黄大仙自动生成NguiLink中的link")]
+    static void CreateNguiLinkValue2()
+    {
+
+    }
+
+    public static void GetChild(Transform tr, System.Action<Transform> act)
+    {
+        if (tr.gameObject.name.ToLower().StartsWith("btn") || tr.gameObject.name.ToLower().EndsWith("_lk"))
+        {
+            act(tr);
+        }
+        if (tr.childCount <= 0) return;
+        for (int i = 0; i < tr.childCount; i++)
+        {
+            GetChild(tr.GetChild(i), act);
+        }
+    }
+
     [MenuItem("Assets/UI相关/生成ID Lua脚本")]
     static void CreateUILuaScript()
     {
@@ -809,7 +871,7 @@ static public class MOYU_UIToolsEditor
 
 
         string luastr2 = CString.Format(
-            "local Base = GameUI\n"+
+            "local Base = GameUI\n" +
             "local {0} = class(Base)\n\n" +
 
             "function {1}:ctor(ui)\n    Base:ctor( ui)\n" +
