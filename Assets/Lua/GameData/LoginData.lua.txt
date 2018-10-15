@@ -8,14 +8,17 @@ function LoginData:ctor(data)
 end
 
 function LoginData:RegEvents()
-    self:RegProto("RoleOperation_LogOnGameServerReturnProto", LoginData.RecServerData)
+    self:RegProto("RoleOperation_LogOnGameServerReturnProto", self:GetSelfFunc(self.RecServerData))
 end
 
-function LoginData.RecServerData(RoleOperation_LogOnGameServerReturnProto)
+function LoginData:RecServerData(RoleOperation_LogOnGameServerReturnProto)
     local d = Json.encode(RoleOperation_LogOnGameServerReturnProto)
 
-    
-    print(d)
+    local st = self.objMgr.GetSingleObj("GameStateManager")
+    self.objMgr.DestroySingleObj ("LoginData")
+    st:ChangeState (st.State.SelectRole)
+
+    print("logindata "..d)
 end
 
 function LoginData:CallBack(json)
@@ -68,7 +71,7 @@ function LoginData:CallBack(json)
                 -- 链接服务器
                 CSGlobal.Connect()
 
-                -- 打开选择区服ui 
+                -- 打开选择区服ui
                 self:FireEvent(EventCode.UI.CloseUI, "Login")
                 self:FireEvent(EventCode.UI.OpenUI, "SelectZone")
             else

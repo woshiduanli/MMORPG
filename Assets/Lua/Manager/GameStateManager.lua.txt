@@ -27,12 +27,19 @@ function GameStateManager:InitData()
 
     local ddddd, ddd2 = coroutine.resume(co, self)
 
-
-
-
-    -- 
+    --
     if (ddd2) then
         self:ChangeState(self.State.Login)
+    end
+end
+
+-- 从游戏状态开启进入游戏
+function GameStateManager:InitData22(funArr)
+    -- local co = coroutine.create(fun)
+
+    for k,v in pairs(funArr) do
+        local co = coroutine.create(v)
+        local ddddd, ddd2 = coroutine.resume(co, self)
     end
 end
 

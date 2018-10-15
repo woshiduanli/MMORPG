@@ -42,7 +42,7 @@ function class(super)
     end
 
     cls.__index = cls
-	cls.__name = tostring(cls)
+    cls.__name = tostring(cls)
 
     function cls.new(...)
         local instance = setmetatable({}, cls)

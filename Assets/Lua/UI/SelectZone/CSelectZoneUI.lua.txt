@@ -8,7 +8,7 @@ function CSelectZoneUI:ctor(ui)
 end
 
 function CSelectZoneUI:Initialize()
-     self.timeraaa = self:AddTimer(self:GetSelfFunc(self.Update), false, 1, 100)
+    --  self.timeraaa = self:AddTimer(self:GetSelfFunc(self.Update), false, 1, 100)
     -- self:RegEvent(EventCode.UnityUpdate.FrameUpdate, self:GetSelfFunc(self.Update2))
     self:SetEvent(
         self.HashIDTable.btn_EnterGame,
@@ -27,8 +27,8 @@ CSelectZoneUI.i = 0
 CSelectZoneUI.istrue = false
 
 function CSelectZoneUI:Update2()
-     print("更新吧孩子1")
-end 
+    print("更新吧孩子1")
+end
 
 function CSelectZoneUI:Update()
     print("更新吧孩子")
@@ -41,37 +41,33 @@ function CSelectZoneUI:Update()
     if self.istrue then
         self:UnRegEvent(EventCode.UnityUpdate.FrameUpdate)
     end
-   
 end
 
 function CSelectZoneUI:OnClickbtn_EnterGame()
-    -- self.timeraaa.pause = false
-
     print("OnClickbtn_EnterGame")
 
     -- NetManager.RegE(require("Proto.RoleOperation_LogOnGameServerReturnProto").New(), CSelectZoneUI.RecServerData)
-    
+
     -- CSGlobal.RegProto(10002, CSelectZoneUI.RecServerData)
     local proto = require("Proto.RoleOperation_LogOnGameServerProto").New() --实例化一个协议对象
-    proto.AccountId = ObjectManager.GetSingleObj("LoginData").AccountId
+    proto.AccountId = self.objMgr.GetSingleObj("LoginData").AccountId
     proto.SendProto(proto)
 end
 
-
-
 function CSelectZoneUI:OnClickbtn_Exit()
+    (self:GetSingleObj("GameStateManager")):ChangeState("Login")
+
     self:Close()
     self:FireEvent(EventCode.UI.OpenUI, "Login")
 end
 
 function CSelectZoneUI:UIEnable()
-    Base.UIEnable (self)
+    Base.UIEnable(self)
 end
 
 function CSelectZoneUI:UIDisable()
-    Base.UIDisable (self)
+    Base.UIDisable(self)
 end
-
 
 function CSelectZoneUI:LoadUICallback()
 end

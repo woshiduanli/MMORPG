@@ -1,0 +1,14 @@
+-- 从游戏状态开启进入游戏
+local coroutine = coroutine
+
+local coroutineUtil = {}
+
+-- 接收一个方法组， 当返回true 的时候， 进入主线程
+function coroutineUtil.Actio(funArr)
+    for k, v in pairs(funArr) do
+        local co = coroutine.create(v)
+        local ddddd, ddd2 = coroutine.resume(co, self)
+    end
+    return  true 
+end
+return coroutineUtil

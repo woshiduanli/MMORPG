@@ -1,9 +1,11 @@
 local Base = require "core.Object"
 local GameState = class(Base)
 
-function GameState:ctor(ui, mgr)
-    Base.ctor(self, ui)
+function GameState:ctor( name, mgr)
+    -- print( self.__name)
+    self.name = name 
     self.mgr = mgr
+    Base.ctor(self, name, mgr)
 end
 
 
