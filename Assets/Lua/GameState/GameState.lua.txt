@@ -1,5 +1,4 @@
-local require = require
-local Base = require "GameData.SystemData"
+local Base = require "core.Object"
 local GameState = class(Base)
 
 function GameState:ctor(ui, mgr)

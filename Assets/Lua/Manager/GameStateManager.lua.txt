@@ -6,11 +6,11 @@ local ObjectManager = require("Manager.ObjectManager")
 
 -- 所有状态名字
 GameStateManager.State = {
-    None = None,
-    Init = Init,
-    Login = Login,
-    SelectRole = SelectRole,
-    Game = Game
+    None = "None",
+    Init = "Init",
+    Login = "Login",
+    SelectRole = "SelectRole",
+    Game = "Game"
 }
 
 function GameStateManager:InitData()
@@ -27,7 +27,7 @@ function GameStateManager:ChangeState(StateName)
     if self.CurStateObj ~= nil then
         ObjectManager.DestroySingleObj(self.CurStateObj.Name)
     end
-    self.CurStateObj = ObjectManager.CreateSingleObj( "",  "GameState_" .. StateName, self)
+    self.CurStateObj = ObjectManager.CreateSingleObj( "GameState.GameState_"..StateName,  "GameState_" .. StateName, self)
 end
 
 function GameStateManager.RegEvents()
