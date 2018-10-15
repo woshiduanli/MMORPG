@@ -1,0 +1,68 @@
+local require = require
+local Base = require "core.Object"
+local GameStateManager = class(Base)
+local table = table
+-- local ObjectManager = require("Manager.ObjectManager")
+
+-- 所有状态名字
+GameStateManager.State = {
+    None = "None",
+    Init = "Init",
+    -- 登录状态
+    Login = "Login",
+    -- 选角色
+    SelectRole = "SelectRole",
+    -- 游戏中
+    Game = "Game"
+}
+
+-- 从游戏状态开启进入游戏
+function GameStateManager:InitData()
+    self.CurStateName = self.State.None
+
+    -- self:ChangeState(self.State.Init)
+
+    -- 进入游戏初始化
+    local co = coroutine.create(self.crateInit)
+
+    local ddddd, ddd2 = coroutine.resume(co, self)
+
+    --
+    if (ddd2) then
+        self:ChangeState(self.State.Login)
+    end
+end
+
+-- 从游戏状态开启进入游戏
+function GameStateManager:InitData22(funArr)
+    -- local co = coroutine.create(fun)
+
+    for k,v in pairs(funArr) do
+        local co = coroutine.create(v)
+        local ddddd, ddd2 = coroutine.resume(co, self)
+    end
+end
+
+function GameStateManager:crateInit()
+    coroutine.yield(self:ChangeState(self.State.Init))
+end
+
+--
+function GameStateManager:ChangeState(StateName)
+    if (StateName == self.CurStateName) then
+        return false
+    end
+
+    if self.CurStateObj ~= nil then
+        self.objMgr.DestroySingleObj("GameState_" .. self.CurStateName)
+    end
+    self.CurStateObj = self.objMgr.CreateSingleObj("GameState.GameState_" .. StateName, "GameState_" .. StateName, self)
+    self.CurStateName = StateName
+    return true
+    -- end
+end
+
+function GameStateManager.RegEvents()
+end
+
+return GameStateManager

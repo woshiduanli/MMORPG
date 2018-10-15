@@ -4,6 +4,7 @@ local KeyCode = CS.UnityEngine.KeyCode
 local LuaDebugHelper = {}
 
 function LuaDebugHelper.InitData()
+    
      breakSocketHandle,debugXpCall = require('LuaDebug')('localhost',7003)
 end
 

@@ -10,7 +10,8 @@ function ObjectManager.CreateSingleObj(path, name, ...)
     local obj = ObjectManager.SingleObjMap[name]
     if obj == nil or obj == -1 then
         local def = require(path)
-        local SingleObj = def.new(name, ...)
+        -- 创建对象的时候
+        local SingleObj = def.new(ObjectManager, ...)
         ObjectManager.SingleObjMap[name] = SingleObj
     end
     return ObjectManager.SingleObjMap[name]
@@ -29,7 +30,7 @@ function ObjectManager.DestroySingleObj(name, ...)
     if obj == nil or obj == -1 then
         return
     end
-
+    obj:Dispose()
     ObjectManager.SingleObjMap = table.removeElementByKey(ObjectManager.SingleObjMap, name)
 end
 

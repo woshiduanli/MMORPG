@@ -1,7 +1,7 @@
 --计时器帮助类
 local require = require
 require "core.Class"
-local ObjectManager = require ("Manager.ObjectManager" )
+local ObjectManager = require("Manager.ObjectManager")
 local CommonUtil = require "util.CommonUtil"
 -- local Global = Global
 local Timer = class()
@@ -47,10 +47,10 @@ function Timer:Process()
     end
 
     if self.IsEveryFrame then
-        self.destory = self.func()
+        self.func()
     else
         if self.interval ~= nil and self.interval <= self.CalTime then
-            self.destory = self.func()
+            self.func()
             self.CalTime = 0
 
             if self.PrcessCount ~= nil then

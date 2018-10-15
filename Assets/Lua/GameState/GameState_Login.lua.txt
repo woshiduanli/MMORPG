@@ -1,0 +1,12 @@
+local Base = require "GameState.GameState"
+local ObjectManager = require("Manager.ObjectManager")
+local GameState_Login = class(Base)
+
+
+function GameState_Login:InitData()
+    print("准备创建单列LoginData")
+    ObjectManager.CreateSingleObj("GameData.LoginData", "LoginData")
+end
+
+
+return GameState_Login

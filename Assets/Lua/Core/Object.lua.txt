@@ -3,7 +3,7 @@ local CommonUtil = require "Util.CommonUtil"
 require "core.Class"
 local CObject = class()
 local Timer = require("util.Timer")
-local ObjectManager = require ("Manager.ObjectManager" )
+local ObjectManager = require("Manager.ObjectManager")
 -- local ObjectManager = require("Manager.ObjectManager")
 
 function CObject:InitData(...)
@@ -13,8 +13,9 @@ function CObject:RegEvents()
 end
 
 function CObject:ctor(...)
-    -- print(self.Name .. "这是什么")
     self.disposed = false
+    -- 所有数据对象和管理器对象的管理类
+    self.objMgr = ObjectManager
     -- 存放事件及回调信息
     self.callbacks = {}
     -- timers
@@ -28,13 +29,17 @@ end
 
 function CObject:Dispose()
     self.disposed = true
+    -- 销毁事件
     for _, v in ipairs(self.callbacks) do
-        ObjectManager.GetSingleObj("EventManager").UnregEvent(v.eid, v.func)
+        self.objMgr.GetSingleObj("EventManager").UnregEvent(v.eid, v.func)
     end
 
-    for _, v in ipairs(self.timers) do
-        if (v ~= nil) then
-            v:Stop()
+    --销毁所有的计时器
+    if self.timers then
+        for _, v in ipairs(self.timers) do
+            if (v ~= nil) then
+                v.destory = true
+            end
         end
     end
 
@@ -49,7 +54,7 @@ function CObject:UnRegEvent(eid)
     local index = -1
     for _, v in ipairs(self.callbacks) do
         if (v.eid == eid) then
-            ObjectManager.GetSingleObj("EventManager").UnregEvent(v.eid, v.func)
+            self.objMgr.GetSingleObj("EventManager").UnregEvent(v.eid, v.func)
             index = _
         end
     end
@@ -59,8 +64,12 @@ function CObject:UnRegEvent(eid)
     end
 end
 
+function CObject:GetSingleObj(snmae)
+    return self.objMgr.GetSingleObj(snmae)
+end
+
 function CObject:RegProto(protoName, cb)
-    ObjectManager.GetSingleObj("NetManager").RegProto(require("Proto." .. protoName).New(), cb)
+    self.objMgr.GetSingleObj("NetManager").RegProto(require("Proto." .. protoName).New(), cb)
 end
 
 -- 注册事件
@@ -77,7 +86,7 @@ function CObject:RegEvent(evt, cb)
         end
     end
 
-    ObjectManager.GetSingleObj("EventManager"):RegEvent(evt, cb)
+    self.objMgr.GetSingleObj("EventManager"):RegEvent(evt, cb)
     table.insert(self.callbacks, {eid = evt, func = cb})
 end
 
@@ -88,7 +97,7 @@ function CObject:FireEvent(evt, ...)
     end
 
     local s = ...
-    ObjectManager.GetSingleObj("EventManager"):FireEvent(evt, ...)
+    self.objMgr.GetSingleObj("EventManager"):FireEvent(evt, ...)
 end
 
 function CObject:GetSelfFunc(func)
@@ -103,12 +112,23 @@ end
 function CObject:AddTimer(func, IsEveryFrame, interval, PrcessCount)
     --@RefType [util.Timer#Timer]
     local timer = Timer.new(func, IsEveryFrame, interval, PrcessCount)
-    if (ObjectManager == nil) then
-        ObjectManager = require("Manager.ObjectManager")
-    end
-    ObjectManager.GetSingleObj("TimeManager"):AddTimer(timer)
+    self.objMgr.GetSingleObj("TimeManager"):AddTimer(timer)
     table.insert(self.timers, timer)
     return timer
+end
+
+-- 计算器只能从这里销毁和暂停
+function CObject:DestoryTimer(timer)
+    table.removevalue(self.timers, timer)
+    timer.destory = true
+end
+
+function CObject:IsPauseTime(timer, isPause)
+    if ((isPause == nil) or (isPause == true)) then
+        timer.pause = true
+    else
+        timer.pause = false
+    end
 end
 
 return CObject

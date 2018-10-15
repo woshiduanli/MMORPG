@@ -75,7 +75,7 @@ public class NGUILinkEditor : Editor
                         uilink.Name = linkobj.name;
                     if (uilink.Name != linkobj.name)
                     {
-                        uilink.Name = linkobj.name; 
+                        uilink.Name = linkobj.name;
                     }
                     if (!uilink.component || uilink.component.gameObject != linkobj.gameObject)
                         uilink.component = linkobj.gameObject.GetComponent<MonoBehaviour>();
@@ -89,16 +89,33 @@ public class NGUILinkEditor : Editor
 
     private static void SetUIDebug(NGUILink link)
     {
-        CClientCommon.AddComponent<DebugUILine>(link.gameObject); 
+        CClientCommon.AddComponent<DebugUILine>(link.gameObject);
     }
 
     private void ModifyLink(NGUILink link)
     {
+
+        for (int i = 0; i < link.Links.Count; i++)
+        {
+            // 修改对象的名字
+            if (link.Links[i] != null && link.Links[i].LinkObj != null)
+            {
+                if (!link.Links[i].LinkObj.name.ToLower().StartsWith("image") &&
+                    !link.Links[i].LinkObj.name.ToLower().StartsWith("text") &&
+                    !link.Links[i].LinkObj.name.ToLower().StartsWith("btn") &&
+                   !link.Links[i].LinkObj.name.ToLower().EndsWith("_lk"))
+                {
+                    link.Links[i].LinkObj.name = link.Links[i].LinkObj.name + "_lk";
+                }
+            }
+        }
+
         if (!doOnce)
         {
             countTemp = link.Links.Count;
             doOnce = true;
         }
+        //return;
         if (countTemp != link.Links.Count)
         {
             // 置空新link
@@ -111,7 +128,9 @@ public class NGUILinkEditor : Editor
             // 去空格
             for (int i = 0; i < link.Links.Count; i++)
             {
-                if (link.Links[i] != null && link.Links[i].LinkObj != null)
+
+
+                if (link.Links[i] != null && link.Links[i].LinkObj != null && link.Links[i].Name != null)
                 {
                     link.Links[i].Name = link.Links[i].Name.Trim();
                     link.Links[i].LinkObj.name = link.Links[i].LinkObj.name.Trim();

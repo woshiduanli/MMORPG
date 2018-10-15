@@ -14,10 +14,4 @@ public static partial class Global
     {
         UIMgr.GetSingleT<XLuaManager>().LuaUpdate = LuaUpdate;
     }
-
-    public static void RegLevelWasLoaded(System.Action<string> SceneChange)
-    {
-        UIMgr.RegEvent<CEvent.Scene.LevelWasLoaded>((a, b) => { if (SceneChange != null) SceneChange(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name); });
-    }
-
 }
