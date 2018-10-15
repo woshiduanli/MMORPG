@@ -1,0 +1,36 @@
+local require = require
+local Base = require "core.Object"
+local GameStateManager = class(Base)
+local table = table
+local ObjectManager = require("Manager.ObjectManager")
+
+-- 所有状态名字
+GameStateManager.State = {
+    None = None,
+    Init = Init,
+    Login = Login,
+    SelectRole = SelectRole,
+    Game = Game
+}
+
+function GameStateManager:InitData()
+    -- 每一个都保存了一个管理器， 然后通过管理器来改变状态
+    self.CurStateName = self.State.None
+    self:ChangeState(self.State.Init)
+end
+
+function GameStateManager:ChangeState(StateName)
+    if (StateName == self.CurStateName) then
+        return false
+    end
+
+    if self.CurStateObj ~= nil then
+        ObjectManager.DestroySingleObj(self.CurStateObj.Name)
+    end
+    self.CurStateObj = ObjectManager.CreateSingleObj( "",  "GameState_" .. StateName, self)
+end
+
+function GameStateManager.RegEvents()
+end
+
+return GameStateManager

@@ -763,12 +763,6 @@ static public class MOYU_UIToolsEditor
         }
     }
 
-    [MenuItem("Assets/UI相关/黄大仙自动生成NguiLink中的link")]
-    static void CreateNguiLinkValue2()
-    {
-
-    }
-
     public static void GetChild(Transform tr, System.Action<Transform> act)
     {
         if (tr.gameObject.name.ToLower().StartsWith("btn") || tr.gameObject.name.ToLower().EndsWith("_lk"))

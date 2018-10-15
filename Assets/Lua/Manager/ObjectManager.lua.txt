@@ -29,7 +29,7 @@ function ObjectManager.DestroySingleObj(name, ...)
     if obj == nil or obj == -1 then
         return
     end
-
+    obj:Dispose()
     ObjectManager.SingleObjMap = table.removeElementByKey(ObjectManager.SingleObjMap, name)
 end
 

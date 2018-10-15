@@ -13,6 +13,8 @@ end
 
 function LoginData.RecServerData(RoleOperation_LogOnGameServerReturnProto)
     local d = Json.encode(RoleOperation_LogOnGameServerReturnProto)
+
+    
     print(d)
 end
 

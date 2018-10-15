@@ -115,4 +115,8 @@ EventCode.UnityUpdate = {
     FrameUpdate = 181
 }
 
+EventCode.GameState = {
+    ChangeState = 200
+}
+
 return EventCode

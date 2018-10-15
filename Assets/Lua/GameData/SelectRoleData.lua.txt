@@ -1,0 +1,91 @@
+local require = require
+local Base = require "GameData.SystemData"
+local SelectRoleData = class(Base)
+local Json = Json
+
+function SelectRoleData:ctor(data)
+    Base.ctor(self, data)
+end
+
+function SelectRoleData:RegEvents()
+    self:RegProto("RoleOperation_LogOnGameServerReturnProto", LoginData.RecServerData)
+end
+
+function SelectRoleData.RecServerData(RoleOperation_LogOnGameServerReturnProto)
+    local d = Json.encode(RoleOperation_LogOnGameServerReturnProto)
+    print(d)
+end
+
+function SelectRoleData:CallBack(json)
+    print("shuju " .. json)
+    local obj, pos, err = Json.decode(json)
+    if err == nil then
+        if obj.HasError == true then
+            local CCommonTipUIData = require("GameData.CCommonTipUIData")
+
+            CCommonTipUIData.SureCallBack = function(...)
+                -- 点击确定以后弹出的数据
+                -- body
+                local data = {}
+                data.Type = 1
+                data.ChannelId = 0
+                data.InnerVersion = 1001
+                data.pageIndex = 1
+                -- data.UserName = self:GetCText(self.HashIDTable.nichegnText)
+                data.ChannelId = "22"
+                -- data.Pwd = self:GetCText(self.HashIDTable.mimaText)
+
+                local login = ObjectManager.GetSingleObj("LoginData")
+                CSGlobal.SendData(login.urlGetPage, login:GetSelfFunc(login.urlGetPageFun), true, Json.encode(data))
+
+                print("sure ")
+            end
+
+            CCommonTipUIData.CancelCallBack = function(...)
+                -- body
+                print("cancel ")
+            end
+
+            CCommonTipUIData.SubJect = "提示"
+            if self.ClickPanel == "Login" then
+                CCommonTipUIData.Desc = Language.YOUCUOLOGIN1
+            else
+                CCommonTipUIData.Desc = Language.YOUCUOLOGIN2
+            end
+            -- body
+
+            -- 打开提示ui
+            self:FireEvent(EventCode.UI.OpenUI, "CommonTip", CCommonTipUIData)
+            print("you cuo ")
+        else
+            if self.ClickPanel == "Login" then
+                print("登录成功")
+                local v1 = Json.decode(obj.Value)
+                local v2 = Json.decode(v1.Value)
+                self.AccountId = v2.Id
+                -- 链接服务器
+                CSGlobal.Connect()
+
+                -- 打开选择区服ui 
+                self:FireEvent(EventCode.UI.CloseUI, "Login")
+                self:FireEvent(EventCode.UI.OpenUI, "SelectZone")
+            else
+            end
+            print(" not you cuo ")
+        end
+    end
+
+    -- if then
+end
+
+function SelectRoleData:urlGetPageFun(json)
+    print("getpage:" .. json)
+end
+
+function SelectRoleData:OnDispose()
+    Base:OnDispose()
+end
+
+
+
+return SelectRoleData
