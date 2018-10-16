@@ -2,6 +2,7 @@ local require = require
 local Base = require "core.Object"
 local GameStateManager = class(Base)
 local table = table
+local coroutine = coroutine
 -- local ObjectManager = require("Manager.ObjectManager")
 
 -- 所有状态名字
@@ -20,31 +21,17 @@ GameStateManager.State = {
 function GameStateManager:InitData()
     self.CurStateName = self.State.None
 
-    -- self:ChangeState(self.State.Init)
-
     -- 进入游戏初始化
     local co = coroutine.create(self.crateInit)
-
-    local ddddd, ddd2 = coroutine.resume(co, self)
-
-    --
-    if (ddd2) then
+    local result = coroutine.resume(co, self)
+    if (result) then
         self:ChangeState(self.State.Login)
     end
 end
 
--- 从游戏状态开启进入游戏
-function GameStateManager:InitData22(funArr)
-    -- local co = coroutine.create(fun)
-
-    for k,v in pairs(funArr) do
-        local co = coroutine.create(v)
-        local ddddd, ddd2 = coroutine.resume(co, self)
-    end
-end
-
 function GameStateManager:crateInit()
-    coroutine.yield(self:ChangeState(self.State.Init))
+    self:ChangeState(self.State.Init)
+    return true 
 end
 
 --
@@ -58,8 +45,6 @@ function GameStateManager:ChangeState(StateName)
     end
     self.CurStateObj = self.objMgr.CreateSingleObj("GameState.GameState_" .. StateName, "GameState_" .. StateName, self)
     self.CurStateName = StateName
-    return true
-    -- end
 end
 
 function GameStateManager.RegEvents()

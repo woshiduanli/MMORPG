@@ -76,10 +76,12 @@ end
 
 --事件相关-------------------------------------------------
 
--- 过图回调
+-- 加载完成以后回调
 function UIManager.OnLevelWasLoaded(scene)
     if (scene == GameDef.SceneName.LOGIN) then
         UIManager.OnCreateUIEvent("Login")
+    elseif (scene == GameDef.SceneName.SelectRole) then
+        UIManager.OnCreateUIEvent("SelectRole")
     end
 end
 

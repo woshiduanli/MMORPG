@@ -22,13 +22,14 @@ end
 function TimeManager.Update(deltaTime, realtimeSinceStartup, unscaledDeltaTime, severtime)
     TimeManager.UpdateTimer()
     TimeManager.deltaTime = deltaTime
-    -- print("realtimeSinceStartup，" .. realtimeSinceStartup)
+    
+    --  print("realtimeSinceStartup，" .. realtimeSinceStartup)
 end
 
 function TimeManager.UpdateTimer()
     local i = 1
     while i <= #TimeManager.AllTimer do
-        if (TimeManager.AllTimer[i]).destory then
+        if (TimeManager.AllTimer[i]).destory or (TimeManager.AllTimer[i]).parent.disposed then
             table.remove(TimeManager.AllTimer, i)
         else
             (TimeManager.AllTimer[i]):Process()

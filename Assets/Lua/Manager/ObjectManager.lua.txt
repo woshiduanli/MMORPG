@@ -11,10 +11,10 @@ function ObjectManager.CreateSingleObj(path, name, ...)
     if obj == nil or obj == -1 then
         local def = require(path)
         -- 创建对象的时候
-        local SingleObj = def.new(ObjectManager, ...)
-        ObjectManager.SingleObjMap[name] = SingleObj
+        obj = def.new(name, ...)
+        ObjectManager.SingleObjMap[name] = obj
     end
-    return ObjectManager.SingleObjMap[name]
+    return obj
 end
 
 function ObjectManager.GetSingleObj(name, ...)
