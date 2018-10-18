@@ -1,0 +1,29 @@
+local Base = require "core.Object"
+local ProgressBase = class(Base)
+
+-- 初始化需要的字段
+function ProgressBase:InitData(...)
+    self.Tips = ""
+    self.isDone = false
+    self.percent = 0
+    self.progress = 0
+end
+
+function ProgressBase:GetValue()
+    return self.progress * self.percent
+end
+
+function ProgressBase:SetPercent(percent)
+    self.percent = percent
+end
+
+function ProgressBase:Setprogress(value)
+    self.progress = value
+end
+
+function ProgressBase:Done()
+    self.isDone = true
+    self.percent = 1
+end
+
+return ProgressBase

@@ -1,0 +1,103 @@
+local Base = require "Util.Progress.ProgressBase"
+local Progress = class(Base)
+
+-- 初始化需要的字段
+function Progress:InitData(value)
+    -- 初始化需要的进入条
+    self.DownLoad = nil
+    self.www = nil
+    self.async = nil
+
+    self.ResetProgressPercent()
+    self.asset = require("Util.Progress.ProgressAsset").new("ProgressAsset", self.assetPercent)
+end
+
+function Progress:ResetProgressPercent()
+    self.assetPercent = 20
+    self.wwwPercent = 60
+    self.asyncPercent = 20
+end
+
+function Progress:SetProgressPercent(assetPercent, wwwPercent)
+    self.assetPercent = assetPercent
+    self.wwwPercent = wwwPercent
+    self.asyncPercent = 100 - assetPercent - wwwPercent
+
+    if self.asset then
+        self.asset:Setprogress(self.assetPercent)
+    end
+
+    if self.www then
+        self.www:Setprogress(self.assetPercent)
+    end
+
+    if self.async then
+        self.async:Setprogress(self.assetPercent)
+    end
+end
+
+-- 只是获得值，
+function Progress:GetProgress()
+    -- 有下载进度
+    if self.DownLoad then
+        return self.DownLoad.Progress * 100
+    end
+
+    local value = 0
+
+    if self.asset then
+        value = value + self.asset.GetValue()
+    end
+
+    if self.www then
+        value = value + self.www.GetValue()
+    end
+
+    if self.async then
+        value = value + self.async.GetValue()
+    end
+    return value
+end
+
+-- 获取当前的进度提示
+function Progress:GetTip()
+    -- 有下载进度
+    if self.DownLoad then
+        return self.DownLoad.Tips
+    end
+
+    if self.async then
+        return self.async.Tips
+    end
+
+    if self.www then
+        return self.async.Tips
+    end
+
+    if self.asset then
+        return self.asset.Tips
+    end
+
+    return "默认进度提示"
+end
+
+function Progress:OnDispose()
+    self.DownLoad = nil
+
+    if self.asset then
+        self.asset:Dispose()
+    end
+
+    if self.async then
+        self.async:Dispose()
+    end
+
+    if self.www then
+        self.www:Dispose()
+    end
+
+    self:ResetProgressPercent()
+    self.asset = require("Util.Progress.ProgressAsset").new("ProgressAsset", self.assetPercent)
+end
+
+return Progress

@@ -1,0 +1,76 @@
+local Base = require "Util.Progress.ProgressBase"
+local ProgressAsset = class(Base)
+
+-- 初始化需要的字段
+function ProgressAsset:InitData(value)
+    -- 初始化需要的进入条
+    self.Tips = "资源下载的初始化tip"
+    self.progress = value
+end
+
+-- 只是获得值，
+function ProgressAsset:GetValue()
+    if self.isDone then
+        return self.progress
+    end
+
+    local value = 0
+
+    local avg = self.progress / #self.itemdic
+
+    for i = 1, #self.itemdic do
+        value = value + (self.itemdic[i]):GetValue() * avg
+    end
+
+    if value > self.progress then
+        value = self.progress
+    end
+
+    return value
+end
+
+local ProgressAssetItem = class(Base)
+function ProgressAssetItem:GetValue()
+    if self.isDone then
+        return 1
+    end
+    return 0
+end
+
+function ProgressAsset:CreateItem()
+    local AssetItem = ProgressAssetItem.new()
+    table.insert(self.itemdic, AssetItem)
+    return AssetItem
+end
+
+function ProgressAsset:ClearItemDic()
+    if self.itemdic then
+        return
+    end
+
+    while 1 <= #self.itemdic do
+        table.remove(self.itemdic, 1)
+    end
+    self.itemdic = nil
+end
+
+function ProgressAsset:OnDispose()
+    self.DownLoad = nil
+
+    if self.asset then
+        self.asset:Dispose()
+    end
+
+    if self.async then
+        self.async:Dispose()
+    end
+
+    if self.www then
+        self.www:Dispose()
+    end
+
+    self:ResetProgressPercent()
+    self.asset = class(Base)
+end
+
+return ProgressAsset

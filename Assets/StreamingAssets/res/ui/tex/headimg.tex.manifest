@@ -1,0 +1,24 @@
+ManifestFileVersion: 0
+CRC: 2075942671
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: c3c77c699cb44fb4ca19d5e7f3b27876
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: c5855eae7bf95040a896b507074b4366
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/MyResources/UI/Textures/Material/HeadImgmat.mat
+- Assets/MyResources/UI/Textures/HeadImg.png
+Dependencies:
+- G:/FanFanKeTang/MMORPG2/Assets/StreamingAssets/res/ui/myshader.sd

@@ -1,0 +1,121 @@
+local Base = GameUI
+local CSelectRoleUI = class(Base)
+
+function CSelectRoleUI:ctor(ui)
+    Base.ctor(self, ui)
+    self.IsFullScreen = true
+    self.Layer = UIManager.Layer.FullWindow
+end
+
+function CSelectRoleUI:Initialize()
+    self:SetEvent(
+        self.HashIDTable.btnClose,
+        UIManager.EID.PointerClick,
+        self:GetSelfFunc(CSelectRoleUI.OnClickbtnClose)
+    )
+    self:SetEvent(self.HashIDTable.btnOK, UIManager.EID.PointerClick, self:GetSelfFunc(CSelectRoleUI.OnClickbtnOK))
+    self:SetEvent(
+        self.HashIDTable.BtnJobItemView_1,
+        UIManager.EID.PointerClick,
+        self:GetSelfFunc(CSelectRoleUI.OnClickBtnJobItemView_1)
+    )
+    self:SetEvent(
+        self.HashIDTable.BtnJobItemView_2,
+        UIManager.EID.PointerClick,
+        self:GetSelfFunc(CSelectRoleUI.OnClickBtnJobItemView_2)
+    )
+    self:SetEvent(
+        self.HashIDTable.BtnJobItemView_3,
+        UIManager.EID.PointerClick,
+        self:GetSelfFunc(CSelectRoleUI.OnClickBtnJobItemView_3)
+    )
+    self:SetEvent(
+        self.HashIDTable.BtnJobItemView_4,
+        UIManager.EID.PointerClick,
+        self:GetSelfFunc(CSelectRoleUI.OnClickBtnJobItemView_4)
+    )
+    self:SetEvent(
+        self.HashIDTable.btnReturn,
+        UIManager.EID.PointerClick,
+        self:GetSelfFunc(CSelectRoleUI.OnClickbtnReturn)
+    )
+    self:SetEvent(
+        self.HashIDTable.btnRandomName,
+        UIManager.EID.PointerClick,
+        self:GetSelfFunc(CSelectRoleUI.OnClickbtnRandomName)
+    )
+    self:SetEvent(
+        self.HashIDTable.btnDeleteRole,
+        UIManager.EID.PointerClick,
+        self:GetSelfFunc(CSelectRoleUI.OnClickbtnDeleteRole)
+    )
+    self:SetEvent(
+        self.HashIDTable.btnBeginGame,
+        UIManager.EID.PointerClick,
+        self:GetSelfFunc(CSelectRoleUI.OnClickbtnBeginGame)
+    )
+    self:SetEvent(
+        self.HashIDTable.btnCreateRole,
+        UIManager.EID.PointerClick,
+        self:GetSelfFunc(CSelectRoleUI.OnClickbtnCreateRole)
+    )
+
+    --self:SetCText(self.HashIDTable.text_lblTip,"待赋的值")
+
+    --self:CreateSprite(self.HashIDTable.ImageHeadIcon,"spName", "spriteName")
+end
+
+function CSelectRoleUI:OnClickbtnClose()
+    print("OnClickbtnClose")
+end
+
+function CSelectRoleUI:OnClickbtnOK()
+    print("OnClickbtnOK")
+end
+
+function CSelectRoleUI:OnClickBtnJobItemView_1()
+    print("OnClickBtnJobItemView_1")
+end
+
+function CSelectRoleUI:OnClickBtnJobItemView_2()
+    print("OnClickBtnJobItemView_2")
+end
+
+function CSelectRoleUI:OnClickBtnJobItemView_3()
+    print("OnClickBtnJobItemView_3")
+end
+
+function CSelectRoleUI:OnClickBtnJobItemView_4()
+    print("OnClickBtnJobItemView_4")
+end
+
+function CSelectRoleUI:OnClickbtnReturn()
+    print("OnClickbtnReturn")
+end
+
+function CSelectRoleUI:OnClickbtnRandomName()
+    print("OnClickbtnRandomName")
+end
+
+function CSelectRoleUI:OnClickbtnDeleteRole()
+    print("OnClickbtnDeleteRole")
+end
+
+function CSelectRoleUI:OnClickbtnBeginGame()
+    print("OnClickbtnBeginGame")
+end
+
+function CSelectRoleUI:OnClickbtnCreateRole()
+    print("OnClickbtnCreateRole")
+end
+
+function CSelectRoleUI:UIEnable()
+end
+
+function CSelectRoleUI:LoadUICallback()
+end
+
+function CSelectRoleUI:OnDestroy()
+end
+
+return CSelectRoleUI

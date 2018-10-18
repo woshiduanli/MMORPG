@@ -1,0 +1,8 @@
+local CAsyncLevelLoaderUIID = { }
+
+
+CAsyncLevelLoaderUIID.HashID = -1672186
+CAsyncLevelLoaderUIID.textlblTip2 = 1764531200
+CAsyncLevelLoaderUIID.loadingTextureGB_lk = 977426052
+CAsyncLevelLoaderUIID.imageSlider = -2127274468 
+ return CAsyncLevelLoaderUIID

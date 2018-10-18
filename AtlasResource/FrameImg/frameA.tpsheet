@@ -1,0 +1,18 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# https://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:620d3c8e6cce52e61be6dc3a396d8a15:9afcc5cf7f8b5ce1d4a705b825ae5441:a4f252e548e327a0e4e4a028e4e9d630$
+#
+:format=40300
+:texture=frameA.png
+:size=256x256
+:pivotpoints=enabled
+:borders=disabled
+
+frameA_1;1;139;136;58; 0.5;0.5; 0;0;0;0; 6;136;0;100;0;0;19;0;36;95;58;136;58; 4;1;4;5;2;3;4;1;2;4;0;1;5
+frameA_2;1;79;136;58; 0.5;0.5; 0;0;0;0; 8;136;13;123;0;95;0;0;19;0;35;9;40;94;58;136;58; 6;0;6;7;2;5;6;3;4;5;2;3;5;2;6;0;2;0;1
+frameA_3;1;20;136;57; 0.5;0.5; 0;0;0;0; 7;136;0;97;0;0;21;0;31;2;33;95;57;136;57; 5;1;5;6;1;4;5;2;3;4;1;2;4;0;1;6
+frameA_4;1;199;137;56; 0.5;0.5; 0;0;0;0; 6;137;0;86;0;0;22;0;34;82;56;137;56; 4;1;4;5;2;3;4;1;2;4;0;1;5

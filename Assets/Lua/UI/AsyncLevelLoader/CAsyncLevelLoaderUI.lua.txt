@@ -1,0 +1,28 @@
+local Base = GameUI
+local CAsyncLevelLoaderUI = class(Base)
+
+function CAsyncLevelLoaderUI:InitData(...)
+    self.IsFullScreen = true
+    self.Layer = UIManager.Layer.FullWindow
+end
+
+function CAsyncLevelLoaderUI:Initialize()
+
+    print("加载进入了CAsyncLevelLoaderUI")
+    --self:SetCText(self.HashIDTable.textlblTip2,"待赋的值")
+
+end
+
+function CAsyncLevelLoaderUI:UIEnable()
+
+end
+
+function CAsyncLevelLoaderUI:LoadUICallback()
+
+end
+
+function CAsyncLevelLoaderUI:OnDestroy()
+
+end
+
+return CAsyncLevelLoaderUI

@@ -1,0 +1,9 @@
+
+local ProtoPath = { }
+
+
+ProtoPath.LoginZone = {
+
+}
+
+return ProtoPath
