@@ -34,6 +34,18 @@ public class testCode : MonoBehaviour
         //    Debug.LogError(ms.ToArray().Length);
         //}
         //Debug.LogError(str);
+        MyDebug.debug("start    "); 
+        gameObject.GetComponent<testCode>().enabled = true; 
+    }
+
+    private void OnEnable()
+    {
+        MyDebug.debug("OnEnable"); 
+    }
+
+    private void OnDisable()
+    {
+        MyDebug.debug("OnDisable");
     }
 
     private void TestEvent(RoleOperation_LogOnGameServerReturnProto test)
@@ -60,16 +72,21 @@ public class testCode : MonoBehaviour
     void Update()
     {
 
-        return; 
+        //return; 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            transform.localScale = Vector3.one;
+            gameObject.GetComponent<testCode>().enabled = true;
+            MyDebug.debug("true");
+
+            //transform.localScale = Vector3.one;
         }
 
         if (Input.GetKeyDown(KeyCode.B))
         {
-            GameObject obj = GameObject.Find("btn_denglu");
-            obj.AddComponent<Button>().onClick.AddListener(() => { MyDebug.debug("11"); });
+            gameObject.GetComponent<testCode>().enabled = false;
+            MyDebug.debug("false");
+            //GameObject obj = GameObject.Find("btn_denglu");
+            //obj.AddComponent<Button>().onClick.AddListener(() => { MyDebug.debug("11"); });
         }
 
 

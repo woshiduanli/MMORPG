@@ -22,8 +22,8 @@ public class CUIManager : CLoopObject
     private List<string> UIQueue = new List<string>();
     private List<string> idles = new List<string>();
     private UniqueIndex index_pool = new UniqueIndex(MAX_UI_COUNT);
-    public const int MAX_UI_COUNT = 100;
-    private CGameUI[] uis = new CGameUI[MAX_UI_COUNT];
+    public const int MAX_UI_COUNT = 30;
+    private CGameLuaUI[] uis = new CGameLuaUI[MAX_UI_COUNT];
     private Map<string, CGameUI> names = new Map<string, CGameUI>();
     public const int DISPOS_TIME = 30;
     public const int UPDATE_TIME = 5;
@@ -132,7 +132,7 @@ public class CUIManager : CLoopObject
         RegEvent<CEvent.UI.CloseUI>(OnCloseUI);
     }
 
-    public void Add(CGameUI ui, bool show)
+    public void Add(CGameLuaUI ui, bool show)
     {
         if (!index_pool.CanAlloc())
         {
@@ -210,7 +210,7 @@ public class CUIManager : CLoopObject
         uifont_title = Resources.Load<Font>("UI/Login/uifont_title");
     }
 
-   
+
     private void OnCloseUI(CObject sender, CEvent.UI.CloseUI e)
     {
 
@@ -244,7 +244,7 @@ public class CUIManager : CLoopObject
             return;
         this.LoadUI(e.UI, e.Args);
     }
-    public void CloseActiveUIs(CGameUI other)
+    public void CloseActiveUIs(CGameLuaUI other)
     {
         if (Hold)
             return;
@@ -252,7 +252,7 @@ public class CUIManager : CLoopObject
         {
             for (int i = 0; i < uis.Length; i++)
             {
-                CGameUI ui = uis[i];
+                CGameLuaUI ui = uis[i];
                 if (!ui || !ui.IsShow() || other == ui)
                     continue;
                 if (CUILayer.Tip == ui.Layer)
@@ -264,7 +264,7 @@ public class CUIManager : CLoopObject
             {
                 for (int i = 0; i < uis.Length; i++)
                 {
-                    CGameUI ui = uis[i];
+                    CGameLuaUI ui = uis[i];
                     if (!ui || other == ui)
                         continue;
                     if (CUILayer.MainFace == ui.Layer)

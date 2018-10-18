@@ -39,6 +39,28 @@ public class CGameLuaUI : CGameUI
     private Map<int, int> ListViewIDs = new Map<int, int>();
     private int HashID;
 
+    public override void SetAsset(CGameUIAsset asset)
+    {
+        this.Canvas = this.gameObject.GetComponent<Canvas>();
+    }
+
+    // 拿到资源以后的入口函数
+    public override void InitData(CGameUIAsset asset)
+    {
+        // 此时初始化的当前对象就是 CGameLuaUI
+        this.ui_mgr = asset.uiMgr;
+        this.SetAsset(asset);
+        this.context = asset.Args;
+        this.autoCreate = this.Layer == CUILayer.FullWindow && this.isFullScreen && this.context == null;
+
+        this.Initialize();
+        this.SetName(asset.UIName);
+        // asset.IsVisible() 决定是不是要显示出来当前的对象 ，此时默认就是true
+        // 在add函数里面， 初始化lua ，然后显示ui 
+        this.ui_mgr.Add(this, asset.IsVisible());
+        this.LoadUICallback();
+    }
+
     public override void Initialize()
     {
         this.HashID = nguiLink.HashID;
@@ -53,18 +75,14 @@ public class CGameLuaUI : CGameUI
             }
         }
     }
-    public override void InitLua()
-    {
-        InitLuaAsset();
-    }
 
     protected void InitLuaAsset()
     {
+        // 是否ui堆栈，是否主界面，是否和
         this.LuaMgr = this.ui_mgr.GetSingleT<XLuaManager>();
 
         this.scriptEnv = this.context[0] as LuaTable;
         this.isFullScreen_ = scriptEnv.Get<bool>("IsFullScreen");
-
 
         this.Layer_ = scriptEnv.Get<int>("Layer");
 
@@ -83,10 +101,127 @@ public class CGameLuaUI : CGameUI
         luaInitialize(this.scriptEnv);
     }
 
-    #region C# 驱动 Lua
-   
+    public override void AddCloseUI(CGameLuaUI ui)
+    {
+        ui.SetActive(false);
+        ClosedDic[ui.Name] = true; //ui.autoLoad;
+    }
 
-  
+    public override void SimpleClose()
+    {
+        if (disposed)
+            return;
+        if (IsShow())
+        {
+            ClosedDic.Clear();
+            SetActive(false);
+            if (this.ui_mgr.Hold)
+                return;
+
+            //if (Layer == CUILayer.FullWindow)
+            //{
+            //    if (this.ui_mgr.Hold)
+            //        return;
+            //    this.ui_mgr.OpenMainFaceUI();
+            //}
+        }
+    }
+
+    public override void SetActive(bool active)
+    {
+        if (this.gameObject && !this.gameObject.activeSelf)
+            this.gameObject.SetActive(true);
+        this.enabled = active;
+    }
+
+    public void SetPlaneDistance(int planeDistance)
+    {
+        if (!Canvas) return;
+        Canvas.planeDistance = planeDistance;
+    }
+
+    protected void OnEnable()
+    {
+        CloseTime = 0;
+        SetPlaneDistance(this.planeDistance);
+        if (Layer == CUILayer.FullWindow && this.isFullScreen)
+            ui_mgr.curFullWindow = this;
+        OnUIEnable();
+        FireEvent(new CEvent.UI.UIEnableEvent(this));
+
+        // 如果是全屏界面， 此时应该关闭，ui 摄像机的渲染
+        //if (this.Layer == CUILayer.FullWindow && this.isFullScreen)
+        //    FireEvent(new CEvent.CameraCtrl.CameraActive(false));
+
+        for (int i = 0; i < Childidles.Count; i++)
+            ChildMap.Remove(Childidles[i]);
+        Childidles.Clear();
+
+        for (ChildMap.Begin(); ChildMap.Next();)
+        {
+            if (ChildMap.Value)
+                ChildMap.Value.enabled = true;
+        }
+    }
+
+    void OnDisable()
+    {
+        MyDebug.debug("disable ");
+        SetPlaneDistance(Def.UIDisableDistance); 
+        OnUIDisable();
+    }
+
+
+    public void AddChild(CUIElement element)
+    {
+        if (ChildMap != null)
+            ChildMap[element.HashID] = element;
+    }
+
+    public void RemoveChild(CUIElement element)
+    {
+        if (Childidles != null)
+            Childidles.Add(element.HashID);
+    }
+
+
+    public override void SetName(string name)
+    {
+        this.Name = name;
+        this.gameObject.name = name;
+
+        this.gameObject.transform.SetParent(this.ui_mgr.UIRoot.transform);
+        this.gameObject.transform.localPosition = Vector3.zero;
+        this.gameObject.transform.localEulerAngles = Vector3.zero;
+        if (this.Canvas)
+        {
+            this.Canvas.planeDistance = this.planeDistance;
+            this.Canvas.renderMode = RenderMode.ScreenSpaceCamera;
+            this.Canvas.worldCamera = this.ui_mgr.UICamera;
+            SortingOrder = this.Canvas.sortingOrder;
+        }
+    }
+
+
+    public override void InitLua()
+    {
+        InitLuaAsset();
+    }
+
+    public override void Show()
+    {
+        if (UIShow())
+            // 当自己显示成功的时候， 就关闭其他全屏的界面
+            this.ui_mgr.CloseActiveUIs(this);
+    }
+
+
+
+
+    #region C# 驱动 Lua
+
+
+
 
     protected override void OnWakeUp()
     {
@@ -167,17 +302,6 @@ public class CGameLuaUI : CGameUI
         }
     }
 
-    //public void SetGoActive(int linkid, int id, int active)
-    //{
-    //    NGUILink link = GetLink(linkid);
-    //    if (link)
-    //    {
-    //        GameObject go = link.Get(id);
-    //        if (go)
-    //            CClientCommon.SetUIActive(go, active == 1);
-    //    }
-    //}
-
     public void SetElementActive(int linkid, int active)
     {
         NGUILink link = GetLink(linkid);
@@ -192,6 +316,87 @@ public class CGameLuaUI : CGameUI
             return link.gameObject.activeInHierarchy ? 1 : 0;
         return 0;
     }
+
+    public override void WakeUp()
+    {
+        OnWakeUp();
+        UIShow();
+    }
+
+
+    public override void Dispose()
+    {
+        if (disposed)
+            return;
+        FireEvent(new CEvent.UI.RemoveUI(this.Name));
+        this.transform.SetParent(null);
+        disposed = true;
+        ChildMap.Clear();
+        ChildMap = null;
+        Childidles.Clear();
+        Childidles = null;
+        CDMap.Clear();
+        CDMap = null;
+        context = null;
+        ClosedDic.Clear();
+        ClosedDic = null;
+        //for (int i = 0; i < this.event_handlers.Count; ++i)
+        //    this.ui_mgr.obj_mgr.UnregEventHandler(this.event_handlers[i]);
+        //event_handlers.Clear();
+        OnUIDispose();
+
+        //删除UI对象，必须放最后
+        if (this.asset != null)
+        {
+            //this.asset.Destroy();
+            this.asset = null;
+        }
+    }
+
+    public void FireEvent(IEvent e)
+    {
+        this.ui_mgr.FireEvent(e);
+    }
+
+    public override void Close()
+    {
+        if (IsShow())
+        {
+            SetActive(false);
+            if (this.Layer == CUILayer.Free) return;
+
+            if (this.ui_mgr.Hold)
+                return;
+            for (ClosedDic.Begin(); ClosedDic.Next();)
+            {
+                CGameUI ui = this.ui_mgr.Get(ClosedDic.Key);
+                if (ui)
+                    ui.WakeUp();
+                else if (ClosedDic.Value)
+                    this.ui_mgr.LoadUI(string.Concat("C", ClosedDic.Key, "UI"));
+            }
+            ClosedDic.Clear();
+        }
+    }
+
+    public override bool UIShow()
+    {
+        if (disposed)
+            return false;
+        SetActive(true); 
+        return true;
+    }
+
+    public override bool IsShow()
+    {
+        if (disposed)
+            return false;
+        if (Canvas && Canvas.planeDistance == Def.UIDisableDistance)
+            return false;
+        return true;
+    }
+
+
 
     public int IsGoActive(int linkid, int id)
     {

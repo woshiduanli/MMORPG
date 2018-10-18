@@ -1,7 +1,7 @@
 ManifestFileVersion: 0
-CRC: 1101281563
+CRC: 2150781456
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: login.cfg
+      Name: selectrole.cfg
       Dependencies: {}

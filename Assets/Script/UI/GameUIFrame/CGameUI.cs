@@ -37,11 +37,7 @@ public abstract class CGameUI : MonoBehaviour
     //public Font uifont_title { get { return ui_mgr.uifont_title; } }
     #endregion
 
-    //protected List<CEventManager.Handler> event_handlers = new List<CEventManager.Handler>();
     public CUIManager ui_mgr;
-    //public TimelineSystem timelineSystem { get { return ui_mgr.timelineSystem; } }
-    //public CActivityManager acts { get { return ui_mgr.acts; } }
-    //public CReferenceManager Ref_mgr { get { return ui_mgr.Ref_mgr; } }
     public bool PlayAudio = true;
 
     //public CMainPlayer Mp { get { return ui_mgr.Mp; } }
@@ -58,8 +54,8 @@ public abstract class CGameUI : MonoBehaviour
         }
     }
 
-    private Map<int, CUIElement> ChildMap = new Map<int, CUIElement>();
-    private List<int> Childidles = new List<int>();
+    public Map<int, CUIElement> ChildMap = new Map<int, CUIElement>();
+    public List<int> Childidles = new List<int>();
 
     //public CWorld World { get { return ui_mgr.World; } }
     public abstract bool isFullScreen { get; }
@@ -74,8 +70,10 @@ public abstract class CGameUI : MonoBehaviour
     protected bool NeedRefresh = true;
     public bool CheckData = true;
     public Camera UICamera { get { return this.ui_mgr.UICamera; } }
-    public Canvas Canvas { private set; get; }
+    public Canvas Canvas { set; get; }
     public int SortingOrder = 1;
+
+    // 外置设置的距离
     public int planeDistance = 2;
     public bool dontDestroy { protected set; get; }
     private GameObject _gameObject;
@@ -99,85 +97,19 @@ public abstract class CGameUI : MonoBehaviour
         }
     }
     public string Name { get; protected set; }
-    public CGameUIAsset asset { get; private set; }
+    public CGameUIAsset asset { get; set; }
 
     public Map<string, bool> ClosedDic = new Map<string, bool>();
-    private Map<string, long> CDMap = new Map<string, long>();
+    public Map<string, long> CDMap = new Map<string, long>();
     public const int OPERATE_INTERVAL = 500; //操作时间间隔(毫秒)
     public const int MAXDISTANCE = 100;
     public int LifeTime;
 
-    public void InitData(CGameUIAsset asset)
-    {
-        // 此时初始化的当前对象就是 CGameLuaUI
-        this.ui_mgr = asset.uiMgr;
-        this.SetAsset(asset);
-        this.context = asset.Args;
-        this.autoCreate = this.Layer == CUILayer.FullWindow && this.isFullScreen && this.context == null;
-        this.Initialize();
-        this.SetName(asset.UIName);
-        // asset.IsVisible() 决定是不是要显示出来当前的对象 ，此时默认就是true
-        // 在add函数里面， 初始化lua ，然后显示ui 
-        this.ui_mgr.Add(this, asset.IsVisible());
-        this.LoadUICallback();
-    }
+    public virtual void InitData(CGameUIAsset asset) { }
 
-    private void SetAsset(CGameUIAsset asset)
-    {
-        //if (this.Layer == CUILayer.Free || this.Layer == CUILayer.Tip)
-        //    LifeTime = 10;
-        //if (this.Layer == CUILayer.FullWindow)
-        //{
-        //    if (isFullScreen)
-        //        LifeTime = 300;//5分钟
-        //    else
-        //        LifeTime = 60;
-        //}
-        //if (this.Layer == CUILayer.MainFace)
-        //    LifeTime = int.MaxValue;//永不销毁
+    public virtual void SetAsset(CGameUIAsset asset) { }
 
-        //this.asset = asset;
-        this.Canvas = this.gameObject.GetComponent<Canvas>();
-        //if (this.Canvas)
-        //    SortingOrder = this.Canvas.sortingOrder;
-
-        //CanvasScaler canvasScaler = this.gameObject.GetComponent<CanvasScaler>();
-        //if (canvasScaler)
-        //    canvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
-
-        //if (Layer != CUILayer.FullWindow)
-        //    return;
-
-        //GameObject Mask = new GameObject("Mask");
-        //Mask.transform.SetParent(this.gameObject.transform);
-        //Mask.transform.SetSiblingIndex(0);
-
-        //CImage image = CClientCommon.AddComponent<CImage>(Mask);
-        //image.color = new Color32(255, 255, 255, 2);
-        //this.CreateSprite(image, "newpublic", "heisezhezhao");
-        //RectTransform MakRect = Mask.transform as RectTransform;
-        //MakRect.pivot = new Vector2(0.5f, 0.5f);
-        //MakRect.anchorMin = Vector2.zero;
-        //MakRect.anchorMax = Vector2.one;
-        //MakRect.anchoredPosition = Vector3.zero;
-    }
-
-    private void SetName(string name)
-    {
-        this.Name = name;
-        this.gameObject.name = name;
-
-        this.gameObject.transform.SetParent(this.ui_mgr.UIRoot.transform);
-        this.gameObject.transform.localPosition = Vector3.zero;
-        this.gameObject.transform.localEulerAngles = Vector3.zero;
-        if (this.Canvas)
-        {
-            this.Canvas.planeDistance = this.planeDistance;
-            this.Canvas.renderMode = RenderMode.ScreenSpaceCamera;
-            this.Canvas.worldCamera = this.ui_mgr.UICamera;
-            SortingOrder = this.Canvas.sortingOrder;
-        }
-    }
+    public virtual void SetName(string name) { }
 
     /// <summary>
     /// 
@@ -192,8 +124,6 @@ public abstract class CGameUI : MonoBehaviour
             image.material.SetFloat("_IsGrey", grep);
         }
     }
-
-
 
     // 灰度图片
     public void SetGreyColor(CRawImage RawImage, bool isGrey = true)
@@ -233,64 +163,13 @@ public abstract class CGameUI : MonoBehaviour
         }
     }
 
-    public void Show()
-    {
-        if (UIShow())
-            // 当自己显示成功的时候， 就关闭其他全屏的界面
-            this.ui_mgr.CloseActiveUIs(this);
-    }
-
-
-
-    public void AddCloseUI(CGameUI ui)
-    {
-        ui.SetActive(false);
-        ClosedDic[ui.Name] = true; //ui.autoLoad;
-    }
-
-    public void AddChild(CUIElement element)
-    {
-        if (ChildMap != null)
-            ChildMap[element.HashID] = element;
-    }
-
-    public void RemoveChild(CUIElement element)
-    {
-        if (Childidles != null)
-            Childidles.Add(element.HashID);
-    }
-
+    public virtual void AddCloseUI(CGameLuaUI ui) { }
     /// <summary>
     /// 单纯的显示界面，不会顶掉UI
     /// </summary>
     /// <returns></returns>
-    public bool UIShow()
-    {
-        if (disposed)
-            return false;
-        CClientCommon.SetActiveOverload(gameObject, true); 
-        if (this.Layer == CUILayer.MainFace && this.ui_mgr.HasFullWindowUI())
-        {
-            SetActive(false);
-            return false;
-        }
-        if (!IsShow())
-        {
-            SetActive(true);
-            return true;
-        }
-        return false;
-    }
-
-
-
-
-    public void SetActive(bool active)
-    {
-        if (this.gameObject && !this.gameObject.activeSelf)
-            this.gameObject.SetActive(true);
-        this.enabled = active;
-    }
+    public virtual bool UIShow() { return false; }
+    public virtual void SetActive(bool active) { }
 
     public CSimpleSpriteObject CreateSprite(CImage sprite, string spname, string spritename)
     {
@@ -300,34 +179,18 @@ public abstract class CGameUI : MonoBehaviour
         sprite.enabled = false;
         return this.asset.CreateImage(sprite, spname);
     }
+    public virtual void Show() { }
     /// <summary>
     /// 会自动打开上次被顶掉的UI
     /// </summary>
     public virtual void Close()
     {
-        if (IsShow())
-        {
-            SetActive(false);
-            if (this.Layer == CUILayer.Free) return;
 
-            if (this.ui_mgr.Hold)
-                return;
-            for (ClosedDic.Begin(); ClosedDic.Next();)
-            {
-                CGameUI ui = this.ui_mgr.Get(ClosedDic.Key);
-                if (ui)
-                    ui.WakeUp();
-                else if (ClosedDic.Value)
-                    this.ui_mgr.LoadUI(string.Concat("C", ClosedDic.Key, "UI"));
-            }
-            ClosedDic.Clear();
-        }
     }
 
-    protected void WakeUp()
+    public virtual void WakeUp()
     {
-        OnWakeUp();
-        UIShow();
+
     }
 
     protected virtual void OnWakeUp() { }
@@ -337,34 +200,9 @@ public abstract class CGameUI : MonoBehaviour
     /// 单纯的关闭界面，不会显示被顶掉的UI ,如果当前UI是全屏，防止主界面丢失 ，会打开主界面
     /// </summary>
     /// <returns></returns>
-    public void SimpleClose()
-    {
-        if (disposed)
-            return;
-        if (IsShow())
-        {
-            ClosedDic.Clear();
-            SetActive(false);
-            if (this.ui_mgr.Hold)
-                return;
+    public virtual void SimpleClose() { }
 
-            //if (Layer == CUILayer.FullWindow)
-            //{
-            //    if (this.ui_mgr.Hold)
-            //        return;
-            //    this.ui_mgr.OpenMainFaceUI();
-            //}
-        }
-    }
-
-    public bool IsShow()
-    {
-        if (disposed)
-            return false;
-        if (Canvas && Canvas.planeDistance == Def.UIDisableDistance)
-            return false;
-        return true;
-    }
+    public virtual bool IsShow() { return true; }
 
     protected void Awake() { }
     public virtual void InitLua() { }
@@ -391,62 +229,6 @@ public abstract class CGameUI : MonoBehaviour
 
     public virtual void LoadUICallback() { }
 
-    //注：为了防止派生类忘记调用基类的OnEnable与OnDisable，不让派生类重写这两个接口，而是分别重写OnUIEnable与OnUIDisable接口
-    protected void OnEnable()
-    {
-        CloseTime = 0;
-        if (Canvas)
-            Canvas.planeDistance = this.planeDistance;
-        if (Layer == CUILayer.FullWindow && this.isFullScreen)
-            ui_mgr.curFullWindow = this;
-        OnUIEnable();
-        FireEvent(new CEvent.UI.UIEnableEvent(this));
-
-        // 如果是全屏界面， 此时应该关闭，ui 摄像机的渲染
-        //if (this.Layer == CUILayer.FullWindow && this.isFullScreen)
-        //    FireEvent(new CEvent.CameraCtrl.CameraActive(false));
-
-        for (int i = 0; i < Childidles.Count; i++)
-            ChildMap.Remove(Childidles[i]);
-        Childidles.Clear();
-
-        for (ChildMap.Begin(); ChildMap.Next();)
-        {
-            if (ChildMap.Value)
-                ChildMap.Value.enabled = true;
-        }
-    }
-
-    protected void OnDisable()
-    {
-        if (Canvas)
-        {
-
-        Canvas.planeDistance = Def.UIDisableDistance;
-        }
-        //CloseTime = GameTimer.time;
-        OnUIDisable();
-        //FireEvent(new CEvent.UI.UICloseEvent(this));
-
-        //if (ui_mgr.curFullWindow == this && this.isFullScreen)
-        //    ui_mgr.curFullWindow = null;
-
-        //for (int i = 0; i < Childidles.Count; i++)
-        //    ChildMap.Remove(Childidles[i]);
-        //Childidles.Clear();
-
-        //for (ChildMap.Begin(); ChildMap.Next();)
-        //{
-        //    if (ChildMap.Value)
-        //        ChildMap.Value.enabled = false;
-        //}
-
-        //if (this.ui_mgr.curFullWindow)
-        //    return;
-
-        //if (this.Layer == CUILayer.FullWindow && this.isFullScreen)
-        //    FireEvent(new CEvent.CameraCtrl.CameraActive(true));
-    }
 
     public virtual void OnUIEnable() { }
     public virtual void OnUIDisable() { }
@@ -455,90 +237,17 @@ public abstract class CGameUI : MonoBehaviour
     public virtual void OnDestroy() { }
     protected virtual void OnUIDispose() { }
 
-    public bool disposed { private set; get; }
-    public void Dispose()
-    {
-        if (disposed)
-            return;
-        FireEvent(new CEvent.UI.RemoveUI(this.Name));
-        this.transform.SetParent(null);
-        disposed = true;
-        ChildMap.Clear();
-        ChildMap = null;
-        Childidles.Clear();
-        Childidles = null;
-        CDMap.Clear();
-        CDMap = null;
-        context = null;
-        ClosedDic.Clear();
-        ClosedDic = null;
-        //for (int i = 0; i < this.event_handlers.Count; ++i)
-        //    this.ui_mgr.obj_mgr.UnregEventHandler(this.event_handlers[i]);
-        //event_handlers.Clear();
-        OnUIDispose();
+    public bool disposed { set; get; }
 
-        //删除UI对象，必须放最后
-        if (this.asset != null)
-        {
-            //this.asset.Destroy();
-            this.asset = null;
-        }
-    }
 
     //>--------------------------------------------------------------------
     // CObject的事件接品
-    public void FireEvent(IEvent e)
+
+
+    public virtual void Dispose()
     {
-        this.ui_mgr.FireEvent(e);
+
     }
-
-    //public T GetFromAT<T>(int at) where T : CActivity
-    //{
-    //    return acts.GetFromAT<T>(at);
-    //}
-
-    //public CEventManager.Handler RegEventHandler<T>(CEventManager.OnEventRecv<T> recv) where T : IEvent
-    //{
-    //    CEventManager.Handler h = this.ui_mgr.obj_mgr.RegEventHandler<T>(recv);
-    //    this.event_handlers.Add(h);
-    //    return h;
-    //}
-
-    //public CEventManager.Handler RegEventHandler(CEventManager.OnEventRecv recv, Type t)
-    //{
-    //    CEventManager.Handler h = this.ui_mgr.obj_mgr.RegEventHandler(recv, t);
-    //    this.event_handlers.Add(h);
-    //    return h;
-    //}
-
-    //public void UnRegEventHandler(CEventManager.Handler h)
-    //{
-    //    if (h == null)
-    //        return;
-    //    if (this.event_handlers.Count == 0)
-    //        return;
-    //    if (this.event_handlers.Remove(h))
-    //        this.ui_mgr.obj_mgr.UnregEventHandler(h);
-    //}
-
-    //public CUIRedDot AddRedDot(CEvent.RedDot.CallBack c, RedDotType t, GameObject parent, Vector2 anchPosOffset)
-    //{
-    //    if (!parent)
-    //        return null;
-    //    GameObject go = new GameObject("redDot");
-    //    Transform tf = go.transform;
-    //    tf.SetParent(parent.transform);
-    //    tf.localPosition = Vector3.zero;
-    //    tf.localRotation = Quaternion.identity;
-    //    tf.localScale = Vector3.one;
-    //    go.layer = parent.layer;
-
-    //    CUIRedDot rd = go.AddComponent<CUIRedDot>();
-    //    rd.Arg = new object[] { c, t, anchPosOffset };
-    //    return rd;
-    //}
-
-    ////>-------------------------------------------------------------------------------------------
 
     ///// <summary>
     ///// 初始化/更新sprite

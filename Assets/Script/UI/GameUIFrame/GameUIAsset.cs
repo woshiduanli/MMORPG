@@ -144,6 +144,7 @@ public class CGameUIAsset : ZRender.IRenderObject
         if (!this.gameObject)
             return false;
         gameObject.name = gameObject.name.Replace("(Clone)", "");
+        //CClientCommon.SetActiveOverload(gameObject, true);
         UICacheComponents uICache = this.gameObject.GetComponent<UICacheComponents>();
         // 实列化出来的对象， 给他设置ctext的值
         LoadAsset(uICache);

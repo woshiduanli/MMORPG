@@ -1,9 +1,8 @@
 local CSelectRoleUIID = { }
 
 
-CSelectRoleUIID.HashID = 26782
-CSelectRoleUIID.ImageHeadIcon = 1049116884
-CSelectRoleUIID.text_lblTip = -905331113
+CSelectRoleUIID.HashID = 26818
+CSelectRoleUIID.Text = 2603341
 CSelectRoleUIID.btnClose = 2082343164
 CSelectRoleUIID.btnOK = 94069048
 CSelectRoleUIID.BtnJobItemView_1 = 642816203
@@ -13,8 +12,8 @@ CSelectRoleUIID.BtnJobItemView_4 = 642816206
 CSelectRoleUIID.btnReturn = 551252652
 CSelectRoleUIID.btnRandomName = 1117770090
 CSelectRoleUIID.btnDeleteRole = -1528118211
-CSelectRoleUIID.btnBeginGame = -1733638849
-CSelectRoleUIID.btnCreateRole = -1923494130
 CSelectRoleUIID.JobDescription_lk = 1682601375
-CSelectRoleUIID.RoleListContainer_lk = 84319857 
+CSelectRoleUIID.RoleListContainer_lk = 84319857
+CSelectRoleUIID.btnBeginGame = -1733638849
+CSelectRoleUIID.btnCreateRole = -1923494130 
  return CSelectRoleUIID

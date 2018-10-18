@@ -1,23 +1,29 @@
 ManifestFileVersion: 0
-CRC: 2588080886
+CRC: 2862798884
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
       Name: myshader.sd
       Dependencies: {}
     Info_1:
-      Name: font/uifont.ft
+      Name: font/font_jcy.ft
       Dependencies: {}
     Info_2:
-      Name: tex/commonatlas.tex
+      Name: tex/headimg.tex
       Dependencies:
         Dependency_0: myshader.sd
     Info_3:
-      Name: tex/logon_bg.tex
-      Dependencies: {}
-    Info_4:
-      Name: uiprefab/login.ui
+      Name: tex/commonatlas.tex
       Dependencies:
-        Dependency_0: font/uifont.ft
-        Dependency_1: tex/commonatlas.tex
-        Dependency_2: tex/logon_bg.tex
+        Dependency_0: myshader.sd
+    Info_4:
+      Name: tex/uicommonatlas.tex
+      Dependencies:
+        Dependency_0: myshader.sd
+    Info_5:
+      Name: uiprefab/selectrole.ui
+      Dependencies:
+        Dependency_0: font/font_jcy.ft
+        Dependency_1: tex/headimg.tex
+        Dependency_2: tex/commonatlas.tex
+        Dependency_3: tex/uicommonatlas.tex

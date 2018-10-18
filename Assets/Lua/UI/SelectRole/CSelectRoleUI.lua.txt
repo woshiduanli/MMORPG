@@ -5,6 +5,7 @@ function CSelectRoleUI:ctor(ui)
     Base.ctor(self, ui)
     self.IsFullScreen = true
     self.Layer = UIManager.Layer.FullWindow
+    -- self.sort
 end
 
 function CSelectRoleUI:Initialize()

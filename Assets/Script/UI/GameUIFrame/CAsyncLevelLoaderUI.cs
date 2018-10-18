@@ -18,7 +18,6 @@ public class CAsyncLevelLoaderUI : MonoBehaviour
         else
         {
             MyDebug.debug("kong le ");
-
         }
 
         if (Laugo)
@@ -30,7 +29,7 @@ public class CAsyncLevelLoaderUI : MonoBehaviour
             //cAsyncLevel.LoadImage(bg);
             //if (cReference && !cReference.load_complete)
             //Awake(); 
-            cAsyncLevel.SetProgressSpeed(10, 30);
+            cAsyncLevel.SetProgressSpeed(4, 30);
         }
 
     }
