@@ -8,13 +8,19 @@ function CSelectZoneUI:ctor(ui)
 end
 
 function CSelectZoneUI:Initialize()
-    --  self.timeraaa = self:AddTimer(self:GetSelfFunc(self.Update), false, 1, 100)
+    self:AddTimer(self:GetSelfFunc(self.Update), false, 1, 1)
     -- self:RegEvent(EventCode.UnityUpdate.FrameUpdate, self:GetSelfFunc(self.Update2))
     self:SetEvent(
         self.HashIDTable.btn_EnterGame,
         UIManager.EID.PointerClick,
         self:GetSelfFunc(CSelectZoneUI.OnClickbtn_EnterGame)
     )
+    self:SetEvent(
+        self.HashIDTable.btn_Exit,
+        UIManager.EID.PointerClick,
+        self:GetSelfFunc(CSelectZoneUI.OnClickbtn_Exit)
+    )
+
     self:SetEvent(
         self.HashIDTable.btn_Exit,
         UIManager.EID.PointerClick,

@@ -22,26 +22,26 @@ function CLoginUI:Initialize()
         self:GetSelfFunc(CLoginUI.OnClickRegister)
     )
 
-    self:SetCText(self.HashIDTable.nichegnText,1 )
-    self:SetCText(self.HashIDTable.mimaText,1 )
+    self:SetCText(self.HashIDTable.nichegnText_lk,1 )
+    self:SetCText(self.HashIDTable.mimaText_lk,1 )
     self:OnClickLogin()
 end
 
 function CLoginUI:ChangePage()
     if self.CurPage == "Login" then
         -- 设置登录页面
-        self:SetCText(self.HashIDTable.titaltext, Language.YONGHUDEGNLU)
-        self:SetCText(self.HashIDTable.zhuceText, Language.YONGHUDEGNLU3)
-        self:SetCText(self.HashIDTable.dengluText, Language.YONGHUDEGNLU4)
+        self:SetCText(self.HashIDTable.titaltext_lk, Language.YONGHUDEGNLU)
+        self:SetCText(self.HashIDTable.zhuceText_lk, Language.YONGHUDEGNLU3)
+        self:SetCText(self.HashIDTable.dengluText_lk, Language.YONGHUDEGNLU4)
 
         self:SetGoActive(self.HashIDTable.YaoQingMa, false)
     else
         -- 设置注册页面
-        self:SetCText(self.HashIDTable.titaltext, Language.YONGHUDZHUCE)
-        self:SetCText(self.HashIDTable.zhuceText, Language.YONGHUDEGNLU2)
-        self:SetCText(self.HashIDTable.dengluText, Language.YONGHUDEGNLU1)
+        self:SetCText(self.HashIDTable.titaltext_lk, Language.YONGHUDZHUCE)
+        self:SetCText(self.HashIDTable.zhuceText_lk, Language.YONGHUDEGNLU2)
+        self:SetCText(self.HashIDTable.dengluText_lk, Language.YONGHUDEGNLU1)
 
-        self:SetGoActive(self.HashIDTable.YaoQingMa, true)
+        self:SetGoActive(self.HashIDTable.YaoQingMa_lk, true)
     end
 end
 
@@ -55,9 +55,9 @@ function CLoginUI:OnClickLogin()
     else
         local data = {}
         data.Type = 1
-        data.UserName = self:GetCText(self.HashIDTable.nichegnText)
+        data.UserName = self:GetCText(self.HashIDTable.nichegnText_lk)
         data.ChannelId = "22"
-        data.Pwd = self:GetCText(self.HashIDTable.mimaText)
+        data.Pwd = self:GetCText(self.HashIDTable.mimaText_lk)
 
         local login = ObjectManager.GetSingleObj("LoginData")
         CSGlobal.SendData(login.url, login:GetSelfFunc( login.CallBack ), true, Json.encode(data))
@@ -74,9 +74,9 @@ function CLoginUI:OnClickRegister()
     else
         local data = {}
         data.Type = 0
-        data.UserName = self:GetCText(self.HashIDTable.nichegnText)
+        data.UserName = self:GetCText(self.HashIDTable.nichegnText_lk)
         data.ChannelId = "22"
-        data.Pwd = self:GetCText(self.HashIDTable.mimaText)
+        data.Pwd = self:GetCText(self.HashIDTable.mimaText_lk)
         local login = ObjectManager.GetSingleObj("LoginData")
         CSGlobal.SendData(login.url, login:GetSelfFunc( login.CallBack ), true, Json.encode(data))
     end

@@ -158,7 +158,7 @@ public class EventDispatcher : Singleton<EventDispatcher>
     /// <param name="param"></param>
     public void Dispatch(ushort protoCode, byte[] buffer)
     {
-        MyDebug.debug("c#收到了: " + protoCode);
+        MyDebug.debug("c#收到了服务器协议数据，其中：id是: " + protoCode);
         if (recServer != null)
             recServer(protoCode, buffer);
 

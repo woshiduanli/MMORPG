@@ -22,6 +22,16 @@ public static class UILink_Extension
         return self.component as T;
     }
 
+    public static T GetRaycastTargetComponent<T>(this UILink self) where T : Component
+    {
+        if (!self.LinkObj)
+            return null;
+        if (self.component && self.component is T)
+            return self.component as T;
+        //self.component = self.LinkObj.GetComponent(typeof(T)) as T;
+        return default(T);
+    }
+
     //public static void ReBuildLinkMap(this NGUILink self)
     //{
     //    self.HashID = self.GetHashCode();
@@ -188,6 +198,13 @@ public static class NGUILink_Extension
             LOG.Debug(string.Format("{0}[NGUILink] AddEvent object {1} is not exist", self.name, eid));
             return;
         }
+
+        MaskableGraphic maskableGraphic = link.GetComponent<MaskableGraphic>();
+        if (maskableGraphic != null)
+            maskableGraphic.raycastTarget = true;
+        else
+            link.AddComponent<Empty4Raycast>();
+
         EventTrigger trigger = link.AddComponent<EventTrigger>();
         UnityAction<BaseEventData> unityAct = new UnityAction<BaseEventData>(callback);
         EventTrigger.Entry entry = new EventTrigger.Entry();

@@ -3,7 +3,13 @@ local CommonUtil = require "Util.CommonUtil"
 require "core.Class"
 local CObject = class()
 local Timer = require("util.Timer")
+local table = table
 local ObjectManager = require("Manager.ObjectManager")
+local Json = json
+local GameDef = GameDef
+local EventCode = EventCode
+local ProtoPath = require "LuaHelper.ProtoPath"
+
 -- local ObjectManager = require("Manager.ObjectManager")
 
 function CObject:InitData(...)
@@ -12,18 +18,25 @@ end
 function CObject:RegEvents()
 end
 
-function CObject:ctor(...)
+function CObject:ctor(name, ...)
     self.disposed = false
+    self.name = name
+    print("names 什么：  " .. name)
+    -- print("输出自己的名字"..( tostring (self)    )
     -- 所有数据对象和管理器对象的管理类
     self.objMgr = ObjectManager
+    self.Json = Json
+    self.GameDef = GameDef
+    self.ProtoPath = ProtoPath
+    self.EventCode = EventCode
     -- 存放事件及回调信息
     self.callbacks = {}
     -- timers
-    self.timers = {}
     self:InitData(...)
     self:RegEvents()
 end
 
+--
 function CObject:OnDispose()
 end
 
@@ -31,19 +44,11 @@ function CObject:Dispose()
     self.disposed = true
     -- 销毁事件
     for _, v in ipairs(self.callbacks) do
-        self.objMgr.GetSingleObj("EventManager").UnregEvent(v.eid, v.func)
-    end
-
-    --销毁所有的计时器
-    if self.timers then
-        for _, v in ipairs(self.timers) do
-            if (v ~= nil) then
-                v.destory = true
-            end
+        if (v ~= nil) then
+            ObjectManager.GetSingleObj("EventManager").UnregEvent(v.eid, v.func)
         end
     end
 
-    self.timers = {}
     self.callbacks = nil
     self.class = nil
 
@@ -53,9 +58,10 @@ end
 function CObject:UnRegEvent(eid)
     local index = -1
     for _, v in ipairs(self.callbacks) do
-        if (v.eid == eid) then
-            self.objMgr.GetSingleObj("EventManager").UnregEvent(v.eid, v.func)
+        if (v ~= nil and v.eid == eid) then
+            ObjectManager.GetSingleObj("EventManager").UnregEvent(v.eid, v.func)
             index = _
+            break
         end
     end
 
@@ -65,69 +71,77 @@ function CObject:UnRegEvent(eid)
 end
 
 function CObject:GetSingleObj(snmae)
-    return self.objMgr.GetSingleObj(snmae)
+    return ObjectManager.GetSingleObj(snmae)
 end
 
 function CObject:RegProto(protoName, cb)
-    self.objMgr.GetSingleObj("NetManager").RegProto(require("Proto." .. protoName).New(), cb)
+    -- 调用 网络管理器的，注册方法，两个参数   require("Proto." .. protoName) 以后new 一个对象出来， 然后一个回调函数
+    ObjectManager.GetSingleObj("NetManager").RegProto(require("Proto." .. protoName).New(), cb)
 end
 
 -- 注册事件
 function CObject:RegEvent(evt, cb)
-    if disposed then
+    if self.disposed then
         return
     end
+
     if evt == nil or cb == nil then
         return
     end
+
     for _, v in ipairs(self.callbacks) do
         if (v.eid == evt) then
             return
         end
     end
 
-    self.objMgr.GetSingleObj("EventManager"):RegEvent(evt, cb)
+    ObjectManager.GetSingleObj("EventManager"):RegEvent(evt, cb)
     table.insert(self.callbacks, {eid = evt, func = cb})
 end
 
 -- 分发事件
 function CObject:FireEvent(evt, ...)
-    if disposed then
+    if self.disposed then
         return
     end
 
-    local s = ...
-    self.objMgr.GetSingleObj("EventManager"):FireEvent(evt, ...)
+    ObjectManager.GetSingleObj("EventManager"):FireEvent(evt, ...)
 end
 
 function CObject:GetSelfFunc(func)
     return CommonUtil.GetSelfFunc(self, func)
 end
 
---[[
-	@interval: 间隔时间
-	@PrcessCount: 循环次数，0为无限循环
-	@return [util.Timer#Timer]
---]]
+--
 function CObject:AddTimer(func, IsEveryFrame, interval, PrcessCount)
-    --@RefType [util.Timer#Timer]
-    local timer = Timer.new(func, IsEveryFrame, interval, PrcessCount)
+    if self.disposed then
+        return
+    end
+
+    local timer = Timer.new(self, func, IsEveryFrame, interval, PrcessCount)
     self.objMgr.GetSingleObj("TimeManager"):AddTimer(timer)
-    table.insert(self.timers, timer)
+
     return timer
 end
 
 -- 计算器只能从这里销毁和暂停
 function CObject:DestoryTimer(timer)
-    table.removevalue(self.timers, timer)
+    if self.disposed then
+        return
+    end
+
     timer.destory = true
 end
 
 function CObject:IsPauseTime(timer, isPause)
-    if ((isPause == nil) or (isPause == true)) then
-        timer.pause = true
-    else
+    if self.disposed then
+        return
+    end
+
+    if (isPause == false) then
         timer.pause = false
+    else
+        timer.pause = true
     end
 end
 

@@ -164,7 +164,7 @@ public class NetWorkHttp : SingletonMono<NetWorkHttp>
         }
         else
         {
-            MyDebug.debug("www 请求出错");
+            MyDebug.debug("服务端www 请求出错 500 错误");
             if (m_CallBack != null)
             {
                 m_CallBackArgs.HasError = true;

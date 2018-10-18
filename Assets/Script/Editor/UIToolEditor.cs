@@ -270,10 +270,22 @@ public class UIToolEditor
     static void BuildUI(GameObject go)
     {
         // 重新生成hashId和脚本
-        MOYU_UIToolsEditor.CreateUILuaScript2(go);
+
         string uipath = AssetDatabase.GetAssetPath(go);
         if (Path.GetDirectoryName(uipath) != "Assets/MyResources/UIPrefab")
             return;
+
+        //MOYU_UIToolsEditor.CreateNguiLinkValue2(go);
+
+        //GameObject clone = Object.Instantiate(go) as GameObject;
+        //PrefabUtility.ReplacePrefab(clone, go);
+        //UnityEngine.Object.DestroyImmediate(clone, true);
+
+        //AssetDatabase.Refresh();
+        //AssetDatabase.SaveAssets();
+
+
+        MOYU_UIToolsEditor.CreateUILuaScript2(go);
         CClientCommon.RemoveComponent<DebugUILine>(go);
 
 
@@ -720,8 +732,9 @@ static public class MOYU_UIToolsEditor
         }
     }
 
+
     [MenuItem("Assets/UI相关/自动生成NguiLink中的link")]
-    static void CreateNguiLinkValue()
+    public static void CreateNguiLinkValue()
     {
         if (Selection.activeGameObject)
         {
@@ -868,8 +881,8 @@ static public class MOYU_UIToolsEditor
             "local Base = GameUI\n" +
             "local {0} = class(Base)\n\n" +
 
-            "function {1}:ctor(ui)\n    Base:ctor( ui)\n" +
-            "    self.isFullScreen = true\n" +
+            "function {1}:InitData(...)\n    " +
+            "    self.IsFullScreen = true\n" +
             "    self.Layer = UIManager.Layer.FullWindow\n\n" +
             "end\n\n" +
 

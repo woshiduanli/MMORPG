@@ -60,7 +60,7 @@ public class testCode : MonoBehaviour
     void Update()
     {
 
-
+        return; 
         if (Input.GetKeyDown(KeyCode.C))
         {
             transform.localScale = Vector3.one;

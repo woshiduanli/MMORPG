@@ -11,6 +11,7 @@ EventCode.UI =
 EventCode.Scene = 
 {
     LevelWasLoaded = 10,
+    LoadLevel = 11,
 }
 
 EventCode.FreshGuide = 

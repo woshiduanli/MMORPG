@@ -1,7 +1,24 @@
 -- 从游戏状态开启进入游戏
 local coroutine = coroutine
+local Base = require "core.Object"
+local coroutineUtil = class(Base)
 
-local coroutineUtil = {}
+function coroutineUtil:InitData(...)
+    coroutineUtil.Allcoroutine = {}
+    CSGlobal.RegUpdate(TimeManager.Update)
+end
+
+function coroutineUtil.AddCoroutine()
+    local i = 1
+    while i <= #TimeManager.AllTimer do
+        if (TimeManager.AllTimer[i]).destory or (TimeManager.AllTimer[i]).parent.disposed then
+            table.remove(TimeManager.AllTimer, i)
+        else
+            (TimeManager.AllTimer[i]):Process()
+            i = i + 1
+        end
+    end
+end
 
 -- 接收一个方法组， 当返回true 的时候， 进入主线程
 function coroutineUtil.Actio(funArr)

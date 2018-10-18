@@ -388,7 +388,8 @@ GameDef.MPSystem =
 }
 
 GameDef.SceneName = {
-     LOGIN = "Login"
+     LOGIN = "Login", 
+     SelectRole = "SelectRole"
 }
 
 GameDef.EventTriggerType =

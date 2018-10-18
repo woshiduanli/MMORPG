@@ -20,7 +20,7 @@ GameStateManager.State = {
 -- 从游戏状态开启进入游戏
 function GameStateManager:InitData()
     self.CurStateName = self.State.None
-
+    -- self:ChangeState(self.State.Init)
     -- 进入游戏初始化
     local co = coroutine.create(self.crateInit)
     local result = coroutine.resume(co, self)

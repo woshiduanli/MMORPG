@@ -19,6 +19,7 @@ function table.removevalue(tb, value)
     end
 end
 
+-- 这是采用key value 格式
 function table.removeElementByKey(tbl, key)
     local tmp = {}
     for i in pairs(tbl) do

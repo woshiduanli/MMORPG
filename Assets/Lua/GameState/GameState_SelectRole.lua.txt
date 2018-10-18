@@ -3,8 +3,7 @@ local ObjectManager = require("Manager.ObjectManager")
 local GameState_SelectRole = class(Base)
 
 function GameState_SelectRole:InitData()
-    print("我是选择角色")
-    -- ObjectManager.CreateSingleObj("GameData.LoginData", "LoginData")
+    CSGlobal.LoadLevel ("SelectRole")
 end
 
 return GameState_SelectRole

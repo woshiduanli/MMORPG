@@ -17,9 +17,9 @@ public class CLoaderUI : MonoBehaviour
     void Awake()
     {
         NGUILink link = this.gameObject.GetComponent(typeof(NGUILink)) as NGUILink;
-        Bar = link.GetComponent<Slider>("ProgressSlider");
-        WarmPrompt = link.GetComponent<Text>("WarmPrompt");
-        rawImage = link.GetComponent<RawImage>("Image");
+        Bar = link.GetComponent<Slider>("imageSlider");
+        //WarmPrompt = link.GetComponent<Text>("WarmPrompt");
+        //rawImage = link.GetComponent<RawImage>("Image");
     }
 
     public void SetProgressSpeed(int speed,int custom)
@@ -43,6 +43,6 @@ public class CLoaderUI : MonoBehaviour
         if (value >= 95)
             value = 95;
         Bar.value = value / 100;
-        WarmPrompt.text = Progress.Instance.WarmPrompt;
+        //WarmPrompt.text = Progress.Instance.WarmPrompt;
     }
 }

@@ -1,9 +1,12 @@
 version: 2
 importPivots: 1
 tpsheetFileNames:
+- Assets/MyResources/UI/Textures/frameA.tpsheet
 - Assets/MyResources/UI/Textures/HeadImg.tpsheet
 textureFileNames:
+- Assets/MyResources/UI/Textures/frameA.png
 - Assets/MyResources/UI/Textures/HeadImg.png
 normalmapFileNames:
+- 
 - 
 enableDebugOutput: 0

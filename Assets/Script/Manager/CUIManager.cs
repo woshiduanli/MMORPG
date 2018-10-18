@@ -58,7 +58,7 @@ public class CUIManager : CLoopObject
         CClientCommon.SetActiveOverload(UIRoot, true);
         UIRoot.transform.position = Vector3.one * 1000;
         Link = UIRoot.GetComponent<NGUILink>();
-        UICamera = Link.Get("UICamera").GetComponent<Camera>();
+        UICamera = Link.Get("UICamera_lk").GetComponent<Camera>();
 
         //#if UNITY_IPHONE || UNITY_IOS
         //        if (UnityEngine.iOS.Device.generation == UnityEngine.iOS.DeviceGeneration.iPhoneX)
@@ -122,6 +122,14 @@ public class CUIManager : CLoopObject
         //        templight.intensity = 0.33f;
         //        templight.cullingMask = CDefines.Layer.Mask.UI | CDefines.Layer.Mask.UIPlayer;
         //        UILight.gameObject.SetActive(false);
+    }
+
+    protected override void RegEvents()
+    {
+        RegEvent<CEvent.Scene.LevelWasLoaded>(OnLevelWasLoaded);
+        RegEvent<CEvent.UI.ShowUI>(OnShowUIEvent);
+        RegEvent<CEvent.UI.OpenUI>(OnCreateUIEvent);
+        RegEvent<CEvent.UI.CloseUI>(OnCloseUI);
     }
 
     public void Add(CGameUI ui, bool show)
@@ -202,13 +210,7 @@ public class CUIManager : CLoopObject
         uifont_title = Resources.Load<Font>("UI/Login/uifont_title");
     }
 
-    protected override void RegEvents()
-    {
-        RegEvent<CEvent.Scene.LevelWasLoaded>(OnLevelWasLoaded);
-        RegEvent<CEvent.UI.ShowUI>(OnShowUIEvent);
-        RegEvent<CEvent.UI.OpenUI>(OnCreateUIEvent);
-        RegEvent<CEvent.UI.CloseUI>(OnCloseUI);
-    }
+   
     private void OnCloseUI(CObject sender, CEvent.UI.CloseUI e)
     {
 
@@ -324,16 +326,14 @@ public class CUIManager : CLoopObject
         Hold = false;
         CheckGameState();
         string loadedLevelName = SceneManager.GetActiveScene().name;
+
+        // 不等于的时候， 那么就显示出来， 如果等于就影藏
         UICamera.gameObject.SetActive(loadedLevelName != SceneName.ASYNC_LOADER_SCENE);
         // 过图清理资源
         //FireEvent(new CEvent.ResourceFactory.ClearResource(loadedLevelName));
 
-        //if (loadedLevelName == SceneName.ASYNC_LOADER_SCENE)
-        //    CAsyncLevelLoaderUI.Create(this.World, this.Ref_mgr);
-        //if (loadedLevelName == SceneName.LOGIN_SCENE)
-        //    this.LoadUI("CLoginUI");
-        //else if (loadedLevelName == SceneName.ROLE_SELECT_SCENE)
-        //    this.LoadUI("CRoleSelectUI");
+        if (loadedLevelName == SceneName.ASYNC_LOADER_SCENE)
+            CAsyncLevelLoaderUI.Create();
     }
     private Map<string, CGameUIAsset> loading = new Map<string, CGameUIAsset>();
     public Regex rg = new Regex("(?<=(" + "C" + "))[.\\s\\S]*?(?=(" + "UI" + "))", RegexOptions.Singleline);

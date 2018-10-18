@@ -3,19 +3,29 @@ local Base = require "core.Object"
 local SceneManager = class(Base)
 local table = table
 local ObjectManager = require("Manager.ObjectManager")
+local EventCode = EventCode
 
 function SceneManager:InitData()
+    self.curSceneName = ""
+end
+
+function SceneManager:RegEvents()
     CSGlobal.RegLevelWasLoaded(self:GetSelfFunc(self.LevelWasLoaded))
-    -- SceneManager:RegEvents()
+    self:RegEvent(EventCode.Scene.LoadLevel, self:GetSelfFunc(self.LoadLevel))
+end
+
+function SceneManager:LoadLevel(sceneName)
+    if self.CurSceneName == sceneName then
+        return
+    end
+
+    CSGlobal.LoadLevel(sceneName)
 end
 
 function SceneManager:LevelWasLoaded(sceneName)
-    print("场景名字" .. sceneName)
+    print("当前的场景名字")
+    self.curSceneName = sceneName
     self:FireEvent(EventCode.Scene.LevelWasLoaded, sceneName)
 end
-
-function SceneManager.RegEvents()
-end
-
 
 return SceneManager

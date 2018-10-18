@@ -243,6 +243,9 @@ public class Progress : IDisposable
         public virtual void Dispose() { }
         public string Tips = string.Empty;
         public bool isDone;
+        public float progress { protected set; get; }
+        public virtual float percent { protected set; get; }
+
         public virtual void Done()
         {
          
@@ -265,8 +268,7 @@ public class Progress : IDisposable
             progress = value;
         }
 
-        public float progress { protected set; get; }
-        public virtual float percent { protected set; get; }
+       
     }
 
     /// <summary>

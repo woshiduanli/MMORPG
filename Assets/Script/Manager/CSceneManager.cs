@@ -41,7 +41,7 @@ public class CSceneManager : CLoopObject
         //FireEvent(new CEvent.UI.DisposeEvent(e.sceneName));
         FireEvent(new CEvent.Scene.LoadLevelBegin(e.sceneName));
 
-        Progress.Instance.Dispose();
+        //Progress.Instance.Dispose();
         this.targetLevel = e.sceneName;
         this.PreloadAssets = e.Assets;
         this.WaitRef = e.WaitRef;
@@ -53,7 +53,7 @@ public class CSceneManager : CLoopObject
         }
 
         //2018-8-10 成娟修改过图紫色
-        //CAsyncLevelLoaderUI.Create(this.World, this.Ref_mgr);
+        CAsyncLevelLoaderUI.Create();
 
         //当前地图--》过图场景--》目标地图
         FireEvent(new CEvent.Scene.LoadSceneBegin(SceneName.ASYNC_LOADER_SCENE));
@@ -64,11 +64,15 @@ public class CSceneManager : CLoopObject
     public override void OnLevelWasLoaded()
     {
         string ActiveName = SceneManager.GetActiveScene().name;
+        //2018-8-10 成娟修改过图错误
         if (ActiveName == this.targetLevel)
             loading = false;
         Progress.Instance.Dispose();
         if (ActiveName == SceneName.ASYNC_LOADER_SCENE)
         {
+
+            SceneManager.LoadScene(targetLevel);
+            //      
             //DisposeSceneAsset(ref CacheSceneAssets);
             //DisposeSceneAsset(ref CurSceneAssets);
             //if (SceneName.InUnity(targetLevel))

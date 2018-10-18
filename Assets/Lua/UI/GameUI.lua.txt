@@ -4,20 +4,21 @@ local Timer = require("util.Timer")
 
 local GameUI = class(Base)
 
-function GameUI:ctor(ui)
-    Base.ctor(self, ui)
+function GameUI:ctor(name, ...)
     -- 获取ID
-    self.HashIDTable = require(string.format("UI.%s.C%sUIID", ui, ui))
+     Base.ctor(self, name, ...)
+    self.HashIDTable = require(string.format("UI.%s.C%sUIID", name, name))
     if self.HashIDTable == nil then
-        Log.error("Error Error ", " not find your ID " .. "path is:", string.format("UI.%s.C%sUIID", ui, ui))
+        Log.error("Error Error ", " not find your ID " .. "path is:", string.format("UI.%s.C%sUIID", name, name))
     end
+    self.isUI = true
     self.Link = self.HashIDTable.HashID
-    self.Name = ui
+    self.Name = name
     self.IsFullScreen = false
     self.DontDestoryOnLoad = false
     self.Layer = UILayer.Free
     self.LoopDuration = 1
-    self.SortingOrder = 1
+    -- self.SortingOrder = 1
     self.PlaneDistance = 2
     self.NeedRefresh = true
     self.Loop = false
@@ -50,13 +51,6 @@ function GameUI:UIEnable()
             element:UIEnable()
         end
     end
-
-    -- 开启定时器
-    if self.timers then
-        for k, v in pairs(self.timers) do
-            v.pause = false
-        end
-    end
 end
 
 function GameUI:OnUIEnable()
@@ -73,13 +67,6 @@ function GameUI:UIDisable()
     if self.callbacks then
         for k, v in pairs(self.callbacks) do
             Global.UnregEvent(v.eid, v.func)
-        end
-    end
-
-    -- 暂停定时器
-    if self.timers then
-        for k, v in pairs(self.timers) do
-            v.pause = true
         end
     end
 end
@@ -99,15 +86,14 @@ function GameUI:OnDestroy()
 
     self.Elements = nil
 
-    -- 销毁定时器
-    if self.timers then
-        for k, v in pairs(self.timers) do
-            v.destory = true
-        end
-    end
     self.callbacks = nil
-    self.timers = nil
 end
+
+-- ui 对象在影藏的状态， 计时器自动处理 暂停， 不会再执行， 显示状态， 会继续执行
+function GameUI:AddTimer(func, IsEveryFrame, interval, PrcessCount)
+    Base.AddTimer(self, func, IsEveryFrame, interval, PrcessCount)
+end
+
 --End-----------------------------------------------------------------------
 
 function GameUI:IsShow()

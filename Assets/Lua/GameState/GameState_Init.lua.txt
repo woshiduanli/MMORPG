@@ -2,12 +2,6 @@ local Base = require "GameState.GameState"
 local GameState_Init = class(Base)
 local ObjectManager = require("Manager.ObjectManager")
 
--- function GameState_Init:ctor(name, mgr)
---     -- print( self.__name)
---     Base.ctor(self,name ,mgr)
--- end
-
-
 --注册网络事件，游戏内部事件
 function GameState_Init:InitData()
     ObjectManager.CreateSingleObj("Core.Event", "EventManager")
@@ -15,10 +9,6 @@ function GameState_Init:InitData()
     ObjectManager.CreateSingleObj("Manager.TimeManager", "TimeManager")
     ObjectManager.CreateSingleObj("Manager.UIManager", "UIManager")
     ObjectManager.CreateSingleObj("Manager.SceneManager", "SceneManager")
-
-    --  coroutine.create( GameState_Init.InitData2 )
-
-    -- self:ChangeState(self.mgr.State.Login)
 end
 
 function GameState_Init:InitData2()

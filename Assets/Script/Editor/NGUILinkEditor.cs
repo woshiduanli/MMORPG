@@ -92,8 +92,58 @@ public class NGUILinkEditor : Editor
         CClientCommon.AddComponent<DebugUILine>(link.gameObject);
     }
 
+
+    public static void GetImage(Transform tr, System.Action<Transform> action)
+    {
+        action(tr);
+        if (tr.childCount <= 0) return;
+
+        for (int i = 0; i < tr.childCount; i++)
+        {
+            GetImage(tr.GetChild(i), action);
+        }
+    }
+
+
+    bool isFrist;
     private void ModifyLink(NGUILink link)
     {
+        if (isFrist == false)
+        {
+            isFrist = true;
+
+            UnityEngine.UI.Text[] texts = link.transform.GetComponentsInChildren<UnityEngine.UI.Text>();
+            for (int i = 0; i < texts.Length; i++)
+            {
+                if (texts[i].gameObject.transform.parent.GetComponent<UnityEngine.UI.InputField>() == false)
+                {
+                    texts[i].raycastTarget = false;
+                }
+                else
+                {
+                    texts[i].raycastTarget = true;
+                }
+            }
+
+            UnityEngine.UI.Image[] imges = link.transform.GetComponentsInChildren<UnityEngine.UI.Image>();
+            for (int i = 0; i < imges.Length; i++)
+            {
+
+                if (!imges[i].gameObject.name.ToLower().StartsWith("btn"))
+                {
+                    imges[i].raycastTarget = false;
+                }
+                else
+                {
+                    imges[i].raycastTarget = true;
+                }
+
+                if (imges[i].gameObject.GetComponent<UnityEngine.UI.InputField>() == true)
+                {
+                    imges[i].raycastTarget = true;
+                }
+            }
+        }
 
         for (int i = 0; i < link.Links.Count; i++)
         {

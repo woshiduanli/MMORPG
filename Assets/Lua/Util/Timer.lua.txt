@@ -15,7 +15,8 @@ local Timer = class()
 	--@IsEveryFrame:  是否是每帧都执行
     @return:
 ]]
-function Timer:ctor(func, IsEveryFrame, interval, PrcessCount)
+function Timer:ctor(parent, func, IsEveryFrame, interval, PrcessCount)
+    self.parent = parent
     self.IsEveryFrame = IsEveryFrame
     self.destory = false
     self.func = func
@@ -25,8 +26,14 @@ function Timer:ctor(func, IsEveryFrame, interval, PrcessCount)
         self.interval = nil
         self.PrcessCount = nil
     else
+        if (PrcessCount == 1) then
+            func()
+            self.destory = true
+            return
+        end
         self.interval = interval
         self.PrcessCount = PrcessCount - 1
+
         self.CalTime = 0
     end
 
@@ -42,7 +49,11 @@ function Timer:ctor(func, IsEveryFrame, interval, PrcessCount)
 end
 
 function Timer:Process()
-    if self.destory or self.pause then
+    if self.destory or self.pause or self.parent.disposed then
+        return
+    end
+
+    if (self.parent.isUI) and self.parent.IsActive == false then
         return
     end
 

@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 919833073
+CRC: 2728546549
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 126c7885bd283012955e2388c8973d67
+    Hash: 79b1c33d651505aedf598017c18e0205
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 056bad190c8c454b55c83752f4f5b123
+    Hash: c2292ba9f93e86b5ac3208ce81d67e95
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -52,6 +52,6 @@ ClassTypes:
 Assets:
 - Assets/MyResources/UIPrefab/Login.prefab
 Dependencies:
-- E:/FanFanStudy/MMORPG/Assets/StreamingAssets/res/ui/font/uifont.ft
-- E:/FanFanStudy/MMORPG/Assets/StreamingAssets/res/ui/tex/commonatlas.tex
-- E:/FanFanStudy/MMORPG/Assets/StreamingAssets/res/ui/tex/logon_bg.tex
+- G:/FanFanKeTang/MMORPG2/Assets/StreamingAssets/res/ui/font/uifont.ft
+- G:/FanFanKeTang/MMORPG2/Assets/StreamingAssets/res/ui/tex/commonatlas.tex
+- G:/FanFanKeTang/MMORPG2/Assets/StreamingAssets/res/ui/tex/logon_bg.tex

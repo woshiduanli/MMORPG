@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1647887936
+CRC: 2186459600
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 0a6794a4ed6623c6ce283b1ede0b322d
+    Hash: fc94b54a3b2fb2954da6335fa4bec666
   TypeTreeHash:
     serializedVersion: 2
     Hash: c5855eae7bf95040a896b507074b4366
@@ -21,4 +21,4 @@ Assets:
 - Assets/MyResources/UI/Textures/CommonAtlas.png
 - Assets/MyResources/UI/Textures/Material/CommonAtlasmat.mat
 Dependencies:
-- E:/FanFanStudy/MMORPG/Assets/StreamingAssets/res/ui/myshader.sd
+- G:/FanFanKeTang/MMORPG2/Assets/StreamingAssets/res/ui/myshader.sd
