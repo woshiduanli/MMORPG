@@ -166,7 +166,6 @@ public class CGameLuaUI : CGameUI
 
     void OnDisable()
     {
-        MyDebug.debug("disable ");
         SetPlaneDistance(Def.UIDisableDistance); 
         OnUIDisable();
     }

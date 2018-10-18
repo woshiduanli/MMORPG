@@ -38,7 +38,7 @@ public class CSceneManager : CLoopObject
 
         loading = true;
         // 切换场景， 清理ui 
-        //FireEvent(new CEvent.UI.DisposeEvent(e.sceneName));
+        FireEvent(new CEvent.UI.DisposeEvent(e.sceneName));
         FireEvent(new CEvent.Scene.LoadLevelBegin(e.sceneName));
 
         //Progress.Instance.Dispose();
@@ -111,7 +111,7 @@ public class SceneName
     /// <summary>
     /// 选择角色界面
     /// </summary>
-    public static string ROLE_SELECT_SCENE = "SelecteRole";
+    public static string ROLE_SELECT_SCENE = "SelectRole";
     /// <summary>
     /// 选择角色-法师
     /// </summary>

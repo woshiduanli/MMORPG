@@ -36,6 +36,8 @@ public class CLoaderUI : MonoBehaviour
 
     public void Update()
     {
+        MyDebug.debug("Progress.Instance.progress:" + Progress.Instance.progress);
+        MyDebug.debug("  value:" + value);
         if (Progress.Instance.progress <= this.Custom)
             value += Time.deltaTime * this.Speed;
         if (value < Progress.Instance.progress && Progress.Instance.progress >= this.Custom)

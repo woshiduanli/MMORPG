@@ -188,7 +188,7 @@ function GameUI:CreateMirrorUIObject(apprid, equips, dress, x, y, scale)
 end
 
 function GameUI:SetEvent(eid, eventID, func)
-    print("SetEvent.")
+    -- print("SetEvent.")
     return CSGlobal.SetEvent(self.Name, self.Link, eid, eventID, func)
 end
 

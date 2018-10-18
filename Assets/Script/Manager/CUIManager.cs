@@ -129,7 +129,9 @@ public class CUIManager : CLoopObject
         RegEvent<CEvent.Scene.LevelWasLoaded>(OnLevelWasLoaded);
         RegEvent<CEvent.UI.ShowUI>(OnShowUIEvent);
         RegEvent<CEvent.UI.OpenUI>(OnCreateUIEvent);
+        RegEvent<CEvent.UI.OpenUI>(OnCreateUIEvent);
         RegEvent<CEvent.UI.CloseUI>(OnCloseUI);
+        RegEvent<CEvent.UI.DisposeEvent>(OnDisposeEvent);
     }
 
     public void Add(CGameLuaUI ui, bool show)
@@ -180,6 +182,28 @@ public class CUIManager : CLoopObject
         return false;
     }
 
+    private void OnDisposeEvent(CObject sender, CEvent.UI.DisposeEvent e)
+    {
+        Hold = true;
+        for (int i = 0; i < uis.Length; ++i)
+        {
+            CGameUI ui = uis[i];
+            if (!ui)
+                continue;
+            //if (ui.dontDestoryOnLoad && ui.DontCloseOnLoad)
+            //    continue;
+            //if (ui.gameObject)
+            //    ui.gameObject.SetActive(false);
+        }
+
+        this.Clear();
+
+        if (e.sceneName == SceneName.LOGIN_SCENE || e.sceneName == SceneName.ROLE_SELECT_SCENE)
+        {
+            UIDispose();
+        }
+    }
+
     public void Remove(CGameUI ui)
     {
         if (!ui || ui.disposed)
@@ -203,6 +227,64 @@ public class CUIManager : CLoopObject
         }
         ui.Dispose();
     }
+
+
+    private void Clear()
+    {
+        List<CGameUI> destroy = new List<CGameUI>();
+        for (int i = 0; i < uis.Length; ++i)
+        {
+            CGameUI ui = uis[i];
+            if (!ui)
+                continue;
+            //if (!ui.dontDestoryOnLoad)
+            //{
+            //    if (ui.gameObject)
+            //        ui.gameObject.SetActive(false);
+            //    ui.transform.SetParent(null);
+            //    destroy.Add(ui);
+            //}
+        }
+
+        for (int i = 0; i < destroy.Count; i++)
+            Remove(destroy[i]);
+
+        for (loading.Begin(); loading.Next(); )
+        {
+            if (loading.Value != null)
+                loading.Value.SetVisible(false);
+        }
+        //if (uIShadow)
+        //    CClientCommon.DestroyImmediate(uIShadow.gameObject);
+    }
+
+    private void UIDispose()
+    {
+        for (int i = 0; i < uis.Length; ++i)
+        {
+            CGameUI ui = uis[i];
+            if (!ui)
+                continue;
+            //由于CLayOutUI存在
+            ui.transform.SetParent(null);
+        }
+
+        for (int i = 0; i < uis.Length; ++i)
+            Remove(uis[i]);
+
+        names.Clear();
+
+        for (loading.Begin(); loading.Next(); )
+        {
+            if (loading.Value != null)
+                loading.Value.Destroy();
+        }
+        loading.Clear();
+
+        //if (uIShadow)
+        //    CClientCommon.DestroyImmediate(uIShadow.gameObject);
+    }
+
 
     private void LoadFont()
     {

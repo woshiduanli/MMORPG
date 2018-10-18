@@ -12,7 +12,12 @@ public class testCode : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+     Animator dd =  GetComponent<Animator>();
 
+     dd.SetInteger("ToSkill", 5);
+     dd.SetInteger("ToSkill", 6);
+     dd.SetInteger("ToSkill", 4);
+     //MyDebug.debug("Ip-----------
         //MyDebug.debug("Ip------------------------------");
 
         //Debug.LogError(proto.ToArray().Length);

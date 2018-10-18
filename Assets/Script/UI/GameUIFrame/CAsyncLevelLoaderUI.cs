@@ -12,7 +12,7 @@ public class CAsyncLevelLoaderUI : MonoBehaviour
         GameObject Laugo = Object.Instantiate(Resources.Load("UI/Login/UIPrefab/AsyncLevelLoader")) as GameObject;
         if (Laugo.transform.parent != null)
         {
-            MyDebug.debug("ni le ");
+            MyDebug.debug("ni -------------------------------------le ");
             MyDebug.debug(Laugo.transform.parent.gameObject.name);
         }
         else
