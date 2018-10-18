@@ -102,19 +102,7 @@ public class CGameUIAsset : ZRender.IRenderObject
         this.UIType = uitype;
         this.Args = args;
     }
-    protected void OnCreate2()
-    {
-        GameObject obj = Resources.Load<GameObject>("Login");
-        GameObject obj2 = GameObject.Instantiate(obj);
-        gameObject = obj2;
-        gameObject.transform.parent = GameObject.Find("UIRoot(Clone)").transform;
-        gameObject.transform.localScale = Vector3.one;
-        gameObject.SetActive(true);
-        UICacheComponents uICache = this.gameObject.GetComponent<UICacheComponents>();
-        LoadAsset(uICache);
 
-
-    }
 
     protected override void OnCreate()
     {
