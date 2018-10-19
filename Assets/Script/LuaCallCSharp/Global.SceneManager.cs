@@ -12,9 +12,9 @@ using UnityEngine.SceneManagement;
 public static partial class Global
 {
 
-    public static void LoadLevel(string SceneName)
+    public static void LoadLevel(string json = null)
     {
-        UIMgr.FireEvent(new CEvent.Scene.LoadLevel(SceneName));
+        UIMgr.FireEvent(new CEvent.Scene.LuaLoadLevel( json));
     }
 
     // ∂¡»°≥°æ∞ÕÍ±œ

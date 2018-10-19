@@ -81,8 +81,6 @@ function UIManager.OnLevelWasLoaded(scene)
     if (scene == GameDef.SceneName.LOGIN) then
         UIManager.OnCreateUIEvent("Login")
     elseif (scene == GameDef.SceneName.SelectRole) then
-        print("执行了选择角色ui ")
-
         UIManager.OnCreateUIEvent("SelectRole")
     end
 end

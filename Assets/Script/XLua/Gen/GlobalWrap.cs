@@ -538,11 +538,22 @@ namespace XLua.CSObjectWrap
             
             
             
-                
+			    int __gen_param_count = LuaAPI.lua_gettop(L);
+            
+                if(__gen_param_count == 1&& (LuaAPI.lua_isnil(L, 1) || LuaAPI.lua_type(L, 1) == LuaTypes.LUA_TSTRING)) 
                 {
-                    string SceneName = LuaAPI.lua_tostring(L, 1);
+                    string json = LuaAPI.lua_tostring(L, 1);
                     
-                    Global.LoadLevel( SceneName );
+                    Global.LoadLevel( json );
+                    
+                    
+                    
+                    return 0;
+                }
+                if(__gen_param_count == 0) 
+                {
+                    
+                    Global.LoadLevel(  );
                     
                     
                     
@@ -552,6 +563,8 @@ namespace XLua.CSObjectWrap
             } catch(System.Exception __gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + __gen_e);
             }
+            
+            return LuaAPI.luaL_error(L, "invalid arguments to Global.LoadLevel!");
             
         }
         

@@ -12,6 +12,7 @@ public class testCode : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        return; 
      Animator dd =  GetComponent<Animator>();
 
      dd.SetInteger("ToSkill", 5);

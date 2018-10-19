@@ -22,8 +22,6 @@ public class CGameState_Init : CGameState
 
     protected override void InitData()
     {
-
-
         CCoroutineEngine coroutine = this.GetSingleT<CCoroutineEngine>();
         LoadPreLoadShader(Application.isEditor ? ConstFilePathDefine.PCshaders : ConstFilePathDefine.shaders);
         //LoadPreLoadAssets(ConstFilePathDefine.publicAssets);
@@ -40,10 +38,10 @@ public class CGameState_Init : CGameState
         ChangeState(GameState.LOGIN);
     }
 
-    protected override void ChangeState(GameState state, ObjArgs args = null)
+    protected override void ChangeState(GameState state, params object[] objs)
     {
         if (state == GameState.LOGIN)
-            CreateSingleT<CGameState_Login>(args);
+            CreateSingleT<CGameState_Login>(objs);
     }
 
 

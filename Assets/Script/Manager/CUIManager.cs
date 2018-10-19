@@ -249,7 +249,7 @@ public class CUIManager : CLoopObject
         for (int i = 0; i < destroy.Count; i++)
             Remove(destroy[i]);
 
-        for (loading.Begin(); loading.Next(); )
+        for (loading.Begin(); loading.Next();)
         {
             if (loading.Value != null)
                 loading.Value.SetVisible(false);
@@ -274,7 +274,7 @@ public class CUIManager : CLoopObject
 
         names.Clear();
 
-        for (loading.Begin(); loading.Next(); )
+        for (loading.Begin(); loading.Next();)
         {
             if (loading.Value != null)
                 loading.Value.Destroy();

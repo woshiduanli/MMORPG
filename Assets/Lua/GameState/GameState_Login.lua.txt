@@ -4,8 +4,9 @@ local GameState_Login = class(Base)
 
 
 function GameState_Login:InitData()
-    print("准备创建单列LoginData")
     ObjectManager.CreateSingleObj("GameData.LoginData", "LoginData")
+
+
 end
 
 

@@ -1,9 +1,15 @@
 local Base = require "GameState.GameState"
 local ObjectManager = require("Manager.ObjectManager")
-local GameState_SelectRole = class(Base)
+local GameState_SelectRole = class(Base) 
+local Json = Json
 
 function GameState_SelectRole:InitData()
-    CSGlobal.LoadLevel ("SelectRole")
+    local jsonData = {}
+    jsonData["sceneName"] = "SelectRole"
+    
+
+
+    CSGlobal.LoadLevel(Json.encode(jsonData))
 end
 
 return GameState_SelectRole

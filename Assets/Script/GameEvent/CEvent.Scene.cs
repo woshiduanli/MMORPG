@@ -15,19 +15,30 @@ public static partial class CEvent
             }
         }
 
+        public struct LuaLoadLevel : IEvent
+        {
+            public string json;
+
+            public LuaLoadLevel(string json)
+            {
+                this.json = json;
+            }
+        }
+
+
         //场景加载完毕事件
         public struct LevelWasLoaded : IEvent
         {
             public string sceneName;
             public string targetscene;
-            public LevelWasLoaded(string name,string target)
+            public LevelWasLoaded(string name, string target)
             {
                 sceneName = name;
                 targetscene = target;
             }
         }
 
-        public struct LoadLevel: IEvent
+        public struct LoadLevel : IEvent
         {
             public string sceneName;
             public List<string> Assets;

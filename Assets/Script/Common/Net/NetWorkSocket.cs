@@ -101,7 +101,6 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
     // 真正发送数据包到服务器
     void Send(byte[] buffer)
     {
-        MyDebug.debug("开始发送的地方");
         client.BeginSend(buffer, 0, buffer.Length, SocketFlags.None, SendCallBack, client);
     }
 
@@ -257,12 +256,12 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 
                         //}
 
-                        using (MMO_MemoryStream stream = new MMO_MemoryStream())
-                        {
-                            // 不发消息
-                            //stream.WriteUTF8String("客户发送出去的时间:" + System.DateTime.Now.ToString());
-                            //SendMsg(stream.ToArray());
-                        }
+                        //using (MMO_MemoryStream stream = new MMO_MemoryStream())
+                        //{
+                        //    // 不发消息
+                        //    //stream.WriteUTF8String("客户发送出去的时间:" + System.DateTime.Now.ToString());
+                        //    //SendMsg(stream.ToArray());
+                        //}
                     }
                     else
                     {

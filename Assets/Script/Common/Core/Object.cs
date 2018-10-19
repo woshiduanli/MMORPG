@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UniRx;
 
+public interface ObjArgs { }
 
 namespace ZCore
 {
-    public interface ObjArgs { }
+ 
     /*! CObject
     \brief
       基于CObject对象管理体系的基类，继承该类的对象在不使用时必须调用Dispose
@@ -21,10 +22,11 @@ namespace ZCore
         public string obj_name;
         public CObjectManager obj_mgr;
         public ObjArgs objs;
+        public System.Object[] args; 
 
         public virtual void Initialize() { }
 
-        public T CreateSingleT<T>(ObjArgs objs = null) where T : CObject, new()
+        public T CreateSingleT<T>(params object[]  objs ) where T : CObject, new()
         {
             if (this.obj_mgr == null)
             {
@@ -207,7 +209,7 @@ namespace ZCore
             return singles[type, type];
         }
 
-        public T CreateSingleT<T>(ObjArgs objs = null) where T : CObject, new()
+        public T CreateSingleT<T>(params object[] objs ) where T : CObject, new()
         {
             Type type = typeof(T);
             T obj = singles[type, type] as T;
@@ -215,7 +217,7 @@ namespace ZCore
                 return obj;
 
             obj = new T();
-            obj.objs = objs;
+            obj.args = objs;
             obj.obj_id = id_gen++;
             obj.obj_mgr = this;
             singles[type, type] = obj;

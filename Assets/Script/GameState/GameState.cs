@@ -22,17 +22,17 @@ public abstract class CGameState : CLoopObject
     protected List<IDisposable> Disposabledic = new List<IDisposable>();
     public CGameState()
     {
-        //if (Current != null)
-        //    Current.Dispose();
-        //Current = this;
+        if (Current != null)
+            Current.Dispose();
+        Current = this;
     }
 
-    protected virtual void ChangeState(GameState state, ObjArgs objs)
+    protected virtual void ChangeState(GameState state,  params object[] args)
     {
-        //for (int i = 0; i < Disposabledic.Count; i++)
-        //    Disposabledic[i].Dispose();
-        //Disposabledic.Clear();
-        //if (Current)
-        //    Current.Dispose();
+        for (int i = 0; i < Disposabledic.Count; i++)
+            Disposabledic[i].Dispose();
+        Disposabledic.Clear();
+        if (Current!= null)
+            Current.Dispose();
     }
 }
