@@ -3,7 +3,7 @@ CRC: 2186459600
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: fc94b54a3b2fb2954da6335fa4bec666
+    Hash: 4c32b6523521811656a1cdb75beb7bcb
   TypeTreeHash:
     serializedVersion: 2
     Hash: c5855eae7bf95040a896b507074b4366
@@ -21,4 +21,4 @@ Assets:
 - Assets/MyResources/UI/Textures/CommonAtlas.png
 - Assets/MyResources/UI/Textures/Material/CommonAtlasmat.mat
 Dependencies:
-- G:/FanFanKeTang/MMORPG2/Assets/StreamingAssets/res/ui/myshader.sd
+- E:/FanFanStudy/MMORPG/Assets/StreamingAssets/res/ui/myshader.sd

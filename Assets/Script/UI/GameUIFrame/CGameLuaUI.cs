@@ -152,12 +152,13 @@ public class CGameLuaUI : CGameUI
         // 如果是全屏界面， 此时应该关闭，ui 摄像机的渲染
         //if (this.Layer == CUILayer.FullWindow && this.isFullScreen)
         //    FireEvent(new CEvent.CameraCtrl.CameraActive(false));
-
+        //InputField d;
+        //d.text = "sfsf"; 
         for (int i = 0; i < Childidles.Count; i++)
             ChildMap.Remove(Childidles[i]);
         Childidles.Clear();
 
-        for (ChildMap.Begin(); ChildMap.Next();)
+        for (ChildMap.Begin(); ChildMap.Next(); )
         {
             if (ChildMap.Value)
                 ChildMap.Value.enabled = true;
@@ -166,7 +167,7 @@ public class CGameLuaUI : CGameUI
 
     void OnDisable()
     {
-        SetPlaneDistance(Def.UIDisableDistance); 
+        SetPlaneDistance(Def.UIDisableDistance);
         OnUIDisable();
     }
 
@@ -366,7 +367,7 @@ public class CGameLuaUI : CGameUI
 
             if (this.ui_mgr.Hold)
                 return;
-            for (ClosedDic.Begin(); ClosedDic.Next();)
+            for (ClosedDic.Begin(); ClosedDic.Next(); )
             {
                 CGameUI ui = this.ui_mgr.Get(ClosedDic.Key);
                 if (ui)
@@ -382,7 +383,7 @@ public class CGameLuaUI : CGameUI
     {
         if (disposed)
             return false;
-        SetActive(true); 
+        SetActive(true);
         return true;
     }
 
@@ -417,6 +418,24 @@ public class CGameLuaUI : CGameUI
             CText cText = link.GetComponent<CText>(tid);
             if (cText)
                 cText.text = text;
+            else if (link.GetComponent<InputField>(tid))
+            {
+                InputField field = link.GetComponent<InputField>(tid);
+                field.text = text;
+            }
+        }
+    }
+
+    public void SetInputField(int linkid, int tid, string text)
+    {
+        NGUILink link = GetLink(linkid);
+        if (link)
+        {
+            InputField filed = link.GetComponent<InputField>(tid);
+            if (filed)
+            {
+                filed.text = text;
+            }
         }
     }
 

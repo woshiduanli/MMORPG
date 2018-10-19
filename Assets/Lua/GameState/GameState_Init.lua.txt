@@ -4,8 +4,7 @@ local ObjectManager = require("Manager.ObjectManager")
 
 --注册网络事件，游戏内部事件
 function GameState_Init:InitData()
-    ObjectManager.CreateSingleObj("Core.Event", "EventManager")
-    ObjectManager.CreateSingleObj("Manager.NetManager", "NetManager")
+  
     ObjectManager.CreateSingleObj("Manager.TimeManager", "TimeManager")
     ObjectManager.CreateSingleObj("Manager.UIManager", "UIManager")
     ObjectManager.CreateSingleObj("Manager.SceneManager", "SceneManager")

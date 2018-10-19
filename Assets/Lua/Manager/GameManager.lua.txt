@@ -15,7 +15,8 @@ function GameManager.InitData()
     LuaDebugHelper.InitData()
     Config.LoadConfig()
     ObjectManager.InitData()
-
+    ObjectManager.CreateSingleObj("Core.Event", "EventManager")
+    ObjectManager.CreateSingleObj("Manager.NetManager", "NetManager")
     -- 进入游戏状态管理器， 进入游戏
     ObjectManager.CreateSingleObj("Manager.GameStateManager", "GameStateManager")
 end
