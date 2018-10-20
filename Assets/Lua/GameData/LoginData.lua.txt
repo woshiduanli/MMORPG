@@ -10,11 +10,11 @@ end
 function LoginData:RegEvents()
     print("我是随机数目" .. (math.random(1, 10000)))
 
-    self:RegProto("RoleOperation_LogOnGameServerReturnProto", self:GetSelfFunc(self.RecServerData))
+     self:RegProto("RoleOperation_LogOnGameServerReturnProto", self:GetSelfFunc(self.RecServerData))
 end
 
 function LoginData:RecServerData(RoleOperation_LogOnGameServerReturnProto)
-    local d = Json.encode(RoleOperation_LogOnGameServerReturnProto)
+ 
     self:FireEvent(EventCode.GameState.ChangeState, "SelectRole", RoleOperation_LogOnGameServerReturnProto)
     self.objMgr.DestroySingleObj("LoginData")
 end

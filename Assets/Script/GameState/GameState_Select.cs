@@ -21,9 +21,18 @@ public class CGameState_Select : CGameState
     //        return roles_;
     //    }
     //}
+    public override void Initialize()
+    {
 
+        System.Object obj = args[0];
+        RoleOperation_LogOnGameServerReturnProto obj3 = (RoleOperation_LogOnGameServerReturnProto)obj; 
+    }
     protected override void InitData()
     {
+
+
+
+
         ////2018-8-31 机型性能适配 CJ
         //ConfigHelper.SetFrameRate((int)GameSetSystem.mDeviceLevel);
         //Time.fixedDeltaTime = 0.02f;
