@@ -8,6 +8,19 @@ function coroutineUtil:InitData(...)
     CSGlobal.RegUpdate(TimeManager.Update)
 end
 
+function coroutineUtil:CreateMy(tab)
+    local thrend =
+        coroutine.create(
+        function(tab)
+            while (tab) do
+                tab = coroutine.yield(tab.fun(tab.para))
+            end
+        end
+    )
+    coroutine.resume(thrend, tab)
+    return thrend
+end
+
 function coroutineUtil.AddCoroutine()
     local i = 1
     while i <= #TimeManager.AllTimer do
@@ -26,6 +39,6 @@ function coroutineUtil.Actio(funArr)
         local co = coroutine.create(v)
         local ddddd, ddd2 = coroutine.resume(co, self)
     end
-    return  true 
+    return true
 end
 return coroutineUtil

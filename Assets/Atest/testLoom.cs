@@ -81,10 +81,18 @@ public class testLoom : MonoBehaviour
             //MyDebug.debug("111:" + System.DateTime.Now);
 
 
-
+            //cortine.start( (at){
+            //          if ()
+            //} )
         }
     }
+    public void ToDat2(CText text, List<string> strData, List<CText> listText)
+    {
+        //for (int i = 0; i < listText.Count; i++)
+        //{
 
+        //}
+    }
 
     public void ToDat(CText text, List<string> strData, List<CText> listText)
     {

@@ -28,11 +28,29 @@ function CSelectZoneUI:Initialize()
     )
     --self:SetCText(self.HashIDTable.text_zone,"待赋的值")
 end
+
+function CSelectZoneUI:Initialize2()
+    coroutine.create(
+        function( tab )
+            while (tab) do
+               tab = coroutine.yield(  tab.fun (tab.para) )
+            end
+        end
+    )
+end
+
 CSelectZoneUI.i = 0
 
 CSelectZoneUI.istrue = false
 
 function CSelectZoneUI:Update2()
+    coroutine.resume(function (  )
+        -- body
+    end)
+
+      coroutine.resume( { fun=fun, para=para } )
+
+
     print("更新吧孩子1")
 end
 
