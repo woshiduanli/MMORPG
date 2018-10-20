@@ -59,7 +59,8 @@ public abstract class AbstractDBModel<T, P>
     /// </summary>
     private void LoadData()
     {
-        using (GameDataTableParser parse = new GameDataTableParser(string.Format(@"G:\FanFanKeTang\MMORPG\www\Data\{0}", FileName)))
+
+        using (GameDataTableParser parse = new GameDataTableParser(string.Format(@"{0}\Script\Data\LocalData\{1}", Application.dataPath, FileName)))
         {
             while (!parse.Eof)
             {

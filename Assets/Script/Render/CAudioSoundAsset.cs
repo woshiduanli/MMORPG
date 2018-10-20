@@ -14,6 +14,7 @@ public class CAudioSoundAsset : ZRender.IRenderObject
 
     protected override void OnCreate()
     {
+        //JobDBModel.Instance.GetList();
         AudioClip clip = GetOwner().GetAsset() as AudioClip;
 
         this.gameObject = new GameObject(clip.name);

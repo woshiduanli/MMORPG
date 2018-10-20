@@ -6,13 +6,7 @@ using System.Text;
 //using UnityEngine.Object = Object; 
 
 
-public class CBaseObject : ZRender.IRenderObject, IDisposable
-{
-    public void Dispose()
-    {
 
-    }
-}
 
 public class CGameUIAsset : ZRender.IRenderObject
 {
