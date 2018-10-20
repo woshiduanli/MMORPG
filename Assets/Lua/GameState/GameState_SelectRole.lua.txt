@@ -1,15 +1,17 @@
 local Base = require "GameState.GameState"
 local ObjectManager = require("Manager.ObjectManager")
-local GameState_SelectRole = class(Base) 
-local Json = Json
+local GameState_SelectRole = class(Base)
 
-function GameState_SelectRole:InitData()
-    local jsonData = {}
-    jsonData["sceneName"] = "SelectRole"
-    
-
-
-    CSGlobal.LoadLevel(Json.encode(jsonData))
+function GameState_SelectRole:InitData(t)
+    CSGlobal.LoadLevel("SelectRole")
+    print("拿到玩家创建角色的数据当前的数据:" .. (Json.encode(t)))
+    -- 用户没有角色, 去创建角色界面
+    if (#(t.RoleTable) == 0) then
+        print("meiyo----------------u ")
+        self.noHaveRole = true
+    else
+        -- 用户已经有角色
+    end
 end
 
 return GameState_SelectRole

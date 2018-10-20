@@ -3,6 +3,7 @@ local Base = require "core.Object"
 local GameStateManager = class(Base)
 local table = table
 local coroutine = coroutine
+local EventCode = EventCode
 -- local ObjectManager = require("Manager.ObjectManager")
 
 -- 所有状态名字
@@ -20,6 +21,7 @@ GameStateManager.State = {
 -- 从游戏状态开启进入游戏
 function GameStateManager:InitData()
     self.CurStateName = self.State.None
+    self:RegEvent(EventCode.GameState.ChangeState, self:GetSelfFunc(self.ChangeState))
     -- self:ChangeState(self.State.Init)
     -- 进入游戏初始化
     local co = coroutine.create(self.crateInit)
@@ -31,11 +33,11 @@ end
 
 function GameStateManager:crateInit()
     self:ChangeState(self.State.Init)
-    return true 
+    return true
 end
 
 --
-function GameStateManager:ChangeState(StateName)
+function GameStateManager:ChangeState(StateName, ...)
     if (StateName == self.CurStateName) then
         return false
     end
@@ -43,7 +45,7 @@ function GameStateManager:ChangeState(StateName)
     if self.CurStateObj ~= nil then
         self.objMgr.DestroySingleObj("GameState_" .. self.CurStateName)
     end
-    self.CurStateObj = self.objMgr.CreateSingleObj("GameState.GameState_" .. StateName, "GameState_" .. StateName, self)
+    self.CurStateObj = self.objMgr.CreateSingleObj("GameState.GameState_" .. StateName, "GameState_" .. StateName, ...)
     self.CurStateName = StateName
 end
 

@@ -1,5 +1,7 @@
 local Base = GameUI
 local CSelectRoleUI = class(Base)
+local EventCode = EventCode
+local math = math
 
 function CSelectRoleUI:ctor(ui)
     Base.ctor(self, ui)
@@ -9,6 +11,8 @@ function CSelectRoleUI:ctor(ui)
 end
 
 function CSelectRoleUI:Initialize()
+    self.thisData = self:GetSingleObj("GameState_SelectRole")
+
     self:SetEvent(
         self.HashIDTable.btnClose,
         UIManager.EID.PointerClick,
@@ -91,10 +95,13 @@ function CSelectRoleUI:OnClickBtnJobItemView_4()
 end
 
 function CSelectRoleUI:OnClickbtnReturn()
+    -- 改变场景
+    self:FireEvent(EventCode.GameState.ChangeState, "Login")
     print("OnClickbtnReturn")
 end
 
 function CSelectRoleUI:OnClickbtnRandomName()
+    self:SetCText(self.HashIDTable.textRoleName, Language.WANJIA .. math.random(1, 0100))
     print("OnClickbtnRandomName")
 end
 
@@ -111,6 +118,14 @@ function CSelectRoleUI:OnClickbtnCreateRole()
 end
 
 function CSelectRoleUI:UIEnable()
+    Base.UIEnable(self)
+    -- 玩家没有角色
+    if (self.thisData.noHaveRole) then
+        self:SetCText(self.HashIDTable.textRoleName, Language.WANJIA .. math.random(1, 1000))
+    else
+
+        
+    end
 end
 
 function CSelectRoleUI:LoadUICallback()

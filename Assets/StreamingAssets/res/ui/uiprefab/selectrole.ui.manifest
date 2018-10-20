@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 4164763705
+CRC: 585487926
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: ab1fe2b73b0d9398cf5b79a7017c34a6
+    Hash: b1a274d647484bb742854285dc4af717
   TypeTreeHash:
     serializedVersion: 2
     Hash: b03803a42726b8d60e4ba46787f4e628
@@ -52,7 +52,7 @@ ClassTypes:
 Assets:
 - Assets/MyResources/UIPrefab/SelectRole.prefab
 Dependencies:
-- G:/FanFanKeTang/MMORPG2/Assets/StreamingAssets/res/ui/font/font_jcy.ft
-- G:/FanFanKeTang/MMORPG2/Assets/StreamingAssets/res/ui/tex/headimg.tex
-- G:/FanFanKeTang/MMORPG2/Assets/StreamingAssets/res/ui/tex/commonatlas.tex
-- G:/FanFanKeTang/MMORPG2/Assets/StreamingAssets/res/ui/tex/uicommonatlas.tex
+- E:/FanFanStudy/MMORPG/Assets/StreamingAssets/res/ui/font/font_jcy.ft
+- E:/FanFanStudy/MMORPG/Assets/StreamingAssets/res/ui/tex/headimg.tex
+- E:/FanFanStudy/MMORPG/Assets/StreamingAssets/res/ui/tex/commonatlas.tex
+- E:/FanFanStudy/MMORPG/Assets/StreamingAssets/res/ui/tex/uicommonatlas.tex

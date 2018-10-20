@@ -5,9 +5,9 @@ local GameState_Login = class(Base)
 
 function GameState_Login:InitData()
     ObjectManager.CreateSingleObj("GameData.LoginData", "LoginData")
-
-
+    CSGlobal.LoadLevel ("Login")
 end
+
 
 
 return GameState_Login
