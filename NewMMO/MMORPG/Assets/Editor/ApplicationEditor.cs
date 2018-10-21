@@ -923,6 +923,8 @@ public class ApplicationEditor : Editor
 
     public static int GetSceneIndex(string name)
     {
+        //MyDebug
+        //MyDebug
         int index = -1;
 
         for (int i = 0; i < EditorBuildSettings.scenes.Length; i++)

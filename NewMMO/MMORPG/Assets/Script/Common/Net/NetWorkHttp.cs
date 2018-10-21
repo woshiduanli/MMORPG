@@ -7,10 +7,22 @@ using DG.Tweening;
 using LitJson;
 //using DG;
 //MyDebug.Debug = UnityEngine.de
-public class MyDebug{
- public static  System.Action<object> debug=  UnityEngine.Debug.Log;  
+public static class MyDebug
+{
+#if DEBUG_LOG
+    public static System.Action<System.Object> debug = Debug.Log;
+#else
+
+    public static System.Action<System.Object> debug = Sysob;
+#endif
+    public static void Sysob(System.Object obj)
+    {
+
+    }
 
 }
+
+
 /// <summary>
 /// Http通讯管理
 /// 
