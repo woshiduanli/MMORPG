@@ -43,8 +43,7 @@ public class WindowUIMgr : Singleton<WindowUIMgr>
             if (windowBase == null) return null;
 
             m_DicWindow.Add(type, windowBase);
-
-            //windowBase.CurrentUIType = type;
+            windowBase.CurrentUIType = type;
             Transform transParent = null;
 
             switch (windowBase.containerType)
@@ -57,10 +56,7 @@ public class WindowUIMgr : Singleton<WindowUIMgr>
             obj.transform.parent = transParent;
             obj.transform.localPosition = Vector3.zero;
             obj.transform.localScale = Vector3.one;
-            //NGUITools.SetActive(obj, false);
             obj.gameObject.SetActive(true);
-
-
             StartShowWindow(windowBase, true);
         }
         else
@@ -147,19 +143,18 @@ public class WindowUIMgr : Singleton<WindowUIMgr>
     /// <param name="isOpen"></param>
     private void ShowCenterToBig(UIWindowViewBase windowBase, bool isOpen)
     {
-        windowBase.transform.localScale = Vector3.zero; 
-        windowBase.transform.DOScale(Vector3.one, windowBase.duration);
-        //         TweenScale ts = windowBase.gameObject.GetOrCreatComponent<TweenScale>();
-        //         ts.animationCurve = GlobalInit.Instance.UIAnimationCurve;
-        //         ts.from = Vector3.zero;
-        //         ts.to = Vector3.one;
-        //         ts.duration = windowBase.duration;
-        //         ts.SetOnFinished(() => {
-        //             if (!isOpen)
-        //                 DestroyWindow(windowBase);
-        //         });
-        //         NGUITools.SetActive(windowBase.gameObject, true);
-        //         if (!isOpen) ts.Play(isOpen);
+        if (isOpen)
+        {
+            windowBase.transform.localScale = Vector3.zero;
+            windowBase.transform.DOScale(Vector3.one, windowBase.duration);
+        }
+        else
+        {
+            windowBase.transform.DOScale(Vector3.zero, windowBase.duration).OnComplete(() =>
+            {
+                DestroyWindow(windowBase);
+            });
+        }
     }
 
     /// <summary>
@@ -170,9 +165,7 @@ public class WindowUIMgr : Singleton<WindowUIMgr>
     /// <param name="isOpen"></param>
     private void ShowFromDir(UIWindowViewBase windowBase, int dirType, bool isOpen)
     {
-        //TweenPosition tp = windowBase.gameObject.GetOrCreatComponent<TweenPosition>();
-        //tp.animationCurve = GlobalInit.Instance.UIAnimationCurve;
-
+        windowBase.gameObject.SetActive(true);
         Vector3 from = Vector3.zero;
         switch (dirType)
         {
@@ -189,17 +182,18 @@ public class WindowUIMgr : Singleton<WindowUIMgr>
                 from = new Vector3(1400, 0, 0);
                 break;
         }
+        windowBase.transform.localPosition = from;
 
-        //tp.from = from;
-        //tp.to = Vector3.one;
-        //tp.duration = windowBase.duration;
-        //tp.SetOnFinished(() =>
-        //{
-        //    if (!isOpen)
-        //        DestroyWindow(windowBase);
-        //});
-        //NGUITools.SetActive(windowBase.gameObject, true);
-        //if (!isOpen) tp.Play(isOpen);
+        windowBase.transform.DOLocalMove(Vector3.zero, windowBase.duration).SetAutoKill(false).SetEase(GlobalInit.Instance.UIAnimationCurve)
+            .Pause().OnRewind(() =>
+            {
+                DestroyWindow(windowBase);
+            });
+        if (isOpen)
+            windowBase.transform.DOPlayForward();
+        else
+            windowBase.transform.DOPlayBackwards();
+
     }
 
     #endregion
@@ -211,8 +205,8 @@ public class WindowUIMgr : Singleton<WindowUIMgr>
     /// <param name="obj"></param>
     private void DestroyWindow(UIWindowViewBase windowBase)
     {
-        //m_DicWindow.Remove(windowBase.CurrentUIType);
-        //Object.Destroy(windowBase.gameObject);
+        m_DicWindow.Remove(windowBase.CurrentUIType);
+        Object.Destroy(windowBase.gameObject);
     }
     #endregion
 }

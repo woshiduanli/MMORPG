@@ -7,6 +7,7 @@ public class UILogOnView : UIWindowViewBase
 {
     public InputField txtUserName;
     public InputField txtPwd;
+ public   System.Action OnBtnLoginClick; 
 
     protected override void OnBtnClick(GameObject go)
     {
@@ -14,6 +15,10 @@ public class UILogOnView : UIWindowViewBase
         switch (go.name)
         {
             case "btnLogOn":
+                if (OnBtnLoginClick != null)
+                {
+                    OnBtnLoginClick(); 
+                }
                 UIDispatcher.Instance.Dispatch(ConstDefine.UILogOnView_btnLogOn);
                 break;
             case "btnToReg":

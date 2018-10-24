@@ -43,12 +43,20 @@ public class UIWindowViewBase : UIViewBase
     /// </summary>
     [SerializeField]
     public float duration = 0.2f;
+    public WindowUIType NextOpenWindow;
+
+    public System.Action OnViewClose;
+
+    public bool m_OpenNext;
+
 
     /// <summary>
     /// 视图名称
     /// </summary>
     [SerializeField]
     public string ViewName;
+
+    public WindowUIType CurrentUIType;
 
 
     protected override void OnBtnClick(GameObject go)
@@ -63,9 +71,10 @@ public class UIWindowViewBase : UIViewBase
     /// <summary>
     /// 关闭窗口
     /// </summary>
-    public virtual void Close()
+    public virtual void Close(bool m_openNext = false)
     {
-        UIViewUtil.Instance.CloseWindow(ViewName);
+        this.m_OpenNext = m_openNext; 
+        WindowUIMgr.Instance.CloseWindow(this.CurrentUIType);
     }
 
     /// <summary>
@@ -83,5 +92,14 @@ public class UIWindowViewBase : UIViewBase
     protected override void BeforeOnDestroy()
     {
         LayerUIMgr.Instance.CheckOpenWindow();
+        if (m_OpenNext)
+        {
+
+        if (OnViewClose != null) { OnViewClose(); }
+        }
+        //if (NextOpenWindow != WindowUIType.None)
+        //{
+        //    WindowUIMgr.Instance.OpenWindow(NextOpenWindow);
+        //}
     }
 }

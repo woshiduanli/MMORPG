@@ -22,6 +22,10 @@ public class EventDispatcher : Singleton<EventDispatcher>
     //委托字典
     private Dictionary<ushort, IHander> dic = new Dictionary<ushort, IHander>();
 
+    // 内存事件监听
+    private Dictionary<string, IHander> dic2 = new Dictionary<string, IHander>();
+
+   
     public struct Hander : IHander
     {
         public byte[] arr;
