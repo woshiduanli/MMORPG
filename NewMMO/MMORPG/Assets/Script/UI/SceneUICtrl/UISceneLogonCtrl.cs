@@ -5,7 +5,7 @@ using System.Collections;
 /// <summary>
 /// 登录场景UI控制器
 /// </summary>
-public class UISceneLogonCtrl : UISceneBase
+public class UISceneLogonCtrl : UISceneViewBase
 {
     protected override void OnStart()
     {

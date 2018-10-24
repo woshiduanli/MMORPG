@@ -9,7 +9,8 @@ using System.Collections;
 public enum SceneType
 {
     LogOn,
-    City
+    City,
+    ShaMo
 }
 #endregion
 

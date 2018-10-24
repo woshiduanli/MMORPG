@@ -82,8 +82,9 @@ public class ResourcesMgr: Singleton<ResourcesMgr>
             }
 
             sbr.Append(path);
-
-            obj = Resources.Load(sbr.ToString()) as GameObject;
+            string str33 = sbr.ToString();
+            MyDebug.debug(str33); 
+            obj = Resources.Load(str33) as GameObject;
             if (cache)
             {
                 m_PrefabTable.Add(path, obj);

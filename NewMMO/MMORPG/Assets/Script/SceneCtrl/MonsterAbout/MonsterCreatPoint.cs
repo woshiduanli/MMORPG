@@ -39,7 +39,6 @@ public class MonsterCreatPoint : MonoBehaviour
 
                 //创建怪
                 GameObject objClone = RoleMgr.Instance.LoadRole(monsterName, RoleType.Monster);
-
                 objClone.transform.parent = transform;
                 objClone.transform.position = transform.TransformPoint(new Vector3(UnityEngine.Random.Range(-0.5f, 0.5f), 0, UnityEngine.Random.Range(-0.5f, 0.5f)));
                 RoleCtrl roleCtrl = objClone.GetComponent<RoleCtrl>();

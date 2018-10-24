@@ -346,7 +346,7 @@ public class AssetBundleWindow : EditorWindow
                 listNeed.Add(item);
             }
         }
-        return;
+        //return;
         for (int i = 0; i < listNeed.Count; i++)
         {
 
@@ -371,7 +371,7 @@ public class AssetBundleWindow : EditorWindow
         AssetBundleBuild build = new AssetBundleBuild();
         arrBuild[0] = build;
 
-        build.assetBundleName = entity.Name + "." + ((entity.Tag.Equals("Scene", StringComparison.CurrentCultureIgnoreCase)) ? "unity3d" : "assetbundle");
+        build.assetBundleName = entity.Tag+  "/" + entity.Name + "." + ((entity.Tag.Equals("Scene", StringComparison.CurrentCultureIgnoreCase)) ? "unity3d" : "assetbundle");
         //build.assetBundleVariant =/
 
         // 路径, 
@@ -383,7 +383,7 @@ public class AssetBundleWindow : EditorWindow
         {
             Directory.CreateDirectory(toPath);
         }
-
+        arrBuild[0] = build;
         //buildp
 
         BuildPipeline.BuildAssetBundles(toPath, arrBuild, BuildAssetBundleOptions.None, target);

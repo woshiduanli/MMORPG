@@ -1,11 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Root>
   <AssetBundle>
-    <Item Name="Player预设" Tag="Role" IsFolder="True" IsFirstData="True">
-      <Path Value="Download\Prefab\RolePrefab\Player" />
+    <Item Name="Role_MainPlayer" Tag="Role" Version="1" Size="0" ToPath="/Role">
+      <Path Value="Assets\Resources\RolePrefab\Player\Role_MainPlayer.prefab" />
+    </Item>
+    <Item Name="GameScene_CunZhuang" Tag="Scene" Version="1" Size="0" ToPath="/Role/">
+      <Path Value="Assets\Scene\SceneMap\GameScene_CunZhuang.unity" />
     </Item>
 
-    <Item Name="NPC预设" Tag="Role" IsFolder="True" IsFirstData="True">
+    <!--<Item Name="NPC预设" Tag="Role" IsFolder="True" IsFirstData="True">
       <Path Value="Download\Prefab\RolePrefab\NPC" />
     </Item>
 
@@ -46,6 +49,6 @@
     </Item>
     <Item Name="UI资源" Tag="UI" IsFolder="True" IsFirstData="False">
       <Path Value="Download\Source\UISource" />
-    </Item>
+    </Item>-->
   </AssetBundle>
 </Root>

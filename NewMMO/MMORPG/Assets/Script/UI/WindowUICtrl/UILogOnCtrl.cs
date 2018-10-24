@@ -6,7 +6,7 @@ using System;
 /// <summary>
 /// 登录窗口UI控制器
 /// </summary>
-public class UILogOnCtrl : UIWindowBase
+public class UILogOnCtrl : UIWindowViewBase
 {
     /// <summary>
     /// 昵称
@@ -51,7 +51,7 @@ public class UILogOnCtrl : UIWindowBase
     private void BtnToReg()
     {
         Close();
-        NextOpenWindow = WindowUIType.Reg;
+        //NextOpenWindow = WindowUIType.Reg;
     }
 
     private void LogOn()

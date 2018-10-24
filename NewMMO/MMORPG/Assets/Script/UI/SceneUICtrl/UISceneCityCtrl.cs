@@ -5,7 +5,7 @@ using System.Collections;
 /// <summary>
 /// 主城UI控制器
 /// </summary>
-public class UISceneCityCtrl : UISceneBase
+public class UISceneCityCtrl : UISceneViewBase
 {
     protected override void OnBtnClick(GameObject go)
     {

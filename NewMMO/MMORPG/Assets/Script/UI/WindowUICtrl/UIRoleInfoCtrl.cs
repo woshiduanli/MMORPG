@@ -5,7 +5,7 @@ using System.Collections;
 /// <summary>
 /// 角色信息窗口控制器
 /// </summary>
-public class UIRoleInfoCtrl : UIWindowBase 
+public class UIRoleInfoCtrl : UIWindowViewBase 
 {
     protected override void OnBtnClick(GameObject go)
     {

@@ -45,8 +45,8 @@ public class AssetBundleDAL
             entity.Key = "key" + ++index;
             entity.Name = item.Attribute("Name").Value;
             entity.Tag = item.Attribute("Tag").Value;
-            entity.IsFolder = item.Attribute("IsFolder").Value.Equals("True", System.StringComparison.CurrentCultureIgnoreCase);
-            entity.IsFirstData = item.Attribute("IsFirstData").Value.Equals("True", System.StringComparison.CurrentCultureIgnoreCase);
+            //entity.IsFolder = item.Attribute("IsFolder").Value.Equals("True", System.StringComparison.CurrentCultureIgnoreCase);
+            //entity.IsFirstData = item.Attribute("IsFirstData").Value.Equals("True", System.StringComparison.CurrentCultureIgnoreCase);
 
             IEnumerable<XElement> pathList = item.Elements("Path");
             foreach (XElement path in pathList)

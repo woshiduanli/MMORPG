@@ -31,7 +31,6 @@ public class RoleStateDie : RoleStateAbstract
     public override void OnUpdate()
     {
         base.OnUpdate();
-
         CurrRoleAnimatorStateInfo = CurrRoleFSMMgr.CurrRoleCtrl.Animator.GetCurrentAnimatorStateInfo(0);
         if (CurrRoleAnimatorStateInfo.IsName(RoleAnimatorName.Die.ToString()))
         {

@@ -26,6 +26,7 @@ public class UIPlayerInfo : MonoBehaviour
 
 	void Start ()
 	{
+     
         if (GlobalInit.Instance.CurrPlayer != null)
         {
             GlobalInit.Instance.CurrPlayer.OnRoleHurt = MainPlayerHurt;

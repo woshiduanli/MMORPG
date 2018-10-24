@@ -5,7 +5,7 @@ using System.Collections;
 /// <summary>
 /// 场景UI管理器
 /// </summary>
-public class SceneUIMgr: Singleton<SceneUIMgr>
+public class SceneUIMgr : Singleton<SceneUIMgr>
 {
 
     /// <summary>
@@ -30,7 +30,7 @@ public class SceneUIMgr: Singleton<SceneUIMgr>
     /// <summary>
     /// 当前场景UI
     /// </summary>
-    public UISceneBase CurrentUIScene;
+    public UISceneViewBase CurrentUIScene;
 
     #region LoadSceneUI 加载场景UI
     /// <summary>
@@ -45,15 +45,14 @@ public class SceneUIMgr: Singleton<SceneUIMgr>
         {
             case SceneUIType.LogOn:
                 obj = ResourcesMgr.Instance.Load(ResourcesMgr.ResourceType.UIScene, "UI Root_LogOnScene");
-                CurrentUIScene = obj.GetComponent<UISceneLogonCtrl>();
                 break;
             case SceneUIType.Loading:
                 break;
             case SceneUIType.MainCity:
                 obj = ResourcesMgr.Instance.Load(ResourcesMgr.ResourceType.UIScene, "UI Root_City");
-                CurrentUIScene = obj.GetComponent<UISceneCityCtrl>();
                 break;
         }
+        CurrentUIScene = obj.GetComponent<UISceneViewBase>();
         return obj;
     }
     #endregion

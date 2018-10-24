@@ -5,7 +5,7 @@ using System.Collections;
 /// <summary>
 /// 注册窗口UI控制器
 /// </summary>
-public class UIRegCtrl : UIWindowBase
+public class UIRegCtrl : UIWindowViewBase
 {
     /// <summary>
     /// 昵称
@@ -56,7 +56,7 @@ public class UIRegCtrl : UIWindowBase
     private void BtnToLonOn()
     {
         Close();
-        NextOpenWindow = WindowUIType.LogOn;
+        //NextOpenWindow = WindowUIType.LogOn;
     }
 
     private void Reg()
