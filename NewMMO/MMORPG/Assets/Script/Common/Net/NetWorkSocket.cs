@@ -7,6 +7,18 @@ using System;
 
 public class NetWorkSocket : SingletonMono<NetWorkSocket>
 {
+    //if ("ER01ZXNIQGFET10" == System.Net.Dns.GetHostName())
+    //   {
+    //       NetWorkSocket.Instance.Connect("192.168.0.101", 1011);
+    //   }
+    //   else
+    //   {
+    //       NetWorkSocket.Instance.Connect("192.168.1.243", 1011);
+    //   }
+
+
+//    LoginData.urlGetPage = "http://localhost:8080/api/GameServer"
+//LoginData.url = "http://localhost:8080/api/account"
 
     private Socket client;
 

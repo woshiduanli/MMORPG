@@ -7,20 +7,7 @@ using DG.Tweening;
 using LitJson;
 //using DG;
 //MyDebug.Debug = UnityEngine.de
-public static class MyDebug
-{
-#if DEBUG_LOG
-    public static System.Action<System.Object> debug = Debug.Log;
-#else
 
-    public static System.Action<System.Object> debug = Sysob;
-#endif
-    public static void Sysob(System.Object obj)
-    {
-
-    }
-
-}
 
 
 /// <summary>
@@ -34,7 +21,7 @@ public class NetWorkHttp : SingletonMono<NetWorkHttp>
     /// Web请求回调
     /// </summary>
     //private XLuaCustomExport.NetWorkSendDataCallBack m_CallBack;
-    System.Action<string> m_CallBack;
+    System.Action<CallBackArgs> m_CallBack;
     /// <summary>
     /// Web请求回调数据
     /// </summary>
@@ -72,12 +59,12 @@ public class NetWorkHttp : SingletonMono<NetWorkHttp>
     /// <param name="callBack"></param>
     /// <param name="isPost"></param>
     /// <param name="json"></param>
-    public void SendData(string url, System.Action<string> callBack = null, bool isPost = false, string json = null)
+    public void SendData(string url, System.Action<CallBackArgs> m_CallBack = null, bool isPost = false, string json = null)
     {
         if (m_IsBusy) return;
 
         m_IsBusy = true;
-        m_CallBack = callBack;
+        this.m_CallBack = m_CallBack;
 
         if (!isPost)
         {
@@ -93,11 +80,11 @@ public class NetWorkHttp : SingletonMono<NetWorkHttp>
                 //客户端标识符
                 dic["deviceIdentifier"] = DeviceUtil.DeviceIdentifier;
 
+
                 //设备型号
                 dic["deviceModel"] = DeviceUtil.DeviceModel;
-
+                long t = GlobalInit.Instance.CurServerTime;
                 // 服务器时间
-                long t = 12345;
                 //签名
                 dic["sign"] = EncryptUtil.Md5(string.Format("{0}:{1}", t, DeviceUtil.DeviceIdentifier));
 
@@ -150,6 +137,7 @@ public class NetWorkHttp : SingletonMono<NetWorkHttp>
     private IEnumerator Request(WWW data)
     {
         yield return data;
+
         m_IsBusy = false;
         if (string.IsNullOrEmpty(data.error))
         {
@@ -159,35 +147,27 @@ public class NetWorkHttp : SingletonMono<NetWorkHttp>
                 {
                     m_CallBackArgs.HasError = true;
                     m_CallBackArgs.ErrorMsg = "未请求到数据";
-                    m_CallBack(JsonMapper.ToJson(m_CallBackArgs));
+                    m_CallBack(m_CallBackArgs);
                 }
             }
             else
             {
-                MyDebug.debug("wwww dui: " + data.text);
                 if (m_CallBack != null)
                 {
-                    JsonData data2 = JsonMapper.ToObject<JsonData>(data.text);
-
-                    //data2.con
-                    if (data2.IsObject && data2.ContainsKey("HasError") && data2["HasError"].IsBoolean)
-                        m_CallBackArgs.HasError = (bool)data2["HasError"];
+                    m_CallBackArgs.HasError = false;
                     m_CallBackArgs.Value = data.text;
-
-
-                    MyDebug.debug("11:" + JsonMapper.ToJson(m_CallBackArgs));
-                    m_CallBack(JsonMapper.ToJson(m_CallBackArgs));
+                    m_CallBack(m_CallBackArgs);
                 }
             }
         }
         else
         {
-            MyDebug.debug("服务端www 请求出错 500 错误");
+            Debug.Log("data.error=" + data.error);
             if (m_CallBack != null)
             {
                 m_CallBackArgs.HasError = true;
                 m_CallBackArgs.ErrorMsg = data.error;
-                m_CallBack(JsonMapper.ToJson(m_CallBackArgs));
+                m_CallBack(m_CallBackArgs);
             }
         }
     }

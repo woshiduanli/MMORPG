@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Text;
 
-public class ResourcesMgr: Singleton<ResourcesMgr>
+public class ResourcesMgr : Singleton<ResourcesMgr>
 {
     #region ResourceType 资源类型
     /// <summary>
@@ -52,7 +52,7 @@ public class ResourcesMgr: Singleton<ResourcesMgr>
     /// <param name="path">短路径</param>
     /// <param name="cache">是否放入缓存</param>
     /// <returns>预设克隆体</returns>
-    public GameObject Load(ResourceType type, string path, bool cache=false)
+    public GameObject Load(ResourceType type, string path, bool cache = false)
     {
         GameObject obj = null;
         if (m_PrefabTable.Contains(path))
@@ -83,7 +83,7 @@ public class ResourcesMgr: Singleton<ResourcesMgr>
 
             sbr.Append(path);
             string str33 = sbr.ToString();
-            MyDebug.debug(str33); 
+            MyDebug.debug(str33);
             obj = Resources.Load(str33) as GameObject;
             if (cache)
             {

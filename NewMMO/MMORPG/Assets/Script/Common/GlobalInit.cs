@@ -1,8 +1,24 @@
 
 using UnityEngine;
 using System.Collections;
+using System;
 
-public class GlobalInit : MonoBehaviour 
+public static class MyDebug
+{
+#if DEBUG_LOG
+    public static System.Action<System.Object> debug = Debug.Log;
+#else
+
+    public static System.Action<System.Object> debug = Sysob;
+#endif
+    public static void Sysob(System.Object obj)
+    {
+
+    }
+
+}
+
+public class GlobalInit : MonoBehaviour
 {
     #region 常量
     /// <summary>
@@ -25,11 +41,44 @@ public class GlobalInit : MonoBehaviour
     [HideInInspector]
     public string CurrRoleNickName;
 
+
+    [HideInInspector]
+    public long serverTime = 0;
+
+
+    public long CurServerTime
+    {
+        get
+        {
+            return (long)(serverTime + RealTime.time);
+        }
+    }
+
+    private string m_clientDeviceID;
+    /// <summary>
+    ///  客户端设备id
+    /// </summary>
+    public string ClientDeviceID
+    {
+        get
+        {
+            if (!string.IsNullOrEmpty(m_clientDeviceID))
+                return m_clientDeviceID;
+            else {
+               
+            }
+            return "";
+
+        }
+    }
+
     /// <summary>
     /// 当前玩家
     /// </summary>
     [HideInInspector]
     public RoleCtrl CurrPlayer;
+
+    public string WebAccountUrl = "http://localhost:8080/";
 
     /// <summary>
     /// UI动画曲线
@@ -42,8 +91,16 @@ public class GlobalInit : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-	void Start ()
-	{
-	
-	}
+    void Start()
+    {
+        NetWorkHttp.Instance.SendData(WebAccountUrl + "api/time", OnGetTimeCallBack);
+    }
+
+    private void OnGetTimeCallBack(NetWorkHttp.CallBackArgs obj)
+    {
+        if (!obj.HasError)
+        {
+            serverTime = long.Parse(obj.Value);
+        }
+    }
 }

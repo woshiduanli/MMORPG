@@ -6,7 +6,7 @@ public class testLogin : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        UISceneCtrl.Instance.LoadSceneUI(UISceneCtrl.SceneUIType.LogOn);  
+        //UISceneCtrl.Instance.LoadSceneUI(UISceneCtrl.SceneUIType.LogOn);  
 	}
 	
 	// Update is called once per frame

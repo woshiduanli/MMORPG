@@ -7,7 +7,7 @@ using DG.Tweening;
 /// <summary>
 /// 窗口UI管理器
 /// </summary>
-public class WindowUIMgr : Singleton<WindowUIMgr>
+public class UIViewUtil : Singleton<UIViewUtil>
 {
     private Dictionary<WindowUIType, UIWindowViewBase> m_DicWindow = new Dictionary<WindowUIType, UIWindowViewBase>();
 
@@ -55,6 +55,8 @@ public class WindowUIMgr : Singleton<WindowUIMgr>
 
             obj.transform.parent = transParent;
             obj.transform.localPosition = Vector3.zero;
+            obj.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
+
             obj.transform.localScale = Vector3.one;
             obj.gameObject.SetActive(true);
             StartShowWindow(windowBase, true);

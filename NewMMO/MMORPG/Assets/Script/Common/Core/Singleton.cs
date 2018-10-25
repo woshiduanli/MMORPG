@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-public class Singleton<T> : IDisposable where T :new()
+public class Singleton<T> : IDisposable where T : new()
 {
     private static T instance;
 
@@ -20,6 +20,6 @@ public class Singleton<T> : IDisposable where T :new()
 
     public virtual void Dispose()
     {
-        
+
     }
 }

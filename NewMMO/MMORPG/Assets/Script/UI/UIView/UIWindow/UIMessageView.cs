@@ -1,8 +1,4 @@
-//===================================================
-//作    者：边涯  http://www.u3dol.com  QQ群：87481002
-//创建时间：2016-05-11 22:32:41
-//备    注：
-//===================================================
+
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
@@ -64,7 +60,7 @@ public class UIMessageView : MonoBehaviour
 
     private void Close()
     {
-        gameObject.transform.localPosition = new Vector3(0, 5000, 0);
+        gameObject.transform.localPosition = Vector3.one * 10000;
     }
 
     /// <summary>
