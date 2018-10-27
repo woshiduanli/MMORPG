@@ -35,7 +35,10 @@ public enum WindowUIType
     /// <summary>
     /// 角色信息窗口
     /// </summary>
-    RoleInfo
+    RoleInfo,
+
+    GameServerEnter,
+    GameServerSelect
 }
 #endregion
 

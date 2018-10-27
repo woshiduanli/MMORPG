@@ -17,8 +17,8 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
     //   }
 
 
-//    LoginData.urlGetPage = "http://localhost:8080/api/GameServer"
-//LoginData.url = "http://localhost:8080/api/account"
+    //    LoginData.urlGetPage = "http://localhost:8080/api/GameServer"
+    //LoginData.url = "http://localhost:8080/api/account"
 
     private Socket client;
 
@@ -30,9 +30,21 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
     private System.Action m_checkSendQueue;
     // 压缩数组的长度
     private const int m_CompressLen = 200;
-
-    public void Connect(string ip, int port)
+  public  System.Action OnConnectOk;
+    public void Connect()
     {
+        string ip = "";
+        int port = 0;
+        if ("ER01ZXNIQGFET10" == System.Net.Dns.GetHostName())
+        {
+            ip = "192.168.0.101";
+        }
+        else
+        {
+            ip = "192.168.1.243";
+        }
+        port = 1011;
+
         if (client != null && client.Connected)
             return;
         client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -41,6 +53,10 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
             client.Connect(new IPEndPoint(IPAddress.Parse(ip), port));
             m_checkSendQueue = OnCheckSendQueueCallBack;
             ReceiveMsg();
+            if (OnConnectOk!=null)
+            {
+                OnConnectOk(); 
+            }
             Debug.Log("连接成功");
         }
         catch (System.Exception)
@@ -242,7 +258,7 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
                             {
                                 protoCode = ms.ReadUShort();
                                 // 读取最终的结果
-                                ms.Read(realContent,0, realContent.Length);
+                                ms.Read(realContent, 0, realContent.Length);
                                 EventDispatcher.Instance.Dispatch(protoCode, realContent);
                             }
                         }

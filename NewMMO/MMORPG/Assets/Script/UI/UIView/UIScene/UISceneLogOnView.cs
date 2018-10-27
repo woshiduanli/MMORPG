@@ -13,6 +13,7 @@ public class UISceneLogOnView : UISceneViewBase
     private IEnumerator OpenLogOnWindow()
     {
         yield return new WaitForSeconds(.2f);
-        UIViewMgr.Instance.OpenWindow(WindowUIType.Reg); 
+        AccountCtrl.Instance.QuickLogOn(); 
+        //UIViewMgr.Instance.OpenWindow(WindowUIType.Reg); 
     }
 }

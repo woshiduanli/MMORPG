@@ -90,7 +90,11 @@ public class ResourcesMgr : Singleton<ResourcesMgr>
                 m_PrefabTable.Add(path, obj);
             }
         }
-
+        if (obj == null)
+        {
+            MyDebug.debug("resourece not find:" + path);
+            return new UnityEngine.GameObject();
+        }
         return Object.Instantiate(obj);
     }
     #endregion

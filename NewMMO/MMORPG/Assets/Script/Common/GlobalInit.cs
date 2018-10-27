@@ -78,7 +78,7 @@ public class GlobalInit : MonoBehaviour
     [HideInInspector]
     public RoleCtrl CurrPlayer;
 
-    public string WebAccountUrl = "http://localhost:8080/";
+    public string WebAccountUrl = @"http://localhost:8080/";
 
     /// <summary>
     /// UI动画曲线
@@ -94,6 +94,15 @@ public class GlobalInit : MonoBehaviour
     void Start()
     {
         NetWorkHttp.Instance.SendData(WebAccountUrl + "api/time", OnGetTimeCallBack);
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            PlayerPrefs.DeleteAll(); 
+
+        }
     }
 
     private void OnGetTimeCallBack(NetWorkHttp.CallBackArgs obj)

@@ -22,6 +22,15 @@ public class UIViewUtil : Singleton<UIViewUtil>
         }
     }
 
+    public UIWindowViewBase GetWindow(WindowUIType type)
+    {
+        if (m_DicWindow.ContainsKey(type))
+        {
+            return m_DicWindow[type];
+        }
+        return null;
+    }
+
     #region OpenWindow 打开窗口
     /// <summary>
     /// 打开窗口
