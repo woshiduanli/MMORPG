@@ -47,15 +47,15 @@ public class SceneLoadingCtrl : MonoBehaviour
         {
             case SceneType.LogOn:
                 strSceneName = "Scene_LogOn";
-                m_Async = SceneManager.LoadSceneAsync(strSceneName, LoadSceneMode.Single);
+                break;
+            case SceneType.SelectRole:
+                strSceneName = "Scene_SelectRole";
                 break;
             case SceneType.City:
                 strSceneName = "GameScene_CunZhuang";
-                m_Async = SceneManager.LoadSceneAsync(strSceneName, LoadSceneMode.Additive);
                 break;
         }
-
-        //m_Async = SceneManager/.LoadSceneAsync(strSceneName, LoadSceneMode.Additive);
+        m_Async = SceneManager.LoadSceneAsync(strSceneName, LoadSceneMode.Additive);
         m_Async.allowSceneActivation = false;
         yield return m_Async;
     }

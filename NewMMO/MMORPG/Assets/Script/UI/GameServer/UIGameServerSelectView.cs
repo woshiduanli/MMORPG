@@ -79,7 +79,7 @@ public class UIGameServerSelectView : UIWindowViewBase
 
     private List<GameObject> m_GameServerObjList = new List<GameObject>();
 
-    public Action<RetGameServerEntity> OnGameServerClick;
+    public Action<RetGameServerEntity> OnGameServerClick ;
 
     /// <summary>
     /// 设置服务器列表
@@ -115,7 +115,7 @@ public class UIGameServerSelectView : UIWindowViewBase
         }
     }
 
-    private void OnGameServerClickCallBack(RetGameServerEntity obj)
+    public void OnGameServerClickCallBack(RetGameServerEntity obj)
     {
         if (OnGameServerClick != null) OnGameServerClick(obj);
     }

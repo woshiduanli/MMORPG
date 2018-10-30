@@ -21,7 +21,6 @@ public class SceneMgr : Singleton<SceneMgr>
     {
         // 初始化场景， 进入scene_loading 
         CurrentSceneType = SceneType.LogOn;
-
         SceneManager.LoadScene("Scene_Loading"); 
     }
 
@@ -33,6 +32,13 @@ public class SceneMgr : Singleton<SceneMgr>
         CurrentSceneType = SceneType.City;
         SceneManager.LoadScene("Scene_Loading");
     }
+
+    public void LoadToSelectRole()
+    {
+        CurrentSceneType = SceneType.SelectRole;
+        SceneManager.LoadScene("Scene_Loading");
+    }
+
     public void LoadToShaMo()
     {
         CurrentSceneType = SceneType.ShaMo;

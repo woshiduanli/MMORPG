@@ -10,7 +10,8 @@ public enum SceneType
 {
     LogOn,
     City,
-    ShaMo
+    ShaMo, 
+    SelectRole
 }
 #endregion
 

@@ -54,6 +54,14 @@ public class GlobalInit : MonoBehaviour
         }
     }
 
+    public RetAccountEntity CurAccount; 
+
+    /// <summary>
+    ///  当前选择的区服
+    /// </summary>
+    public RetGameServerEntity CurrSelectGameServer; 
+
+
     private string m_clientDeviceID;
     /// <summary>
     ///  客户端设备id

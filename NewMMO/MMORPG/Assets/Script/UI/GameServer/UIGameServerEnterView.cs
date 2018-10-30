@@ -2,6 +2,8 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
+using System.Collections.Generic;
 
 public class UIGameServerEnterView : UIWindowViewBase
 {
@@ -30,5 +32,10 @@ public class UIGameServerEnterView : UIWindowViewBase
     {
         base.BeforeOnDestroy();
         lblDefaultGameServer = null;
+    }
+
+    internal void SetGameServerPageUI(List<RetGameServerPageEntity> list)
+    {
+
     }
 }

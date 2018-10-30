@@ -31,19 +31,19 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
     // 压缩数组的长度
     private const int m_CompressLen = 200;
   public  System.Action OnConnectOk;
-    public void Connect()
+    public void Connect(string ip, int port)
     {
-        string ip = "";
-        int port = 0;
-        if ("ER01ZXNIQGFET10" == System.Net.Dns.GetHostName())
-        {
-            ip = "192.168.0.101";
-        }
-        else
-        {
-            ip = "192.168.1.243";
-        }
-        port = 1011;
+        //string ip = "";
+        //int port = 0;
+        //if ("ER01ZXNIQGFET10" == System.Net.Dns.GetHostName())
+        //{
+        //    ip = "192.168.0.101";
+        //}
+        //else
+        //{
+        //    ip = "192.168.1.243";
+        //}
+        //port = 1011;
 
         if (client != null && client.Connected)
             return;

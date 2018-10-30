@@ -25,7 +25,7 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
         if (!PlayerPrefs.HasKey(ConstDefine.LogOn_AccountID))
         {
             // 手动登录
-            this.OpenView(WindowUIType.Reg);
+            this.OpenView(WindowUIType.LogOn);
         }
         else
         {
@@ -48,8 +48,8 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
         //m_LogOnView =UIViewUtil.Instance.CloseWindow
         if (m_LogOnView == null)
         {
-            MyDebug.debug("这里登录有问题, 登录没改"); 
-            return; 
+            MyDebug.debug("这里登录有问题, 登录没改");
+            return;
         }
         if (m_LogOnView.txtUserName.text == null || m_LogOnView.txtUserName.text == "")
         {
@@ -107,18 +107,22 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
         }
         else
         {
-
+            MyDebug.debug("sfsfsfL:" + obj.Value);
+            JsonData jsondata = JsonMapper.ToObject<JsonData>(obj.Value);
+            if (!jsondata.ContainsKey("Value"))
+            {
+                return;
+            }
+            RetAccountEntity data = JsonMapper.ToObject<RetAccountEntity>(jsondata["objValue"].ToJson());
+            MyDebug.debug("登录回调：" + obj.Value);
             if (!m_IsAutoLogOn)
             {
                 // 不是自动登录
-                JsonData data = JsonMapper.ToObject<JsonData>(obj.Value);
-                string str = "";
-                if (data.IsObject && data.ContainsKey("Value"))
+                if (data != null)
                 {
-                    str = ((JsonData)data["Value"]).ToString();
-                    PlayerPrefs.SetInt(ConstDefine.LogOn_AccountID, int.Parse(str));
+                    PlayerPrefs.SetInt(ConstDefine.LogOn_AccountID, data.Id);
+                    Stat.LogOn(data.Id, m_LogOnView.txtUserName.text);
                 }
-                Stat.LogOn(int.Parse(str), m_LogOnView.txtUserName.text);
                 PlayerPrefs.SetString(ConstDefine.LogOn_AccountUserName, m_LogOnView.txtUserName.text);
                 PlayerPrefs.SetString(ConstDefine.LogOn_AccountPwd, m_LogOnView.txtPwd.text);
                 m_LogOnView.CloseAndOpenNext(WindowUIType.GameServerEnter);
@@ -129,7 +133,24 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
                 Stat.LogOn(PlayerPrefs.GetInt(ConstDefine.LogOn_AccountID), PlayerPrefs.GetString(ConstDefine.LogOn_AccountUserName));
                 GameServerCtrl.Instance.OpenView(WindowUIType.GameServerEnter);
             }
+
+            if (data != null)
+            {
+                SetCurrentGameServer(data);
+                GlobalInit.Instance.CurAccount = data;
+            }
         }
+    }
+
+    private static void SetCurrentGameServer(RetAccountEntity data)
+    {
+        RetGameServerEntity curGameServerEntity = new RetGameServerEntity();
+        curGameServerEntity.Id = data.LastServerId;
+        curGameServerEntity.Name = data.LastServerName;
+        curGameServerEntity.Ip = data.LastServerIP;
+        curGameServerEntity.Port = data.LastServerPort;
+
+        GlobalInit.Instance.CurrSelectGameServer = curGameServerEntity;
     }
 
     private void OnRegCallBack(NetWorkHttp.CallBackArgs obj)
@@ -142,14 +163,22 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
         else
         {
             MyDebug.debug(obj.Value);
-
-
-            JsonData data = JsonMapper.ToObject<JsonData>(obj.Value);
-            if (data.IsObject && data.ContainsKey("Value"))
+            RetAccountEntity data = JsonMapper.ToObject<RetAccountEntity>(obj.Value);
+            if (data != null)
             {
-                string str = ((JsonData)data["Value"]).ToString();
-                PlayerPrefs.SetInt(ConstDefine.LogOn_AccountID, int.Parse(str));
+                GlobalInit.Instance.CurAccount = data;
+                SetCurrentGameServer(data);
+                PlayerPrefs.SetInt(ConstDefine.LogOn_AccountID, data.Id);
+                Stat.Reg(data.Id, m_RegView.txtUserName.text);
             }
+            else
+            {
+                MyDebug.debug("-------------------空了");
+            }
+            //if (data.IsObject && data.ContainsKey("Value"))
+            //{
+            //    string str = ((JsonData)data["Value"]).ToString();
+            //}
 
             PlayerPrefs.SetString(ConstDefine.LogOn_AccountUserName, m_RegView.txtUserName.text);
             PlayerPrefs.SetString(ConstDefine.LogOn_AccountPwd, m_RegView.txtPwd.text);

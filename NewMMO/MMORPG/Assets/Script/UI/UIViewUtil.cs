@@ -37,7 +37,7 @@ public class UIViewUtil : Singleton<UIViewUtil>
     /// </summary>
     /// <param name="type">窗口类型</param>
     /// <returns></returns>
-    public GameObject OpenWindow(WindowUIType type)
+    public GameObject OpenWindow(WindowUIType type, System.Action OnShow = null)
     {
         if (type == WindowUIType.None) return null;
 
@@ -49,7 +49,9 @@ public class UIViewUtil : Singleton<UIViewUtil>
             obj = ResourcesMgr.Instance.Load(ResourcesMgr.ResourceType.UIWindow, string.Format("pan_{0}", type.ToString()), cache: true);
             if (obj == null) return null;
             UIWindowViewBase windowBase = obj.GetComponent<UIWindowViewBase>();
+
             if (windowBase == null) return null;
+            windowBase.OnShow = OnShow;
 
             m_DicWindow.Add(type, windowBase);
             windowBase.CurrentUIType = type;

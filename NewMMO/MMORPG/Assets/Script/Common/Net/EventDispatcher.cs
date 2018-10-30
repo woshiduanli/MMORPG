@@ -64,6 +64,7 @@ public class EventDispatcher : Singleton<EventDispatcher>
         public void Create(OnActionHandler d, IProto pro)
         {
             handle1 = d;
+            // 暂时关闭
             getProto = pro.GetProto;
         }
 
@@ -97,6 +98,8 @@ public class EventDispatcher : Singleton<EventDispatcher>
         {
             if (arr == null) return;
             T2 t = new T2();
+
+            // 暂时关闭
             IProto d = t.GetProto(arr);
             action((T2)d);
         }
