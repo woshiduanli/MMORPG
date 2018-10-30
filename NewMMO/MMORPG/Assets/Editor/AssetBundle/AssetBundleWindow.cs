@@ -20,7 +20,7 @@ public class AssetBundleWindow : EditorWindow
     private int tagIndex = 0; //标记的索引
     private int selectTagIndex = -1; //选择的标记的索引
 
-    private string[] arrBuildTarget = { "Windows", "Android", "iOS" };
+    private static string[] arrBuildTarget = { "Windows", "Android", "iOS" };
 
     private int selectBuildTargetIndex = -1; //选择的打包平台索引
 #if UNITY_STANDALONE_WIN
@@ -28,7 +28,7 @@ public class AssetBundleWindow : EditorWindow
     private int buildTargetIndex = 0; //打包的平台索引
 #elif UNITY_ANDROID
     private BuildTarget target = BuildTarget.Android;
-    private int buildTargetIndex = 1;
+    private static int buildTargetIndex = 1;
 #elif UNITY_IPHONE
     private BuildTarget target = BuildTarget.iOS;
     private int buildTargetIndex = 2;
@@ -365,13 +365,51 @@ public class AssetBundleWindow : EditorWindow
         Debug.Log("打包完毕");
     }
 
+    [MenuItem("Assets/角色相关/BuildRole")]
+    public static void BuildRole()
+    {
+        string path = Application.dataPath + "/../AssetBundles/" + arrBuildTarget[buildTargetIndex] + "/Role";
+        UnityEngine.Object[] d = Selection.objects;
+        for (int i = 0; i < d.Length; i++)
+        {
+            if (d[i] is GameObject)
+            {
+                BuildAsset(d[i], "assetbundle", path );
+            }
+        }
+    }
+
+    public static void BuildAsset(UnityEngine.Object asset, string Ext, string outputPath)
+    {
+        string assetfile = AssetDatabase.GetAssetPath(asset);
+        AssetImporter sdimporter = AssetImporter.GetAtPath(assetfile);
+        sdimporter.assetBundleName = asset.name;
+        sdimporter.assetBundleVariant = Ext;
+        AssetBundleBuild[] buildMap = new AssetBundleBuild[1];
+        buildMap[0].assetBundleName = asset.name;
+        buildMap[0].assetBundleVariant = Ext;
+        buildMap[0].assetNames = new string[] { assetfile };
+        if (!Directory.Exists(outputPath))
+            Directory.CreateDirectory(outputPath);
+        BuildPipeline.BuildAssetBundles(outputPath, buildMap, BuildAssetBundleOptions.ChunkBasedCompression, EditorUserBuildSettings.activeBuildTarget);
+        AssetDatabase.Refresh();
+    }
+
+    public static void BuildAsset(string outputPath, AssetBundleBuild[] builds)
+    {
+        if (!Directory.Exists(outputPath))
+            Directory.CreateDirectory(outputPath);
+        BuildPipeline.BuildAssetBundles(outputPath, builds, BuildAssetBundleOptions.ChunkBasedCompression, EditorUserBuildSettings.activeBuildTarget);
+        AssetDatabase.Refresh();
+    }
+
     private void BuildAssetBundle(AssetBundleEntity entity)
     {
         AssetBundleBuild[] arrBuild = new AssetBundleBuild[1];
         AssetBundleBuild build = new AssetBundleBuild();
         arrBuild[0] = build;
 
-        build.assetBundleName = entity.Tag+  "/" + entity.Name + "." + ((entity.Tag.Equals("Scene", StringComparison.CurrentCultureIgnoreCase)) ? "unity3d" : "assetbundle");
+        build.assetBundleName = entity.Tag + "/" + entity.Name + "." + ((entity.Tag.Equals("Scene", StringComparison.CurrentCultureIgnoreCase)) ? "unity3d" : "assetbundle");
         //build.assetBundleVariant =/
 
         // 路径, 
@@ -388,6 +426,69 @@ public class AssetBundleWindow : EditorWindow
 
         BuildPipeline.BuildAssetBundles(toPath, arrBuild, BuildAssetBundleOptions.None, target);
     }
+
+
+    //public static void BuildAsset(UnityEngine.Object asset, string Ext, string outputPath)
+    //{
+    //    string assetfile = AssetDatabase.GetAssetPath(asset);
+    //    AssetImporter sdimporter = AssetImporter.GetAtPath(assetfile);
+    //    sdimporter.assetBundleName = asset.name;
+    //    sdimporter.assetBundleVariant = Ext;
+    //    AssetBundleBuild[] buildMap = new AssetBundleBuild[1];
+    //    buildMap[0].assetBundleName = asset.name;
+    //    buildMap[0].assetBundleVariant = Ext;
+    //    buildMap[0].assetNames = new string[] { assetfile };
+    //    if (!Directory.Exists(outputPath))
+    //        Directory.CreateDirectory(outputPath);
+    //    BuildPipeline.BuildAssetBundles(outputPath, buildMap, BuildAssetBundleOptions.ChunkBasedCompression, EditorUserBuildSettings.activeBuildTarget);
+    //    AssetDatabase.Refresh();
+    //}
+
+    public static AssetBundleBuild CreateAssetBundle(List<UnityEngine.Object> assets, string BundleName, string Variant, string outpath)
+    {
+        AssetBundleBuild publicab = new AssetBundleBuild();
+        publicab.assetBundleName = outpath + BundleName;
+        publicab.assetBundleVariant = Variant;
+        List<string> publiclist = new List<string>();
+        for (int i = 0; i < assets.Count; i++)
+        {
+            string path = AssetDatabase.GetAssetPath(assets[i]);
+            AssetImporter sdimporter = AssetImporter.GetAtPath(path);
+            if (!sdimporter)
+            {
+                Debug.Log(path);
+                continue;
+            }
+            sdimporter.assetBundleName = BundleName;
+            sdimporter.assetBundleVariant = Variant;
+            publiclist.Add(path);
+        }
+        AssetDatabase.Refresh();
+        AssetDatabase.SaveAssets();
+        publicab.assetNames = publiclist.ToArray();
+        return publicab;
+    }
+
+    public static AssetBundleBuild CreateAssetBundle(UnityEngine.Object asset, string BundleName, string Variant, string outpath)
+    {
+        AssetBundleBuild publicab = new AssetBundleBuild();
+        publicab.assetBundleName = outpath + BundleName;
+        publicab.assetBundleVariant = Variant;
+        List<string> publiclist = new List<string>();
+
+        string path = AssetDatabase.GetAssetPath(asset);
+        AssetImporter sdimporter = AssetImporter.GetAtPath(path);
+        sdimporter.assetBundleName = BundleName;
+        sdimporter.assetBundleVariant = Variant;
+        publiclist.Add(path);
+
+        AssetDatabase.Refresh();
+        AssetDatabase.SaveAssets();
+        publicab.assetNames = publiclist.ToArray();
+        return publicab;
+    }
+
+
 
     /// <summary>
     /// 清空AssetBundle包回调

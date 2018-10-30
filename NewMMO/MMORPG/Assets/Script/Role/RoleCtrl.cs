@@ -5,7 +5,7 @@ using System.Collections;
 /// <summary>
 /// 角色控制器
 /// </summary>
-public class RoleCtrl : MonoBehaviour 
+public class RoleCtrl : MonoBehaviour
 {
     #region 成员变量或属性
     /// <summary>
@@ -136,12 +136,13 @@ public class RoleCtrl : MonoBehaviour
 
     void Update()
     {
+        if (CurrRoleFSMMgr != null)
+            CurrRoleFSMMgr.OnUpdate();
+
         //如果角色没有AI 直接返回
         if (CurrRoleAI == null) return;
         CurrRoleAI.DoAI();
 
-        if (CurrRoleFSMMgr != null)
-            CurrRoleFSMMgr.OnUpdate();
 
 
         if (CharacterController == null) return;
@@ -226,6 +227,7 @@ public class RoleCtrl : MonoBehaviour
 
     public void ToIdle()
     {
+        if (CurrRoleFSMMgr!=null)
         CurrRoleFSMMgr.ChangeState(RoleState.Idle);
     }
 
@@ -251,7 +253,7 @@ public class RoleCtrl : MonoBehaviour
     /// </summary>
     /// <param name="attackValue">受到的攻击力</param>
     /// <param name="delay">延迟时间</param>
-    public void ToHurt(int attackValue,float delay)
+    public void ToHurt(int attackValue, float delay)
     {
         StartCoroutine(ToHurtCoroutine(attackValue, delay));
     }
@@ -268,7 +270,7 @@ public class RoleCtrl : MonoBehaviour
             OnRoleHurt();
         }
 
-        
+
         CurrRoleInfo.CurrHP -= hurt;
 
         roleHeadBarCtrl.Hurt(hurt, (float)CurrRoleInfo.CurrHP / CurrRoleInfo.MaxHP);

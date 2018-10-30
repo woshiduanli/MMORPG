@@ -8,7 +8,9 @@ using System.IO;
 /// </summary>
 public class LocalFileMgr : Singleton<LocalFileMgr>
 {
-    public readonly string LocalFilePath = Application.persistentDataPath + "/";
+    //public readonly string LocalFilePath = Application.persistentDataPath + "/";
+    public readonly string LocalFilePath = Application.dataPath + "/../AssetBundles/Android/" ;
+
 
     /// <summary>
     /// 读取本地文件到byte数组

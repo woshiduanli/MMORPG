@@ -30,7 +30,13 @@ public class AssetBundleLoaderAsync : MonoBehaviour
         bundle = request.assetBundle;
         if (OnLoadComplete != null)
         {
-            Debug.Log("加载资源完成");
+            MyDebug.debug("加载资源完成");
+            UnityEngine.Object dddd = bundle.LoadAsset(m_Name); 
+            if (bundle.LoadAsset(m_Name))
+            {
+
+            }
+
             OnLoadComplete(bundle.LoadAsset(m_Name));
             DestroyImmediate(gameObject);
         }
@@ -39,7 +45,7 @@ public class AssetBundleLoaderAsync : MonoBehaviour
     void OnDestroy()
     {
         if (bundle != null) bundle.Unload(false);
-        Debug.Log("卸载资源");
+        MyDebug.debug("卸载资源");
         m_FullPath = null;
         m_Name = null;
     }
