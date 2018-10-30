@@ -58,7 +58,7 @@ public class UISelectRoleDragView : MonoBehaviour, IBeginDragHandler, IDragHandl
         //这个20是容错范围
         if (x > 20)
         {
-            OnSelectRoleDrag(0);
+            OnSelectRoleDrag(-1);
         }
         else if (x < -20)
         {

@@ -29,9 +29,9 @@ public class SelectRoleSceneCtrl : MonoBehaviour
             DelegateDefine.Instance.OnSceneLoadOk();
         }
 
-        if (sceneSelectRoleView!= null)
+        if (sceneSelectRoleView != null)
         {
-            sceneSelectRoleView.SelectRoleDragView.OnSelectRoleDrag = OnSelectRoleDrag; 
+            sceneSelectRoleView.SelectRoleDragView.OnSelectRoleDrag = OnSelectRoleDrag;
         }
 
         // º‡Ã˝–≠“È
@@ -44,12 +44,32 @@ public class SelectRoleSceneCtrl : MonoBehaviour
         CloneCreateRole();
     }
 
-    private Transform dragTarget;
-    private float m_rorate = 90; 
+    public Transform dragTarget;
+    private float m_rorate = 90;
+    private float m_target = 90;
+    bool m_isRotate = false;
+    float m_rotaeSpeed = 200;
 
     private void OnSelectRoleDrag(int obj)
     {
+        m_rorate = Math.Abs(m_rorate) * (obj);
+        m_isRotate = true;
+        m_target = dragTarget.eulerAngles.y + m_rorate;
         MyDebug.debug(obj);
+    }
+
+    private void FixedUpdate()
+    {
+        if (m_isRotate)
+        {
+            float toAngle = Mathf.MoveTowardsAngle(dragTarget.eulerAngles.y, m_target, Time.deltaTime  * m_rotaeSpeed);
+            dragTarget.eulerAngles = Vector3.up * toAngle;
+            if (m_target == Mathf.RoundToInt (toAngle))
+            {
+                m_isRotate = false;
+                dragTarget.eulerAngles = Vector3.up * toAngle;
+            }
+        }
     }
 
     private void LoadToObject()
