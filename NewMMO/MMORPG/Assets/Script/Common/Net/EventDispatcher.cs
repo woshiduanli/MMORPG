@@ -11,10 +11,10 @@ public class EventDispatcher : Singleton<EventDispatcher>
 {
     //委托原型
     //[CSharpCallLua]
-    public delegate void OnActionHandler<T>(T buffer) where T : IProto;
+    public delegate void OnActionHandler<T>(T protoValue) where T : IProto;
 
     //[CSharpCallLua]
-    public delegate void OnActionHandler(IProto buffer);
+    public delegate void OnActionHandler(IProto protoValue);
 
     //[CSharpCallLua]
     public delegate void OnLuaActionHandler(byte[] arr);

@@ -11,6 +11,16 @@ public class UIViewUtil : Singleton<UIViewUtil>
 {
     private Dictionary<WindowUIType, UIWindowViewBase> m_DicWindow = new Dictionary<WindowUIType, UIWindowViewBase>();
 
+    // 临时写的
+    public UIWindowViewBase Get(WindowUIType type)
+    {
+        if (m_DicWindow.ContainsKey (type))
+        {
+            return m_DicWindow[type];
+        }
+        return null; 
+    }
+
     /// <summary>
     /// 已经打开的窗口数量
     /// </summary>

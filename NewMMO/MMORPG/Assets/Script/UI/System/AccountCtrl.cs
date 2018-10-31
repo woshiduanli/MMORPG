@@ -25,13 +25,12 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
         if (!PlayerPrefs.HasKey(ConstDefine.LogOn_AccountID))
         {
             // 手动登录
-            this.OpenView(WindowUIType.LogOn);
+            this.OpenView(WindowUIType.Reg);
         }
         else
         {
             m_IsAutoLogOn = true;
             // 自动登录
-            MyDebug.debug("点击了我这儿是自动登录");
             Dictionary<string, object> dic = new Dictionary<string, object>();
             dic.Add("Type", 1);
             dic.Add("UserName", PlayerPrefs.GetString(ConstDefine.LogOn_AccountUserName));
@@ -43,13 +42,10 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
 
     public void ClickLogin(string[] str)
     {
-        MyDebug.debug("点击了登录");
-
-        //m_LogOnView =UIViewUtil.Instance.CloseWindow
         if (m_LogOnView == null)
         {
-            MyDebug.debug("这里登录有问题, 登录没改");
-            return;
+            MyDebug.debug("这里登录的问题, 我手动改了");
+            m_LogOnView = UIViewUtil.Instance.OpenWindow(WindowUIType.LogOn).GetComponent<UILogOnView>();
         }
         if (m_LogOnView.txtUserName.text == null || m_LogOnView.txtUserName.text == "")
         {
@@ -107,14 +103,12 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
         }
         else
         {
-            MyDebug.debug("sfsfsfL:" + obj.Value);
             JsonData jsondata = JsonMapper.ToObject<JsonData>(obj.Value);
             if (!jsondata.ContainsKey("Value"))
             {
                 return;
             }
             RetAccountEntity data = JsonMapper.ToObject<RetAccountEntity>(jsondata["objValue"].ToJson());
-            MyDebug.debug("登录回调：" + obj.Value);
             if (!m_IsAutoLogOn)
             {
                 // 不是自动登录

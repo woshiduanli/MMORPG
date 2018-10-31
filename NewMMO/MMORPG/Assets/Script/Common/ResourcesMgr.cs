@@ -83,7 +83,6 @@ public class ResourcesMgr : Singleton<ResourcesMgr>
 
             sbr.Append(path);
             string str33 = sbr.ToString();
-            MyDebug.debug(str33);
             obj = Resources.Load(str33) as GameObject;
             if (cache)
             {

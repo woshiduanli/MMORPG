@@ -19,7 +19,7 @@ public class UISelectRoleJobItemView : MonoBehaviour
     /// 旋转的目标角度
     /// </summary>
     [SerializeField]
-    private int m_RotateAngle;
+    public int m_RotateAngle;
 
     public delegate void OnSelectJobHandler(int jobId, int rotateAngle);
 

@@ -57,7 +57,6 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
             {
                 OnConnectOk(); 
             }
-            Debug.Log("连接成功");
         }
         catch (System.Exception)
         {
