@@ -53,32 +53,54 @@ public class RoleStateRun : RoleStateAbstract
             CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), 0);
         }
 
-        if (Vector3.Distance(new Vector3(CurrRoleFSMMgr.CurrRoleCtrl.TargetPos.x, 0, CurrRoleFSMMgr.CurrRoleCtrl.TargetPos.z), new Vector3(CurrRoleFSMMgr.CurrRoleCtrl.transform.position.x, 0, CurrRoleFSMMgr.CurrRoleCtrl.transform.position.z)) > 0.1f)
-        {
-            Vector3 direction = CurrRoleFSMMgr.CurrRoleCtrl.TargetPos - CurrRoleFSMMgr.CurrRoleCtrl.transform.position;
-            direction = direction.normalized; //归一化
-            direction = direction * Time.deltaTime * CurrRoleFSMMgr.CurrRoleCtrl.Speed;
-            direction.y = 0;
-
-            //让角色缓慢转身
-            if (m_RotationSpeed <= 1)
-            {
-                m_RotationSpeed += 10f * Time.deltaTime;
-                m_TargetQuaternion = Quaternion.LookRotation(direction);
-                CurrRoleFSMMgr.CurrRoleCtrl.transform.rotation = Quaternion.Lerp(CurrRoleFSMMgr.CurrRoleCtrl.transform.rotation, m_TargetQuaternion, m_RotationSpeed);
-
-                if (Quaternion.Angle(CurrRoleFSMMgr.CurrRoleCtrl.transform.rotation, m_TargetQuaternion) < 1)
-                {
-                    m_RotationSpeed = 0;
-                }
-            }
-
-            CurrRoleFSMMgr.CurrRoleCtrl.CharacterController.Move(direction);
-        }
-        else
+        // 如果没有路
+        if (CurrRoleFSMMgr.CurrRoleCtrl.AStartPath == null)
         {
             CurrRoleFSMMgr.CurrRoleCtrl.ToIdle();
+            return;
         }
+
+        if (CurrRoleFSMMgr.CurrRoleCtrl.AstartCurrWayPointIndex >= CurrRoleFSMMgr.CurrRoleCtrl.AStartPath.vectorPath.Count)
+        {
+            CurrRoleFSMMgr.CurrRoleCtrl.AStartPath = null;
+            CurrRoleFSMMgr.CurrRoleCtrl.ToIdle();
+            return;
+        }
+
+
+
+        Vector3 direction = Vector3.zero;
+
+        Vector3 temp = new Vector3(CurrRoleFSMMgr.CurrRoleCtrl.AStartPath.vectorPath[CurrRoleFSMMgr.CurrRoleCtrl.AstartCurrWayPointIndex].x,
+            CurrRoleFSMMgr.CurrRoleCtrl.transform.position.y,
+            CurrRoleFSMMgr.CurrRoleCtrl.AStartPath.vectorPath[CurrRoleFSMMgr.CurrRoleCtrl.AstartCurrWayPointIndex].z);
+        direction = temp - CurrRoleFSMMgr.CurrRoleCtrl.transform.position;
+        direction = direction.normalized; //归一化
+        direction = direction * Time.deltaTime * CurrRoleFSMMgr.CurrRoleCtrl.Speed;
+        direction.y = 0;
+
+        //让角色缓慢转身
+        if (m_RotationSpeed <= 1)
+        {
+            m_RotationSpeed += 10f * Time.deltaTime;
+            m_TargetQuaternion = Quaternion.LookRotation(direction);
+            CurrRoleFSMMgr.CurrRoleCtrl.transform.rotation = Quaternion.Lerp(CurrRoleFSMMgr.CurrRoleCtrl.transform.rotation, m_TargetQuaternion, m_RotationSpeed);
+
+            if (Quaternion.Angle(CurrRoleFSMMgr.CurrRoleCtrl.transform.rotation, m_TargetQuaternion) < 1)
+            {
+                m_RotationSpeed = 0;
+            }
+        }
+
+        // 判断距离和下个点的距离的长度， 
+        float dis = Vector3.Distance(CurrRoleFSMMgr.CurrRoleCtrl.transform.position, temp);
+        // 如果小于1的情况
+        if (dis < direction.magnitude + 0.1f)
+        {
+            CurrRoleFSMMgr.CurrRoleCtrl.AstartCurrWayPointIndex++;
+        }
+
+        CurrRoleFSMMgr.CurrRoleCtrl.CharacterController.Move(direction);
     }
 
     /// <summary>

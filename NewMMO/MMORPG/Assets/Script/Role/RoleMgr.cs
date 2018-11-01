@@ -3,8 +3,24 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class RoleMgr:Singleton<RoleMgr> 
+public class RoleMgr : Singleton<RoleMgr>
 {
+    bool m_IsMainPlayerInit;
+    public void InitMainPlayer()
+    {
+        if (m_IsMainPlayerInit) return; m_IsMainPlayerInit = true;
+
+        if (GlobalInit.Instance.MainPlayerInfo != null)
+        {
+            GameObject mainPlayerObj = Object.Instantiate(GlobalInit.Instance.JobObjectDic[GlobalInit.Instance.MainPlayerInfo.JobId]);
+            Object.DontDestroyOnLoad(mainPlayerObj);
+            GlobalInit.Instance.CurrPlayer = mainPlayerObj.GetComponent<RoleCtrl>();
+            GlobalInit.Instance.CurrPlayer.
+                Init(RoleType.MainPlayer, GlobalInit.Instance.MainPlayerInfo, new RoleMainPlayerCityAI(GlobalInit.Instance.CurrPlayer));
+        }
+
+    }
+
     #region LoadRole 根据角色预设名称 加载角色
     /// <summary>
     /// 根据角色预设名称 加载角色

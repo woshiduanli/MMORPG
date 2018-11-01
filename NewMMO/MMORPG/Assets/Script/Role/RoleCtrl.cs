@@ -1,10 +1,14 @@
 
 using UnityEngine;
 using System.Collections;
+using Pathfinding;
 
 /// <summary>
 /// 角色控制器
 /// </summary>
+/// []
+[RequireComponent(typeof(Seeker))]
+[RequireComponent(typeof(FunnelModifier))]
 public class RoleCtrl : MonoBehaviour
 {
     #region 成员变量或属性
@@ -104,6 +108,13 @@ public class RoleCtrl : MonoBehaviour
 
     #endregion
 
+    Seeker m_Seeker;
+    [HideInInspector]
+    public ABPath AStartPath;
+
+    [HideInInspector]
+    public int AstartCurrWayPointIndex = 1;
+
     /// <summary>
     /// 初始化
     /// </summary>
@@ -120,6 +131,15 @@ public class RoleCtrl : MonoBehaviour
     void Start()
     {
         CharacterController = GetComponent<CharacterController>();
+
+        m_Seeker = GetComponent<Seeker>();
+        if (m_Seeker == null)
+        {
+            m_Seeker = this.gameObject.AddComponent<Seeker>();
+            m_Seeker.drawGizmos = true;
+            this.gameObject.AddComponent<FunnelModifier>();
+        }
+
 
         if (CurrRoleType == RoleType.MainPlayer)
         {
@@ -219,7 +239,7 @@ public class RoleCtrl : MonoBehaviour
         roleHeadBarCtrl = m_HeadBar.GetComponent<RoleHeadBarCtrl>();
 
         //给预设赋值
-        roleHeadBarCtrl.Init(m_HeadBarPos, CurrRoleInfo.NickName, isShowHPBar: (CurrRoleType == RoleType.MainPlayer ? false : true));
+        //roleHeadBarCtrl.Init(m_HeadBarPos, CurrRoleInfo.NickName, isShowHPBar: (CurrRoleType == RoleType.MainPlayer ? false : true));
     }
 
 
@@ -227,8 +247,8 @@ public class RoleCtrl : MonoBehaviour
 
     public void ToIdle()
     {
-        if (CurrRoleFSMMgr!=null)
-        CurrRoleFSMMgr.ChangeState(RoleState.Idle);
+        if (CurrRoleFSMMgr != null)
+            CurrRoleFSMMgr.ChangeState(RoleState.Idle);
     }
 
     public void MoveTo(Vector3 targetPos)
@@ -236,6 +256,29 @@ public class RoleCtrl : MonoBehaviour
         //如果目标点不是原点 进行移动
         if (targetPos == Vector3.zero) return;
         TargetPos = targetPos;
+
+        m_Seeker.StartPath(transform.position, TargetPos, (path) =>
+        {
+            if (!path.error)
+            {
+                AStartPath = (ABPath)path;
+                if (Vector3.Distance(AStartPath.endPoint, new Vector3(AStartPath.originalEndPoint.x, AStartPath.endPoint.y, AStartPath.originalEndPoint.z)) > 0.5f)
+                {
+                    MyDebug.debug("不能达到目标点");
+                    AStartPath = null;
+                    return;
+                }
+                AstartCurrWayPointIndex = 1;
+                CurrRoleFSMMgr.ChangeState(RoleState.Run);
+            }
+            else
+            {
+                MyDebug.debug("寻路有错");
+                AStartPath = null;
+            }
+
+        });
+
         CurrRoleFSMMgr.ChangeState(RoleState.Run);
     }
 
@@ -262,27 +305,27 @@ public class RoleCtrl : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
 
-        //计算得出伤害数值
-        int hurt = (int)(attackValue * Random.Range(0.5f, 1f));
+        ////计算得出伤害数值
+        //int hurt = (int)(attackValue * Random.Range(0.5f, 1f));
 
-        if (OnRoleHurt != null)
-        {
-            OnRoleHurt();
-        }
+        //if (OnRoleHurt != null)
+        //{
+        //    OnRoleHurt();
+        //}
 
 
-        CurrRoleInfo.CurrHP -= hurt;
+        //CurrRoleInfo.CurrHP -= hurt;
 
-        roleHeadBarCtrl.Hurt(hurt, (float)CurrRoleInfo.CurrHP / CurrRoleInfo.MaxHP);
+        //roleHeadBarCtrl.Hurt(hurt, (float)CurrRoleInfo.CurrHP / CurrRoleInfo.MaxHP);
 
-        if (CurrRoleInfo.CurrHP <= 0)
-        {
-            CurrRoleFSMMgr.ChangeState(RoleState.Die);
-        }
-        else
-        {
-            CurrRoleFSMMgr.ChangeState(RoleState.Hurt);
-        }
+        //if (CurrRoleInfo.CurrHP <= 0)
+        //{
+        //    CurrRoleFSMMgr.ChangeState(RoleState.Die);
+        //}
+        //else
+        //{
+        //    CurrRoleFSMMgr.ChangeState(RoleState.Hurt);
+        //}
     }
 
     public void ToDie()

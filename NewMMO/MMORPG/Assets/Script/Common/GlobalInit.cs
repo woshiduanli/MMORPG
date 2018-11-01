@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public static class MyDebug
 {
@@ -35,6 +36,8 @@ public class GlobalInit : MonoBehaviour
 
     public static GlobalInit Instance;
 
+    [HideInInspector]
+    public RoleInfoMainPlayer MainPlayerInfo;
     /// <summary>
     /// 玩家注册时候的昵称
     /// </summary>
@@ -45,7 +48,14 @@ public class GlobalInit : MonoBehaviour
     [HideInInspector]
     public long serverTime = 0;
 
+    [HideInInspector]
+    public Dictionary<int, GameObject> JobObjectDic = new Dictionary<int, GameObject>();
+    public Shader T4MShader;
 
+    [HideInInspector]
+    public RoleCtrl CurrPlayer;
+
+    [HideInInspector]
     public long CurServerTime
     {
         get
@@ -54,12 +64,14 @@ public class GlobalInit : MonoBehaviour
         }
     }
 
-    public RetAccountEntity CurAccount; 
+    [HideInInspector]
+    public RetAccountEntity CurAccount;
 
     /// <summary>
     ///  当前选择的区服
     /// </summary>
-    public RetGameServerEntity CurrSelectGameServer; 
+    [HideInInspector]
+    public RetGameServerEntity CurrSelectGameServer;
 
 
     private string m_clientDeviceID;
@@ -72,19 +84,16 @@ public class GlobalInit : MonoBehaviour
         {
             if (!string.IsNullOrEmpty(m_clientDeviceID))
                 return m_clientDeviceID;
-            else {
-               
+            else
+            {
+
             }
             return "";
 
         }
     }
 
-    /// <summary>
-    /// 当前玩家
-    /// </summary>
-    [HideInInspector]
-    public RoleCtrl CurrPlayer;
+  
 
     public string WebAccountUrl = @"http://localhost:8080/";
 
@@ -108,7 +117,7 @@ public class GlobalInit : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            PlayerPrefs.DeleteAll(); 
+            PlayerPrefs.DeleteAll();
 
         }
     }

@@ -1,16 +1,24 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Pathfinding;
+#if UNITY_5_5_OR_NEWER
+using UnityEngine.Profiling;
+#endif
 
 namespace Pathfinding.RVO {
+	using Pathfinding.Util;
+
 	/** Adds a navmesh as RVO obstacles.
-	 * Add this to a scene in which has a navmesh based graph, when scanning (or loading from cache) the graph
+	 * Add this to a scene in which has a navmesh or grid based graph, when scanning (or loading from cache) the graph
 	 * it will be added as RVO obstacles to the RVOSimulator (which must exist in the scene).
 	 *
 	 * \warning You should only have a single instance of this script in the scene, otherwise it will add duplicate
 	 * obstacles and thereby increasing the CPU usage.
 	 *
-	 * \todo Support for grid based graphs will be added in future versions
+	 * If you update a graph during runtime the obstacles need to be recalculated which has a performance penalty.
+	 * This can be quite significant for larger graphs.
+	 *
+	 * In the screenshot the generated obstacles are visible in red.
+	 * \shadowimage{rvo/rvo_navmesh_obstacle.png}
 	 *
 	 * \astarpro
 	 */
@@ -18,9 +26,9 @@ namespace Pathfinding.RVO {
 	[HelpURL("http://arongranberg.com/astar/docs/class_pathfinding_1_1_r_v_o_1_1_r_v_o_navmesh.php")]
 	public class RVONavmesh : GraphModifier {
 		/** Height of the walls added for each obstacle edge.
-		 * If a graph contains overlapping you should set this low enough so
-		 * that edges on different levels do not interfere, but high enough so that
-		 * agents cannot move over them by mistake.
+		 * If a graph contains overlapping regions (e.g multiple floor in a building)
+		 * you should set this low enough so that edges on different levels do not interfere,
+		 * but high enough so that agents cannot move over them by mistake.
 		 */
 		public float wallHeight = 5;
 
@@ -34,103 +42,75 @@ namespace Pathfinding.RVO {
 			OnLatePostScan();
 		}
 
+		public override void OnGraphsPostUpdate () {
+			OnLatePostScan();
+		}
+
 		public override void OnLatePostScan () {
 			if (!Application.isPlaying) return;
 
+			Profiler.BeginSample("Update RVO Obstacles From Graphs");
 			RemoveObstacles();
-
 			NavGraph[] graphs = AstarPath.active.graphs;
-
-			RVOSimulator rvosim = FindObjectOfType(typeof(RVOSimulator)) as RVOSimulator;
+			RVOSimulator rvosim = RVOSimulator.active;
 			if (rvosim == null) throw new System.NullReferenceException("No RVOSimulator could be found in the scene. Please add one to any GameObject");
 
-			Pathfinding.RVO.Simulator sim = rvosim.GetSimulator();
+			// Remember which simulator these obstacles were added to
+			lastSim = rvosim.GetSimulator();
 
 			for (int i = 0; i < graphs.Length; i++) {
-				AddGraphObstacles(sim, graphs[i]);
+				RecastGraph recast = graphs[i] as RecastGraph;
+				INavmesh navmesh = graphs[i] as INavmesh;
+				GridGraph grid = graphs[i] as GridGraph;
+				if (recast != null) {
+					foreach (var tile in recast.GetTiles()) {
+						AddGraphObstacles(lastSim, tile);
+					}
+				} else if (navmesh != null) {
+					AddGraphObstacles(lastSim, navmesh);
+				} else if (grid != null) {
+					AddGraphObstacles(lastSim, grid);
+				}
 			}
-
-			sim.UpdateObstacles();
+			Profiler.EndSample();
 		}
 
-		/** Removes obstacles which were added with AddGraphObstacles */
+		protected override void OnDisable () {
+			base.OnDisable();
+			RemoveObstacles();
+		}
+
+		/** Removes all obstacles which have been added by this component */
 		public void RemoveObstacles () {
-			if (lastSim == null) return;
-
-			Pathfinding.RVO.Simulator sim = lastSim;
-			lastSim = null;
-
-			for (int i = 0; i < obstacles.Count; i++) sim.RemoveObstacle(obstacles[i]);
+			if (lastSim != null) {
+				for (int i = 0; i < obstacles.Count; i++) lastSim.RemoveObstacle(obstacles[i]);
+				lastSim = null;
+			}
 
 			obstacles.Clear();
 		}
 
-		/** Adds obstacles for a graph */
-		public void AddGraphObstacles (Pathfinding.RVO.Simulator sim, NavGraph graph) {
-			if (obstacles.Count > 0 && lastSim != null && lastSim != sim) {
-				Debug.LogError("Simulator has changed but some old obstacles are still added for the previous simulator. Deleting previous obstacles.");
-				RemoveObstacles();
-			}
+		/** Adds obstacles for a grid graph */
+		void AddGraphObstacles (Pathfinding.RVO.Simulator sim, GridGraph grid) {
+			bool reverse = Vector3.Dot(grid.transform.TransformVector(Vector3.up), sim.movementPlane == MovementPlane.XY ? Vector3.back : Vector3.up) > 0;
 
-			//Remember which simulator these obstacles were added to
-			lastSim = sim;
+			GraphUtilities.GetContours(grid, vertices => {
+				// Check if the contour is traced in the wrong direction from the one we want it in.
+				// If we did not do this then instead of the obstacles keeping the agents OUT of the walls
+				// they would keep them INSIDE the walls.
+				if (reverse) System.Array.Reverse(vertices);
+				obstacles.Add(sim.AddObstacle(vertices, wallHeight, true));
+			}, wallHeight*0.4f);
+		}
 
-			var ng = graph as INavmesh;
-
-			if (ng == null) return;
-
-			//Assume less than 20 vertices per node (actually assumes 3, but I will change that some day)
-			var uses = new int[20];
-
-			ng.GetNodes(delegate(GraphNode _node) {
-				var node = _node as TriangleMeshNode;
-
-				uses[0] = uses[1] = uses[2] = 0;
-
-				if (node != null) {
-				    //Find out which edges are shared with other nodes
-					for (int j = 0; j < node.connections.Length; j++) {
-						var other = node.connections[j] as TriangleMeshNode;
-
-				        // Not necessarily a TriangleMeshNode
-						if (other != null) {
-							int a = node.SharedEdge(other);
-							if (a != -1) uses[a] = 1;
-						}
-					}
-
-				    //Loop through all edges on the node
-					for (int j = 0; j < 3; j++) {
-				        //The edge is not shared with any other node
-				        //I.e it is an exterior edge on the mesh
-						if (uses[j] == 0) {
-				            //The two vertices of the edge
-							var v1 = (Vector3)node.GetVertex(j);
-							var v2 = (Vector3)node.GetVertex((j+1) % node.GetVertexCount());
-
-				            //I think node vertices always should be clockwise, but it's good to be certain
-				            /*if (!Polygon.IsClockwise (v1,v2,(Vector3)node.GetVertex((j+2) % node.GetVertexCount()))) {
-				             *  Vector3 tmp = v2;
-				             *  v2 = v1;
-				             *  v1 = tmp;
-				             * }*/
-
-		#if ASTARDEBUG
-							Debug.DrawLine(v1, v2, Color.red);
-							Debug.DrawRay(v1, Vector3.up*wallHeight, Color.red);
-		#endif
-
-				            //Find out the height of the wall/obstacle we are about to add
-							float height = System.Math.Abs(v1.y-v2.y);
-							height = System.Math.Max(height, 5);
-
-				            //Add the edge as a line obstacle
-							obstacles.Add(sim.AddObstacle(v1, v2, wallHeight));
-						}
-					}
-				}
-
-				return true;
+		/** Adds obstacles for a navmesh/recast graph */
+		void AddGraphObstacles (Pathfinding.RVO.Simulator simulator, INavmesh navmesh) {
+			GraphUtilities.GetContours(navmesh, (vertices, cycle) => {
+				var verticesV3 = new Vector3[vertices.Count];
+				for (int i = 0; i < verticesV3.Length; i++) verticesV3[i] = (Vector3)vertices[i];
+				// Pool the 'vertices' list to reduce allocations
+				ListPool<Int3>.Release(vertices);
+				obstacles.Add(simulator.AddObstacle(verticesV3, wallHeight, cycle));
 			});
 		}
 	}

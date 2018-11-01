@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+
 
 public class SelectRoleSceneCtrl : MonoBehaviour
 {
@@ -9,7 +11,7 @@ public class SelectRoleSceneCtrl : MonoBehaviour
     /// <summary>
     ///  鑱屼笟闀滃儚瀛楀吀
     /// </summary>
-    private Dictionary<int, GameObject> m_JobObjectDic = new Dictionary<int, GameObject>();
+
     private Dictionary<int, RoleCtrl> m_JobRoleCtrl = new Dictionary<int, RoleCtrl>();
 
     UISceneSelectRoleView m_UISceneSelectRoleView;
@@ -53,19 +55,200 @@ public class SelectRoleSceneCtrl : MonoBehaviour
         // 进入游戏返回
         EventDispatcher.Instance.RegProto<RoleOperation_EnterGameReturnProto>(ProtoCodeDef.RoleOperation_EnterGameReturn, OnEnterGameReturn);
 
-        EventDispatcher.Instance.RegProto<RoleOperation_SelectRoleInfoReturnProto>(ProtoCodeDef.RoleOperation_SelectRoleInfoReturn, OnRoleOperation_SelectRoleInfoReturnProto);
+        EventDispatcher.Instance.RegProto<RoleOperation_SelectRoleInfoReturnProto>(ProtoCodeDef.RoleOperation_SelectRoleInfoReturn, OnSelectRoleInfoReture);
+
+        EventDispatcher.Instance.RegProto<RoleOperation_DeleteRoleReturnProto>(ProtoCodeDef.RoleOperation_DeleteRoleReturn, OnRoleOperation_DelectRoleInfoReturnProto);
+
 
 
         m_UISceneSelectRoleView.OnBtnBeginGameClick = OnBtnBeginGameClick;
+        m_UISceneSelectRoleView.OnBtnDeleteRoleClick = OnBtnDeleteRoleClick;
+        m_UISceneSelectRoleView.OnBtnReturnClick = OnBtnReturnClick;
+        m_UISceneSelectRoleView.OnBtnCreateRoleClick = OnBtnCreateRoleClick;
+
+
 
         LoadToObject();
 
         LogonGameServer();
     }
 
-    private void OnRoleOperation_SelectRoleInfoReturnProto(RoleOperation_SelectRoleInfoReturnProto protoValue)
+    void ToCreateRoleUI()
+    {
+        // 删除角色模型
+        if (m_currenRoleModel != null) DestroyImmediate(m_currenRoleModel);
+
+        // 切换到新建角色
+        m_IsCreateRole = true;
+        SetCreateRoleModelShow(true);
+
+        // 玩家角色数量为0
+
+        m_UISceneSelectRoleView.SetUICreateRoleActive(true);
+        m_UISceneSelectRoleView.SetUISelectRoleActive(false);
+
+        CloneCreateRole();
+
+        m_CurSelectJobId = 1;
+
+        // 设置ui
+        SetSelectJob();
+        m_UISceneSelectRoleView.RandomName();
+    }
+
+    private void OnBtnCreateRoleClick()
+    {
+        ToCreateRoleUI();
+    }
+    List<GameObject> m_CloneCreateRoleList = new List<GameObject>();
+    void ClearRole()
+    {
+        if (m_CloneCreateRoleList != null)
+        {
+            for (int i = 0; i < m_CloneCreateRoleList.Count; i++)
+            {
+                if (m_CloneCreateRoleList[i] != null)
+                    Destroy(m_CloneCreateRoleList[i]);
+            }
+            m_CloneCreateRoleList.Clear();
+        }
+    }
+
+    // 返回按钮点击
+    private void OnBtnReturnClick()
+    {
+        // 新建角色
+        if (m_IsCreateRole)
+        {
+            if (m_RoleList == null || m_RoleList.Count == 0)
+            {
+                NetWorkSocket.Instance.OnDisconnecte();
+                SceneMgr.Instance.LoadToLogOn();
+            }
+            else
+            {
+                // 在新建角色里面， 点击返回， 如果玩家已经存在了角色， 那么就要显示玩家已经有的角色
+                // 并且存在已角色
+
+                // 摄像机
+                dragTarget.eulerAngles = Vector3.up * 0;
+
+                ClearRole();
+                m_curSelectRoleId = 0;
+
+                m_IsCreateRole = false;
+                m_UISceneSelectRoleView.SetUICreateRoleActive(false);
+                m_UISceneSelectRoleView.SetUISelectRoleActive(true);
+
+                m_UISceneSelectRoleView.SetRoleList(m_RoleList, SelectRoleCallBack);
+                m_UISceneSelectRoleView.SetSelected(m_RoleList[0].RoleId);
+
+                if (CreateRoleSceneModel != null)
+                    CreateRoleSceneModel[0].gameObject.SetActive(true);
+
+                // 创建3d模型
+                SetSelectRole(m_RoleList[0].RoleId);
+
+            }
+        }
+        else
+        {
+            //ToCreateRoleUI(); 
+            ////// 选择角色界面
+            ////if (m_RoleList == null || m_RoleList.Count == 0)
+            //{
+            NetWorkSocket.Instance.OnDisconnecte();
+            SceneMgr.Instance.LoadToLogOn();
+            //}
+            //else
+            //{
+
+            //}
+        }
+    }
+
+    private void OnRoleOperation_DelectRoleInfoReturnProto(RoleOperation_DeleteRoleReturnProto protoValue)
+    {
+        MyDebug.debug("删除角色成功?:" + protoValue.IsSuccess);
+        if (protoValue.IsSuccess)
+        {
+            DeleteRole(m_curSelectRoleId);
+            m_UISceneSelectRoleView.CloseDeleteRoleView();
+        }
+        else
+        {
+            MessageCtrl.Instance.Show("提示", "删除失败    ");
+        }
+    }
+
+    void DeleteRole(int roleId)
+    {
+        for (int i = m_RoleList.Count - 1; i >= 0; i--)
+        {
+            if (m_RoleList[i].RoleId == roleId)
+            {
+                m_RoleList.RemoveAt(i);
+            }
+        }
+
+        if (m_RoleList.Count == 0)
+        {
+            ToCreateRoleUI();
+        }
+        else
+        {
+            m_UISceneSelectRoleView.SetUICreateRoleActive(false);
+            m_UISceneSelectRoleView.SetUISelectRoleActive(true);
+
+
+            m_UISceneSelectRoleView.SetRoleList(m_RoleList, SelectRoleCallBack);
+
+            m_UISceneSelectRoleView.SetSelected(m_RoleList[0].RoleId);
+
+            if (CreateRoleSceneModel != null)
+                CreateRoleSceneModel[0].gameObject.SetActive(true);
+
+            // 创建3d模型
+            SetSelectRole(m_RoleList[0].RoleId);
+        }
+
+    }
+
+    private void SetCreateRoleModelShow(bool show)
+    {
+        if (CreateRoleSceneModel != null)
+        {
+            for (int i = 0; i < CreateRoleSceneModel.Length; i++)
+                CreateRoleSceneModel[i].gameObject.SetActive(show);
+        }
+    }
+
+    private void OnBtnDeleteRoleClick()
+    {
+        RoleOperation_LogOnGameServerReturnProto.RoleItem item = GetRoleItem(m_curSelectRoleId);
+        m_UISceneSelectRoleView.DeleteSelectRole(item.RoleNickName, () => { OnDeleteSelectRoleCallBack(); });
+    }
+
+    void OnDeleteSelectRoleCallBack()
+    {
+        RoleOperation_DeleteRoleProto pro = new RoleOperation_DeleteRoleProto();
+        pro.RoleId = m_curSelectRoleId;
+        NetWorkSocket.Instance.SendMsg(pro.ToArray());
+    }
+
+    private void OnSelectRoleInfoReture(RoleOperation_SelectRoleInfoReturnProto protoValue)
     {
         MyDebug.debug(protoValue.RoleNickName);
+        if (protoValue.IsSuccess)
+        {
+            GlobalInit.Instance.MainPlayerInfo = new RoleInfoMainPlayer(protoValue);
+            // 进入主城
+            SceneMgr.Instance.LoadToCity();
+        }
+        else
+        {
+
+        }
     }
 
     private void OnEnterGameReturn(RoleOperation_EnterGameReturnProto buffer)
@@ -145,25 +328,25 @@ public class SelectRoleSceneCtrl : MonoBehaviour
         return default(RoleOperation_LogOnGameServerReturnProto.RoleItem);
     }
 
-    GameObject obj;
+    GameObject m_currenRoleModel;
     int m_curSelectRoleId;
 
     void SetSelectRole(int RoleId)
     {
         if (m_curSelectRoleId == RoleId) return;
         this.m_curSelectRoleId = RoleId;
-        if (obj != null) DestroyImmediate(obj);
+        if (m_currenRoleModel != null) DestroyImmediate(m_currenRoleModel);
         RoleOperation_LogOnGameServerReturnProto.RoleItem item = GetRoleItem(RoleId);
 
 
-        obj = Instantiate(m_JobObjectDic[item.RoleJob]);
-        obj.gameObject.SetActive(true);
-        obj.transform.parent = roleContainer[0].transform;
-        obj.transform.localPosition = Vector3.zero;
-        obj.transform.localScale = Vector3.one;
-        obj.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        m_currenRoleModel = Instantiate(GlobalInit.Instance.JobObjectDic[item.RoleJob]);
+        m_currenRoleModel.gameObject.SetActive(true);
+        m_currenRoleModel.transform.parent = roleContainer[0].transform;
+        m_currenRoleModel.transform.localPosition = Vector3.zero;
+        m_currenRoleModel.transform.localScale = Vector3.one;
+        m_currenRoleModel.transform.localRotation = Quaternion.Euler(Vector3.zero);
 
-        RoleCtrl rolec = obj.GetComponent<RoleCtrl>();
+        RoleCtrl rolec = m_currenRoleModel.GetComponent<RoleCtrl>();
         //if (rolec != null)
         //{
         //    m_JobRoleCtrl[m_JobList[i].Id] = rolec;
@@ -191,6 +374,8 @@ public class SelectRoleSceneCtrl : MonoBehaviour
             {
                 for (int i = 0; i < items.Length; i++)
                 {
+                    items[i].gameObject.SetActive(true);
+
                     if (curValue == i)
                     {
                         items[i].gameObject.transform.localScale = Vector3.one * 1.1f;
@@ -268,7 +453,7 @@ public class SelectRoleSceneCtrl : MonoBehaviour
             GameObject obj = AssetBundleMgr.Instance.Load("role/" + m_JobList[i].PrefabName.ToLower() + ".assetbundle", m_JobList[i].PrefabName);
             if (obj != null)
             {
-                m_JobObjectDic[m_JobList[i].Id] = obj;
+                GlobalInit.Instance.JobObjectDic[m_JobList[i].Id] = obj;
 
             }
         }
@@ -277,12 +462,13 @@ public class SelectRoleSceneCtrl : MonoBehaviour
     private void CloneCreateRole()
     {
         if (roleContainer == null || roleContainer.Length < 4) return;
+        ClearRole();
         for (int i = 0; i < m_JobList.Count; i++)
         {
-            GameObject obj = Instantiate(m_JobObjectDic[m_JobList[i].Id]);
+            GameObject obj = Instantiate(GlobalInit.Instance.JobObjectDic[m_JobList[i].Id]);
             obj.gameObject.SetActive(true);
             //obj.transform.localScale = Vector3.one*10;
-
+            m_CloneCreateRoleList.Add(obj);
             obj.transform.parent = roleContainer[i].transform;
             obj.transform.localPosition = Vector3.zero;
             obj.transform.localScale = Vector3.one;
@@ -325,6 +511,7 @@ public class SelectRoleSceneCtrl : MonoBehaviour
 
             m_CurSelectJobId = 1;
 
+            // 设置ui
             SetSelectJob();
 
             m_UISceneSelectRoleView.RandomName();
@@ -340,13 +527,16 @@ public class SelectRoleSceneCtrl : MonoBehaviour
             m_IsCreateRole = false;
             if (buffer.RoleList != null)
             {
+                // 设置ui信息
                 m_RoleList = buffer.RoleList;
                 m_UISceneSelectRoleView.SetRoleList(buffer.RoleList, SelectRoleCallBack);
             }
+            m_UISceneSelectRoleView.SetSelected(buffer.RoleList[0].RoleId);
 
             if (CreateRoleSceneModel != null)
                 CreateRoleSceneModel[0].gameObject.SetActive(true);
 
+            // 创建3d模型
             SetSelectRole(buffer.RoleList[0].RoleId);
         }
     }
@@ -354,13 +544,26 @@ public class SelectRoleSceneCtrl : MonoBehaviour
     private void SelectRoleCallBack(int roleId)
     {
         SetSelectRole(roleId);
-        MyDebug.debug("sff:" + roleId);
+        m_UISceneSelectRoleView.SetSelected(roleId);
+        MyDebug.debug("哈哈:" + roleId);
     }
+
 
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+    private void OnDestroy()
+    {
+        EventDispatcher.Instance.RemoveProto(ProtoCodeDef.RoleOperation_LogOnGameServerReturn);
+
+        EventDispatcher.Instance.RemoveProto(ProtoCodeDef.RoleOperation_CreateRoleReturn);
+
+        EventDispatcher.Instance.RemoveProto(ProtoCodeDef.RoleOperation_EnterGameReturn);
+
+        EventDispatcher.Instance.RemoveProto(ProtoCodeDef.RoleOperation_SelectRoleInfoReturn);
     }
 }

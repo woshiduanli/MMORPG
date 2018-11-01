@@ -52,26 +52,26 @@ public class SceneLoadingCtrl : MonoBehaviour
                 strSceneName = "Scene_SelectRole";
                 break;
             case SceneType.City:
-                strSceneName = "GameScene_CunZhuang";
+                strSceneName = "GameScene_HuPaoCun";
                 break;
         }
 
-        if (SceneMgr.Instance.CurrentSceneType == SceneType.City  )
-        {
-            // 加载渲染场景的时候，本来是加载ab包的
-            AssetBundleMgr.Instance.LoadAsync("scene/gamescene_cunzhuang.unity3d", "Scene_SelectRole").OnLoadComplete = (AssetObj) =>
-            {
-                m_Async = SceneManager.LoadSceneAsync(strSceneName, LoadSceneMode.Additive);
-                m_Async.allowSceneActivation = false;
-            };
-        }
-        else
-        {
+        //if (SceneMgr.Instance.CurrentSceneType == SceneType.City  )
+        //{
+        //    // 加载渲染场景的时候，本来是加载ab包的
+        //    AssetBundleMgr.Instance.LoadAsync("scene/gamescene_cunzhuang.unity3d", "Scene_SelectRole").OnLoadComplete = (AssetObj) =>
+        //    {
+        //        m_Async = SceneManager.LoadSceneAsync(strSceneName, LoadSceneMode.Additive);
+        //        m_Async.allowSceneActivation = false;
+        //    };
+        //}
+        //else
+        //{
 
             m_Async = SceneManager.LoadSceneAsync(strSceneName, LoadSceneMode.Additive);
             m_Async.allowSceneActivation = false;
             yield return m_Async;
-        }
+        //}
 
     }
 

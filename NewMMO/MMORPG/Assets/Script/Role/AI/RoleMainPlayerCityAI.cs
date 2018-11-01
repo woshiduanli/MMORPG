@@ -26,16 +26,16 @@ public class RoleMainPlayerCityAI : IRoleAI
         //1.如果我有锁定敌人 就行攻击
         if (CurrRole.LockEnemy != null)
         {
-            if (CurrRole.LockEnemy.CurrRoleInfo.CurrHP <= 0)
-            {
-                CurrRole.LockEnemy = null;
-                return;
-            }
+            //if (CurrRole.LockEnemy.CurrRoleInfo.CurrHP <= 0)
+            //{
+            //    CurrRole.LockEnemy = null;
+            //    return;
+            //}
 
-            if (CurrRole.CurrRoleFSMMgr.CurrRoleStateEnum != RoleState.Attack)
-            {
-                CurrRole.ToAttack();
-            }
+            //if (CurrRole.CurrRoleFSMMgr.CurrRoleStateEnum != RoleState.Attack)
+            //{
+            //    CurrRole.ToAttack();
+            //}
         }
     }
 }

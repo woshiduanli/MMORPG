@@ -17,10 +17,13 @@ namespace Pathfinding {
 	 * Since the objects are stored in a tree, and trees are slow to update, there is an enforcement that objects are not allowed to move
 	 * unless the #dynamic option is enabled. When the dynamic option is enabled, the object will be stored in an array instead of in the tree.
 	 * This will reduce the performance improvement over 'Rasterize Meshes' but is still faster.
+	 *
+	 * If a mesh filter and a mesh renderer is attached to this GameObject, those will be used in the rasterization
+	 * otherwise if a collider is attached, that will be used.
 	 */
 	[AddComponentMenu("Pathfinding/Navmesh/RecastMeshObj")]
 	[HelpURL("http://arongranberg.com/astar/docs/class_pathfinding_1_1_recast_mesh_obj.php")]
-	public class RecastMeshObj : MonoBehaviour {
+	public class RecastMeshObj : VersionedMonoBehaviour {
 		/** Static objects are stored in a tree for fast bounds lookups */
 		protected static RecastBBTree tree = new RecastBBTree();
 
@@ -84,10 +87,7 @@ namespace Pathfinding {
 		 * can use areas to create splits on the navmesh for easier updating using normal graph updates (updatePhysics=False).
 		 * See the below video for more information.
 		 *
-		 * \htmlonly
-		 * <iframe width="600" height="400" src="http://www.youtube.com/embed/CS6UypuEMwM" frameborder="0" allowfullscreen></iframe>
-		 * \endhtmlonly
-		 *
+		 * \youtube{CS6UypuEMwM}
 		 *
 		 */
 		public int area = 0;

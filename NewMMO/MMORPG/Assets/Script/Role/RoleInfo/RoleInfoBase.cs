@@ -7,28 +7,18 @@ using System.Collections;
 /// </summary>
 public class RoleInfoBase 
 {
-    /// <summary>
-    /// 角色服务器编号
-    /// </summary>
-    public long RoleServerID;
-
-    /// <summary>
-    /// 角色编号
-    /// </summary>
-    public int RoleID;
-
-    /// <summary>
-    /// 昵称
-    /// </summary>
-    public string NickName;
-
-    /// <summary>
-    /// 最大血量
-    /// </summary>
-    public int MaxHP;
-
-    /// <summary>
-    /// 当前血量
-    /// </summary>
-    public int CurrHP;
+    public int RoldId; //角色编号
+    public string RoleNickName; //角色昵称
+    public int Exp; //经验
+    public int MaxHP; //最大HP
+    public int MaxMP; //最大MP
+    public int CurrHP; //当前HP
+    public int CurrMP; //当前MP
+    public int Attack; //攻击力
+    public int Defense; //防御
+    public int Hit; //命中
+    public int Dodge; //闪避
+    public int Cri; //暴击
+    public int Res; //抗性
+    public int Fighting; //综合战斗力
 }

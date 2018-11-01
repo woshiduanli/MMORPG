@@ -7,33 +7,36 @@ namespace Pathfinding {
 	 *
 	 * \code
 	 *
-	 * //Call a RandomPath call like this, assumes that a Seeker is attached to the GameObject
+	 * // Call a RandomPath call like this, assumes that a Seeker is attached to the GameObject
 	 *
-	 * //The path will be returned when the path is over a specified length (or more accurately has "costed" more than a specific value)
-	 * int theGScoreToStopAt = 50;
+	 * // The path will be returned when the path is over a specified length (or more accurately when the traversal cost is greater than a specified value).
+	 * // A score of 1000 is approximately equal to the cost of moving one world unit.
+	 * int theGScoreToStopAt = 50000;
 	 *
-	 * //Create a path object
-	 * RandomPath path = RandomPath.Construct  (transform.position, theGScoreToStopAt);
+	 * // Create a path object
+	 * RandomPath path = RandomPath.Construct(transform.position, theGScoreToStopAt);
+	 * // Determines the variation in path length that is allowed
+	 * path.spread = 5000;
 	 *
-	 * //Get the Seeker component which must be attached to this GameObject
+	 * // Get the Seeker component which must be attached to this GameObject
 	 * Seeker seeker = GetComponent<Seeker>();
 	 *
-	 * //Start the path and return the result to MyCompleteFunction (which is a function you have to define, the name can of course be changed)
-	 * seeker.StartPath (path,MyCompleteFunction);
+	 * // Start the path and return the result to MyCompleteFunction (which is a function you have to define, the name can of course be changed)
+	 * seeker.StartPath(path, MyCompleteFunction);
 	 *
 	 * \endcode
-	 * \astarpro */
+	 * \astarpro
+	 */
 	public class RandomPath : ABPath {
 		/** G score to stop searching at.
-		 * The G score is rougly the distance to get from the start node to a node multiplied by 100 (per default, see Pathfinding.Int3.Precision), plus any eventual penalties */
+		 * The G score is rougly the distance to get from the start node to a node multiplied by 1000 (per default, see Pathfinding.Int3.Precision), plus any penalties */
 		public int searchLength;
 
 		/** All G scores between #searchLength and #searchLength+#spread are valid end points, a random one of them is chosen as the final point.
-		 * On grid graphs a low spread usually works (but keep it higher than nodeSize*100 since that it the default cost of moving between two nodes), on NavMesh graphs
-		 * I would recommend a higher spread so it can evaluate more nodes */
-		public int spread;
-
-		public bool uniform;
+		 * On grid graphs a low spread usually works (but keep it higher than nodeSize*1000 since that it the default cost of moving between two nodes), on NavMesh graphs
+		 * I would recommend a higher spread so it can evaluate more nodes
+		 */
+		public int spread = 5000;
 
 		/** If an #aim is set, the higher this value is, the more it will try to reach #aim */
 		public float aimStrength;
@@ -56,10 +59,10 @@ namespace Pathfinding {
 
 		int nodesEvaluatedRep;
 
-		/** Random class */
+		/** Random number generator */
 		readonly System.Random rnd = new System.Random();
 
-		public override bool FloodingPath {
+		internal override bool FloodingPath {
 			get {
 				return true;
 			}
@@ -71,13 +74,12 @@ namespace Pathfinding {
 			}
 		}
 
-		public override void Reset () {
+		protected override void Reset () {
 			base.Reset();
 
 			searchLength = 5000;
 			spread = 5000;
 
-			uniform = true;
 			aimStrength = 0.0f;
 			chosenNodeR = null;
 			maxGScoreNodeR = null;
@@ -119,7 +121,7 @@ namespace Pathfinding {
 
 		/** Calls callback to return the calculated path.
 		 * \see #callback */
-		public override void ReturnPath () {
+		protected override void ReturnPath () {
 			if (path != null && path.Count > 0) {
 				endNode = path[path.Count-1];
 				endPoint = (Vector3)endNode.position;
@@ -132,11 +134,11 @@ namespace Pathfinding {
 			}
 		}
 
-		public override void Prepare () {
+		protected override void Prepare () {
 			nnConstraint.tags = enabledTags;
-			NNInfo startNNInfo  = AstarPath.active.GetNearest(startPoint, nnConstraint, startHint);
+			var startNNInfo  = AstarPath.active.GetNearest(startPoint, nnConstraint);
 
-			startPoint = startNNInfo.clampedPosition;
+			startPoint = startNNInfo.position;
 			endPoint = startPoint;
 
 			startIntPoint = (Int3)startPoint;
@@ -151,21 +153,19 @@ namespace Pathfinding {
 #endif
 
 			if (startNode == null || endNode == null) {
-				LogError("Couldn't find close nodes to the start point");
-				Error();
+				FailWithError("Couldn't find close nodes to the start point");
 				return;
 			}
 
-			if (!startNode.Walkable) {
-				LogError("The node closest to the start point is not walkable");
-				Error();
+			if (!CanTraverse(startNode)) {
+				FailWithError("The node closest to the start point could not be traversed");
 				return;
 			}
 
 			heuristicScale = aimStrength;
 		}
 
-		public override void Initialize () {
+		protected override void Initialize () {
 			//Adjust the costs for the end node
 			/*if (hasEndPoint && recalcStartEndCosts) {
 			 *  endNodeCosts = endNode.InitialOpen (open,hTarget,(Int3)endPoint,this,false);
@@ -198,31 +198,33 @@ namespace Pathfinding {
 			searchedNodes++;
 
 			//any nodes left to search?
-			if (pathHandler.HeapEmpty()) {
-				LogError("No open points, the start node didn't open any nodes");
-				Error();
+			if (pathHandler.heap.isEmpty) {
+				FailWithError("No open points, the start node didn't open any nodes");
 				return;
 			}
 
-			currentR = pathHandler.PopNode();
+			currentR = pathHandler.heap.Remove();
 		}
 
-		public override void CalculateStep (long targetTick) {
+		protected override void CalculateStep (long targetTick) {
 			int counter = 0;
 
-			// Continue to search while there hasn't ocurred an error and the end hasn't been found
+			// Continue to search as long as we haven't encountered an error and we haven't found the target
 			while (CompleteState == PathCompleteState.NotCalculated) {
 				searchedNodes++;
 
 				// Close the current node, if the current node is the target node then the path is finished
 				if (currentR.G >= searchLength) {
-					nodesEvaluatedRep++;
+					if (currentR.G <= searchLength+spread) {
+						nodesEvaluatedRep++;
 
-					if (chosenNodeR == null || rnd.NextDouble() <= 1.0f/nodesEvaluatedRep) {
-						chosenNodeR = currentR;
-					}
+						if (rnd.NextDouble() <= 1.0f/nodesEvaluatedRep) {
+							chosenNodeR = currentR;
+						}
+					} else {
+						// If no node was in the valid range of G scores, then fall back to picking one right outside valid range
+						if (chosenNodeR == null) chosenNodeR = currentR;
 
-					if (currentR.G >= searchLength+spread) {
 						CompleteState = PathCompleteState.Complete;
 						break;
 					}
@@ -235,22 +237,21 @@ namespace Pathfinding {
 				currentR.node.Open(this, currentR, pathHandler);
 
 				// Any nodes left to search?
-				if (pathHandler.HeapEmpty()) {
+				if (pathHandler.heap.isEmpty) {
 					if (chosenNodeR != null) {
 						CompleteState = PathCompleteState.Complete;
 					} else if (maxGScoreNodeR != null) {
 						chosenNodeR = maxGScoreNodeR;
 						CompleteState = PathCompleteState.Complete;
 					} else {
-						LogError("Not a single node found to search");
-						Error();
+						FailWithError("Not a single node found to search");
 					}
 					break;
 				}
 
 
 				// Select the node with the lowest F score and remove it from the open list
-				currentR = pathHandler.PopNode();
+				currentR = pathHandler.heap.Remove();
 
 				// Check for time every 500 nodes, roughly every 0.5 ms usually
 				if (counter > 500) {

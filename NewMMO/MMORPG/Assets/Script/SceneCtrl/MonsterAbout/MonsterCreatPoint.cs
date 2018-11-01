@@ -33,28 +33,28 @@ public class MonsterCreatPoint : MonoBehaviour
 	{
         if (m_CurrCount < m_MaxCount)
         {
-            if (Time.time > m_PrevCreatTime + UnityEngine.Random.Range(1.5f, 3.5f))
-            {
-                m_PrevCreatTime = Time.time;
+            //if (Time.time > m_PrevCreatTime + UnityEngine.Random.Range(1.5f, 3.5f))
+            //{
+            //    m_PrevCreatTime = Time.time;
 
-                //创建怪
-                GameObject objClone = RoleMgr.Instance.LoadRole(monsterName, RoleType.Monster);
-                objClone.transform.parent = transform;
-                objClone.transform.position = transform.TransformPoint(new Vector3(UnityEngine.Random.Range(-0.5f, 0.5f), 0, UnityEngine.Random.Range(-0.5f, 0.5f)));
-                RoleCtrl roleCtrl = objClone.GetComponent<RoleCtrl>();
-                roleCtrl.BornPoint = objClone.transform.position;
+            //    //创建怪
+            //    GameObject objClone = RoleMgr.Instance.LoadRole(monsterName, RoleType.Monster);
+            //    objClone.transform.parent = transform;
+            //    objClone.transform.position = transform.TransformPoint(new Vector3(UnityEngine.Random.Range(-0.5f, 0.5f), 0, UnityEngine.Random.Range(-0.5f, 0.5f)));
+            //    RoleCtrl roleCtrl = objClone.GetComponent<RoleCtrl>();
+            //    roleCtrl.BornPoint = objClone.transform.position;
 
-                RoleInfoMonster roleInfo = new RoleInfoMonster();
-                roleInfo.RoleServerID = DateTime.Now.Ticks;
-                roleInfo.RoleID = 1;
-                roleInfo.CurrHP = roleInfo.MaxHP = 1000;
-                roleInfo.NickName = "偷书盗贼";
-                roleCtrl.Init(RoleType.Monster, roleInfo, new RoleMonsterAI(roleCtrl));
+            //    RoleInfoMonster roleInfo = new RoleInfoMonster();
+            //    //roleInfo.RoleServerID = DateTime.Now.Ticks;
+            //    //roleInfo.RoleID = 1;
+            //    //roleInfo.CurrHP = roleInfo.MaxHP = 1000;
+            //    //roleInfo.NickName = "偷书盗贼";
+            //    roleCtrl.Init(RoleType.Monster, roleInfo, new RoleMonsterAI(roleCtrl));
 
-                roleCtrl.OnRoleDie = RoleDie;
+            //    roleCtrl.OnRoleDie = RoleDie;
 
-                m_CurrCount++;
-            }
+            //    m_CurrCount++;
+            //}
         }
     }
 

@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class CitySceneCtrl : MonoBehaviour 
+public class CitySceneCtrl : MonoBehaviour
 {
     /// <summary>
     /// 主角出生点
@@ -12,7 +12,7 @@ public class CitySceneCtrl : MonoBehaviour
 
     void Awake()
     {
-        SceneUIMgr.Instance.LoadSceneUI(SceneUIMgr.SceneUIType.MainCity);
+        //SceneUIMgr.Instance.LoadSceneUI(SceneUIMgr.SceneUIType.MainCity);
 
         if (FingerEvent.Instance != null)
         {
@@ -26,28 +26,25 @@ public class CitySceneCtrl : MonoBehaviour
     {
         if (DelegateDefine.Instance.OnSceneLoadOk != null)
         {
-            DelegateDefine.Instance.OnSceneLoadOk(); 
+            DelegateDefine.Instance.OnSceneLoadOk();
         }
-   
-        //加载玩家
-        GameObject obj = RoleMgr.Instance.LoadRole("Role_MainPlayer", RoleType.MainPlayer);
 
-        obj.transform.position = m_PlayerBornPos.position;
+        //加载玩家 ,
+        RoleMgr.Instance.InitMainPlayer();
+        if (GlobalInit.Instance.CurrPlayer != null)
+        {
+            GlobalInit.Instance.CurrPlayer.gameObject.transform.position = m_PlayerBornPos.position;
+        }
 
-        //给当前玩家赋值
-        GlobalInit.Instance.CurrPlayer = obj.GetComponent<RoleCtrl>();
-        GlobalInit.Instance.CurrPlayer.Init(RoleType.MainPlayer, new RoleInfoBase() { NickName = GlobalInit.Instance.CurrRoleNickName, CurrHP=10000, MaxHP=10000 }, new RoleMainPlayerCityAI(GlobalInit.Instance.CurrPlayer));
-
-        UIPlayerInfo.Instance.SetPlayerInfo();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown (KeyCode.A) )
-        {
+        //if (Input.GetKeyDown(KeyCode.A))
+        //{
 
-            SceneMgr.Instance.LoadToCity(); 
-        }
+        //    SceneMgr.Instance.LoadToCity();
+        //}
     }
 
     #region OnZoom 摄像机缩放
@@ -92,7 +89,7 @@ public class CitySceneCtrl : MonoBehaviour
         {
             if (Physics.Raycast(ray, out hitInfo))
             {
-                if (hitInfo.collider.gameObject.name.Equals("Ground", System.StringComparison.CurrentCultureIgnoreCase))
+                if (hitInfo.collider.gameObject.tag.Equals("Road", System.StringComparison.CurrentCultureIgnoreCase))
                 {
                     if (GlobalInit.Instance.CurrPlayer != null)
                     {

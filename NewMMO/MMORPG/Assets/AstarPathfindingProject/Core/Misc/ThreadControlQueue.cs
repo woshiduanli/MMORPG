@@ -2,7 +2,7 @@ using System.Threading;
 
 namespace Pathfinding {
 	/** Queue of paths to be processed by the system */
-	public class ThreadControlQueue {
+	class ThreadControlQueue {
 		public class QueueTerminationException : System.Exception {
 		}
 
@@ -94,14 +94,14 @@ namespace Pathfinding {
 		}
 
 		/** Push a path to the front of the queue */
-		public void PushFront (Path p) {
+		public void PushFront (Path path) {
 			lock (lockObj) {
 				// If termination is due, why add stuff to a queue which will not be read from anyway
 				if (terminate) return;
 
 				if (tail == null) {// (tail == null) ==> (head == null)
-					head = p;
-					tail = p;
+					head = path;
+					tail = path;
 
 					if (starving && !blocked) {
 						starving = false;
@@ -110,21 +110,21 @@ namespace Pathfinding {
 						starving = false;
 					}
 				} else {
-					p.next = head;
-					head = p;
+					path.next = head;
+					head = path;
 				}
 			}
 		}
 
 		/** Push a path to the end of the queue */
-		public void Push (Path p) {
+		public void Push (Path path) {
 			lock (lockObj) {
 				// If termination is due, why add stuff to a queue which will not be read from anyway
 				if (terminate) return;
 
 				if (tail == null) {// (tail == null) ==> (head == null)
-					head = p;
-					tail = p;
+					head = path;
+					tail = path;
 
 					if (starving && !blocked) {
 						starving = false;
@@ -133,8 +133,8 @@ namespace Pathfinding {
 						starving = false;
 					}
 				} else {
-					tail.next = p;
-					tail = p;
+					tail.next = path;
+					tail = path;
 				}
 			}
 		}
@@ -174,9 +174,7 @@ namespace Pathfinding {
 				while (blocked || starving) {
 					blockedReceivers++;
 
-					if (blockedReceivers == numReceivers) {
-						//Last alive
-					} else if (blockedReceivers > numReceivers) {
+					if (blockedReceivers > numReceivers) {
 						throw new System.InvalidOperationException("More receivers are blocked than specified in constructor ("+blockedReceivers + " > " + numReceivers+")");
 					}
 
@@ -198,10 +196,12 @@ namespace Pathfinding {
 				}
 				Path p = head;
 
-				if (head.next == null) {
+				var newHead = head.next;
+				if (newHead == null) {
 					tail = null;
 				}
-				head = head.next;
+				head.next = null;
+				head = newHead;
 				return p;
 			} finally {
 				Monitor.Exit(lockObj);
@@ -258,10 +258,12 @@ namespace Pathfinding {
 
 				Path p = head;
 
-				if (head.next == null) {
+				var newHead = head.next;
+				if (newHead == null) {
 					tail = null;
 				}
-				head = head.next;
+				head.next = null;
+				head = newHead;
 				return p;
 			} finally {
 				Monitor.Exit(lockObj);

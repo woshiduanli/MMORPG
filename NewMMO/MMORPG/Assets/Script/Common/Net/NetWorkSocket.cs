@@ -78,6 +78,15 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
         }
     }
 
+    public void OnDisconnecte( )
+    {
+        if (client != null && client.Connected)
+        {
+            client.Shutdown(SocketShutdown.Both);
+            client.Close();
+        }
+    }
+
     #region 封装数据包
     // 封装数据包
     byte[] MakeData(byte[] data)
@@ -410,10 +419,6 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
 
     void OnDestroy()
     {
-        if (client != null && client.Connected)
-        {
-            client.Shutdown(SocketShutdown.Both);
-            client.Close();
-        }
+        OnDisconnecte();
     }
 }

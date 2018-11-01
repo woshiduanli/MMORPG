@@ -53,7 +53,7 @@ public class UIViewUtil : Singleton<UIViewUtil>
 
         GameObject obj = null;
         //如果窗口不存在 则
-        if (!m_DicWindow.ContainsKey(type))
+        if (!m_DicWindow.ContainsKey(type) || m_DicWindow[type] == null)
         {
             //枚举的名称要和预设的名称对应
             obj = ResourcesMgr.Instance.Load(ResourcesMgr.ResourceType.UIWindow, string.Format("pan_{0}", type.ToString()), cache: true);
@@ -63,6 +63,7 @@ public class UIViewUtil : Singleton<UIViewUtil>
             if (windowBase == null) return null;
             windowBase.OnShow = OnShow;
 
+            if (m_DicWindow.ContainsKey(type)) m_DicWindow.Remove(type);
             m_DicWindow.Add(type, windowBase);
             windowBase.CurrentUIType = type;
             Transform transParent = null;

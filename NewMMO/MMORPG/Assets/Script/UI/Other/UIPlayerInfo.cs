@@ -35,11 +35,11 @@ public class UIPlayerInfo : MonoBehaviour
 
     private void MainPlayerHurt()
     {
-        sprHP.fillAmount = (float)GlobalInit.Instance.CurrPlayer.CurrRoleInfo.CurrHP / GlobalInit.Instance.CurrPlayer.CurrRoleInfo.MaxHP;
+        //sprHP.fillAmount = (float)GlobalInit.Instance.CurrPlayer.CurrRoleInfo.CurrHP / GlobalInit.Instance.CurrPlayer.CurrRoleInfo.MaxHP;
     }
 
     public void SetPlayerInfo()
     {
-        lblNickName.text = GlobalInit.Instance.CurrPlayer.CurrRoleInfo.NickName;
+        //lblNickName.text = GlobalInit.Instance.CurrPlayer.CurrRoleInfo.NickName;
     }
 }
