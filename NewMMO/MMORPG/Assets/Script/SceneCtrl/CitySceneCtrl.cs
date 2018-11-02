@@ -14,7 +14,7 @@ public class CitySceneCtrl : MonoBehaviour
 
     void Awake()
     {
-        m_MainCityView = UISceneCtrl.Instance.LoadSceneUI(UISceneCtrl.SceneUIType.MainCity).GetComponent<UISceneMainCityView>();
+        m_MainCityView = UISceneCtrl.Instance.LoadSceneUI(UISceneCtrl.SceneUIType.MainCity, OnLoadUIMainCityViewComplete).GetComponent<UISceneMainCityView>();
         m_MainCityView.transform.parent = null;
         m_MainCityView.transform.localScale = Vector3.one;
 
@@ -44,11 +44,29 @@ public class CitySceneCtrl : MonoBehaviour
 
     private void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.A))
-        //{
+        // 改变ui摄像机
+        SetCamera();
+    }
 
-        //    SceneMgr.Instance.LoadToCity();
-        //}
+    private void SetCamera()
+    {
+        if (m_MainCityView != null && m_MainCityView.transform.parent != null)
+        {
+            MyDebug.debug("bu kong ");
+            m_MainCityView.transform.parent = null;
+            m_MainCityView.transform.localScale = Vector3.one;
+            if (m_MainCityView.transform.Find("UICamera") != null)
+                m_MainCityView.transform.Find("UICamera").GetComponent<Camera>().cullingMask = 1 << 5;
+        }
+    }
+
+    void OnLoadUIMainCityViewComplete(GameObject obj)
+    {
+        Debug.Log("加载了主城");
+        PlayerCtrl.Instance.SetMainCityRoleInfo(); 
+
+
+
     }
 
     #region OnZoom 摄像机缩放

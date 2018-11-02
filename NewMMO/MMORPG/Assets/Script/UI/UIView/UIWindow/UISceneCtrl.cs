@@ -51,7 +51,7 @@ public class UISceneCtrl : Singleton<UISceneCtrl>
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
-    public GameObject LoadSceneUI(SceneUIType type)
+    public GameObject LoadSceneUI(SceneUIType type, System.Action<GameObject> OnLoadComplete=null)
     {
         GameObject obj = null;
         switch (type)
@@ -71,6 +71,8 @@ public class UISceneCtrl : Singleton<UISceneCtrl>
                 CurrentUIScene = obj.GetComponent<UISceneCityCtrl>();
                 break;
         }
+        if (CurrentUIScene!=null)
+        CurrentUIScene.OnLoadComplete = OnLoadComplete;
         return obj;
     }
     #endregion

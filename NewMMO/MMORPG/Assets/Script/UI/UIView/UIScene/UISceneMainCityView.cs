@@ -29,10 +29,10 @@ public class UISceneMainCityView : UISceneViewBase
     {
         base.OnStart();
 
-        //if (OnLoadComplete != null)
-        //{
-        //    OnLoadComplete();
-        //}
+        if (OnLoadComplete != null)
+        {
+            OnLoadComplete(gameObject);
+        }
 
         //AutoFightContainer.SetActive(SceneMgr.Instance.CurrSceneType == SceneType.GameLevel);
     }
