@@ -10,9 +10,13 @@ public class CitySceneCtrl : MonoBehaviour
     [SerializeField]
     private Transform m_PlayerBornPos;
 
+    UISceneMainCityView m_MainCityView;
+
     void Awake()
     {
-        //SceneUIMgr.Instance.LoadSceneUI(SceneUIMgr.SceneUIType.MainCity);
+        m_MainCityView = UISceneCtrl.Instance.LoadSceneUI(UISceneCtrl.SceneUIType.MainCity).GetComponent<UISceneMainCityView>();
+        m_MainCityView.transform.parent = null;
+        m_MainCityView.transform.localScale = Vector3.one;
 
         if (FingerEvent.Instance != null)
         {

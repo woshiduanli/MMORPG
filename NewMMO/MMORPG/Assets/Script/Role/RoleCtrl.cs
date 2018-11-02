@@ -235,7 +235,8 @@ public class RoleCtrl : MonoBehaviour
         m_HeadBar.transform.parent = RoleHeadBarRoot.Instance.gameObject.transform;
         m_HeadBar.transform.localScale = Vector3.one;
 
-
+        //CharacterController d;
+        //d.Move
         roleHeadBarCtrl = m_HeadBar.GetComponent<RoleHeadBarCtrl>();
 
         //给预设赋值

@@ -100,6 +100,7 @@ public class SelectRoleSceneCtrl : MonoBehaviour
     {
         ToCreateRoleUI();
     }
+
     List<GameObject> m_CloneCreateRoleList = new List<GameObject>();
     void ClearRole()
     {

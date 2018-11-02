@@ -60,7 +60,7 @@ public class WWWLoad
 }
 
 
-public class testCode : MonoBehaviour
+public class TestCode : MonoBehaviour
 {
     Animator a;
     // Use this for initialization
@@ -99,17 +99,95 @@ public class testCode : MonoBehaviour
 
 
     }
+    Vector3 tar;
+    bool isMove;
+    bool isclick;
+    Vector3 dic;
 
+    bool needzhua = true; 
+    float m_RotationSpeed;
+
+    private Quaternion m_TargetQuaternion;
+    private void OnPlayerClick()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            RaycastHit hitInfo;
+
+            RaycastHit[] hitArr = Physics.RaycastAll(ray, Mathf.Infinity, 1 << LayerMask.NameToLayer("Role"));
+
+            if (Physics.Raycast(ray, out hitInfo))
+            {
+                if (hitInfo.collider.gameObject.tag.Equals("Road", System.StringComparison.CurrentCultureIgnoreCase))
+                {
+                    isclick = true;
+                    //CharacterController c = this.GetComponent<CharacterController>();
+                    tar = hitInfo.point;
+                    Vector3 dic = tar - transform.position;
+                    dic = new Vector3(dic.x, dic.y - 1000f, dic.z);
+
+                }
+            }
+
+        }
+
+        CharacterController c = this.GetComponent<CharacterController>();
+        if (isclick && Vector3.Distance(tar, transform.position) >= 1f)
+        {
+            isMove = true;
+            dic = tar - transform.position;
+            dic = new Vector3(dic.x, 0, dic.z);
+            dic = dic.normalized;
+        }
+        else
+        {
+            isclick = false;
+            isMove = false;
+        }
+
+        if (isMove && isclick)
+        {
+            if (needzhua)
+            m_TargetQuaternion = Quaternion.LookRotation(dic);
+            if (Quaternion.Angle(transform.rotation, m_TargetQuaternion) > 1)
+            {
+                if (m_RotationSpeed <= 1)
+                {
+                    m_RotationSpeed += 10f * Time.deltaTime;
+                    if (Quaternion.Angle(transform.rotation, m_TargetQuaternion) > 1)
+                    {
+
+                    }
+                    m_TargetQuaternion = Quaternion.LookRotation(dic);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, m_TargetQuaternion, m_RotationSpeed);
+
+                    if (Quaternion.Angle(transform.rotation, m_TargetQuaternion) < 1)
+                    {
+                        m_RotationSpeed = 0;
+                    }
+                }
+            }
+
+            c.Move(dic*Time.deltaTime *10);
+        }
+    }
     // Update is called once per frame
     void Update()
     {
+        OnPlayerClick();
         if (Input.GetKeyDown(KeyCode.A))
         {
-            WWWLoad w = new WWWLoad();
-            string str = @"file://G:\FanFanKeTang\MMORPG2\NewMMO\MMORPG\AssetBundles\Android\Role\role_mainplayer_cike.assetbundle";
-            MyDebug.debug(Application.dataPath);
+            MyDebug.debug("sf");
 
-            StartCoroutine(w.DownFile(str, Application.dataPath + "/role_mainplayer_cike.assetbundle"));
+            CharacterController c = this.GetComponent<CharacterController>();
+            c.Move(Vector3.one * 20);
+            //WWWLoad w = new WWWLoad();
+            //string str = @"file://G:\FanFanKeTang\MMORPG2\NewMMO\MMORPG\AssetBundles\Android\Role\role_mainplayer_cike.assetbundle";
+            //MyDebug.debug(Application.dataPath);
+
+            //StartCoroutine(w.DownFile(str, Application.dataPath + "/role_mainplayer_cike.assetbundle"));
         }
         //a = GetComponent<Animator>();
         //a.SetBool("ToRun", true);
