@@ -104,7 +104,7 @@ public class RoleCtrl : MonoBehaviour
     /// </summary>
     public RoleFSMMgr CurrRoleFSMMgr = null;
 
-    private RoleHeadBarCtrl roleHeadBarCtrl = null;
+    private RoleHeadBarView roleHeadBarView = null;
 
     #endregion
 
@@ -237,10 +237,10 @@ public class RoleCtrl : MonoBehaviour
 
         //CharacterController d;
         //d.Move
-        roleHeadBarCtrl = m_HeadBar.GetComponent<RoleHeadBarCtrl>();
+        roleHeadBarView = m_HeadBar.GetComponent<RoleHeadBarView>();
 
         //给预设赋值
-        //roleHeadBarCtrl.Init(m_HeadBarPos, CurrRoleInfo.NickName, isShowHPBar: (CurrRoleType == RoleType.MainPlayer ? false : true));
+        roleHeadBarView.Init(m_HeadBarPos, CurrRoleInfo.RoleNickName, CurrRoleType != RoleType.MainPlayer);
     }
 
 

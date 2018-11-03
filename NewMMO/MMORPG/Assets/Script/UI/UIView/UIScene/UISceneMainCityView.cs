@@ -39,27 +39,27 @@ public class UISceneMainCityView : UISceneViewBase
 
     protected override void OnBtnClick(GameObject go)
     {
-        //switch (go.name)
-        //{
-        //    case "btnTopMenu":
-        //        ChangeMenuState(go);
-        //        break;
-        //    case "btnMenu_Role":
-        //        UIViewMgr.Instance.OpenWindow(WindowUIType.RoleInfo);
-        //        break;
-        //    case "btnMenu_GameLevel":
-        //        UIViewMgr.Instance.OpenWindow(WindowUIType.GameLevelMap);
-        //        break;
-        //    case "btnMenu_WorldMap":
-        //        UIViewMgr.Instance.OpenWindow(WindowUIType.WorldMap);
-        //        break;
-        //    case "btnAutoFight":
-        //        AutoFight(true);
-        //        break;
-        //    case "btnCancelAutoFight":
-        //        AutoFight(false);
-        //        break;
-        //}
+        switch (go.name)
+        {
+            case "btnTopMenu":
+                ChangeMenuState(go);
+                break;
+            case "btnMenu_Role":
+                UIViewMgr.Instance.OpenWindow(WindowUIType.RoleInfo);
+                break;
+            case "btnMenu_GameLevel":
+                //UIViewMgr.Instance.OpenWindow(WindowUIType.GameLevelMap);
+                break;
+            case "btnMenu_WorldMap":
+                //UIViewMgr.Instance.OpenWindow(WindowUIType.WorldMap);
+                break;
+            case "btnAutoFight":
+                AutoFight(true);
+                break;
+            case "btnCancelAutoFight":
+                AutoFight(false);
+                break;
+        }
     }
 
     /// <summary>
@@ -81,11 +81,11 @@ public class UISceneMainCityView : UISceneViewBase
     /// <param name="go"></param>
     private void ChangeMenuState(GameObject go)
     {
-        //UIMainCityMenusView.Instance.ChangeState(() =>
-        //{
-        //    //回调
-        //    go.transform.localScale = new Vector3(go.transform.localScale.x, go.transform.localScale.y * -1, go.transform.localScale.z);
-        //});
+        UIMainCityMenusView.Instance.ChangeState(() =>
+        {
+            //回调
+            go.transform.localScale = new Vector3(go.transform.localScale.x, go.transform.localScale.y * -1, go.transform.localScale.z);
+        });
     }
 
     protected override void BeforeOnDestroy()

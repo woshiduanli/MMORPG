@@ -1,8 +1,10 @@
 fileFormatVersion: 2
-guid: 1f18fd7c0bff5d7479ff9146a4ba261d
-timeCreated: 1450275340
+guid: 1fb9b2c5602f014439df0abb272f3321
+timeCreated: 1467210662
 licenseType: Pro
 NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
   userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+  assetBundleName: download/prefab/uiprefab/uiother/roleheadbar
+  assetBundleVariant: assetbundle

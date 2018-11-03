@@ -53,7 +53,7 @@ public class stu
 public class ApplicationEditor : Editor
 {
 
-   
+
     /// <summary>
     /// 
     /// </summary>
@@ -93,7 +93,6 @@ public class ApplicationEditor : Editor
                 if (d.EndsWith(".lua")
 
                     &&
-
                     !d.Contains("MindQuiz") &&
                     !d.Contains("CoreSystem") &&
                     !d.Contains("GameSystem") &&
@@ -406,41 +405,41 @@ public class ApplicationEditor : Editor
     private static Material fontMaterial;
     [SerializeField]
     private static Texture2D fontTexture;
-//    static BMFont bmFont = new BMFont();
+    //    static BMFont bmFont = new BMFont();
 
-//    static void ddd()
-//    {
-//        BMFontReader.Load(bmFont, fntData.name, fntData.bytes); // 借用NGUI封装的读取类
-//        CharacterInfo[] characterInfo = new CharacterInfo[bmFont.glyphs.Count];
-//        for (int i = 0; i < bmFont.glyphs.Count; i++)
-//        {
-//            BMGlyph bmInfo = bmFont.glyphs[i];
-//            CharacterInfo info = new CharacterInfo();
-//            info.index = bmInfo.index;
-//#pragma warning disable CS0618 // 类型或成员已过时
-//            info.uv.x = (float)bmInfo.x / (float)bmFont.texWidth;
-//            info.uv.y = 1 - (float)bmInfo.y / (float)bmFont.texHeight;
-//            info.uv.width = (float)bmInfo.width / (float)bmFont.texWidth;
-//            info.uv.height = -1f * (float)bmInfo.height / (float)bmFont.texHeight;
-//            info.vert.x = 0;
-//            info.vert.y = -(float)bmInfo.height;
-//            info.vert.width = (float)bmInfo.width;
-//            info.vert.height = (float)bmInfo.height;
-//            info.width = (float)bmInfo.advance;
-//#pragma warning restore CS0618 // 类型或成员已过时
-//            characterInfo[i] = info;
-//        }
-//        targetFont.characterInfo = characterInfo;
-//        if (fontMaterial)
-//        {
-//            fontMaterial.mainTexture = fontTexture;
-//        }
-//        targetFont.material = fontMaterial;
-//        fontMaterial.shader = Shader.Find("UI/Default");
+    //    static void ddd()
+    //    {
+    //        BMFontReader.Load(bmFont, fntData.name, fntData.bytes); // 借用NGUI封装的读取类
+    //        CharacterInfo[] characterInfo = new CharacterInfo[bmFont.glyphs.Count];
+    //        for (int i = 0; i < bmFont.glyphs.Count; i++)
+    //        {
+    //            BMGlyph bmInfo = bmFont.glyphs[i];
+    //            CharacterInfo info = new CharacterInfo();
+    //            info.index = bmInfo.index;
+    //#pragma warning disable CS0618 // 类型或成员已过时
+    //            info.uv.x = (float)bmInfo.x / (float)bmFont.texWidth;
+    //            info.uv.y = 1 - (float)bmInfo.y / (float)bmFont.texHeight;
+    //            info.uv.width = (float)bmInfo.width / (float)bmFont.texWidth;
+    //            info.uv.height = -1f * (float)bmInfo.height / (float)bmFont.texHeight;
+    //            info.vert.x = 0;
+    //            info.vert.y = -(float)bmInfo.height;
+    //            info.vert.width = (float)bmInfo.width;
+    //            info.vert.height = (float)bmInfo.height;
+    //            info.width = (float)bmInfo.advance;
+    //#pragma warning restore CS0618 // 类型或成员已过时
+    //            characterInfo[i] = info;
+    //        }
+    //        targetFont.characterInfo = characterInfo;
+    //        if (fontMaterial)
+    //        {
+    //            fontMaterial.mainTexture = fontTexture;
+    //        }
+    //        targetFont.material = fontMaterial;
+    //        fontMaterial.shader = Shader.Find("UI/Default");
 
-//        Debug.Log("create font <" + targetFont.name + "> success");
-//        //Close();
-//    }
+    //        Debug.Log("create font <" + targetFont.name + "> success");
+    //        //Close();
+    //    }
 
     // 距离活动的开始时间
     public static int GetOpenTimeSpan()
@@ -804,7 +803,7 @@ public class ApplicationEditor : Editor
     public static void DebugLua1()
     {
 
-     
+
 
     }
 
@@ -864,7 +863,7 @@ public class ApplicationEditor : Editor
     }
 
 
-    
+
 
     [MenuItem("开发场景悠悠/清除并生成Code")]
     public static void DebugLua13()
@@ -879,7 +878,7 @@ public class ApplicationEditor : Editor
 
 
 
-  
+
     static bool b;
     static string 关闭打开影藏ObjStr = "FenBaoScene";
     [MenuItem("开发场景悠悠/UI相关/关闭打开影藏模板")]
@@ -917,9 +916,9 @@ public class ApplicationEditor : Editor
         //    }
         //}
     }
-   
 
- 
+
+
 
     public static int GetSceneIndex(string name)
     {

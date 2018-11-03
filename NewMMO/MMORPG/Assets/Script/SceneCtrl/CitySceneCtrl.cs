@@ -1,6 +1,7 @@
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class CitySceneCtrl : MonoBehaviour
 {
@@ -45,14 +46,13 @@ public class CitySceneCtrl : MonoBehaviour
     private void Update()
     {
         // 改变ui摄像机
-        SetCamera();
+        //SetCamera();
     }
 
     private void SetCamera()
     {
         if (m_MainCityView != null && m_MainCityView.transform.parent != null)
         {
-            MyDebug.debug("bu kong ");
             m_MainCityView.transform.parent = null;
             m_MainCityView.transform.localScale = Vector3.one;
             if (m_MainCityView.transform.Find("UICamera") != null)
@@ -63,7 +63,7 @@ public class CitySceneCtrl : MonoBehaviour
     void OnLoadUIMainCityViewComplete(GameObject obj)
     {
         Debug.Log("加载了主城");
-        PlayerCtrl.Instance.SetMainCityRoleInfo(); 
+        PlayerCtrl.Instance.SetMainCityRoleInfo();
 
 
 
@@ -94,6 +94,8 @@ public class CitySceneCtrl : MonoBehaviour
     /// </summary>
     private void OnPlayerClick()
     {
+        if (EventSystem.current.IsPointerOverGameObject()) return;
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit hitInfo;
