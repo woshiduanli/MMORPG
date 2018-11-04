@@ -14,6 +14,7 @@ public class RoleInfoMainPlayer : RoleInfoBase
     public int Money; //元宝
     public int Gold; //金币
 
+    public int LastInWorldMapId;
 
     public RoleInfoMainPlayer()
     {
@@ -40,5 +41,6 @@ public class RoleInfoMainPlayer : RoleInfoBase
         this.Cri = roleInfoProto.Cri; 
         this.Res = roleInfoProto.Res;
         this.Fighting = roleInfoProto.Fighting;
+        this.LastInWorldMapId = roleInfoProto.LastInWorldMapId;
     }
 }

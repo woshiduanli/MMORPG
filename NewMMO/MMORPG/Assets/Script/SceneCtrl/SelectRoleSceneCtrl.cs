@@ -243,8 +243,9 @@ public class SelectRoleSceneCtrl : MonoBehaviour
         if (protoValue.IsSuccess)
         {
             GlobalInit.Instance.MainPlayerInfo = new RoleInfoMainPlayer(protoValue);
+            MyDebug.debug("玩家当前的地图"+ GlobalInit.Instance.MainPlayerInfo.LastInWorldMapId);
             // 进入主城
-            SceneMgr.Instance.LoadToCity();
+            SceneMgr.Instance.LoadToWorldMap(GlobalInit.Instance.MainPlayerInfo.LastInWorldMapId);
         }
         else
         {

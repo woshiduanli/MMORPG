@@ -9,7 +9,7 @@ using System.Collections;
 public enum SceneType
 {
     LogOn,
-    City,
+    WorldMap,
     ShaMo, 
     SelectRole
 }

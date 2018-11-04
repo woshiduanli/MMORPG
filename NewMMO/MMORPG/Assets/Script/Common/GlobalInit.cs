@@ -120,6 +120,12 @@ public class GlobalInit : MonoBehaviour
             PlayerPrefs.DeleteAll();
 
         }
+
+
+        //if (Input.GET)
+        //{
+
+        //}
     }
 
     private void OnGetTimeCallBack(NetWorkHttp.CallBackArgs obj)

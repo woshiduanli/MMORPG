@@ -82,6 +82,6 @@ public class UILogOnCtrl : UIWindowViewBase
 
         GlobalInit.Instance.CurrRoleNickName = nickName;
 
-        SceneMgr.Instance.LoadToCity();
+        SceneMgr.Instance.LoadToWorldMap();
     }
 }

@@ -45,6 +45,12 @@ public class RoleMgr : Singleton<RoleMgr>
     }
     #endregion
 
+    public GameObject LoadNPC(string prefabName)
+    {
+        GameObject obj = AssetBundleMgr.Instance.Load("role/" + prefabName.ToLower() + ".assetbundle", prefabName);
+        return GameObject.Instantiate(obj);
+    }
+
     public override void Dispose()
     {
         base.Dispose();

@@ -51,11 +51,15 @@ public class SceneLoadingCtrl : MonoBehaviour
             case SceneType.SelectRole:
                 strSceneName = "Scene_SelectRole";
                 break;
-            case SceneType.City:
-                strSceneName = "GameScene_HuPaoCun";
+            case SceneType.WorldMap:
+
+                WorldMapEntity entity = WorldMapDBModel.Instance.Get(SceneMgr.Instance.CurrWorldMapId);
+                MyDebug.debug("当前读取的尝尽："+ entity.SceneName);
+                if (entity != null)
+                    strSceneName = entity.SceneName;
                 break;
         }
-
+        if (string.IsNullOrEmpty(strSceneName)) yield break;
         //if (SceneMgr.Instance.CurrentSceneType == SceneType.City  )
         //{
         //    // 加载渲染场景的时候，本来是加载ab包的
@@ -68,16 +72,16 @@ public class SceneLoadingCtrl : MonoBehaviour
         //else
         //{
 
-            m_Async = SceneManager.LoadSceneAsync(strSceneName, LoadSceneMode.Additive);
-            m_Async.allowSceneActivation = false;
-            yield return m_Async;
+        m_Async = SceneManager.LoadSceneAsync(strSceneName, LoadSceneMode.Additive);
+        m_Async.allowSceneActivation = false;
+        yield return m_Async;
         //}
 
     }
 
     void Update()
     {
-        if (m_Async == null) return; 
+        if (m_Async == null) return;
         int toProgress = 0;
 
         if (m_Async.progress < 0.9f)

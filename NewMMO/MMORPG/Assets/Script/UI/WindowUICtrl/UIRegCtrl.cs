@@ -94,6 +94,6 @@ public class UIRegCtrl : UIWindowViewBase
 
         GlobalInit.Instance.CurrRoleNickName = nickName;
 
-        SceneMgr.Instance.LoadToCity();
+        SceneMgr.Instance.LoadToWorldMap();
     }
 }

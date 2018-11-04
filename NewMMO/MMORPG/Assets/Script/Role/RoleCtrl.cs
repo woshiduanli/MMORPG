@@ -219,6 +219,19 @@ public class RoleCtrl : MonoBehaviour
         {
             CameraAutoFollow();
         }
+
+        // 小地图
+        AutoSmallMap(); 
+    }
+
+    void AutoSmallMap()
+    {
+        if (SmallMapHelper.Instance == null && UIMainCitySmallMapView.Instance == null) return;
+        SmallMapHelper.Instance.gameObject.transform.position = transform.position;
+
+        UIMainCitySmallMapView.Instance.transform.localPosition = new Vector3(SmallMapHelper.Instance.gameObject.transform.localPosition.x * -512, SmallMapHelper.Instance.gameObject.transform.localPosition.z * -512, 1);
+
+        UIMainCitySmallMapView.Instance.SmallMapArr.transform.localEulerAngles = new Vector3(0,0, 360-transform.localEulerAngles.y);
     }
 
     /// <summary>

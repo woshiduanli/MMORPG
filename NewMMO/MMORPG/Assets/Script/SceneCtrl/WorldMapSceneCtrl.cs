@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
 
-public class CitySceneCtrl : MonoBehaviour
+public class WorldMapSceneCtrl : MonoBehaviour
 {
     /// <summary>
     /// 主角出生点
@@ -11,14 +11,12 @@ public class CitySceneCtrl : MonoBehaviour
     [SerializeField]
     private Transform m_PlayerBornPos;
 
+    WorldMapEntity CurrWorldMapEntity;
+
     UISceneMainCityView m_MainCityView;
 
     void Awake()
     {
-        m_MainCityView = UISceneCtrl.Instance.LoadSceneUI(UISceneCtrl.SceneUIType.MainCity, OnLoadUIMainCityViewComplete).GetComponent<UISceneMainCityView>();
-        m_MainCityView.transform.parent = null;
-        m_MainCityView.transform.localScale = Vector3.one;
-
         if (FingerEvent.Instance != null)
         {
             FingerEvent.Instance.OnFingerDrag += OnFingerDrag;
@@ -29,18 +27,7 @@ public class CitySceneCtrl : MonoBehaviour
 
     void Start()
     {
-        if (DelegateDefine.Instance.OnSceneLoadOk != null)
-        {
-            DelegateDefine.Instance.OnSceneLoadOk();
-        }
-
-        //加载玩家 ,
-        RoleMgr.Instance.InitMainPlayer();
-        if (GlobalInit.Instance.CurrPlayer != null)
-        {
-            GlobalInit.Instance.CurrPlayer.gameObject.transform.position = m_PlayerBornPos.position;
-        }
-
+        m_MainCityView = UISceneCtrl.Instance.LoadSceneUI(UISceneCtrl.SceneUIType.MainCity, OnLoadUIMainCityViewComplete).GetComponent<UISceneMainCityView>();
     }
 
     private void Update()
@@ -62,11 +49,56 @@ public class CitySceneCtrl : MonoBehaviour
 
     void OnLoadUIMainCityViewComplete(GameObject obj)
     {
-        Debug.Log("加载了主城");
-        PlayerCtrl.Instance.SetMainCityRoleInfo();
+        if (DelegateDefine.Instance.OnSceneLoadOk != null)
+        {
+            DelegateDefine.Instance.OnSceneLoadOk();
+        }
+
+        //加载玩家 ,
+        RoleMgr.Instance.InitMainPlayer();
+        if (GlobalInit.Instance.CurrPlayer != null)
+        {
+            CurrWorldMapEntity = WorldMapDBModel.Instance.Get(SceneMgr.Instance.CurrWorldMapId);
+            if (CurrWorldMapEntity != null && CurrWorldMapEntity.RoleBirthPostion != Vector3.zero)
+            {
+                MyDebug.debug(CurrWorldMapEntity.RoleBirthPostion);
+                GlobalInit.Instance.CurrPlayer.gameObject.transform.position = CurrWorldMapEntity.RoleBirthPostion;
+                GlobalInit.Instance.CurrPlayer.gameObject.transform.eulerAngles = new Vector3(0, CurrWorldMapEntity.RoleBirthEulerAnglesY, 0);
+            }
+            else
+            {
+                GlobalInit.Instance.CurrPlayer.gameObject.transform.position = m_PlayerBornPos.position;
+            }
+            PlayerCtrl.Instance.SetMainCityRoleInfo();
+        }
+
+        StartCoroutine(InitNPC());
 
 
+    }
 
+    IEnumerator InitNPC()
+    {
+        yield return null;
+
+        if (CurrWorldMapEntity == null) yield break;
+
+        for (int i = 0; i < CurrWorldMapEntity.NPCWorldMapList.Count; i++)
+        {
+
+            NPCWorldMapData data = CurrWorldMapEntity.NPCWorldMapList[i];
+            NPCEntity entity = NPCDBModel.Instance.Get(data.NPCId);
+
+            string prefabName = entity.PrefabName;
+            GameObject obj = RoleMgr.Instance.LoadNPC(entity.PrefabName);
+
+            obj.transform.position = data.NPCPostion;
+            obj.transform.eulerAngles = new Vector3(0, data.EulerAnglesY, 0);
+
+            NPCCtrl ctrl = obj.GetComponent<NPCCtrl>();
+            if (ctrl != null)
+                ctrl.Init(data);
+        }
     }
 
     #region OnZoom 摄像机缩放

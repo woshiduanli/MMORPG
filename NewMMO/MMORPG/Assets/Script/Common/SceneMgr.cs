@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-using UnityEngine.SceneManagement; 
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 场景管理器
@@ -21,15 +21,23 @@ public class SceneMgr : Singleton<SceneMgr>
     {
         // 初始化场景， 进入scene_loading 
         CurrentSceneType = SceneType.LogOn;
-        SceneManager.LoadScene("Scene_Loading"); 
+        SceneManager.LoadScene("Scene_Loading");
     }
 
+    private int m_CurrWorldMapId;
+
+    public int CurrWorldMapId
+    {
+        get { return m_CurrWorldMapId; }
+        private set { }
+    }
     /// <summary>
     /// 去城镇场景
     /// </summary>
-    public void LoadToCity()
+    public void LoadToWorldMap(int WorldMapId =1)
     {
-        CurrentSceneType = SceneType.City;
+        m_CurrWorldMapId = WorldMapId;
+        CurrentSceneType = SceneType.WorldMap;
         SceneManager.LoadScene("Scene_Loading");
     }
 
