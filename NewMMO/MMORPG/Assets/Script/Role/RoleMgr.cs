@@ -51,6 +51,12 @@ public class RoleMgr : Singleton<RoleMgr>
         return GameObject.Instantiate(obj);
     }
 
+    public GameObject LoadPlayer(int JobId)
+    {
+        GameObject obj = GlobalInit.Instance.JobObjectDic[JobId];
+        return Object.Instantiate(obj);
+    }
+
     public override void Dispose()
     {
         base.Dispose();

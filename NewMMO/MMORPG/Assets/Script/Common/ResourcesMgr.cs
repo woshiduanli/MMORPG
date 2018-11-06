@@ -30,7 +30,8 @@ public class ResourcesMgr : Singleton<ResourcesMgr>
         /// <summary>
         /// 其他
         /// </summary>
-        UIOther
+        UIOther,
+        UIWindonChild
     }
     #endregion
 
@@ -78,6 +79,10 @@ public class ResourcesMgr : Singleton<ResourcesMgr>
                     break;
                 case ResourceType.UIOther:
                     sbr.Append("UIPrefab/UIOther/");
+
+                    break;
+                case ResourceType.UIWindonChild:
+                    sbr.Append("UIPrefab/UIWindowsChild/");
                     break;
             }
 

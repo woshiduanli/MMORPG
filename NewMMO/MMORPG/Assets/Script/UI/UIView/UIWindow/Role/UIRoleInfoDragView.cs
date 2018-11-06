@@ -20,7 +20,7 @@ public class UIRoleInfoDragView : UISubViewBase, IBeginDragHandler, IDragHandler
     /// <summary>
     /// 旋转的速度
     /// </summary>
-    private float m_Speed = 300;
+    private float m_Speed = 600;
 
     protected override void BeforeOnDestroy()
     {

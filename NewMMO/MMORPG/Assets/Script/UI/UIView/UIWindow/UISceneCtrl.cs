@@ -58,17 +58,17 @@ public class UISceneCtrl : Singleton<UISceneCtrl>
         {
             case SceneUIType.LogOn:
                 obj = ResourcesMgr.Instance.Load(ResourcesMgr.ResourceType.UIScene, "UI Root_LogOnScene");
-                CurrentUIScene = obj.GetComponent<UISceneLogonCtrl>();
+                CurrentUIScene = obj.GetComponent<UISceneViewBase>();
                 break;
             case SceneUIType.Loading:
                 break;
             case SceneUIType.MainCity:
                 obj = ResourcesMgr.Instance.Load(ResourcesMgr.ResourceType.UIScene, "UI_Root_MainCity");
-                CurrentUIScene = obj.GetComponent<UISceneMainCityView>();
+                CurrentUIScene = obj.GetComponent<UISceneViewBase>();
                 break; 
             case SceneUIType.SelectRole:
                 obj = ResourcesMgr.Instance.Load(ResourcesMgr.ResourceType.UIScene, "UI_Root_SelectRole");
-                CurrentUIScene = obj.GetComponent<UISceneCityCtrl>();
+                CurrentUIScene = obj.GetComponent<UISceneViewBase>();
                 break;
         }
         if (CurrentUIScene!=null)

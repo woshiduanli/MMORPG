@@ -10,7 +10,7 @@ public class MessageCtrl : Singleton<MessageCtrl>
         if (obj == null)
         {
             obj = ResourcesMgr.Instance.Load(ResourcesMgr.ResourceType.UIWindow, "pan_Message", true);
-            obj.transform.parent = SceneUIMgr.Instance.CurrentUIScene.Container_Center; 
+            obj.transform.parent = UISceneCtrl.Instance.CurrentUIScene.Container_Center; 
             obj.transform.localPosition = Vector3.zero;
             obj.transform.localScale = Vector3.one;
             obj.GetComponent<RectTransform>().sizeDelta = Vector2.zero; 

@@ -28,10 +28,7 @@ public class NPCCtrl : MonoBehaviour
     public void Init(NPCWorldMapData npcData)
     {
         m_CurrNPCEntity = NPCDBModel.Instance.Get(npcData.NPCId);
-        MyDebug.debug("mingzi shi :" + m_CurrNPCEntity.Name);
-
         m_npcTalk = m_CurrNPCEntity.Talk.Split('|'); 
-
     }
 
     private void Update()

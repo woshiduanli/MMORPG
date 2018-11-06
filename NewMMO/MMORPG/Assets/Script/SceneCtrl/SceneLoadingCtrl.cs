@@ -25,6 +25,8 @@ public class SceneLoadingCtrl : MonoBehaviour
         // 然后在loading条里面， 进行尝尽的切换
         LayerUIMgr.Instance.Reset();
         StartCoroutine(LoadingScene());
+
+        UIViewUtil.Instance.CloseAll();
     }
 
     void OnSceneLoadOk()
@@ -54,9 +56,15 @@ public class SceneLoadingCtrl : MonoBehaviour
             case SceneType.WorldMap:
 
                 WorldMapEntity entity = WorldMapDBModel.Instance.Get(SceneMgr.Instance.CurrWorldMapId);
-                MyDebug.debug("当前读取的尝尽："+ entity.SceneName);
                 if (entity != null)
                     strSceneName = entity.SceneName;
+                break;
+            case SceneType.GameLevel:
+
+                GameLevelEntity gameLevelEntity = GameLevelDBModel.Instance.Get(SceneMgr.Instance.CurGameLevelId);
+                if (gameLevelEntity != null)
+                    strSceneName = gameLevelEntity.SceneName;
+
                 break;
         }
         if (string.IsNullOrEmpty(strSceneName)) yield break;
@@ -71,7 +79,7 @@ public class SceneLoadingCtrl : MonoBehaviour
         //}
         //else
         //{
-
+        MyDebug.debug("要去的场景：" + strSceneName);
         m_Async = SceneManager.LoadSceneAsync(strSceneName, LoadSceneMode.Additive);
         m_Async.allowSceneActivation = false;
         yield return m_Async;

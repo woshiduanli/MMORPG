@@ -6,6 +6,15 @@ using System.IO;
 using System;
 using UnityEngine.UI;
 
+public static class TextUtil
+{
+    public static void SetText(this Text text, string str)
+    {
+        if (!string.IsNullOrEmpty(str))
+            text.text = str;
+    }
+}
+
 public class GameUtil
 {
     #region 获取随机名字
@@ -88,6 +97,22 @@ public class GameUtil
         }
 
         return CurName;
+    }
+
+    public static Texture  LoadGameLevelMapPic(string picName)
+    {
+        return Resources.Load(string.Format("UI/GameLevel/GameLevelMap/{0}", picName), typeof(Texture)) as Texture;
+    }
+
+    public static Sprite LoadGameLevelDetailPic(string picName)
+    {
+        return Resources.Load(string.Format("UI/GameLevel/GameLevelDetail/{0}", picName), typeof(Sprite)) as Sprite;
+    }
+
+
+    public static Sprite LoadGameLevelIco(string picName)
+    {
+        return Resources.Load(string.Format("UI/GameLevel/GameLevelIco/{0}", picName), typeof(Sprite)) as Sprite;
     }
 
     ///// <summary>
@@ -279,6 +304,9 @@ public class GameUtil
         //    }
         //}
     }
+
+
+
     #endregion
 
     #region AutoNumberAnimation 自动数字动画

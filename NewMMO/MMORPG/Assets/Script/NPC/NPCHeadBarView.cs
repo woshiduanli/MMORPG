@@ -56,18 +56,17 @@ public class NPCHeadBarView : MonoBehaviour
         return pos.x >= 0 && pos.y >= 0 && pos.x <= Screen.width && pos.y <= Screen.height && pos.z > 0;
     }
 
+    Vector3 m_screenPos; 
     // 让一个ui挂在某个世界空间的点下
     public void WolrdPostionToRectTransfromToWorldPos(Vector3 worldPos, RectTransform rect, Camera uiCamera)
     {
         Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
-        bool isCanSee = screenPos.x >= 0 && screenPos.y >= 0 && screenPos.x <= Screen.width && screenPos.y <= Screen.height && screenPos.z > 0;
-        if (isCanSee)
-        {
-            rect.gameObject.transform.position = uiCamera.ScreenToWorldPoint(screenPos);
-            Vector3 localPos = rect.gameObject.transform.localPosition;
-            localPos.z = 0;
-            rect.gameObject.transform.localPosition = localPos;
-        }
+        if (m_screenPos == screenPos) return;
+        m_screenPos = screenPos;
+        rect.gameObject.transform.position = uiCamera.ScreenToWorldPoint(screenPos);
+        Vector3 localPos = rect.gameObject.transform.localPosition;
+        localPos.z = 0;
+        rect.gameObject.transform.localPosition = localPos;
     }
 
 
@@ -75,7 +74,7 @@ public class NPCHeadBarView : MonoBehaviour
     {
         WolrdPostionToRectTransfromToWorldPos(m_Target.position, m_Trans, UI_Camera222.Instance.camera);
 
-        if (Time.time % 7>= 1 && Time.time % 7 < 3)
+        if (Time.time % 10 >= 1 && Time.time % 10 <= 3)
         {
             if (!imgTalkBG.gameObject.activeSelf)
                 imgTalkBG.gameObject.SetActive(true);

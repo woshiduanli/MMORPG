@@ -59,24 +59,24 @@ public class UIRoleInfoDetailView : UISubViewBase
 
     public void SetUI(TransferData data)
     {
-        //lblMoney.SetText(data.GetValue<int>(ConstDefine.Money).ToString());
-        //lblGold.SetText(data.GetValue<int>(ConstDefine.Gold).ToString());
+        lblMoney.text=(data.GetValue<int>(ConstDefine.Money).ToString());
+        lblGold.text=(data.GetValue<int>(ConstDefine.Gold).ToString());
 
-        //sliderHP.SetSliderValue((float)data.GetValue<int>(ConstDefine.CurrHP) / data.GetValue<int>(ConstDefine.MaxHP));
-        //lblHP.SetText(string.Format("{0}/{1}", data.GetValue<int>(ConstDefine.CurrHP), data.GetValue<int>(ConstDefine.MaxHP)));
+        sliderHP.SetSliderValue((float)data.GetValue<int>(ConstDefine.CurrHP) / data.GetValue<int>(ConstDefine.MaxHP));
+        lblHP.text = (string.Format("{0}/{1}", data.GetValue<int>(ConstDefine.CurrHP), data.GetValue<int>(ConstDefine.MaxHP)));
 
-        //sliderMP.SetSliderValue((float)data.GetValue<int>(ConstDefine.CurrMP) / data.GetValue<int>(ConstDefine.MaxMP));
-        //lblMP.SetText(string.Format("{0}/{1}", data.GetValue<int>(ConstDefine.CurrMP), data.GetValue<int>(ConstDefine.MaxMP)));
+        sliderMP.SetSliderValue((float)data.GetValue<int>(ConstDefine.CurrMP) / data.GetValue<int>(ConstDefine.MaxMP));
+        lblMP.text = (string.Format("{0}/{1}", data.GetValue<int>(ConstDefine.CurrMP), data.GetValue<int>(ConstDefine.MaxMP)));
 
-        //sliderExp.SetSliderValue((float)data.GetValue<int>(ConstDefine.CurrExp) / data.GetValue<int>(ConstDefine.MaxExp));
-        //lblExp.SetText(string.Format("{0}/{1}", data.GetValue<int>(ConstDefine.CurrExp), data.GetValue<int>(ConstDefine.MaxExp)));
+        sliderExp.SetSliderValue((float)data.GetValue<int>(ConstDefine.CurrExp) / data.GetValue<int>(ConstDefine.MaxExp));
+        lblExp.text = (string.Format("{0}/{1}", data.GetValue<int>(ConstDefine.CurrExp), data.GetValue<int>(ConstDefine.MaxExp)));
 
-        //lblAttack.SetText(data.GetValue<int>(ConstDefine.Attack).ToString());
-        //lblDefense.SetText(data.GetValue<int>(ConstDefine.Defense).ToString());
-        //lblDodge.SetText(data.GetValue<int>(ConstDefine.Dodge).ToString());
-        //lblHit.SetText(data.GetValue<int>(ConstDefine.Hit).ToString());
-        //lblCri.SetText(data.GetValue<int>(ConstDefine.Cri).ToString());
-        //lblRes.SetText(data.GetValue<int>(ConstDefine.Res).ToString());
+        lblAttack.text = (data.GetValue<int>(ConstDefine.Attack).ToString());
+        lblDefense.text = (data.GetValue<int>(ConstDefine.Defense).ToString());
+        lblDodge.text = (data.GetValue<int>(ConstDefine.Dodge).ToString());
+        lblHit.text = (data.GetValue<int>(ConstDefine.Hit).ToString());
+        lblCri.text = (data.GetValue<int>(ConstDefine.Cri).ToString());
+        lblRes.text = (data.GetValue<int>(ConstDefine.Res).ToString());
     }
 
     protected override void BeforeOnDestroy()

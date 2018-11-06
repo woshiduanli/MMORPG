@@ -48,10 +48,10 @@ public class UISceneMainCityView : UISceneViewBase
                 UIViewMgr.Instance.OpenWindow(WindowUIType.RoleInfo);
                 break;
             case "btnMenu_GameLevel":
-                //UIViewMgr.Instance.OpenWindow(WindowUIType.GameLevelMap);
+                UIViewMgr.Instance.OpenWindow(WindowUIType.GameLevelMap);
                 break;
             case "btnMenu_WorldMap":
-                //UIViewMgr.Instance.OpenWindow(WindowUIType.WorldMap);
+                UIViewMgr.Instance.OpenWindow(WindowUIType.WorldMap);
                 break;
             case "btnAutoFight":
                 AutoFight(true);

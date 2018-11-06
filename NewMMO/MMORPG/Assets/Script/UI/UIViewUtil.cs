@@ -18,8 +18,9 @@ public class UIViewUtil : Singleton<UIViewUtil>
         {
             return m_DicWindow[type];
         }
-        return null; 
+        return null;
     }
+
 
     /// <summary>
     /// 已经打开的窗口数量
@@ -30,6 +31,10 @@ public class UIViewUtil : Singleton<UIViewUtil>
         {
             return m_DicWindow.Count;
         }
+    }
+    public void CloseAll()
+    {
+        if (m_DicWindow != null) m_DicWindow.Clear();
     }
 
     public UIWindowViewBase GetWindow(WindowUIType type)
@@ -71,11 +76,11 @@ public class UIViewUtil : Singleton<UIViewUtil>
             switch (windowBase.containerType)
             {
                 case WindowUIContainerType.Center:
-                    transParent = SceneUIMgr.Instance.CurrentUIScene.Container_Center;
+                    transParent = UISceneCtrl.Instance.CurrentUIScene.Container_Center;
                     break;
             }
-
             obj.transform.parent = transParent;
+            obj.SetParent(transParent); 
             obj.transform.localPosition = Vector3.zero;
             obj.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
 

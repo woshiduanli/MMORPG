@@ -10,8 +10,10 @@ public enum SceneType
 {
     LogOn,
     WorldMap,
-    ShaMo, 
-    SelectRole
+    ShaMo,
+    SelectRole,
+ GameLevel
+
 }
 #endregion
 
@@ -37,9 +39,12 @@ public enum WindowUIType
     /// 角色信息窗口
     /// </summary>
     RoleInfo,
+    GameLevelMap,
+    GameLevelDetail,
 
     GameServerEnter,
-    GameServerSelect
+    GameServerSelect,
+    WorldMap
 }
 #endregion
 
@@ -181,4 +186,18 @@ public enum ToAnimatorCondition
     ToDie,
     ToPhyAttack,
     CurrState
+}
+
+public enum GameLevelGrade
+{
+    Normal = 0,
+    Hard = 1,
+    Hell = 2
+}
+
+public enum GoodsType
+{
+    Equip,
+    Item,
+    Material
 }

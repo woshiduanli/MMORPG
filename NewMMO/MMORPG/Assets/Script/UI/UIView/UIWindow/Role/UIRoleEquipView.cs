@@ -57,9 +57,10 @@ public class UIRoleEquipView : UISubViewBase
     /// </summary>
     public void CloneRoleModel()
     {
-        //GameObject obj = RoleMgr.Instance.LoadPlayer(m_JobId);
-        //obj.SetParent(RoleModelContainer);
-        //obj.SetLayer("UI");
+        RoleInfoMainPlayer data = (RoleInfoMainPlayer)GlobalInit.Instance.CurrPlayer.CurrRoleInfo;
+        GameObject obj = RoleMgr.Instance.LoadPlayer(data.JobId);
+        obj.SetParent(RoleModelContainer);
+        obj.SetLayer("UI");
     }
 
     protected override void BeforeOnDestroy()

@@ -32,6 +32,7 @@ public class GlobalInit : MonoBehaviour
     /// </summary>
     public const string MMO_PWD = "MMO_PWD";
 
+    public Shader MogoSkyboxShader; 
     #endregion
 
     public static GlobalInit Instance;

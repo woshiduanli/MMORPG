@@ -30,6 +30,12 @@ public class UIRoleInfoView : UIWindowViewBase
         base.OnBtnClick(go);
     }
 
+    private void Update()
+    {
+        //if (transform.parent==null)
+        //    gameObject.SetParent(SceneUIMgr.Instance.CurrentUIScene.Container_Center);
+    }
+
     protected override void BeforeOnDestroy()
     {
         m_UIRoleEquipView = null;

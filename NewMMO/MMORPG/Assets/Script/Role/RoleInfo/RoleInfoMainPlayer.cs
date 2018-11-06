@@ -13,8 +13,11 @@ public class RoleInfoMainPlayer : RoleInfoBase
 
     public int Money; //元宝
     public int Gold; //金币
+    public int Level;
+    public int CurrExp = 8989; 
 
     public int LastInWorldMapId;
+    public int TotalRechargeMoney;
 
     public RoleInfoMainPlayer()
     {
@@ -25,8 +28,8 @@ public class RoleInfoMainPlayer : RoleInfoBase
         this.RoldId = roleInfoProto.RoldId; //角色编号               
         this.RoleNickName = roleInfoProto.RoleNickName; //角色昵称
         this.JobId = roleInfoProto.JobId; //职业编号
-        //this.Level = proto.Level; //等级
-        //this.TotalRechargeMoney = proto.TotalRechargeMoney; //总充值金额
+        this.Level = roleInfoProto.Level; //等级
+        this.TotalRechargeMoney = roleInfoProto.TotalRechargeMoney; //总充值金额
         this.Money = roleInfoProto.Money; //元宝
         this.Gold = roleInfoProto.Gold; //金币
         this.Exp = roleInfoProto.Exp; //经验
@@ -38,7 +41,7 @@ public class RoleInfoMainPlayer : RoleInfoBase
         this.Defense = roleInfoProto.Defense; //防御
         this.Hit = roleInfoProto.Hit; //命中
         this.Dodge = roleInfoProto.Dodge; //闪避
-        this.Cri = roleInfoProto.Cri; 
+        this.Cri = roleInfoProto.Cri;
         this.Res = roleInfoProto.Res;
         this.Fighting = roleInfoProto.Fighting;
         this.LastInWorldMapId = roleInfoProto.LastInWorldMapId;

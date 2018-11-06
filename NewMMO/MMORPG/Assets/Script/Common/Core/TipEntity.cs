@@ -33,5 +33,5 @@ public class TipEntity
     /// </summary>
     public int GoodsCount;
 }
-public class GoodsType { }
+//public class GoodsType { }
 

@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
-//using DG.Tweening;
+using DG.Tweening;
 
 public static class GameObjectUtil
 {
@@ -105,21 +105,21 @@ public static class GameObjectUtil
     /// </summary>
     /// <param name="txtObj"></param>
     /// <param name="text"></param>
-    //public static void SetText(this Text txtObj, string text, bool isAnimation = false, float duration = 0.2f, ScrambleMode scrambleMode = ScrambleMode.None)
-    //{
-    //    if (txtObj != null)
-    //    {
-    //        if (isAnimation)
-    //        {
-    //            txtObj.text = "";
-    //            txtObj.DOText(text, duration, scrambleMode: scrambleMode);
-    //        }
-    //        else
-    //        {
-    //            txtObj.text = text;
-    //        }
-    //    }
-    //}
+    public static void SetText(this Text txtObj, string text, bool isAnimation = false, float duration = 0.2f,  ScrambleMode scrambleMode = ScrambleMode.None)
+    {
+        if (txtObj != null)
+        {
+            if (isAnimation)
+            {
+                txtObj.text = "";
+                txtObj.DOText(text, duration, scrambleMode: scrambleMode);
+            }
+            else
+            {
+                txtObj.text = text;
+            }
+        }
+    }
 
     /// <summary>
     /// 设置滑动条的值
