@@ -17,6 +17,14 @@ public abstract class RoleStateAbstract
     /// </summary>
     public AnimatorStateInfo CurrRoleAnimatorStateInfo { get; set; }
 
+
+
+
+    protected bool IsChangeOver
+    {
+        get;set;
+    }
+
     /// <summary>
     /// 构造函数
     /// </summary>
@@ -29,7 +37,7 @@ public abstract class RoleStateAbstract
     /// <summary>
     /// 进入状态
     /// </summary>
-    public virtual void OnEnter() { }
+    public virtual void OnEnter() { IsChangeOver = false; }
 
     /// <summary>
     /// 执行状态

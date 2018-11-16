@@ -12,7 +12,7 @@ public enum SceneType
     WorldMap,
     ShaMo,
     SelectRole,
- GameLevel
+    GameLevel
 
 }
 #endregion
@@ -159,22 +159,48 @@ public enum RoleState
     /// <summary>
     /// 死亡
     /// </summary>
-    Die = 5
+    Die = 5,
+    Select = 6
 }
 
+public enum RoleAttackType
+{
+   PhyAttack,
+   SkillAttack
+}
+
+public enum RoleIdleState
+{
+    IdelNormal,
+    IdelFight
+}
 /// <summary>
 /// 角色动画状态名称
 /// </summary>
-public enum RoleAnimatorName
+public enum RoleAnimatorState
 {
-    Idle_Normal,
-    Idle_Fight,
-    Run,
-    Hurt,
-    Die,
-    PhyAttack1,
-    PhyAttack2,
-    PhyAttack3
+    Idle_Normal = 1,
+    Idle_Fight = 2,
+    Run = 3,
+    Hurt = 4,
+    Die = 5,
+
+
+    Select = 6,
+    XiuXian = 7,
+
+    PhyAttack1 = 11,
+    PhyAttack2 = 12,
+    PhyAttack3 = 13,
+
+
+    Skill1 = 14,
+    Skill2 = 15,
+    Skill3 = 16,
+    Skill4 = 17,
+    Skill5 = 18,
+    Skill6 = 19
+
 }
 
 public enum ToAnimatorCondition
@@ -185,6 +211,8 @@ public enum ToAnimatorCondition
     ToHurt,
     ToDie,
     ToPhyAttack,
+    ToXiuXian,
+    ToSelect,
     CurrState
 }
 

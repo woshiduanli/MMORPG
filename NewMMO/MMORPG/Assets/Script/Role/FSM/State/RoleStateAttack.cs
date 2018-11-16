@@ -7,6 +7,18 @@ using System.Collections;
 /// </summary>
 public class RoleStateAttack : RoleStateAbstract
 {
+
+    // 动画控制器执行条件
+    public string AnimatorCondition;
+
+    // 旧的控制器执行条件.先调用上一个状态的离开
+    public string m_OldAnimatorCondition;
+
+    // 条件值
+    public int AnimatorConditionValue;
+
+   public RoleAnimatorState AnimatorState; 
+
     /// <summary>
     /// 构造函数
     /// </summary>
@@ -22,7 +34,9 @@ public class RoleStateAttack : RoleStateAbstract
     public override void OnEnter()
     {
         base.OnEnter();
-        CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.ToPhyAttack.ToString(), 1);
+        m_OldAnimatorCondition = AnimatorCondition; 
+
+        CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(AnimatorCondition, 1);
 
         if (CurrRoleFSMMgr.CurrRoleCtrl.LockEnemy != null)
         {
@@ -38,9 +52,9 @@ public class RoleStateAttack : RoleStateAbstract
         base.OnUpdate();
 
         CurrRoleAnimatorStateInfo = CurrRoleFSMMgr.CurrRoleCtrl.Animator.GetCurrentAnimatorStateInfo(0);
-        if (CurrRoleAnimatorStateInfo.IsName(RoleAnimatorName.PhyAttack1.ToString()))
+        if (CurrRoleAnimatorStateInfo.IsName(RoleAnimatorState.PhyAttack1.ToString()))
         {
-            CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), (int)RoleState.Attack);
+            CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), (int)AnimatorState);
 
             //如果动画执行了一遍 就切换待机
             if (CurrRoleAnimatorStateInfo.normalizedTime > 1)
@@ -60,6 +74,6 @@ public class RoleStateAttack : RoleStateAbstract
     public override void OnLeave()
     {
         base.OnLeave();
-        CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.ToPhyAttack.ToString(), 0);
+        CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(m_OldAnimatorCondition, 0);
     }
 }

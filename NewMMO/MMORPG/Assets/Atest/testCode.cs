@@ -195,7 +195,7 @@ public class TestCode : MonoBehaviour
         return;
         AnimatorStateInfo info = a.GetCurrentAnimatorStateInfo(0);
 
-        if (info.IsName(RoleAnimatorName.Run.ToString()))
+        if (info.IsName(RoleAnimatorState.Run.ToString()))
         {
             a.SetInteger(ToAnimatorCondition.CurrState.ToString(), (int)RoleState.Run);
         }

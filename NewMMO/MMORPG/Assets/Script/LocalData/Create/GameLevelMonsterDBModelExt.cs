@@ -95,6 +95,23 @@ public partial class GameLevelMonsterDBModel
         return retLst;
     }
 
+    //Dictionary<int, int> retDic = new Dictionary<int, int>();
+    //public Dictionary<int, int> GetGameLevelMonster(int gameLevelId, GameLevelGrade grade, int regionId)
+    //{
+    //    retDic.Clear();
+    //    for (int i = 0; i < m_List.Count; i++)
+    //    {
+    //        if (m_List[i].GameLevelId == gameLevelId && m_List[i].Grade == (int)grade && m_List[i].RegionId == regionId)
+    //        {
+    //            if (!retDic.ContainsKey(m_List[i].SpriteId))
+    //            {
+    //                retDic.Add(m_List[i].SpriteId, m_List[i].SpriteCount);
+    //            }
+    //        }
+    //    }
+    //    return retDic;
+    //}
+
     /// <summary>
     /// 获取游戏关卡区域怪实体
     /// </summary>

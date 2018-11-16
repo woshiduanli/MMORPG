@@ -6,7 +6,7 @@ using System.Collections.Generic;
 /// <summary>
 /// 角色有限状态机管理器
 /// </summary>
-public class RoleFSMMgr 
+public class RoleFSMMgr
 {
     /// <summary>
     /// 当前角色控制器
@@ -25,6 +25,10 @@ public class RoleFSMMgr
 
     private Dictionary<RoleState, RoleStateAbstract> m_RoleStateDic;
 
+    public RoleIdleState ToIdelState { get; set; }
+
+    public RoleIdleState CurIdelState { get; set; }
+
     /// <summary>
     /// 构造函数
     /// </summary>
@@ -38,11 +42,20 @@ public class RoleFSMMgr
         m_RoleStateDic[RoleState.Attack] = new RoleStateAttack(this);
         m_RoleStateDic[RoleState.Hurt] = new RoleStateHurt(this);
         m_RoleStateDic[RoleState.Die] = new RoleStateDie(this);
+        m_RoleStateDic[RoleState.Select] = new RoleStateSelect(this);
 
         if (m_RoleStateDic.ContainsKey(CurrRoleStateEnum))
         {
             m_CurrRoleState = m_RoleStateDic[CurrRoleStateEnum];
         }
+    }
+
+    // 返回状态
+    public RoleStateAbstract GetRoleState(RoleState state)
+    {
+        RoleStateAbstract s = null;
+        if (m_RoleStateDic.TryGetValue(state, out s)) { }
+        return s;
     }
 
     #region OnUpdate 每帧执行
@@ -64,7 +77,7 @@ public class RoleFSMMgr
     /// <param name="newState">新状态</param>
     public void ChangeState(RoleState newState)
     {
-        if (CurrRoleStateEnum == newState) return;
+        if (CurrRoleStateEnum == newState && CurrRoleStateEnum != RoleState.Idle) return;
 
         //调用以前状态的离开方法
         if (m_CurrRoleState != null)
@@ -75,6 +88,14 @@ public class RoleFSMMgr
 
         //更改当前状态
         m_CurrRoleState = m_RoleStateDic[newState];
+
+        // 如果是待机状态， 
+        if (CurrRoleStateEnum == RoleState.Idle)
+        {
+            // 那么给当前的状态赋值
+            CurIdelState = ToIdelState;
+        }
+
 
         ///调用新状态的进入方法
         m_CurrRoleState.OnEnter();

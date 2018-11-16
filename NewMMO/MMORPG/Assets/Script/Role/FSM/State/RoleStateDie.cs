@@ -32,12 +32,12 @@ public class RoleStateDie : RoleStateAbstract
     {
         base.OnUpdate();
         CurrRoleAnimatorStateInfo = CurrRoleFSMMgr.CurrRoleCtrl.Animator.GetCurrentAnimatorStateInfo(0);
-        if (CurrRoleAnimatorStateInfo.IsName(RoleAnimatorName.Die.ToString()))
+        if (CurrRoleAnimatorStateInfo.IsName(RoleAnimatorState.Die.ToString()))
         {
-            CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), (int)RoleState.Die);
+            CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), (int)RoleAnimatorState.Die);
 
             //如果动画执行了一遍 就切换待机
-            if (CurrRoleAnimatorStateInfo.normalizedTime > 1)
+            if (CurrRoleAnimatorStateInfo.normalizedTime > 1 && CurrRoleFSMMgr.CurrRoleCtrl.OnRoleDie != null)
             {
                 CurrRoleFSMMgr.CurrRoleCtrl.OnRoleDie(CurrRoleFSMMgr.CurrRoleCtrl);
             }

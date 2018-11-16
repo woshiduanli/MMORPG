@@ -11,7 +11,7 @@ public class GameLevelRegionCtrl : MonoBehaviour
     public Transform RoleBornPos;
 
     [SerializeField]
-    Transform[] MonsterBornPos;
+   public Transform[] MonsterBornPos;
 
     [SerializeField]
     private GameLevelDoorCtrl[] AllDoor; 

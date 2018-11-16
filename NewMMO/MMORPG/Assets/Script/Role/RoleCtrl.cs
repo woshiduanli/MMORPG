@@ -108,6 +108,7 @@ public class RoleCtrl : MonoBehaviour
 
     #endregion
 
+
     Seeker m_Seeker;
     [HideInInspector]
     public ABPath AStartPath;
@@ -115,6 +116,10 @@ public class RoleCtrl : MonoBehaviour
     [HideInInspector]
     public int AstartCurrWayPointIndex = 1;
 
+   
+    public RoleAttack attack;
+
+    RoleHurt m_hurt;
     /// <summary>
     /// 初始化
     /// </summary>
@@ -148,8 +153,13 @@ public class RoleCtrl : MonoBehaviour
                 CameraCtrl.Instance.Init();
             }
         }
+        if (transform.GetChild(0).GetComponent<Animator>() != null)
+            Animator = transform.GetChild(0).GetComponent<Animator>();
 
         CurrRoleFSMMgr = new RoleFSMMgr(this);
+        m_hurt = new RoleHurt(CurrRoleFSMMgr);
+        attack.SetFSM(CurrRoleFSMMgr); 
+
         ToIdle();
         InitHeadBar();
     }
@@ -173,30 +183,9 @@ public class RoleCtrl : MonoBehaviour
             CharacterController.Move((transform.position + new Vector3(0, -1000, 0)) - transform.position);
         }
 
-        //if (Input.GetMouseButtonUp(1))
-        //{
-        //    Collider[] colliderArr = Physics.OverlapSphere(transform.position, 3, 1 << LayerMask.NameToLayer("Item"));
-        //    if (colliderArr.Length > 0)
-        //    {
-        //        for (int i = 0; i < colliderArr.Length; i++)
-        //        {
-        //            Debug.Log("找到了附近的箱子" + colliderArr[i].gameObject.name);
-        //        }
-        //    }
-        //}
-
         if (Input.GetMouseButtonUp(1))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            //RaycastHit[] hitArr = Physics.RaycastAll(ray, Mathf.Infinity, 1 << LayerMask.NameToLayer("Item"));
-
-            //if (hitArr.Length > 0)
-            //{
-            //    for (int i = 0; i < hitArr.Length; i++)
-            //    {
-            //        Debug.Log("找到了" + hitArr[i].collider.gameObject.name);
-            //    }
-            //}
 
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << LayerMask.NameToLayer("Item")))
@@ -221,7 +210,7 @@ public class RoleCtrl : MonoBehaviour
         }
 
         // 小地图
-        AutoSmallMap(); 
+        AutoSmallMap();
     }
 
     void AutoSmallMap()
@@ -259,10 +248,14 @@ public class RoleCtrl : MonoBehaviour
 
     #region 控制角色方法
 
-    public void ToIdle()
+    public void ToIdle(RoleIdleState state = RoleIdleState.IdelNormal)
     {
+        //CurrRoleFSMMgr.to state 
         if (CurrRoleFSMMgr != null)
+        {
+            CurrRoleFSMMgr.ToIdelState = state;
             CurrRoleFSMMgr.ChangeState(RoleState.Idle);
+        }
     }
 
     public void MoveTo(Vector3 targetPos)
@@ -296,13 +289,17 @@ public class RoleCtrl : MonoBehaviour
         CurrRoleFSMMgr.ChangeState(RoleState.Run);
     }
 
-    public void ToAttack()
+    public void ToAttack(RoleAttackType type = RoleAttackType.PhyAttack, int index=0)
     {
-        if (LockEnemy == null) return;
-        CurrRoleFSMMgr.ChangeState(RoleState.Attack);
+        attack.ToAttack(type, index); 
+    }
 
-        //暂时写死
-        LockEnemy.ToHurt(100, 0.5f);
+    // 临时测试用
+    public void ToRun()
+    {
+
+        CurrRoleFSMMgr.ChangeState(RoleState.Run);
+
     }
 
     /// <summary>
@@ -315,36 +312,56 @@ public class RoleCtrl : MonoBehaviour
         StartCoroutine(ToHurtCoroutine(attackValue, delay));
     }
 
+    public void TestToHurt()
+    {
+        CurrRoleFSMMgr.ChangeState(RoleState.Hurt);
+    }
+
+    public void TestToDies()
+    {
+        CurrRoleFSMMgr.ChangeState(RoleState.Die);
+    }
+
     private IEnumerator ToHurtCoroutine(int attackValue, float delay)
     {
         yield return new WaitForSeconds(delay);
 
+#if DEBUG_ROLESTATE
+        m_hurt.ToHurt(attackValue);
+        CurrRoleFSMMgr.ChangeState(RoleState.Hurt);
+#else 
         ////计算得出伤害数值
-        //int hurt = (int)(attackValue * Random.Range(0.5f, 1f));
+        int hurt = (int)(attackValue * Random.Range(0.5f, 1f));
 
-        //if (OnRoleHurt != null)
-        //{
-        //    OnRoleHurt();
-        //}
+        if (OnRoleHurt != null)
+        {
+            OnRoleHurt();
+        }
 
 
-        //CurrRoleInfo.CurrHP -= hurt;
+        CurrRoleInfo.CurrHP -= hurt;
 
         //roleHeadBarCtrl.Hurt(hurt, (float)CurrRoleInfo.CurrHP / CurrRoleInfo.MaxHP);
 
-        //if (CurrRoleInfo.CurrHP <= 0)
-        //{
-        //    CurrRoleFSMMgr.ChangeState(RoleState.Die);
-        //}
-        //else
-        //{
-        //    CurrRoleFSMMgr.ChangeState(RoleState.Hurt);
-        //}
+        if (CurrRoleInfo.CurrHP <= 0)
+        {
+            CurrRoleFSMMgr.ChangeState(RoleState.Die);
+        }
+        else
+        {
+            CurrRoleFSMMgr.ChangeState(RoleState.Hurt);
+        }
+#endif
     }
 
     public void ToDie()
     {
         CurrRoleFSMMgr.ChangeState(RoleState.Die);
+    }
+
+    public void ToSelect()
+    {
+        CurrRoleFSMMgr.ChangeState(RoleState.Select);
     }
 
     #endregion

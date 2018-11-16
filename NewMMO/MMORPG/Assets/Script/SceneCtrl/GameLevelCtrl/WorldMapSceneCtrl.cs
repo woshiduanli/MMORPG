@@ -25,18 +25,13 @@ public class WorldMapSceneCtrl : GameSceneCtrlbase
         //}
     }
 
-  
 
-  
+
+
 
     protected override void OnLoadUIMainCityViewComplete(GameObject obj)
     {
         base.OnLoadUIMainCityViewComplete(obj);
-        if (DelegateDefine.Instance.OnSceneLoadOk != null)
-        {
-            DelegateDefine.Instance.OnSceneLoadOk();
-        }
-
         //加载玩家 ,
         RoleMgr.Instance.InitMainPlayer();
         if (GlobalInit.Instance.CurrPlayer != null)
@@ -53,6 +48,11 @@ public class WorldMapSceneCtrl : GameSceneCtrlbase
                 GlobalInit.Instance.CurrPlayer.gameObject.transform.position = m_PlayerBornPos.position;
             }
             PlayerCtrl.Instance.SetMainCityRoleInfo();
+            if (DelegateDefine.Instance.OnSceneLoadOk != null)
+            {
+                DelegateDefine.Instance.OnSceneLoadOk();
+            }
+
         }
 
         StartCoroutine(InitNPC());

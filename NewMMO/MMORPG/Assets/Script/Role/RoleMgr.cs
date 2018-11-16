@@ -51,6 +51,15 @@ public class RoleMgr : Singleton<RoleMgr>
         return GameObject.Instantiate(obj);
     }
 
+    public GameObject LoadSprite(int spriteId)
+    {
+
+        SpriteEntity s = SpriteDBModel.Instance.Get(spriteId);
+        if (s.IsBoss == 1) return null; 
+        if (s == null) return null;
+        return AssetBundleMgr.Instance.Load("role/" + s.PrefabName.ToLower() + ".assetbundle", s.PrefabName);
+    }
+
     public GameObject LoadPlayer(int JobId)
     {
         GameObject obj = GlobalInit.Instance.JobObjectDic[JobId];
