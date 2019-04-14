@@ -117,9 +117,9 @@ public class RoleCtrl : MonoBehaviour
     public int AstartCurrWayPointIndex = 1;
 
    
-    public RoleAttack attack;
+    //public RoleAttack attack;
 
-    RoleHurt m_hurt;
+    //RoleHurt m_hurt;
     /// <summary>
     /// 初始化
     /// </summary>
@@ -157,8 +157,8 @@ public class RoleCtrl : MonoBehaviour
             Animator = transform.GetChild(0).GetComponent<Animator>();
 
         CurrRoleFSMMgr = new RoleFSMMgr(this);
-        m_hurt = new RoleHurt(CurrRoleFSMMgr);
-        attack.SetFSM(CurrRoleFSMMgr); 
+        //m_hurt = new RoleHurt(CurrRoleFSMMgr);
+        //attack.SetFSM(CurrRoleFSMMgr); 
 
         ToIdle();
         InitHeadBar();
@@ -291,7 +291,7 @@ public class RoleCtrl : MonoBehaviour
 
     public void ToAttack(RoleAttackType type = RoleAttackType.PhyAttack, int index=0)
     {
-        attack.ToAttack(type, index); 
+        //attack.ToAttack(type, index); 
     }
 
     // 临时测试用
@@ -327,7 +327,7 @@ public class RoleCtrl : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
 #if DEBUG_ROLESTATE
-        m_hurt.ToHurt(attackValue);
+        //m_hurt.ToHurt(attackValue);
         CurrRoleFSMMgr.ChangeState(RoleState.Hurt);
 #else 
         ////计算得出伤害数值

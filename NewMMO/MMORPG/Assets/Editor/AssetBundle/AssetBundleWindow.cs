@@ -25,7 +25,7 @@ public class AssetBundleWindow : EditorWindow
     private int selectBuildTargetIndex = -1; //选择的打包平台索引
 #if UNITY_STANDALONE_WIN
     private BuildTarget target = BuildTarget.StandaloneWindows;
-    private int buildTargetIndex = 0; //打包的平台索引
+    private static int buildTargetIndex = 0; //打包的平台索引
 #elif UNITY_ANDROID
     private BuildTarget target = BuildTarget.Android;
     private static int buildTargetIndex = 1;
@@ -409,10 +409,12 @@ public class AssetBundleWindow : EditorWindow
         AssetBundleBuild build = new AssetBundleBuild();
         arrBuild[0] = build;
 
-        build.assetBundleName = entity.Tag + "/" + entity.Name + "." + ((entity.Tag.Equals("Scene", StringComparison.CurrentCultureIgnoreCase)) ? "unity3d" : "assetbundle");
-        //build.assetBundleVariant =/
+        // 包名
+        build.assetBundleName = entity.Name; 
+        // 后缀
+        build.assetBundleVariant = (entity.Tag.Equals("Scene", StringComparison.CurrentCultureIgnoreCase) ? "unity3d" : "assetbundle");
 
-        // 路径, 
+        // 这个是需要打包的资源的路径
         build.assetNames = entity.PathList.ToArray();
 
         string toPath = Application.dataPath + "/../AssetBundles/" + arrBuildTarget[buildTargetIndex];

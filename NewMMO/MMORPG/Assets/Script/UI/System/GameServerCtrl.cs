@@ -66,7 +66,10 @@ public class GameServerCtrl : SystemCtrlBase<GameServerCtrl>, ISystemCtrl
     {
         MyDebug.debug("点击了进入游戏");
         //UpdateLastLogOrServer(GlobalInit.Instance.CurAccount, GlobalInit.Instance.CurrSelectGameServer);
-        NetWorkSocket.Instance.Connect(GlobalInit.Instance.CurrSelectGameServer.Ip, GlobalInit.Instance.CurrSelectGameServer.Port);
+        string str = "192.168.0.104"; 
+        //NetWorkSocket.Instance.Connect(GlobalInit.Instance.CurrSelectGameServer.Ip, GlobalInit.Instance.CurrSelectGameServer.Port);
+        NetWorkSocket.Instance.Connect(str, 1011);
+
     }
 
     private void UIGameServerEnterViewzBtnSelectGameServer(string[] param)

@@ -103,6 +103,7 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
         }
         else
         {
+            MyDebug.debug("登录没有错， 返回值：" + obj.Value);
             JsonData jsondata = JsonMapper.ToObject<JsonData>(obj.Value);
             if (!jsondata.ContainsKey("Value"))
             {

@@ -2,7 +2,7 @@
 <Root>
   <AssetBundle>
     <Item Name="Role_MainPlayer_Cike" Tag="Role" Version="1" Size="0" ToPath="/Role">
-      <Path Value="Assets\Download\RolePrefab\Player\Role_MainPlayer_Cike.prefab" />
+      <Path Value="Assets\Resources\RolePrefab\Player\Role_MainPlayer_Cike.prefab" />
     </Item>
     <Item Name="Role_MainPlayer_Fashi" Tag="Role" Version="1" Size="0" ToPath="/Role">
       <Path Value="Assets\Download\RolePrefab\Player\Role_MainPlayer_Fashi.prefab" />
@@ -15,10 +15,13 @@
       <Path Value="Assets\Download\RolePrefab\Player\Role_MainPlayer_Zhanshi.prefab" />
     </Item>
 
+    
     <Item Name="GameScene_CunZhuang" Tag="Scene" Version="1" Size="0" ToPath="/Role/">
       <Path Value="Assets\Download\Scene\Scene_SelectRole.unity" />
    
     </Item>
+    
+    
 
     <!--<Item Name="NPC预设" Tag="Role" IsFolder="True" IsFirstData="True">
       <Path Value="Download\Prefab\RolePrefab\NPC" />

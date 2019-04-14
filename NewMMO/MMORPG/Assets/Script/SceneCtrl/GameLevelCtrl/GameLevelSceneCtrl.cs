@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using PathologicalGames;
+//using PathologicalGames;
 
 public class GameLevelSceneCtrl : GameSceneCtrlbase
 {
@@ -15,51 +15,51 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
 
     int m_CurrGameLevelId;
 
-    SpawnPool m_monsterPool;
+    //SpawnPool m_monsterPool;
 
 
 
 
     protected override void OnLoadUIMainCityViewComplete(GameObject obj)
     {
-        base.OnLoadUIMainCityViewComplete(obj);
-        m_CurrGameLevelId = SceneMgr.Instance.CurGameLevelId;
+        //base.OnLoadUIMainCityViewComplete(obj);
+        //m_CurrGameLevelId = SceneMgr.Instance.CurGameLevelId;
 
 
-        m_regionList = GameLevelRegionDBModel.Instance.GetListByGameLevelId(m_CurrGameLevelId);
+        //m_regionList = GameLevelRegionDBModel.Instance.GetListByGameLevelId(m_CurrGameLevelId);
 
 
-        m_allMonsterCount = GameLevelMonsterDBModel.Instance.GetGameLevelMonsterCount(m_CurrGameLevelId, m_curGrade);
-        m_monsterId = GameLevelMonsterDBModel.Instance.GetGameLevelMonsterId(m_CurrGameLevelId, m_curGrade);
+        //m_allMonsterCount = GameLevelMonsterDBModel.Instance.GetGameLevelMonsterCount(m_CurrGameLevelId, m_curGrade);
+        //m_monsterId = GameLevelMonsterDBModel.Instance.GetGameLevelMonsterId(m_CurrGameLevelId, m_curGrade);
 
-        // 创建怪物池
-        m_monsterPool = PoolManager.Pools.Create("Monster");
-        m_monsterPool.group.parent = null;
-        m_monsterPool.group.localPosition = Vector3.zero;
+        //// 创建怪物池
+        //m_monsterPool = PoolManager.Pools.Create("Monster");
+        //m_monsterPool.group.parent = null;
+        //m_monsterPool.group.localPosition = Vector3.zero;
 
-        for (int i = 0; i < m_monsterId.Length; i++)
-        {
-            PrefabPool prefabPool = null;
-            if (RoleMgr.Instance.LoadSprite(m_monsterId[i]) != null)
-                prefabPool = new PrefabPool(RoleMgr.Instance.LoadSprite(m_monsterId[i]).transform);
-            if (prefabPool != null)
-            {
-                prefabPool.preloadAmount = 5;
-                // 是否开启自动清理
-                prefabPool.cullDespawned = true;
+        //for (int i = 0; i < m_monsterId.Length; i++)
+        //{
+        //    PrefabPool prefabPool = null;
+        //    if (RoleMgr.Instance.LoadSprite(m_monsterId[i]) != null)
+        //        prefabPool = new PrefabPool(RoleMgr.Instance.LoadSprite(m_monsterId[i]).transform);
+        //    if (prefabPool != null)
+        //    {
+        //        prefabPool.preloadAmount = 5;
+        //        // 是否开启自动清理
+        //        prefabPool.cullDespawned = true;
 
-                // 自动清理， 但是保存5个不清理
-                prefabPool.cullAbove = 5;
+        //        // 自动清理， 但是保存5个不清理
+        //        prefabPool.cullAbove = 5;
 
-                // 多长时间清理一次
-                prefabPool.cullDelay = 2;
+        //        // 多长时间清理一次
+        //        prefabPool.cullDelay = 2;
 
-                // 每次清理几个
-                prefabPool.cullMaxPerPass = 2;
+        //        // 每次清理几个
+        //        prefabPool.cullMaxPerPass = 2;
 
-                m_monsterPool.CreatePrefabPool(prefabPool);
-            }
-        }
+        //        m_monsterPool.CreatePrefabPool(prefabPool);
+        //    }
+        //}
 
         m_curRegionIndex = 0;
         EnterRegion(m_curRegionIndex);
@@ -174,7 +174,7 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
 
         Transform trans = null;
         if (SpriteDBModel.Instance.Get(monsterId) != null)
-            trans = m_monsterPool.Spawn(SpriteDBModel.Instance.Get(monsterId).PrefabName);
+            //trans = m_monsterPool.Spawn(SpriteDBModel.Instance.Get(monsterId).PrefabName);
         if (trans == null) return;
 
         Transform monsterBornPos = m_curRegionCtrl.MonsterBornPos[Random.Range(0, m_curRegionCtrl.MonsterBornPos.Length)];
