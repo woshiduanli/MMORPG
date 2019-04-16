@@ -1,18 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Root>
   <AssetBundle>
+
+    <Item Name="Role_Monster_1" Tag="Role" Version="1" Size="0" ToPath="/Role">
+      <Path Value="Assets\Download\Prefab\RolePrefab\Monster\Role_Monster_1.prefab" />
+    </Item>
+
+    <Item Name="Role_Monster_2" Tag="Role" Version="1" Size="0" ToPath="/Role">
+      <Path Value="Assets\Download\Prefab\RolePrefab\Monster\Role_Monster_2.prefab" />
+    </Item>
+
+    <Item Name="Role_Monster_JiaKeChong" Tag="Role" Version="1" Size="0" ToPath="/Role">
+      <Path Value="Assets\Download\Prefab\RolePrefab\Monster\Role_Monster_JiaKeChong.prefab" />
+    </Item>
+
     <Item Name="Role_MainPlayer_Cike" Tag="Role" Version="1" Size="0" ToPath="/Role">
-      <Path Value="Assets\Resources\RolePrefab\Player\Role_MainPlayer_Cike.prefab" />
+      <Path Value="Assets\Download\Prefab\RolePrefab\Player\Role_MainPlayer_Cike.prefab" />
     </Item>
     <Item Name="Role_MainPlayer_Fashi" Tag="Role" Version="1" Size="0" ToPath="/Role">
-      <Path Value="Assets\Download\RolePrefab\Player\Role_MainPlayer_Fashi.prefab" />
+      <Path Value="Assets\Download\Prefab\RolePrefab\Player\Role_MainPlayer_Fashi.prefab" />
     </Item>
+    
     <Item Name="Role_MainPlayer_Juchui" Tag="Role" Version="1" Size="0" ToPath="/Role">
-      <Path Value="Assets\Download\RolePrefab\Player\Role_MainPlayer_Juchui.prefab" />
+      <Path Value="Assets\Download\Prefab\RolePrefab\Player\Role_MainPlayer_Juchui.prefab" />
     </Item>
 
     <Item Name="Role_MainPlayer_Zhanshi" Tag="Role" Version="1" Size="0" ToPath="/Role">
-      <Path Value="Assets\Download\RolePrefab\Player\Role_MainPlayer_Zhanshi.prefab" />
+      <Path Value="Assets\Download\Prefab\RolePrefab\Player\Role_MainPlayer_Zhanshi.prefab" />
+    </Item>
+
+    <Item Name="NPC_ZhuJian" Tag="Role" Version="1" Size="0" ToPath="/Role">
+      <Path Value="Assets\Download\Prefab\RolePrefab\NPC\NPC_ZhuJian.prefab" />
     </Item>
 
     

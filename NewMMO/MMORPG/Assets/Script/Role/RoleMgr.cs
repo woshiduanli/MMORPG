@@ -47,7 +47,7 @@ public class RoleMgr : Singleton<RoleMgr>
 
     public GameObject LoadNPC(string prefabName)
     {
-        GameObject obj = AssetBundleMgr.Instance.Load("role/" + prefabName.ToLower() + ".assetbundle", prefabName);
+        GameObject obj = AssetBundleMgr.Instance.Load("Role/" + prefabName.ToLower() + ".assetbundle", prefabName);
         return GameObject.Instantiate(obj);
     }
 

@@ -408,7 +408,7 @@ public class AssetBundleWindow : EditorWindow
         AssetBundleBuild[] arrBuild = new AssetBundleBuild[1];
         AssetBundleBuild build = new AssetBundleBuild();
         arrBuild[0] = build;
-
+        Debug.LogError("entity.Name:" + entity.Name);
         // 包名
         build.assetBundleName = entity.Name; 
         // 后缀
@@ -417,7 +417,7 @@ public class AssetBundleWindow : EditorWindow
         // 这个是需要打包的资源的路径
         build.assetNames = entity.PathList.ToArray();
 
-        string toPath = Application.dataPath + "/../AssetBundles/" + arrBuildTarget[buildTargetIndex];
+        string toPath = Application.dataPath + "/../AssetBundles/" + arrBuildTarget[buildTargetIndex] + "/" + entity.Tag;
 
         if (!System.IO.Directory.Exists(toPath))
         {

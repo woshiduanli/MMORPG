@@ -452,7 +452,7 @@ public class SelectRoleSceneCtrl : MonoBehaviour
         m_JobList = JobDBModel.Instance.GetList();
         for (int i = 0; i < m_JobList.Count; i++)
         {
-            GameObject obj = AssetBundleMgr.Instance.Load("role/" + m_JobList[i].PrefabName.ToLower() + ".assetbundle", m_JobList[i].PrefabName);
+            GameObject obj = AssetBundleMgr.Instance.Load("Role/" + m_JobList[i].PrefabName.ToLower() + ".assetbundle", m_JobList[i].PrefabName);
             if (obj != null)
             {
                 GlobalInit.Instance.JobObjectDic[m_JobList[i].Id] = obj;
@@ -500,7 +500,7 @@ public class SelectRoleSceneCtrl : MonoBehaviour
     private void OnLogOnGameServerReturn(RoleOperation_LogOnGameServerReturnProto buffer)
     {
 
-        MyDebug.debug(buffer.RoleList.Count);
+        MyDebug.debug("fsdff ffffffffffffffffffffffffffff"+buffer.RoleList.Count);
 
         m_UISceneSelectRoleView.SetUICreateRoleActive(buffer.RoleCount == 0);
         m_UISceneSelectRoleView.SetUISelectRoleActive((buffer.RoleCount != 0));

@@ -1,8 +1,10 @@
 fileFormatVersion: 2
 guid: 98a0382c1e1d4c7428b40e884773a43c
-timeCreated: 1450191943
+timeCreated: 1473170811
 licenseType: Pro
 NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
   userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+  assetBundleName: download/prefab/roleprefab/player/role_mainplayer_cike
+  assetBundleVariant: assetbundle

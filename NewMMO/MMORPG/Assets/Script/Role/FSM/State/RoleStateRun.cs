@@ -49,7 +49,7 @@ public class RoleStateRun : RoleStateAbstract
         {
             if (CurrRoleAnimatorStateInfo.IsName(RoleAnimatorState.Run.ToString()))
             {
-                MyDebug.debug("111111run");
+                //MyDebug.debug("111111run");
                 CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), (int)RoleAnimatorState.Run);
             }
             else
