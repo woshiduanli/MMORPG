@@ -68,8 +68,4 @@ public class Launcher_Real : Launcher {
         }
     }
 
-
-
-
-
 }
