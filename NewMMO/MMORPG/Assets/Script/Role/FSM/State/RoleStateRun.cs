@@ -44,7 +44,7 @@ public class RoleStateRun : RoleStateAbstract
     {
         base.OnUpdate();
 
-
+        
         if (CurrRoleFSMMgr.CurrRoleCtrl.AStartPath == null)
         {
             if (CurrRoleAnimatorStateInfo.IsName(RoleAnimatorState.Run.ToString()))

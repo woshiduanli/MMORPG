@@ -29,6 +29,7 @@ public class RoleStateIdle : RoleStateAbstract
         {
             m_NextChangeTime = Time.time + m_changeStep;
             m_isXiuXian = false;
+            // 此时这里，直接进入状态， 让他等于当前的状态
             CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetBool(ToAnimatorCondition.ToIdleNormal.ToString(), true);
         }
         else
@@ -52,6 +53,7 @@ public class RoleStateIdle : RoleStateAbstract
                 CurrRoleAnimatorStateInfo = CurrRoleFSMMgr.CurrRoleCtrl.Animator.GetCurrentAnimatorStateInfo(0);
                 if (!m_isXiuXian)
                 {
+                    // 为什么要设置一个true,同时，要设置一个int，让当前的值，不等于，这个int，为了让他进入的时候， 只进入一次
                     if (CurrRoleAnimatorStateInfo.IsName(RoleAnimatorState.Idle_Normal.ToString()))
                     {
                         CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), (int)RoleAnimatorState.Idle_Normal);
