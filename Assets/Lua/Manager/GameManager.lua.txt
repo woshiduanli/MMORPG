@@ -12,6 +12,7 @@ local ObjectManager = require("Manager.ObjectManager")
 local GameManager = {}
 
 function GameManager.InitData()
+    print("进入了-----------")
     LuaDebugHelper.InitData()
     Config.LoadConfig()
     ObjectManager.InitData()

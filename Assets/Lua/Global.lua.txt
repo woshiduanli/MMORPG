@@ -20,7 +20,7 @@ _G.UIManager = require "Manager.UIManager"
 _G.ActivityManager = require "Manager.ActivityManager"
 _G.ReferenceManager = require "Manager.ReferenceManager"
 _G.ObjectManager = require "Manager.ObjectManager"
-local  ObjectManager = require "Manager.ObjectManager" 
+local ObjectManager = require "Manager.ObjectManager"
 _G.GameUI = require "UI.GameUI"
 _G.UIElement = require "UI.UIElement"
 _G.World = require "World.World"
@@ -55,7 +55,7 @@ end
 
 function Global.Update(deltaTime, realtimeSinceStartup, unscaledDeltaTime, severtime)
     -- 注册每帧的刷新
-     ObjectManager.GetSingleObj("TimeManager"):Update()
+    ObjectManager.GetSingleObj("TimeManager"):Update()
 
     Global.deltaTime = deltaTime
     Global.realtimeSinceStartup = realtimeSinceStartup
