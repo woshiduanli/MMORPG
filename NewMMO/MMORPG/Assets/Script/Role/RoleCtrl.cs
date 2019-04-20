@@ -116,10 +116,10 @@ public class RoleCtrl : MonoBehaviour
     [HideInInspector]
     public int AstartCurrWayPointIndex = 1;
 
-   
-    //public RoleAttack attack;
 
-    //RoleHurt m_hurt;
+    public RoleAttack m_Attack;
+
+    private RoleHurt m_Hurt;
     /// <summary>
     /// 初始化
     /// </summary>
@@ -157,8 +157,8 @@ public class RoleCtrl : MonoBehaviour
             Animator = transform.GetChild(0).GetComponent<Animator>();
 
         CurrRoleFSMMgr = new RoleFSMMgr(this);
-        //m_hurt = new RoleHurt(CurrRoleFSMMgr);
-        //attack.SetFSM(CurrRoleFSMMgr); 
+        m_Hurt = new RoleHurt(CurrRoleFSMMgr);
+        //m_Attack.SetFSM(CurrRoleFSMMgr); 
 
         ToIdle();
         InitHeadBar();
@@ -258,6 +258,15 @@ public class RoleCtrl : MonoBehaviour
         }
     }
 
+    public void ToSelectAni()
+    {
+        //CurrRoleFSMMgr.to state 
+        if (CurrRoleFSMMgr != null)
+        {
+            CurrRoleFSMMgr.ChangeState(RoleState.Select);
+        }
+    }
+
     public void MoveTo(Vector3 targetPos)
     {
         //如果目标点不是原点 进行移动
@@ -289,7 +298,7 @@ public class RoleCtrl : MonoBehaviour
         CurrRoleFSMMgr.ChangeState(RoleState.Run);
     }
 
-    public void ToAttack(RoleAttackType type = RoleAttackType.PhyAttack, int index=0)
+    public void ToAttack(RoleAttackType type = RoleAttackType.PhyAttack, int index = 0)
     {
         //attack.ToAttack(type, index); 
     }
@@ -327,8 +336,7 @@ public class RoleCtrl : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
 #if DEBUG_ROLESTATE
-        //m_hurt.ToHurt(attackValue);
-        CurrRoleFSMMgr.ChangeState(RoleState.Hurt);
+        m_Hurt.ToHurt(attackValue);
 #else 
         ////计算得出伤害数值
         int hurt = (int)(attackValue * Random.Range(0.5f, 1f));

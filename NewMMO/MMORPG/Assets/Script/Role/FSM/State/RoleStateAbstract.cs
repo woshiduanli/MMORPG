@@ -47,5 +47,5 @@ public abstract class RoleStateAbstract
     /// <summary>
     /// 离开状态
     /// </summary>
-    public virtual void OnLeave() { }
+    public virtual void OnLeave() {   }
 }

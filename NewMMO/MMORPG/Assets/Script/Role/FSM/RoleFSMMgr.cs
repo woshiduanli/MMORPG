@@ -42,7 +42,7 @@ public class RoleFSMMgr
         m_RoleStateDic[RoleState.Attack] = new RoleStateAttack(this);
         m_RoleStateDic[RoleState.Hurt] = new RoleStateHurt(this);
         m_RoleStateDic[RoleState.Die] = new RoleStateDie(this);
-        //m_RoleStateDic[RoleState.Select] = new RoleStateSelect(this);
+        m_RoleStateDic[RoleState.Select] = new RoleStateSelect(this);
 
         if (m_RoleStateDic.ContainsKey(CurrRoleStateEnum))
         {

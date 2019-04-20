@@ -11,7 +11,8 @@ public class RoleStateDie : RoleStateAbstract
     /// 构造函数
     /// </summary>
     /// <param name="roleFSMMgr">有限状态机管理器</param>
-    public RoleStateDie(RoleFSMMgr roleFSMMgr) : base(roleFSMMgr)
+    public RoleStateDie(RoleFSMMgr roleFSMMgr)
+        : base(roleFSMMgr)
     {
 
     }
