@@ -13,6 +13,7 @@ public class RoleHurt
 
     public void ToHurt(int atackValue)
     {
+        if (m_CurrRoleFSMMgr == null) return; 
         m_CurrRoleFSMMgr.ChangeState(RoleState.Hurt);
     }
 }

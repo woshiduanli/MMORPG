@@ -117,7 +117,9 @@ public class RoleCtrl : MonoBehaviour
     public int AstartCurrWayPointIndex = 1;
 
 
+    
     public RoleAttack m_Attack;
+    public bool IsRigidity; 
 
     private RoleHurt m_Hurt;
     /// <summary>
@@ -158,7 +160,7 @@ public class RoleCtrl : MonoBehaviour
 
         CurrRoleFSMMgr = new RoleFSMMgr(this);
         m_Hurt = new RoleHurt(CurrRoleFSMMgr);
-        //m_Attack.SetFSM(CurrRoleFSMMgr); 
+        m_Attack.SetFSM(CurrRoleFSMMgr); 
 
         ToIdle();
         InitHeadBar();
@@ -300,7 +302,8 @@ public class RoleCtrl : MonoBehaviour
 
     public void ToAttack(RoleAttackType type = RoleAttackType.PhyAttack, int index = 0)
     {
-        //attack.ToAttack(type, index); 
+        // 去攻击的时候，要判定他是物理的， 还是技能的攻击
+        m_Attack.ToAttack(type, index); 
     }
 
     // 临时测试用

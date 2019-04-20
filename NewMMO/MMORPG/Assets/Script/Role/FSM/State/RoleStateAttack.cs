@@ -7,7 +7,7 @@ using System.Collections;
 /// </summary>
 public class RoleStateAttack : RoleStateAbstract
 {
-
+    // 物理攻击和技能攻击， 都在这个状态机里面去执行 
     // 动画控制器执行条件
     public string AnimatorCondition;
 
@@ -17,13 +17,15 @@ public class RoleStateAttack : RoleStateAbstract
     // 条件值
     public int AnimatorConditionValue;
 
-   public RoleAnimatorState AnimatorState; 
+
+    public RoleAnimatorState AnimatorCurState;
 
     /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="roleFSMMgr">有限状态机管理器</param>
-    public RoleStateAttack(RoleFSMMgr roleFSMMgr) : base(roleFSMMgr)
+    public RoleStateAttack(RoleFSMMgr roleFSMMgr)
+        : base(roleFSMMgr)
     {
 
     }
@@ -34,9 +36,9 @@ public class RoleStateAttack : RoleStateAbstract
     public override void OnEnter()
     {
         base.OnEnter();
-        m_OldAnimatorCondition = AnimatorCondition; 
+        m_OldAnimatorCondition = AnimatorCondition;
 
-        CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(AnimatorCondition, 1);
+        CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(AnimatorCondition, AnimatorConditionValue);
 
         if (CurrRoleFSMMgr.CurrRoleCtrl.LockEnemy != null)
         {
@@ -50,15 +52,16 @@ public class RoleStateAttack : RoleStateAbstract
     public override void OnUpdate()
     {
         base.OnUpdate();
-
+        CurrRoleFSMMgr.CurrRoleCtrl.IsRigidity = true; 
         CurrRoleAnimatorStateInfo = CurrRoleFSMMgr.CurrRoleCtrl.Animator.GetCurrentAnimatorStateInfo(0);
-        if (CurrRoleAnimatorStateInfo.IsName(RoleAnimatorState.PhyAttack1.ToString()))
+        if (CurrRoleAnimatorStateInfo.IsName(AnimatorCurState.ToString()))
         {
-            CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), (int)AnimatorState);
+            CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), (int)AnimatorCurState);
 
             //如果动画执行了一遍 就切换待机
             if (CurrRoleAnimatorStateInfo.normalizedTime > 1)
             {
+                CurrRoleFSMMgr.CurrRoleCtrl.IsRigidity = false; 
                 CurrRoleFSMMgr.CurrRoleCtrl.ToIdle();
             }
         }
@@ -74,6 +77,8 @@ public class RoleStateAttack : RoleStateAbstract
     public override void OnLeave()
     {
         base.OnLeave();
+        CurrRoleFSMMgr.CurrRoleCtrl.IsRigidity = false; 
         CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(m_OldAnimatorCondition, 0);
+        CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), 0);
     }
 }

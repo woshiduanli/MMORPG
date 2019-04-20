@@ -77,7 +77,7 @@ public class RoleFSMMgr
     /// <param name="newState">新状态</param>
     public void ChangeState(RoleState newState)
     {
-        if (CurrRoleStateEnum == newState && CurrRoleStateEnum != RoleState.Idle) return;
+        if (CurrRoleStateEnum == newState && CurrRoleStateEnum != RoleState.Idle && CurrRoleStateEnum!=RoleState.Attack) return;
 
         //调用以前状态的离开方法
         if (m_CurrRoleState != null)

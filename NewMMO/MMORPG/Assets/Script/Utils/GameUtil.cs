@@ -99,7 +99,7 @@ public class GameUtil
         return CurName;
     }
 
-    public static Texture  LoadGameLevelMapPic(string picName)
+    public static Texture LoadGameLevelMapPic(string picName)
     {
         return Resources.Load(string.Format("UI/GameLevel/GameLevelMap/{0}", picName), typeof(Texture)) as Texture;
     }
@@ -342,5 +342,35 @@ public class GameUtil
             go.layer = parent.gameObject.layer;
         }
         return go;
+    }
+
+    private static Dictionary<string, RoleAnimatorState> dic; 
+
+    public static RoleAnimatorState GetRoleAnimatorState(RoleAttackType type, int index)
+    {
+        if (dic == null)
+        {
+            dic = new Dictionary<string, RoleAnimatorState>();
+            dic["PhyAttack1"] = RoleAnimatorState.PhyAttack1;
+            dic["PhyAttack2"] = RoleAnimatorState.PhyAttack2;
+            dic["PhyAttack3"] = RoleAnimatorState.PhyAttack3;
+
+            dic["Skill1"] = RoleAnimatorState.Skill1;
+            dic["Skill2"] = RoleAnimatorState.Skill2;
+            dic["Skill3"] = RoleAnimatorState.Skill3;
+            dic["Skill4"] = RoleAnimatorState.Skill4;
+            dic["Skill5"] = RoleAnimatorState.Skill5;
+            dic["Skill6"] = RoleAnimatorState.Skill6;
+        }
+        RoleAnimatorState a;
+        string key = string.Format("{0}{1}", type == RoleAttackType.PhyAttack ? "PhyAttack" : "Skill", index);
+
+
+        if (dic.TryGetValue(key, out a))
+        {
+            return a;
+
+        }
+        return a;
     }
 }
