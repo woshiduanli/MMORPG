@@ -47,6 +47,8 @@ public class RoleAttack
         return null;
     }
 
+  
+
     public void ToAttack(RoleAttackType type, int index)
     {
         if (m_CurrRoleFSMMgr == null || m_CurrRoleFSMMgr.CurrRoleCtrl.IsRigidity) return;
@@ -55,8 +57,12 @@ public class RoleAttack
 
 #if DEBUG_ROLESTATE
 
+
         if (info != null)
         {
+            // ÔÚ±à¼­Æ÷´°¿ÚÖÐ»æÖÆ£¬Ñ²Âß·¶Î§µÈ
+            m_CurrRoleFSMMgr.CurrRoleCtrl.roleAttackInfo = info; 
+
             GameObject obj = GameObject.Instantiate(info.EffectObject);
             obj.transform.position = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.position;
             Object.Destroy(obj, info.EffectLifeTime);

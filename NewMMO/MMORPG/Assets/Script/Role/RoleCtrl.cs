@@ -9,6 +9,7 @@ using Pathfinding;
 /// []
 [RequireComponent(typeof(Seeker))]
 [RequireComponent(typeof(FunnelModifier))]
+
 public class RoleCtrl : MonoBehaviour
 {
     #region 成员变量或属性
@@ -117,9 +118,9 @@ public class RoleCtrl : MonoBehaviour
     public int AstartCurrWayPointIndex = 1;
 
 
-    
+
     public RoleAttack m_Attack;
-    public bool IsRigidity; 
+    public bool IsRigidity;
 
     private RoleHurt m_Hurt;
     /// <summary>
@@ -160,7 +161,7 @@ public class RoleCtrl : MonoBehaviour
 
         CurrRoleFSMMgr = new RoleFSMMgr(this);
         m_Hurt = new RoleHurt(CurrRoleFSMMgr);
-        m_Attack.SetFSM(CurrRoleFSMMgr); 
+        m_Attack.SetFSM(CurrRoleFSMMgr);
 
         ToIdle();
         InitHeadBar();
@@ -215,6 +216,8 @@ public class RoleCtrl : MonoBehaviour
         AutoSmallMap();
     }
 
+
+
     void AutoSmallMap()
     {
         //if (SmallMapHelper.Instance == null && UIMainCitySmallMapView.Instance == null) return;
@@ -224,6 +227,76 @@ public class RoleCtrl : MonoBehaviour
 
         //UIMainCitySmallMapView.Instance.SmallMapArr.transform.localEulerAngles = new Vector3(0,0, 360-transform.localEulerAngles.y);
     }
+
+#if DEBUG_ROLESTATE
+    public Transform m_Transform;
+    public float m_Radius = 1; // 圆环的半径
+    public float m_Theta = 0.1f; // 值越低圆环越平滑
+    public Color m_Color = Color.green; // 线框颜色
+
+    public RoleAttackInfo roleAttackInfo;
+
+    void OnDrawGizmos()
+    {
+        if (roleAttackInfo != null)
+        {
+            SetYuan(Color.green, roleAttackInfo.ViewRange); 
+            SetYuan(Color.red, roleAttackInfo.AttackRange);
+            SetYuan(Color.yellow, roleAttackInfo.PatrolRange);
+        }
+
+    }
+
+    private void SetYuan(Color m_Color, float m_Radius)
+    {
+        m_Transform = this.transform;
+        if (m_Transform == null) return;
+        if (m_Theta < 0.0001f) m_Theta = 0.0001f;
+
+        // 设置矩阵
+        Matrix4x4 defaultMatrix = Gizmos.matrix;
+        Gizmos.matrix = m_Transform.localToWorldMatrix;
+
+        // 设置颜色
+        Color defaultColor = Gizmos.color;
+        Gizmos.color = m_Color;
+
+        // 绘制圆环
+        Vector3 beginPoint = Vector3.zero;
+        Vector3 firstPoint = Vector3.zero;
+        for (float theta = 0; theta < 2 * Mathf.PI; theta += m_Theta)
+        {
+            float x = m_Radius * Mathf.Cos(theta);
+            float z = m_Radius * Mathf.Sin(theta);
+            Vector3 endPoint = new Vector3(x, 0, z);
+            if (theta == 0)
+            {
+                firstPoint = endPoint;
+            }
+            else
+            {
+                Gizmos.DrawLine(beginPoint, endPoint);
+            }
+            beginPoint = endPoint;
+        }
+
+        // 绘制最后一条线段
+        Gizmos.DrawLine(firstPoint, beginPoint);
+
+        // 恢复默认颜色
+        Gizmos.color = defaultColor;
+
+        // 恢复默认矩阵
+        Gizmos.matrix = defaultMatrix;
+
+
+        m_Transform = this.transform;
+        if (m_Transform == null) return;
+        if (m_Theta < 0.0001f) m_Theta = 0.0001f;
+
+
+    }
+#endif
 
     /// <summary>
     /// 初始化头顶UI条
@@ -303,7 +376,7 @@ public class RoleCtrl : MonoBehaviour
     public void ToAttack(RoleAttackType type = RoleAttackType.PhyAttack, int index = 0)
     {
         // 去攻击的时候，要判定他是物理的， 还是技能的攻击
-        m_Attack.ToAttack(type, index); 
+        m_Attack.ToAttack(type, index);
     }
 
     // 临时测试用

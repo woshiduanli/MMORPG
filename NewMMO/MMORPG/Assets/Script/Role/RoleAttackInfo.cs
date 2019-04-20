@@ -21,6 +21,8 @@ public class RoleAttackInfo  {
 
     public float PatrolRange = 0;
 
+    public float ViewRange = 0;
+
     public float AttackRange = 0;
 
     // »√∂‘∑Ω ‹…À—”≥Ÿ
