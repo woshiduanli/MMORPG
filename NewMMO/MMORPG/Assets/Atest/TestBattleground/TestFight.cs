@@ -1,45 +1,74 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
+public class TestFight : MonoBehaviour
+{
 
-public class TestFight : MonoBehaviour {
+    public RoleCtrl TestRole;
+    public RoleCtrl TestEnemy;
 
-    public RoleCtrl TestRole; 
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    GameObject TestEnemyObj;
+
+    void Start()
+    {
+
+
+
+        TestEnemyObj = GameObject.Instantiate(TestEnemy.gameObject);
+        TestEnemyObj.transform.position = TestRole.transform.position + new Vector3(0, 0, 10);
+
+        TestEnemyObj.transform.LookAt(TestRole.transform);
+
+
+    }
+
+    public IEnumerator DoCameraShake(float delay = 0, float duration = 0.6f, float strength = 0.4f, int vibrat = 20)
+    {
+        yield return new WaitForSeconds(delay);
+        came.transform.DOShakePosition(duration, strength, vibrat);
+    }
+
+    public Camera came;
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+
+            came.transform.DOShakePosition(0.6f, 0.4f, 20);
+
+        }
+    }
     void OnGUI()
     {
-        if (TestRole == null) {
+        if (TestRole == null)
+        {
             return;
         }
 
-        int posY =0; 
-        if (GUI.Button (new Rect( 1, posY, 60,30 ), "ptIdel")){
-            TestRole.ToIdle(); 
+        int posY = 0;
+        if (GUI.Button(new Rect(1, posY, 60, 30), "ptIdel"))
+        {
+            TestRole.ToIdle();
         }
 
-        posY += 30; 
+        posY += 30;
         if (GUI.Button(new Rect(1, posY, 60, 30), "fIdel"))
         {
-            TestRole.ToIdle(RoleIdleState.IdelFight); 
+            TestRole.ToIdle(RoleIdleState.IdelFight);
         }
 
         posY += 30;
         if (GUI.Button(new Rect(1, posY, 60, 30), "run"))
         {
-            TestRole.ToRun(); 
+            TestRole.ToRun();
         }
 
         posY += 30;
         if (GUI.Button(new Rect(1, posY, 60, 30), "Hurt"))
         {
-            TestRole.ToHurt(20,0.2f); 
+            TestRole.ToHurt(20, 0.2f);
         }
 
         posY += 30;
@@ -63,57 +92,74 @@ public class TestFight : MonoBehaviour {
         posY += 30;
         if (GUI.Button(new Rect(1, posY, 60, 30), "phy1"))
         {
-            TestRole.ToAttack(RoleAttackType.PhyAttack, 1);
+            TestAttack(RoleAttackType.PhyAttack, 1);
         }
 
         posY += 30;
         if (GUI.Button(new Rect(1, posY, 60, 30), "phy2"))
         {
-            TestRole.ToAttack(RoleAttackType.PhyAttack, 2);
+            TestAttack(RoleAttackType.PhyAttack, 2);
         }
 
         posY += 30;
         if (GUI.Button(new Rect(1, posY, 60, 30), "phy3"))
         {
-            TestRole.ToAttack(RoleAttackType.PhyAttack, 3);
+            TestAttack(RoleAttackType.PhyAttack, 3);
         }
 
         posY += 30;
         if (GUI.Button(new Rect(1, posY, 60, 30), "Skill1"))
         {
-            TestRole.ToAttack(RoleAttackType.SkillAttack, 1);
+            TestAttack(RoleAttackType.SkillAttack, 1);
         }
 
         posY += 30;
         if (GUI.Button(new Rect(1, posY, 60, 30), "Skill2"))
         {
-            TestRole.ToAttack(RoleAttackType.SkillAttack, 2);
+            TestAttack(RoleAttackType.SkillAttack, 2);
         }
 
         posY += 30;
         if (GUI.Button(new Rect(1, posY, 60, 30), "Skill3"))
         {
-            TestRole.ToAttack(RoleAttackType.SkillAttack, 3);
+            TestAttack(RoleAttackType.SkillAttack, 3);
         }
 
         posY += 30;
         if (GUI.Button(new Rect(1, posY, 60, 30), "Skill4"))
         {
-            TestRole.ToAttack(RoleAttackType.SkillAttack, 4);
+            TestAttack(RoleAttackType.SkillAttack, 4);
         }
 
         posY += 30;
         if (GUI.Button(new Rect(1, posY, 60, 30), "Skill5"))
         {
-            TestRole.ToAttack(RoleAttackType.SkillAttack, 5);
+            TestAttack(RoleAttackType.SkillAttack, 5);
         }
 
         posY += 30;
         if (GUI.Button(new Rect(1, posY, 60, 30), "Skill6"))
         {
-            TestRole.ToAttack(RoleAttackType.SkillAttack, 6);
+            TestAttack(RoleAttackType.SkillAttack, 6);
+
         }
 
-       
+
+    }
+
+    void TestAttack(RoleAttackType type = RoleAttackType.PhyAttack, int index = 0)
+    {
+#if DEBUG_ROLESTATE
+        TestRole.ToAttack(type, index);
+        if (TestEnemyObj != null)
+        {
+            TestEnemyObj.transform.position = TestRole.transform.position + new Vector3(0, 0, TestRole.CurrAttackRange);
+            TestEnemyObj.GetComponent<RoleCtrl>().ToHurt(1, TestRole.roleAttackInfo.HurtDelayTime);
+        }
+        if (TestRole.roleAttackInfo.IsDoCameraShake)
+        {
+            StartCoroutine(DoCameraShake(TestRole.roleAttackInfo.CameraShakeDelay));
+        }
+#endif
     }
 }

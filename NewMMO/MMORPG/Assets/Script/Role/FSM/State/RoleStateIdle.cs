@@ -10,11 +10,13 @@ public class RoleStateIdle : RoleStateAbstract
     float m_NextChangeTime;
     float m_changeStep = 5;
     bool m_isXiuXian;
+    float m_RuningTime;
     /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="roleFSMMgr">有限状态机管理器</param>
-    public RoleStateIdle(RoleFSMMgr roleFSMMgr) : base(roleFSMMgr)
+    public RoleStateIdle(RoleFSMMgr roleFSMMgr)
+        : base(roleFSMMgr)
     {
 
     }
@@ -36,6 +38,7 @@ public class RoleStateIdle : RoleStateAbstract
         {
             CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetBool(ToAnimatorCondition.ToIdleFight.ToString(), true);
         }
+        m_RuningTime = 0;
     }
 
     /// <summary>
@@ -57,7 +60,11 @@ public class RoleStateIdle : RoleStateAbstract
                     if (CurrRoleAnimatorStateInfo.IsName(RoleAnimatorState.Idle_Normal.ToString()))
                     {
                         CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), (int)RoleAnimatorState.Idle_Normal);
-                        IsChangeOver = true;
+                        m_RuningTime += Time.deltaTime;
+                        if (m_RuningTime > 0.2f)
+                        {
+                            IsChangeOver = true;
+                        }
                     }
                 }
                 else

@@ -1,6 +1,7 @@
 
 using UnityEngine;
 using System.Collections;
+using DG.Tweening; 
 
 /// <summary>
 /// 
@@ -81,6 +82,17 @@ public class CameraCtrl : MonoBehaviour
     public void AutoLookAt(Vector3 pos)
     {
         m_CameraZoomContainer.LookAt(pos);
+    }
+
+    public void  ToDoCameraShake(float delay = 0, float duration = 0.6f, float strength = 0.4f, int vibrat = 20)
+    {
+        StartCoroutine(DoCameraShake(delay, duration, strength, vibrat)); 
+    }
+
+    public IEnumerator DoCameraShake(float delay = 0, float duration = 0.6f, float strength = 0.4f, int vibrat = 20)
+    {
+        yield return new WaitForSeconds(delay);
+        m_CameraContainer.transform.DOShakePosition(duration, strength, vibrat);
     }
 
     //void OnDrawGizmos()

@@ -47,28 +47,55 @@ public class RoleAttack
         return null;
     }
 
-  
+
 
     public void ToAttack(RoleAttackType type, int index)
     {
         if (m_CurrRoleFSMMgr == null || m_CurrRoleFSMMgr.CurrRoleCtrl.IsRigidity) return;
 
         RoleAttackInfo info = GetRoleAttackInfo(type, index);
-
+        //DEBUG_ROLESTATE
 #if DEBUG_ROLESTATE
 
 
         if (info != null)
         {
             // 在编辑器窗口中绘制，巡逻范围等
-            m_CurrRoleFSMMgr.CurrRoleCtrl.roleAttackInfo = info; 
+            m_CurrRoleFSMMgr.CurrRoleCtrl.roleAttackInfo = info;
+            m_CurrRoleFSMMgr.CurrRoleCtrl.CurrAttackRange = info.AttackRange;
 
             GameObject obj = GameObject.Instantiate(info.EffectObject);
+            // 特效的位置和转向和主角的位置和转向要一个方向
             obj.transform.position = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.position;
+            obj.transform.rotation = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.rotation;
             Object.Destroy(obj, info.EffectLifeTime);
         }
-#endif
+#else
+       // 
 
+
+
+#endif
+        // ab包中加载特效 if (info != null)
+        if (info != null)
+        {
+            // 在编辑器窗口中绘制，巡逻范围等
+            m_CurrRoleFSMMgr.CurrRoleCtrl.roleAttackInfo = info;
+            m_CurrRoleFSMMgr.CurrRoleCtrl.CurrAttackRange = info.AttackRange;
+
+            GameObject obj = EffectMgr.Instance.PlayEffect(info.EffectName).gameObject; 
+            // 特效的位置和转向和主角的位置和转向要一个方向
+            obj.transform.position = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.position;
+            obj.transform.rotation = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.rotation;
+            EffectMgr.Instance.DestroyEffect(obj.transform, info.EffectLifeTime); 
+        }
+
+
+
+        if (info != null && CameraCtrl.Instance != null && info.IsDoCameraShake)
+        {
+            CameraCtrl.Instance.ToDoCameraShake(info.CameraShakeDelay);
+        }
 
         if (m_RoleStateAttack == null)
         {

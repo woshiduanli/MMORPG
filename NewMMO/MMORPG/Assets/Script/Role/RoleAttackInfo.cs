@@ -19,14 +19,12 @@ public class RoleAttackInfo  {
     // 特效存在时间
     public float EffectLifeTime;
 
-    public float PatrolRange = 0;
-
-    public float ViewRange = 0;
-
     public float AttackRange = 0;
 
     // 让对方受伤延迟
-    public float HurtDelayTime = 0; 
+    public float HurtDelayTime = 0;
 
+    public bool IsDoCameraShake = false;
 
+    public float CameraShakeDelay = 0f; 
 }

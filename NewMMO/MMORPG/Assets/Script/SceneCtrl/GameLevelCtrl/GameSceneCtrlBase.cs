@@ -79,7 +79,7 @@ public class GameSceneCtrlbase : MonoBehaviour
         RaycastHit hitInfo;
         if (Physics.Raycast(ray, out hitInfo, 1000, 1 << LayerMask.NameToLayer("Ground")))
         {
-            if (GlobalInit.Instance.CurrPlayer != null)
+            if (GlobalInit.Instance.CurrPlayer != null && !GlobalInit.Instance.CurrPlayer.IsRigidity)
             {
                 GlobalInit.Instance.CurrPlayer.LockEnemy = null;
                 GlobalInit.Instance.CurrPlayer.MoveTo(hitInfo.point);
@@ -96,7 +96,12 @@ public class GameSceneCtrlbase : MonoBehaviour
     void Start()
     {
         m_MainCityView = UISceneCtrl.Instance.LoadSceneUI(UISceneCtrl.SceneUIType.MainCity, OnLoadUIMainCityViewComplete).GetComponent<UISceneMainCityView>();
+        m_MainCityView.OnSkillClick = OnSkillClick;
+        m_MainCityView.OnAddHpClick = OnAddHpClick; 
+
         OnStart();
+
+        EffectMgr.Instance.Init(this ); 
 
         //Button[] btnArr = GetComponentsInChildren<Button>(true);
         //for (int i = 0; i < btnArr.Length; i++)
@@ -107,6 +112,15 @@ public class GameSceneCtrlbase : MonoBehaviour
         //if (OnShow != null) OnShow();
     }
 
+    private void OnSkillClick(int index)
+    {
+        GlobalInit.Instance.CurrPlayer.ToAttack(RoleAttackType.SkillAttack, index); 
+    }
+
+    private void OnAddHpClick(int obj)
+    {
+    }
+
     void OnDestroy()
     {
         if (FingerEvent.Instance != null)
@@ -115,6 +129,7 @@ public class GameSceneCtrlbase : MonoBehaviour
             FingerEvent.Instance.OnZoom -= OnZoom;
             FingerEvent.Instance.OnPlayerClick -= OnPlayerClick;
         }
+        EffectMgr.Instance.Clear(); 
         BeforeOnDestroy();
     }
 

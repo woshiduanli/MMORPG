@@ -69,6 +69,9 @@ public class RoleCtrl : MonoBehaviour
     /// </summary>
     public float AttackRange;
 
+    // 只是用于测试使用
+    public float CurrAttackRange;
+
     /// <summary>
     /// 当前角色类型
     /// </summary>
@@ -122,6 +125,8 @@ public class RoleCtrl : MonoBehaviour
     public RoleAttack m_Attack;
     public bool IsRigidity;
 
+
+
     private RoleHurt m_Hurt;
     /// <summary>
     /// 初始化
@@ -163,7 +168,20 @@ public class RoleCtrl : MonoBehaviour
         m_Hurt = new RoleHurt(CurrRoleFSMMgr);
         m_Attack.SetFSM(CurrRoleFSMMgr);
 
-        ToIdle();
+        if (this.CurrRoleType == RoleType.Monster)
+        {
+            ToIdle(RoleIdleState.IdelFight);
+        }
+        else
+        {
+            ToIdle(RoleIdleState.IdelNormal);
+        }
+        InitHeadBar();
+    }
+
+    public void Born(Vector3 bornPos)
+    {
+        transform.position = bornPos;
         InitHeadBar();
     }
 
@@ -227,23 +245,27 @@ public class RoleCtrl : MonoBehaviour
 
         //UIMainCitySmallMapView.Instance.SmallMapArr.transform.localEulerAngles = new Vector3(0,0, 360-transform.localEulerAngles.y);
     }
-
+    public RoleAttackInfo roleAttackInfo;
 #if DEBUG_ROLESTATE
     public Transform m_Transform;
     public float m_Radius = 1; // 圆环的半径
     public float m_Theta = 0.1f; // 值越低圆环越平滑
     public Color m_Color = Color.green; // 线框颜色
 
-    public RoleAttackInfo roleAttackInfo;
+    //public RoleAttackInfo roleAttackInfo;
 
     void OnDrawGizmos()
     {
+
         if (roleAttackInfo != null)
         {
-            SetYuan(Color.green, roleAttackInfo.ViewRange); 
-            SetYuan(Color.red, roleAttackInfo.AttackRange);
-            SetYuan(Color.yellow, roleAttackInfo.PatrolRange);
+            CurrAttackRange = roleAttackInfo.AttackRange;
         }
+
+        SetYuan(Color.green, this.ViewRange);
+        SetYuan(Color.red, CurrAttackRange);
+        SetYuan(Color.yellow, PatrolRange);
+
 
     }
 
@@ -346,6 +368,9 @@ public class RoleCtrl : MonoBehaviour
     {
         //如果目标点不是原点 进行移动
         if (targetPos == Vector3.zero) return;
+
+        if (this.IsRigidity) return; 
+ 
         TargetPos = targetPos;
 
         m_Seeker.StartPath(transform.position, TargetPos, (path) =>
@@ -382,8 +407,9 @@ public class RoleCtrl : MonoBehaviour
     // 临时测试用
     public void ToRun()
     {
-
-        CurrRoleFSMMgr.ChangeState(RoleState.Run);
+        MyDebug.debug("isjiangshi:" + CurrRoleFSMMgr.CurrRoleCtrl.IsRigidity); 
+        if (!CurrRoleFSMMgr.CurrRoleCtrl.IsRigidity)
+            CurrRoleFSMMgr.ChangeState(RoleState.Run);
 
     }
 
@@ -413,6 +439,7 @@ public class RoleCtrl : MonoBehaviour
 
 #if DEBUG_ROLESTATE
         m_Hurt.ToHurt(attackValue);
+
 #else 
         ////计算得出伤害数值
         int hurt = (int)(attackValue * Random.Range(0.5f, 1f));

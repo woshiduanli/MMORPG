@@ -32,8 +32,8 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
         m_allMonsterCount = GameLevelMonsterDBModel.Instance.GetGameLevelMonsterCount(m_CurrGameLevelId, m_curGrade);
         m_monsterId = GameLevelMonsterDBModel.Instance.GetGameLevelMonsterId(m_CurrGameLevelId, m_curGrade);
 
-       // 创建怪物池
-       m_monsterPool = PoolManager.Pools.Create("Monster");
+        // 创建怪物池
+        m_monsterPool = PoolManager.Pools.Create("Monster");
         m_monsterPool.group.parent = null;
         m_monsterPool.group.localPosition = Vector3.zero;
 
@@ -90,7 +90,10 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
         m_curRegionCreateMonsterCount = 0;
 
         if (regionIndex == 0)
-            if (AllRegion != null && GlobalInit.Instance.CurrPlayer != null) GlobalInit.Instance.CurrPlayer.transform.position = m_curRegionCtrl.RoleBornPos.position;
+        {
+            GlobalInit.Instance.CurrPlayer.Born(m_curRegionCtrl.RoleBornPos.position);
+            GlobalInit.Instance.CurrPlayer.ToIdle(RoleIdleState.IdelFight);
+        }
 
         if (DelegateDefine.Instance.OnSceneLoadOk != null)
             DelegateDefine.Instance.OnSceneLoadOk();
@@ -146,7 +149,7 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
     }
 
 
-    
+
     List<int> ListCount = new List<int>();
     public void hecheng(int level, int trans)
     {
@@ -163,7 +166,8 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
         hecheng(level, trans);
     }
 
-
+    // 临时怪的id
+    int m_MonsterTemp;
     int m_index = 0;
     void CreateMonster()
     {
@@ -173,13 +177,34 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
         int monsterId = m_regionMonster[m_index].SpriteId;
 
         Transform trans = null;
-        if (SpriteDBModel.Instance.Get(monsterId) != null)
+        if (SpriteDBModel.Instance.Get(monsterId) != null && SpriteDBModel.Instance.Get(monsterId).IsBoss != 1)
             trans = m_monsterPool.Spawn(SpriteDBModel.Instance.Get(monsterId).PrefabName);
         if (trans == null) return;
 
         Transform monsterBornPos = m_curRegionCtrl.MonsterBornPos[Random.Range(0, m_curRegionCtrl.MonsterBornPos.Length)];
 
-        trans.transform.position = monsterBornPos.TransformPoint(Random.Range(-0.5f, 0.5f), 0, Random.Range(0.5f, 0.5f));
+        trans.position = monsterBornPos.TransformPoint(Random.Range(-0.5f, 0.5f), 0, Random.Range(0.5f, 0.5f));
+
+        RoleCtrl roleMonsterCtrl = trans.GetComponent<RoleCtrl>();
+        RoleInfoMonster monsterInfo = new RoleInfoMonster();
+
+        SpriteEntity entity = SpriteDBModel.Instance.Get(monsterId);
+        if (entity != null)
+        {
+            monsterInfo.RoldId = ++m_MonsterTemp;
+            monsterInfo.RoleNickName = entity.Name;
+            monsterInfo.Level = entity.Level;
+            monsterInfo.Attack = entity.Attack;
+            monsterInfo.Defense = entity.Defense;
+            monsterInfo.Hit = entity.Hit;
+            monsterInfo.Dodge = entity.Dodge;
+            monsterInfo.Cri = entity.Cri;
+            monsterInfo.Res = entity.Res;
+            monsterInfo.Fighting = entity.Fighting;
+        }
+
+        roleMonsterCtrl.Init(RoleType.Monster, monsterInfo, new RoleMonsterAI(roleMonsterCtrl));
+        roleMonsterCtrl.Born(trans.position);
 
         m_regionMonster[m_index].SpriteCount--;
         if (m_regionMonster[m_index].SpriteCount <= 0)

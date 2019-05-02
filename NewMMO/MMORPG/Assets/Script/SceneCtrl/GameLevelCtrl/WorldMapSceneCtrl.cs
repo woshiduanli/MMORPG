@@ -39,13 +39,12 @@ public class WorldMapSceneCtrl : GameSceneCtrlbase
             CurrWorldMapEntity = WorldMapDBModel.Instance.Get(SceneMgr.Instance.CurrWorldMapId);
             if (CurrWorldMapEntity != null && CurrWorldMapEntity.RoleBirthPostion != Vector3.zero)
             {
-                MyDebug.debug(CurrWorldMapEntity.RoleBirthPostion);
-                GlobalInit.Instance.CurrPlayer.gameObject.transform.position = CurrWorldMapEntity.RoleBirthPostion;
+                GlobalInit.Instance.CurrPlayer.Born( CurrWorldMapEntity.RoleBirthPostion); 
                 GlobalInit.Instance.CurrPlayer.gameObject.transform.eulerAngles = new Vector3(0, CurrWorldMapEntity.RoleBirthEulerAnglesY, 0);
             }
             else
             {
-                GlobalInit.Instance.CurrPlayer.gameObject.transform.position = m_PlayerBornPos.position;
+                GlobalInit.Instance.CurrPlayer.Born(m_PlayerBornPos.position); 
             }
             PlayerCtrl.Instance.SetMainCityRoleInfo();
             if (DelegateDefine.Instance.OnSceneLoadOk != null)

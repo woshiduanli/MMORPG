@@ -8,6 +8,8 @@ using System;
 /// </summary>
 public class UISceneMainCityView : UISceneViewBase
 {
+    public System.Action<int> OnSkillClick;
+    public System.Action<int> OnAddHpClick; 
     /// <summary>
     /// 自动战斗容器
     /// </summary>
@@ -58,6 +60,18 @@ public class UISceneMainCityView : UISceneViewBase
                 break;
             case "btnCancelAutoFight":
                 AutoFight(false);
+                break;
+            case "BtnSkill1":
+                OnSkillClick(1); 
+                break;
+            case "BtnSkill2":
+                OnSkillClick(2); 
+                break;
+            case "BtnSkill3":
+                OnSkillClick(3); 
+                break;
+            case "BtnAddHP":
+                OnAddHpClick(1); 
                 break;
         }
     }

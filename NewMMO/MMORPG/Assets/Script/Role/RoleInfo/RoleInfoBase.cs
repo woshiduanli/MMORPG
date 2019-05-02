@@ -19,6 +19,7 @@ public class RoleInfoBase
     public int Hit; //命中
     public int Dodge; //闪避
     public int Cri; //暴击
+    public int Level; //暴击
     public int Res; //抗性
     public int Fighting; //综合战斗力
 }

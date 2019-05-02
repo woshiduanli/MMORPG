@@ -51,12 +51,16 @@ public class RoleMgr : Singleton<RoleMgr>
         return GameObject.Instantiate(obj);
     }
 
+   public Sprite  LoadSkillPic (string name){
+       return null; 
+   }
+
     public GameObject LoadSprite(int spriteId)
     {
 
         SpriteEntity s = SpriteDBModel.Instance.Get(spriteId);
-        if (s.IsBoss == 1) return null; 
         if (s == null) return null;
+        if (s.IsBoss == 1) return null; 
         return AssetBundleMgr.Instance.Load("role/" + s.PrefabName.ToLower() + ".assetbundle", s.PrefabName);
     }
 

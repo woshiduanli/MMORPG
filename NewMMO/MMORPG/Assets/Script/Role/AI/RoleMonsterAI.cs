@@ -34,6 +34,7 @@ public class RoleMonsterAI : IRoleAI
 
     public void DoAI()
     {
+        return; 
         if (CurrRole.CurrRoleFSMMgr.CurrRoleStateEnum == RoleState.Die) return;
 
         if (CurrRole.LockEnemy == null)
