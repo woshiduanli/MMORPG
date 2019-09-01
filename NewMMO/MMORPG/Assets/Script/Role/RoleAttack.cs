@@ -63,12 +63,14 @@ public class RoleAttack
             // 在编辑器窗口中绘制，巡逻范围等
             m_CurrRoleFSMMgr.CurrRoleCtrl.roleAttackInfo = info;
             m_CurrRoleFSMMgr.CurrRoleCtrl.CurrAttackRange = info.AttackRange;
-
-            GameObject obj = GameObject.Instantiate(info.EffectObject);
-            // 特效的位置和转向和主角的位置和转向要一个方向
-            obj.transform.position = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.position;
-            obj.transform.rotation = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.rotation;
-            Object.Destroy(obj, info.EffectLifeTime);
+            if (info.EffectObject != null)
+            {
+                GameObject obj = GameObject.Instantiate(info.EffectObject);
+                // 特效的位置和转向和主角的位置和转向要一个方向
+                obj.transform.position = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.position;
+                obj.transform.rotation = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.rotation;
+                Object.Destroy(obj, info.EffectLifeTime);
+            }
         }
 #else
        // 
@@ -83,11 +85,11 @@ public class RoleAttack
             m_CurrRoleFSMMgr.CurrRoleCtrl.roleAttackInfo = info;
             m_CurrRoleFSMMgr.CurrRoleCtrl.CurrAttackRange = info.AttackRange;
 
-            GameObject obj = EffectMgr.Instance.PlayEffect(info.EffectName).gameObject; 
+            GameObject obj = EffectMgr.Instance.PlayEffect(info.EffectName).gameObject;
             // 特效的位置和转向和主角的位置和转向要一个方向
             obj.transform.position = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.position;
             obj.transform.rotation = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.rotation;
-            EffectMgr.Instance.DestroyEffect(obj.transform, info.EffectLifeTime); 
+            EffectMgr.Instance.DestroyEffect(obj.transform, info.EffectLifeTime);
         }
 
 
@@ -109,6 +111,13 @@ public class RoleAttack
         // 切换成攻击状态
         m_CurrRoleFSMMgr.ChangeState(RoleState.Attack);
     }
+
+    //IEnumerator DestroyEffectC(Transform effect, float delay, GameObject)
+    //{
+    //    yield return new WaitForSeconds(delay);
+      
+    //}
+
 
 
 }

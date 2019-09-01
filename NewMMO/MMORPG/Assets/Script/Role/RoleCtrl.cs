@@ -12,6 +12,7 @@ using Pathfinding;
 
 public class RoleCtrl : MonoBehaviour
 {
+    public static RoleCtrl mainplayertest; 
     #region 成员变量或属性
     /// <summary>
     /// 昵称挂点
@@ -143,6 +144,7 @@ public class RoleCtrl : MonoBehaviour
 
     void Start()
     {
+        mainplayertest = this;
         CharacterController = GetComponent<CharacterController>();
 
         m_Seeker = GetComponent<Seeker>();

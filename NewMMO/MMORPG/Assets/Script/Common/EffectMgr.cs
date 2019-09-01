@@ -29,6 +29,16 @@ public class EffectMgr : Singleton<EffectMgr>
         if (!m_EffectDic.ContainsKey(effectName))
         {
             m_EffectDic[effectName] = LoadEffect(effectName).transform;
+            if (m_EffectDic[effectName] == null)
+                Debug.LogError("texiao ø’¡À");
+            else
+            {
+                Debug.LogError("texiao bu ø’¡À");
+
+            }
+
+
+
             PrefabPool prefabPool = new PrefabPool(m_EffectDic[effectName]);
 
             prefabPool.preloadAmount = 0;
@@ -39,6 +49,8 @@ public class EffectMgr : Singleton<EffectMgr>
             prefabPool.cullAbove = 5;
             prefabPool.cullDelay = 2;
             prefabPool.cullMaxPerPass = 2;
+            if (m_effectPool == null)
+                m_effectPool = PoolManager.Pools.Create("Effect");
             m_effectPool.CreatePrefabPool(prefabPool);
         }
 
@@ -50,7 +62,14 @@ public class EffectMgr : Singleton<EffectMgr>
 
     public void DestroyEffect(Transform effect, float delay)
     {
-        m_Mono.StartCoroutine(DestroyEffectC(effect, delay));
+        if (m_Mono != null)
+            m_Mono.StartCoroutine(DestroyEffectC(effect, delay));
+        else
+        {
+
+        }
+
+
     }
 
     IEnumerator DestroyEffectC(Transform effect, float delay)
