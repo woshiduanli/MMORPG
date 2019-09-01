@@ -400,10 +400,17 @@ public class RoleCtrl : MonoBehaviour
         CurrRoleFSMMgr.ChangeState(RoleState.Run);
     }
 
-    public void ToAttack(RoleAttackType type = RoleAttackType.PhyAttack, int index = 0)
+    public void ToAttackByIndex(RoleAttackType type = RoleAttackType.PhyAttack, int index = 0)
     {
         // 去攻击的时候，要判定他是物理的， 还是技能的攻击
-        m_Attack.ToAttack(type, index);
+        m_Attack.ToAttackByIndex(type, index);
+    }
+
+    public bool ToAttackBySkilId(RoleAttackType type = RoleAttackType.PhyAttack, int SKillId = 0)
+    {
+        Debug.LogError(SKillId);
+        // 去攻击的时候，要判定他是物理的， 还是技能的攻击
+      return  m_Attack.ToAttack(type, SKillId);
     }
 
     // 临时测试用
@@ -475,6 +482,11 @@ public class RoleCtrl : MonoBehaviour
     public void ToSelect()
     {
         CurrRoleFSMMgr.ChangeState(RoleState.Select);
+    }
+
+    public void ToAttackByIndex(  )
+    {
+
     }
 
     #endregion

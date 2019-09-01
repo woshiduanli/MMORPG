@@ -150,7 +150,7 @@ public class TestFight : MonoBehaviour
     void TestAttack(RoleAttackType type = RoleAttackType.PhyAttack, int index = 0)
     {
 #if DEBUG_ROLESTATE
-        TestRole.ToAttack(type, index);
+        TestRole.ToAttackByIndex(type, index);
         if (TestEnemyObj != null)
         {
             TestEnemyObj.transform.position = TestRole.transform.position + new Vector3(0, 0, TestRole.CurrAttackRange);

@@ -1,6 +1,7 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// 主角信息
@@ -14,14 +15,19 @@ public class RoleInfoMainPlayer : RoleInfoBase
     public int Money; //元宝
     public int Gold; //金币
     public int Level;
-    public int CurrExp = 8989; 
+    public int CurrExp = 8989;
+
+    /// <summary>
+    ///  角色技能列表
+    /// </summary>
+    public List<RoleInfoSkill> SkillList; 
 
     public int LastInWorldMapId;
     public int TotalRechargeMoney;
 
     public RoleInfoMainPlayer()
     {
-
+        SkillList = new List<RoleInfoSkill>(); 
     }
     public RoleInfoMainPlayer(RoleOperation_SelectRoleInfoReturnProto roleInfoProto)
     {
@@ -45,5 +51,26 @@ public class RoleInfoMainPlayer : RoleInfoBase
         this.Res = roleInfoProto.Res;
         this.Fighting = roleInfoProto.Fighting;
         this.LastInWorldMapId = roleInfoProto.LastInWorldMapId;
+
+        SkillList = new List<RoleInfoSkill>();
+
+    }
+
+    /// <summary>
+    ///  加载主角学会的技能
+    /// </summary>
+    /// <param name="proto"></param>
+ public   void LoadSkill(RoleData_SkillReturnProto proto)
+    {
+        SkillList.Clear(); 
+        for (int i = 0; i < proto.CurrSkillDataList.Count; i++)
+        {
+            SkillList.Add( new RoleInfoSkill() { SkillId =  proto.CurrSkillDataList[i].SkillId,
+
+                SkillLevel= proto.CurrSkillDataList[i].SkillLevel,
+                SlotsNo = proto.CurrSkillDataList[i].SlotsNo
+            }
+                ); 
+        }
     }
 }

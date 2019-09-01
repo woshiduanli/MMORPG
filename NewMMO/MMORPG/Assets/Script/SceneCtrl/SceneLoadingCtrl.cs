@@ -31,8 +31,14 @@ public class SceneLoadingCtrl : MonoBehaviour
 
     void OnSceneLoadOk()
     {
+        Debug.LogError("OnSceneLoadOk1");
+
+
+
+
         if (m_UILoadingCtrl != null)
         {
+            Debug.LogError("OnSceneLoadOk31");
             Object.Destroy(m_UILoadingCtrl.gameObject);
         }
     }

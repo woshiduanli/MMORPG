@@ -62,13 +62,13 @@ public class UISceneMainCityView : UISceneViewBase
                 AutoFight(false);
                 break;
             case "BtnSkill1":
-                OnSkillClick(1); 
+                //OnSkillClick(go.GetComponent<UIMainCitySkillSlotsView>().SkillId); 
                 break;
             case "BtnSkill2":
-                OnSkillClick(2); 
+                //OnSkillClick(go.GetComponent<UIMainCitySkillSlotsView>().SkillId); 
                 break;
             case "BtnSkill3":
-                OnSkillClick(3); 
+                //OnSkillClick(go.GetComponent<UIMainCitySkillSlotsView>().SkillId); 
                 break;
             case "BtnAddHP":
                 OnAddHpClick(1); 

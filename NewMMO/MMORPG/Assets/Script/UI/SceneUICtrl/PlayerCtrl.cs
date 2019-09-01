@@ -65,6 +65,13 @@ public class PlayerCtrl : Singleton<PlayerCtrl>, ISystemCtrl
         m_UIRoleInfoView.SetRoleInfo(data);
     }
 
+    public void SetMainCityRoleData()
+    {
+        PlayerCtrl.Instance.SetMainCityRoleInfo();
+        PlayerCtrl.Instance.SetMainCityRoleSkillInfo();
+    }
+
+
     public void SetMainCityRoleInfo()
     {
         RoleInfoMainPlayer mainPlayerRoleinfo = (RoleInfoMainPlayer)GlobalInit.Instance.CurrPlayer.CurrRoleInfo;
@@ -76,6 +83,51 @@ public class PlayerCtrl : Singleton<PlayerCtrl>, ISystemCtrl
             mainPlayerRoleinfo.CurrHP, mainPlayerRoleinfo.MaxHP, mainPlayerRoleinfo.CurrMP, mainPlayerRoleinfo.MaxMP);
     }
 
+    // 设置主城ui上角色技能信息
+    public void SetMainCityRoleSkillInfo()
+    {
+        RoleInfoMainPlayer mainPlayerRoleInfo = (RoleInfoMainPlayer)GlobalInit.Instance.CurrPlayer.CurrRoleInfo;
+        List<TransferData> lst = new List<TransferData>();
+        for (int i = 0; i < mainPlayerRoleInfo.SkillList.Count; i++)
+        {
+            TransferData data = new TransferData();
+            data.SetValue(ConstDefine.SkillSlotsNo, mainPlayerRoleInfo.SkillList[i].SlotsNo);
+            data.SetValue(ConstDefine.SkillId, mainPlayerRoleInfo.SkillList[i].SkillId);
+            data.SetValue(ConstDefine.SkillLevel, mainPlayerRoleInfo.SkillList[i].SkillLevel);
+            SkillEntity e = SkillDBModel.Instance.Get(mainPlayerRoleInfo.SkillList[i].SkillId);
+            if (e != null)
+            {
+                data.SetValue(ConstDefine.SkillPic, e.SkillPic);
+            }
+            else
+            {
+                Debug.LogError("kong le -");
+            }
 
+            SkillLevelEntity e1 = SkillLevelDBModel.Instance.GetEntityBySkillIdAndLevel(mainPlayerRoleInfo.SkillList[i].SkillId, mainPlayerRoleInfo.SkillList[i].SkillLevel);
 
+            if (e1 != null)
+            {
+                data.SetValue(ConstDefine.SkillCDTime, e1.SkillCDTime);
+
+            }
+
+            lst.Add(data);
+        }
+        Debug.LogError("kong le3333333333 -");
+
+        UIMainCitySkillView.Instance.SetUI(lst, OnSkillClick);
+
+    }
+
+    private void OnSkillClick(int SkillId)
+    {
+        bool isSuccess = GlobalInit.Instance.CurrPlayer.ToAttackBySkilId(RoleAttackType.SkillAttack, SKillId: SkillId);
+        if (isSuccess)
+        {
+            Debug.LogError("使用技能成功了");
+            UIMainCitySkillView.Instance.BeginCD(SkillId);
+        }
+
+    }
 }

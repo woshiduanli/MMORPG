@@ -32,8 +32,9 @@ public class WorldMapSceneCtrl : GameSceneCtrlbase
     protected override void OnLoadUIMainCityViewComplete(GameObject obj)
     {
         base.OnLoadUIMainCityViewComplete(obj);
-        //加载玩家 ,
         RoleMgr.Instance.InitMainPlayer();
+        PlayerCtrl.Instance.SetMainCityRoleData();
+        //加载玩家 ,
         if (GlobalInit.Instance.CurrPlayer != null)
         {
             CurrWorldMapEntity = WorldMapDBModel.Instance.Get(SceneMgr.Instance.CurrWorldMapId);
@@ -46,9 +47,13 @@ public class WorldMapSceneCtrl : GameSceneCtrlbase
             {
                 GlobalInit.Instance.CurrPlayer.Born(m_PlayerBornPos.position); 
             }
-            PlayerCtrl.Instance.SetMainCityRoleInfo();
+
+            Debug
+                .LogError("1112323");
             if (DelegateDefine.Instance.OnSceneLoadOk != null)
             {
+                Debug
+              .LogError("111232377");
                 DelegateDefine.Instance.OnSceneLoadOk();
             }
 

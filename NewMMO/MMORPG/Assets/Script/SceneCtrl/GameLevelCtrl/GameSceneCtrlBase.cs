@@ -114,7 +114,7 @@ public class GameSceneCtrlbase : MonoBehaviour
 
     private void OnSkillClick(int index)
     {
-        GlobalInit.Instance.CurrPlayer.ToAttack(RoleAttackType.SkillAttack, index); 
+        GlobalInit.Instance.CurrPlayer.ToAttackBySkilId(RoleAttackType.SkillAttack, index); 
     }
 
     private void OnAddHpClick(int obj)

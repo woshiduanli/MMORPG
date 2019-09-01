@@ -80,7 +80,7 @@ public class RoleMonsterAI : IRoleAI
                 if (Time.time > m_NextAttackTime && CurrRole.CurrRoleFSMMgr.CurrRoleStateEnum != RoleState.Attack)
                 {
                     m_NextAttackTime = Time.time + UnityEngine.Random.Range(3f, 5f);
-                    CurrRole.ToAttack();
+                    CurrRole.ToAttackByIndex();
                 }
             }
             else

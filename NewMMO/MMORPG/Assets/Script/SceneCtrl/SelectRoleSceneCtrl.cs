@@ -59,6 +59,10 @@ public class SelectRoleSceneCtrl : MonoBehaviour
 
         EventDispatcher.Instance.RegProto<RoleOperation_DeleteRoleReturnProto>(ProtoCodeDef.RoleOperation_DeleteRoleReturn, OnRoleOperation_DelectRoleInfoReturnProto);
 
+        // 服务器返回角色学会的技能信息
+        EventDispatcher.Instance.RegProto<RoleData_SkillReturnProto>(ProtoCodeDef.RoleData_SkillReturn, OnSkillReture);
+
+
 
 
         m_UISceneSelectRoleView.OnBtnBeginGameClick = OnBtnBeginGameClick;
@@ -73,7 +77,12 @@ public class SelectRoleSceneCtrl : MonoBehaviour
         LogonGameServer();
     }
 
-    void ToCreateRoleUI()
+    void OnSkillReture(RoleData_SkillReturnProto proto)
+    {
+        GlobalInit.Instance.MainPlayerInfo.LoadSkill(proto); 
+    }
+
+        void ToCreateRoleUI()
     {
         // 删除角色模型
         if (m_currenRoleModel != null) DestroyImmediate(m_currenRoleModel);

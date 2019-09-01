@@ -64,6 +64,7 @@ public class UISceneCtrl : Singleton<UISceneCtrl>
                 break;
             case SceneUIType.MainCity:
                 obj = ResourcesMgr.Instance.Load(ResourcesMgr.ResourceType.UIScene, "UI_Root_MainCity");
+                obj.gameObject.SetActive(true);
                 CurrentUIScene = obj.GetComponent<UISceneViewBase>();
                 break; 
             case SceneUIType.SelectRole:
