@@ -19,6 +19,10 @@ public class AssetBundleLoader : IDisposable
     public T LoadAsset<T>(string name) where T : UnityEngine.Object
     {
         if (bundle == null) return default(T);
+
+        //AssetBundleRequest d = bundle.LoadAssetAsync(name);
+
+
         return bundle.LoadAsset(name) as T;
     }
 

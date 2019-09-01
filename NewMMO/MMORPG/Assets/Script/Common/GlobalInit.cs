@@ -96,7 +96,7 @@ public class GlobalInit : MonoBehaviour
 
   
 
-    public string WebAccountUrl = @"http://localhost:8080/";
+    public string WebAccountUrl = @"http://localhost:8081/";
 
     /// <summary>
     /// UI动画曲线

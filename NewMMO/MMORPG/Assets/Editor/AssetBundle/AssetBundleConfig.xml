@@ -34,7 +34,7 @@
     <!--特效end-->
 
     <!--角色-->
-    <Item Name="Role_Monster_1" Tag="Role" Version="1" Size="0" ToPath="/Role">
+   <Item Name="Role_Monster_1" Tag="Role" Version="1" Size="0" ToPath="/Role">
       <Path Value="Assets\Download\Prefab\RolePrefab\Monster\Role_Monster_1.prefab" />
     </Item>
 
@@ -67,10 +67,10 @@
     <!--角色end-->
 
 
-    <!--场景-->
+    <!--场景--><!--
     <Item Name="GameScene_CunZhuang" Tag="Scene" Version="1" Size="0" ToPath="/Role/">
       <Path Value="Assets\Download\Scene\Scene_SelectRole.unity" />
-    </Item>
+    </Item>-->
     <!--场景end-->
 
 

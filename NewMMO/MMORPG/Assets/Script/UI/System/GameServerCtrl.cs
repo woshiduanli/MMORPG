@@ -23,8 +23,8 @@ public class GameServerCtrl : SystemCtrlBase<GameServerCtrl>, ISystemCtrl
         MyDebug.debug("进入游戏连接成功");
         UpdateLastLogOrServer(GlobalInit.Instance.CurAccount, GlobalInit.Instance.CurrSelectGameServer);
 
-        SceneMgr.Instance.LoadToSelectRole(); 
-        
+        SceneMgr.Instance.LoadToSelectRole();
+
         // 更新最后的登录服务器
     }
 
@@ -66,7 +66,7 @@ public class GameServerCtrl : SystemCtrlBase<GameServerCtrl>, ISystemCtrl
     {
         MyDebug.debug("点击了进入游戏");
         //UpdateLastLogOrServer(GlobalInit.Instance.CurAccount, GlobalInit.Instance.CurrSelectGameServer);
-        string str = "192.168.0.104"; 
+        string str = "192.168.142.1";
         //NetWorkSocket.Instance.Connect(GlobalInit.Instance.CurrSelectGameServer.Ip, GlobalInit.Instance.CurrSelectGameServer.Port);
         NetWorkSocket.Instance.Connect(str, 1011);
 
@@ -119,8 +119,8 @@ public class GameServerCtrl : SystemCtrlBase<GameServerCtrl>, ISystemCtrl
         m_currentClickPageIndex = pageIndex;
         if (m_gameServerDic.ContainsKey(pageIndex))
         {
-            m_GameServerSelectView.SetGameServerUI(m_gameServerDic[pageIndex]); 
-            return; 
+            m_GameServerSelectView.SetGameServerUI(m_gameServerDic[pageIndex]);
+            return;
         }
         if (m_IsBusy) return;
         m_IsBusy = true;
@@ -152,7 +152,7 @@ public class GameServerCtrl : SystemCtrlBase<GameServerCtrl>, ISystemCtrl
             {
                 MyDebug.debug(item.Name + "  ---------   " + item.Id);
             }
-            m_IsBusy = false; 
+            m_IsBusy = false;
         }
     }
 
@@ -163,8 +163,9 @@ public class GameServerCtrl : SystemCtrlBase<GameServerCtrl>, ISystemCtrl
         dic1["userId"] = curAccount.Id;
         dic1["lastServerId"] = curGameServer.Id;
         dic1["lastServerName"] = curGameServer.Name;
-        NetWorkHttp.Instance.SendData(GlobalInit.Instance.WebAccountUrl + "api/gameserver", OnUpdateLastLogOrServerCallBack, true, JsonMapper.ToJson(dic1));
+        NetWorkHttp.Instance.SendData("http://localhost:8081/api/gameserver", OnUpdateLastLogOrServerCallBack, true, JsonMapper.ToJson(dic1));
     }
+
 
     void OnUpdateLastLogOrServerCallBack(NetWorkHttp.CallBackArgs arg)
     {

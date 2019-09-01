@@ -20,15 +20,24 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
     // 快速登录
     public void QuickLogOn()
     {
+       
+
+        //return; 
+
         // 1 如果本地账号没有， 就注册， 否则马上登录
 
         if (!PlayerPrefs.HasKey(ConstDefine.LogOn_AccountID))
         {
+            this.OpenView(WindowUIType.Reg);
+            Debug.LogError("12233------------");
+        this.OpenView(WindowUIType.Reg);
             // 手动登录
             this.OpenView(WindowUIType.Reg);
         }
         else
         {
+
+            Debug.LogError("1223");
             m_IsAutoLogOn = true;
             // 自动登录
             Dictionary<string, object> dic = new Dictionary<string, object>();
@@ -36,7 +45,7 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
             dic.Add("UserName", PlayerPrefs.GetString(ConstDefine.LogOn_AccountUserName));
             dic.Add("Pwd", PlayerPrefs.GetString(ConstDefine.LogOn_AccountPwd));
             dic.Add("ChannelId", 0);
-            NetWorkHttp.Instance.SendData(GlobalInit.Instance.WebAccountUrl + "api/account", OnLogOnCallBack, true, JsonMapper.ToJson(dic));
+            NetWorkHttp.Instance.SendData("http://localhost:8081/api/account", OnLogOnCallBack, true, JsonMapper.ToJson(dic));
         }
     }
 
@@ -59,7 +68,8 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
         dic.Add("UserName", m_LogOnView.txtUserName.text);
         dic.Add("Pwd", m_LogOnView.txtPwd.text);
         dic.Add("ChannelId", 0);
-        NetWorkHttp.Instance.SendData(GlobalInit.Instance.WebAccountUrl + "api/account", OnLogOnCallBack, true, JsonMapper.ToJson(dic));
+        Debug.LogError("12333333");
+        NetWorkHttp.Instance.SendData("http://localhost:8081/api/account", OnLogOnCallBack, true, JsonMapper.ToJson(dic));
     }
 
 
@@ -72,20 +82,20 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
     public void ClickReg(string[] str)
     {
         MyDebug.debug("点击了注册");
-        if (m_RegView.txtUserName.text == null || m_RegView.txtUserName.text == "")
-        {
-            MyDebug.debug("请输入账户");
-            return;
-        }
+        //if (m_RegView.txtUserName.text == null || m_RegView.txtUserName.text == "")
+        //{
+        //    MyDebug.debug("请输入账户");
+        //    return;
+        //}
 
         Dictionary<string, object> dic = new Dictionary<string, object>();
         dic.Add("Type", 0);
 
-        dic.Add("UserName", m_RegView.txtUserName.text);
-        dic.Add("Pwd", m_RegView.txtPwd.text);
+        dic.Add("UserName", "1212121");
+        dic.Add("Pwd", "123456");
         dic.Add("ChannelId", 0);
 
-        NetWorkHttp.Instance.SendData("http://localhost:8080/api/account", OnRegCallBack, true, JsonMapper.ToJson(dic));
+        NetWorkHttp.Instance.SendData("http://localhost:8081/api/account", OnRegCallBack, true, JsonMapper.ToJson(dic));
 
     }
 

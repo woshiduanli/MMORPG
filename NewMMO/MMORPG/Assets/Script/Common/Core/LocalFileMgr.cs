@@ -9,7 +9,7 @@ using System.IO;
 public class LocalFileMgr : Singleton<LocalFileMgr>
 {
     //public readonly string LocalFilePath = Application.persistentDataPath + "/";
-    public readonly string LocalFilePath = Application.dataPath + "/../AssetBundles/Android/" ;
+    public readonly string LocalFilePath = Application.dataPath + "/../AssetBundles/Windows/";
 
 
     /// <summary>

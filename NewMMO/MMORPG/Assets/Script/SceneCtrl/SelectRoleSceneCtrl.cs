@@ -493,7 +493,6 @@ public class SelectRoleSceneCtrl : MonoBehaviour
     {
         RoleOperation_LogOnGameServerProto to = new RoleOperation_LogOnGameServerProto();
         to.AccountId = GlobalInit.Instance.CurAccount.Id;
-
         NetWorkSocket.Instance.SendMsg(to.ToArray());
     }
 
