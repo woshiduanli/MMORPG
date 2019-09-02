@@ -127,7 +127,10 @@ public enum RoleType
     /// <summary>
     /// 怪
     /// </summary>
-    Monster = 2
+    Monster = 2,
+    OtherPlayer = 3
+
+
 }
 #endregion
 

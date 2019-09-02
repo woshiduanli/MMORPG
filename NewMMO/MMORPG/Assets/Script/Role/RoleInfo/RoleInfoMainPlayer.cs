@@ -20,14 +20,14 @@ public class RoleInfoMainPlayer : RoleInfoBase
     /// <summary>
     ///  角色技能列表
     /// </summary>
-    public List<RoleInfoSkill> SkillList; 
+    //public List<RoleInfoSkill> SkillList; 
 
     public int LastInWorldMapId;
     public int TotalRechargeMoney;
 
-    public RoleInfoMainPlayer()
+    public RoleInfoMainPlayer():base ()
     {
-        SkillList = new List<RoleInfoSkill>(); 
+      
     }
     public RoleInfoMainPlayer(RoleOperation_SelectRoleInfoReturnProto roleInfoProto)
     {
@@ -52,7 +52,6 @@ public class RoleInfoMainPlayer : RoleInfoBase
         this.Fighting = roleInfoProto.Fighting;
         this.LastInWorldMapId = roleInfoProto.LastInWorldMapId;
 
-        SkillList = new List<RoleInfoSkill>();
 
     }
 
