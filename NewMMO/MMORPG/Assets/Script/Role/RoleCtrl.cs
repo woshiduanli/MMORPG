@@ -431,6 +431,10 @@ public class RoleCtrl : MonoBehaviour
     {
         StartCoroutine(ToHurtCoroutine(attackValue, delay));
     }
+    public void ToHurt( RoleTransferAttackInfo roleTransferAttackInfo)
+    {
+        StartCoroutine(ToHurtCoroutine(roleTransferAttackInfo));
+    }
 
     public void TestToHurt()
     {
@@ -440,6 +444,38 @@ public class RoleCtrl : MonoBehaviour
     public void TestToDies()
     {
         CurrRoleFSMMgr.ChangeState(RoleState.Die);
+    }
+
+    private IEnumerator ToHurtCoroutine(RoleTransferAttackInfo roleTransferAttackInfo)
+    {
+        yield return new WaitForSeconds(0);
+
+#if DEBUG_ROLESTATE
+        m_Hurt.ToHurt(0);
+
+#else 
+        ////计算得出伤害数值
+        int hurt = (int)(attackValue * Random.Range(0.5f, 1f));
+
+        if (OnRoleHurt != null)
+        {
+            OnRoleHurt();
+        }
+
+
+        CurrRoleInfo.CurrHP -= hurt;
+
+        //roleHeadBarCtrl.Hurt(hurt, (float)CurrRoleInfo.CurrHP / CurrRoleInfo.MaxHP);
+
+        if (CurrRoleInfo.CurrHP <= 0)
+        {
+            CurrRoleFSMMgr.ChangeState(RoleState.Die);
+        }
+        else
+        {
+            CurrRoleFSMMgr.ChangeState(RoleState.Hurt);
+        }
+#endif
     }
 
     private IEnumerator ToHurtCoroutine(int attackValue, float delay)

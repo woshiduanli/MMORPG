@@ -257,7 +257,7 @@ public class RoleAttack
                 }
                 else
                 {
-                    
+
                     if (m_SerachList.Count > 0)
                     {
                         m_CurRoleCtrl.LockEnemy = m_SerachList[0].GetComponent<RoleCtrl>();
@@ -277,7 +277,8 @@ public class RoleAttack
             // 5 让敌人受伤
             for (int i = 0; i < m_EnenmyList.Count; i++)
             {
-                m_EnenmyList[i].ToHurt(100, 0);
+                RoleTransferAttackInfo roleTransferAttackInfo = CalCulateHurtValue(m_EnenmyList[i], skillLevelEntity);
+                m_EnenmyList[i].ToHurt(roleTransferAttackInfo);
             }
         }
 
@@ -318,5 +319,66 @@ public class RoleAttack
 
 
         return true;
+    }
+
+    /// <summary>
+    ///  计算攻击信息
+    /// </summary>
+    /// <param name="enemy"></param>
+    /// <param name="skillLevel"></param>
+    /// <returns></returns>
+    public RoleTransferAttackInfo CalCulateHurtValue(RoleCtrl enemy, SkillLevelEntity skillLevelEntity)
+    {
+        if (enemy == null || skillLevelEntity == null)
+        {
+            return null;
+        }
+
+        SkillEntity skillEntity = SkillDBModel.Instance.Get(skillLevelEntity.SkillId);
+
+        if (skillEntity == null)
+            return null;
+
+        RoleTransferAttackInfo roleTransferAttackInfo = new RoleTransferAttackInfo();
+
+        roleTransferAttackInfo.AttackRoleId = m_CurRoleCtrl.CurrRoleInfo.RoldId;
+        roleTransferAttackInfo.AttackRolePos = m_CurRoleCtrl.gameObject.transform.position;
+        roleTransferAttackInfo.BeAttackRoleId = enemy.CurrRoleInfo.RoldId;
+        roleTransferAttackInfo.SkillId = skillLevelEntity.SkillId;
+        roleTransferAttackInfo.SKillLevel = skillLevelEntity.Level;
+        roleTransferAttackInfo.IsAbNormal = skillLevelEntity.AbnormalRatio == 1;
+        // 计算伤害
+        // 1 攻击数值， = 攻击方的综合战斗力* (技能伤害倍率*0.01f) 计算攻击数值的作用是为了计算基础伤害
+        float attackValue = m_CurRoleCtrl.CurrRoleInfo.Fighting * (skillLevelEntity.HurtValueRate * 0.01f);
+
+        // 2 基础伤害 =  攻击数值 * 攻击数值/(攻击数值+被攻击者的防御)
+        float baseHurt = attackValue * attackValue / (attackValue + enemy.CurrRoleInfo.Defense);
+
+
+        // 3 暴击概率  0.05f  + （攻击方的暴击/(攻击方的暴击+ 防御方的抗性)）* 0.1f ;
+        float cri = 0.05f + m_CurRoleCtrl.CurrRoleInfo.Cri / (m_CurRoleCtrl.CurrRoleInfo.Cri + enemy.CurrRoleInfo.Res) * 0.1f;
+
+        //
+        if (cri > 0.5f) cri = 0.5f;
+
+        // 4 是否暴击 0-1的随机数 < 暴击概率
+
+        bool isCri = Random.Range(0, 1f) <= cri;
+
+        // 5 暴击的伤害倍率 有暴击?1.5f:1f
+        float criHurt = isCri ? 1.5f : 1f;
+
+        // 6 随机数 = 0.9f 到1.1 之间
+        float random = Random.Range(0.9f, 1.1f);
+
+        // 7 最终伤害 = 基础伤害*暴击伤害率 * 随机数
+        float hurtValue = Mathf.RoundToInt(baseHurt * criHurt * random);
+        if (hurtValue < 1) hurtValue = 1;
+
+
+        roleTransferAttackInfo.isCri = isCri;
+        roleTransferAttackInfo.HurtValue = (int)hurtValue;
+
+        return roleTransferAttackInfo;
     }
 }
