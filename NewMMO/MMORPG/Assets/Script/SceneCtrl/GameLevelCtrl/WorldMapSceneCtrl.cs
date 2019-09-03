@@ -32,8 +32,8 @@ public class WorldMapSceneCtrl : GameSceneCtrlbase
     protected override void OnLoadUIMainCityViewComplete(GameObject obj)
     {
         base.OnLoadUIMainCityViewComplete(obj);
-        RoleMgr.Instance.InitMainPlayer();
-        PlayerCtrl.Instance.SetMainCityRoleData();
+        //RoleMgr.Instance.InitMainPlayer();
+        //PlayerCtrl.Instance.SetMainCityRoleData();
         //加载玩家 ,
         if (GlobalInit.Instance.CurrPlayer != null)
         {

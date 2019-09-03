@@ -245,7 +245,7 @@ public class RoleAttack
                         for (int i = 0; i < m_SerachList.Count; i++)
                         {
                             RoleCtrl ctrl = m_SerachList[i].GetComponent<RoleCtrl>();
-                            if (ctrl.CurrRoleInfo.RoldId != m_CurRoleCtrl.LockEnemy.CurrRoleInfo.RoldId)
+                            if (ctrl.CurrRoleType != RoleType.MainPlayer && ctrl.CurrRoleInfo.RoldId != m_CurRoleCtrl.LockEnemy.CurrRoleInfo.RoldId)
                             {
                                 if ((i + 1 > needAttackCount)) break;
                                 m_EnenmyList.Add(ctrl);
@@ -265,8 +265,11 @@ public class RoleAttack
                         for (int i = 0; i < m_SerachList.Count; i++)
                         {
                             RoleCtrl ctrl = m_SerachList[i].GetComponent<RoleCtrl>();
-                            if ((i + 1 > needAttackCount)) break;
-                            m_EnenmyList.Add(ctrl);
+                            if (ctrl.CurrRoleType != RoleType.MainPlayer)
+                            {
+                                if ((i + 1 > needAttackCount)) break;
+                                m_EnenmyList.Add(ctrl);
+                            }
                         }
                     }
                 }

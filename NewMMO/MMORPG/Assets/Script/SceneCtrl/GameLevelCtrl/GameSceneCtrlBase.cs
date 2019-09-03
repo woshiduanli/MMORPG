@@ -143,7 +143,12 @@ public class GameSceneCtrlbase : MonoBehaviour
         OnUpdate(); 
     }
 
-    protected virtual void OnLoadUIMainCityViewComplete(GameObject obj) { }
+    protected virtual void OnLoadUIMainCityViewComplete(GameObject obj)
+    {
+        RoleMgr.Instance.InitMainPlayer();
+        PlayerCtrl.Instance.SetMainCityRoleData();
+
+    }
     protected virtual void OnUpdate() { }
     protected virtual void OnAwake() { }
     protected virtual void OnStart() { }

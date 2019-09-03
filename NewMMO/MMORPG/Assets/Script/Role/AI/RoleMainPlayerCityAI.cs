@@ -18,7 +18,7 @@ public class RoleMainPlayerCityAI : IRoleAI
     {
         CurrRole = roleCtrl;
     }
-
+    int m_PhyIndex = 0; 
     public void DoAI()
     {
         //执行AI
@@ -26,16 +26,23 @@ public class RoleMainPlayerCityAI : IRoleAI
         //1.如果我有锁定敌人 就行攻击
         if (CurrRole.LockEnemy != null)
         {
-            //if (CurrRole.LockEnemy.CurrRoleInfo.CurrHP <= 0)
-            //{
-            //    CurrRole.LockEnemy = null;
-            //    return;
-            //}
+            // 敌人死亡直接返回
+            if (CurrRole.LockEnemy.CurrRoleInfo.CurrHP <= 0)
+            {
+                CurrRole.LockEnemy = null;
+                return;
+            }
 
-            //if (CurrRole.CurrRoleFSMMgr.CurrRoleStateEnum != RoleState.Attack)
-            //{
-            //    CurrRole.ToAttack();
-            //}
+            // 主玩家在idle 那么直接攻击
+            if (CurrRole.CurrRoleFSMMgr.CurrRoleStateEnum == RoleState.Idle)
+            {
+                int skillId = CurrRole.CurrRoleInfo.PhySKillIds[m_PhyIndex];
+
+                // 循环物理攻击
+                CurrRole.ToAttackBySkilId(RoleAttackType.PhyAttack, skillId);
+                ++m_PhyIndex;
+                if (m_PhyIndex >= CurrRole.CurrRoleInfo.PhySKillIds.Length) m_PhyIndex = 0;
+            }
         }
     }
 }

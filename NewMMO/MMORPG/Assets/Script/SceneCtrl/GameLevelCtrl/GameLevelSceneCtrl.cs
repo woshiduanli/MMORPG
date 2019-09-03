@@ -194,6 +194,11 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
             monsterInfo.RoldId = ++m_MonsterTemp;
             monsterInfo.RoleNickName = entity.Name;
             monsterInfo.Level = entity.Level;
+
+            monsterInfo.MaxHP = monsterInfo.CurrHP = entity.HP;
+            monsterInfo.MaxMP = monsterInfo.MaxMP = entity.MP;
+
+
             monsterInfo.Attack = entity.Attack;
             monsterInfo.Defense = entity.Defense;
             monsterInfo.Hit = entity.Hit;

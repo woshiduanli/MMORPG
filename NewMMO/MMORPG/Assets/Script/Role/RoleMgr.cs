@@ -14,6 +14,9 @@ public class RoleMgr : Singleton<RoleMgr>
         {
             GameObject mainPlayerObj = Object.Instantiate(GlobalInit.Instance.JobObjectDic[GlobalInit.Instance.MainPlayerInfo.JobId]);
             Object.DontDestroyOnLoad(mainPlayerObj);
+
+            // 设置角色物理攻击
+            GlobalInit.Instance.MainPlayerInfo.SetPhySkilId (JobDBModel.Instance.Get(GlobalInit.Instance.MainPlayerInfo.JobId).UsedPhyAttackIds);
             GlobalInit.Instance.CurrPlayer = mainPlayerObj.GetComponent<RoleCtrl>();
             GlobalInit.Instance.CurrPlayer.
                 Init(RoleType.MainPlayer, GlobalInit.Instance.MainPlayerInfo, new RoleMainPlayerCityAI(GlobalInit.Instance.CurrPlayer));

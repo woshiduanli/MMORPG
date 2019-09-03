@@ -25,7 +25,7 @@ public class RoleInfoBase
     public int Fighting; //综合战斗力
 
     public List<RoleInfoSkill> SkillList;
-
+    public int[] PhySKillIds; 
 
     public RoleInfoBase()
     {
@@ -34,6 +34,7 @@ public class RoleInfoBase
 
     public int  GetSkillLevel(int SKillId)
     {
+        if (SkillList == null) return 1; 
         for (int i = 0; i < SkillList.Count; i++)
         {
 
@@ -42,6 +43,19 @@ public class RoleInfoBase
                 return SkillList[i].SkillLevel; 
             }
         }
-        return 0; 
+        return 1;
+    }
+
+    public void   SetPhySkilId(string phySKillIds)
+    {
+        string[] ids = phySKillIds.Split(';');
+
+        PhySKillIds = new int[ids.Length];
+
+
+        for (int i = 0; i < ids.Length; i++)
+        {
+            PhySKillIds[i] = ids[i].ToInt();
+        }
     }
 }

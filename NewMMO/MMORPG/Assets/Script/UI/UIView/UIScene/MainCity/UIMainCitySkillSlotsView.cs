@@ -63,11 +63,17 @@ public class UIMainCitySkillSlotsView : UISubViewBase
     /// <param name="go"></param>
     private void onClick(GameObject go)
     {
-        Debug.LogError("11111111111111+++1");
+
 
         //Debug.Log("SkillId=" + SkillId);
         //如果没有装配技能 直接返回
-        if (SkillId < 1) return;
+        if (SkillId < 1)
+        {
+            OnSkillClick(109);
+            // 强制改变数据
+
+            return;
+        }
         if (m_IsCD) return;
 
         if (OnSkillClick != null)

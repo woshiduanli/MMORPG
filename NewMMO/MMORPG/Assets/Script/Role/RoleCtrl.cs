@@ -433,7 +433,7 @@ public class RoleCtrl : MonoBehaviour
     }
     public void ToHurt( RoleTransferAttackInfo roleTransferAttackInfo)
     {
-        StartCoroutine(ToHurtCoroutine(roleTransferAttackInfo));
+        StartCoroutine(m_Hurt.ToHurt(roleTransferAttackInfo));
     }
 
     public void TestToHurt()
@@ -448,10 +448,15 @@ public class RoleCtrl : MonoBehaviour
 
     private IEnumerator ToHurtCoroutine(RoleTransferAttackInfo roleTransferAttackInfo)
     {
-        yield return new WaitForSeconds(0);
+        //// 直接返回，
+        //if (CurrRoleFSMMgr.CurrRoleStateEnum == RoleState.Die)
+        //{
+           yield break; 
+        //}
+        //yield return new WaitForSeconds(roleTransferAttackInfo.tim);
 
 #if DEBUG_ROLESTATE
-        m_Hurt.ToHurt(0);
+        //m_Hurt.ToHurt(roleTransferAttackInfo);
 
 #else 
         ////计算得出伤害数值
@@ -483,7 +488,7 @@ public class RoleCtrl : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
 #if DEBUG_ROLESTATE
-        m_Hurt.ToHurt(attackValue);
+        //m_Hurt.ToHurt(attackValue);
 
 #else 
         ////计算得出伤害数值
