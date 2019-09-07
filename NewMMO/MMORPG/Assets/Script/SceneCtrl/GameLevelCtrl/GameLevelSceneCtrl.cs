@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using PathologicalGames;
+using System;
 
 public class GameLevelSceneCtrl : GameSceneCtrlbase
 {
@@ -171,8 +172,13 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
     int m_index = 0;
     void CreateMonster()
     {
+        // ÁÙÊ±²âÊÔ
+        if (m_curRegionCreateMonsterCount >= 1)
+        {
+            return;
 
-        m_index = Random.Range(0, m_regionMonster.Count);
+        }
+        m_index =UnityEngine. Random.Range(0, m_regionMonster.Count);
 
         int monsterId = m_regionMonster[m_index].SpriteId;
 
@@ -181,22 +187,23 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
             trans = m_monsterPool.Spawn(SpriteDBModel.Instance.Get(monsterId).PrefabName);
         if (trans == null) return;
 
-        Transform monsterBornPos = m_curRegionCtrl.MonsterBornPos[Random.Range(0, m_curRegionCtrl.MonsterBornPos.Length)];
+        Transform monsterBornPos = m_curRegionCtrl.MonsterBornPos[UnityEngine.Random.Range(0, m_curRegionCtrl.MonsterBornPos.Length)];
 
-        trans.position = monsterBornPos.TransformPoint(Random.Range(-0.5f, 0.5f), 0, Random.Range(0.5f, 0.5f));
+        trans.position = monsterBornPos.TransformPoint(UnityEngine.Random.Range(-0.5f, 0.5f), 0, UnityEngine.Random.Range(0.5f, 0.5f));
 
         RoleCtrl roleMonsterCtrl = trans.GetComponent<RoleCtrl>();
         RoleInfoMonster monsterInfo = new RoleInfoMonster();
 
         SpriteEntity entity = SpriteDBModel.Instance.Get(monsterId);
+        Debug.LogError("monsterId:" + monsterId);
         if (entity != null)
         {
             monsterInfo.RoldId = ++m_MonsterTemp;
             monsterInfo.RoleNickName = entity.Name;
             monsterInfo.Level = entity.Level;
-
             monsterInfo.MaxHP = monsterInfo.CurrHP = entity.HP;
-            monsterInfo.MaxMP = monsterInfo.MaxMP = entity.MP;
+            //Debug.LogError("dangqian  hp :::::::::::::::::::::::::::" + monsterInfo.CurrHP);
+            monsterInfo.MaxMP = monsterInfo.CurrHP = entity.MP;
 
 
             monsterInfo.Attack = entity.Attack;
@@ -209,6 +216,7 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
         }
 
         roleMonsterCtrl.Init(RoleType.Monster, monsterInfo, new RoleMonsterAI(roleMonsterCtrl));
+        roleMonsterCtrl.OnRoleDestroy = OnRoleDestroyCallBack;
         roleMonsterCtrl.Born(trans.position);
 
         m_regionMonster[m_index].SpriteCount--;
@@ -217,5 +225,11 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
         //m_regionMonster[monsterId]--;
 
         ++m_curRegionCreateMonsterCount;
+    }
+
+    private void OnRoleDestroyCallBack(Transform obj)
+    {
+        // »Ø³Ø²Ù×÷
+        m_monsterPool.Despawn(obj);
     }
 }

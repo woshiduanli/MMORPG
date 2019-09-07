@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using Pathfinding;
+using System;
 
 /// <summary>
 /// 角色控制器
@@ -12,7 +13,7 @@ using Pathfinding;
 
 public class RoleCtrl : MonoBehaviour
 {
-    public static RoleCtrl mainplayertest; 
+    public static RoleCtrl mainplayertest;
     #region 成员变量或属性
     /// <summary>
     /// 昵称挂点
@@ -140,6 +141,10 @@ public class RoleCtrl : MonoBehaviour
         CurrRoleType = roleType;
         CurrRoleInfo = roleInfo;
         CurrRoleAI = ai;
+        if (CharacterController != null)
+        {
+            CharacterController.enabled = true;
+        }
     }
 
     void Start()
@@ -166,8 +171,9 @@ public class RoleCtrl : MonoBehaviour
         if (transform.GetChild(0).GetComponent<Animator>() != null)
             Animator = transform.GetChild(0).GetComponent<Animator>();
 
-        CurrRoleFSMMgr = new RoleFSMMgr(this);
+        CurrRoleFSMMgr = new RoleFSMMgr(this, OnDieCallBack, OnDestroyCallBack);
         m_Hurt = new RoleHurt(CurrRoleFSMMgr);
+        m_Hurt.OnRoleHurt = OnRoleHurtCallBack;
         m_Attack.SetFSM(CurrRoleFSMMgr);
 
         if (this.CurrRoleType == RoleType.Monster)
@@ -179,6 +185,47 @@ public class RoleCtrl : MonoBehaviour
             ToIdle(RoleIdleState.IdelNormal);
         }
         InitHeadBar();
+    }
+
+
+ public   System.Action<Transform> OnRoleDestroy;
+    private void OnDestroyCallBack()
+    {
+        if (OnRoleDestroy != null)
+        {
+            OnRoleDestroy(transform);
+        }
+
+        if (roleHeadBarView!=null)
+        {
+            Destroy(roleHeadBarView.gameObject);
+            roleHeadBarView = null; 
+        }
+    }
+
+    private void OnDieCallBack()
+    {
+        if (CharacterController != null)
+        {
+            CharacterController.enabled = false;
+        }
+    }
+
+    private void OnRoleHurtCallBack()
+    {
+        Debug.LogError("dongxi1");
+        // 角色受伤的回调
+        if (roleHeadBarView != null)
+        {
+            Debug.LogError("dongxi2：" + (((float)CurrRoleInfo.CurrHP) / ((float)CurrRoleInfo.MaxHP)));
+
+            Debug.LogError("dongxi3：" + CurrRoleInfo.CurrHP + "   " + CurrRoleInfo.MaxHP);
+
+            roleHeadBarView.SetSliderHp((((float)CurrRoleInfo.CurrHP) / ((float)CurrRoleInfo.MaxHP)));
+            roleHeadBarView.BloodFly();
+            //UISceneCtrl.Instance.CurrentUIScene.HUDText.Add("-" + 5, Color.red, 0.6f);
+
+        }
     }
 
     public void Born(Vector3 bornPos)
@@ -340,9 +387,10 @@ public class RoleCtrl : MonoBehaviour
         //d.Move
         roleHeadBarView = m_HeadBar.GetComponent<RoleHeadBarView>();
 
-        //给预设赋值
-        roleHeadBarView.Init(m_HeadBarPos, CurrRoleInfo.RoleNickName, CurrRoleType != RoleType.MainPlayer);
+        // 角色血条赋值
+        roleHeadBarView.Init(m_HeadBarPos, CurrRoleInfo.RoleNickName, CurrRoleType != RoleType.MainPlayer, SliderValue: this.CurrRoleInfo.CurrHP / CurrRoleInfo.MaxHP);
     }
+
 
 
     #region 控制角色方法
@@ -371,8 +419,8 @@ public class RoleCtrl : MonoBehaviour
         //如果目标点不是原点 进行移动
         if (targetPos == Vector3.zero) return;
 
-        if (this.IsRigidity) return; 
- 
+        if (this.IsRigidity) return;
+
         TargetPos = targetPos;
 
         m_Seeker.StartPath(transform.position, TargetPos, (path) =>
@@ -408,15 +456,15 @@ public class RoleCtrl : MonoBehaviour
 
     public bool ToAttackBySkilId(RoleAttackType type = RoleAttackType.PhyAttack, int SKillId = 0)
     {
-        Debug.LogError(SKillId);
+        //Debug.LogError(SKillId);
         // 去攻击的时候，要判定他是物理的， 还是技能的攻击
-      return  m_Attack.ToAttack(type, SKillId);
+        return m_Attack.ToAttack(type, SKillId);
     }
 
     // 临时测试用
     public void ToRun()
     {
-        MyDebug.debug("isjiangshi:" + CurrRoleFSMMgr.CurrRoleCtrl.IsRigidity); 
+        MyDebug.debug("isjiangshi:" + CurrRoleFSMMgr.CurrRoleCtrl.IsRigidity);
         if (!CurrRoleFSMMgr.CurrRoleCtrl.IsRigidity)
             CurrRoleFSMMgr.ChangeState(RoleState.Run);
 
@@ -431,7 +479,7 @@ public class RoleCtrl : MonoBehaviour
     {
         StartCoroutine(ToHurtCoroutine(attackValue, delay));
     }
-    public void ToHurt( RoleTransferAttackInfo roleTransferAttackInfo)
+    public void ToHurt(RoleTransferAttackInfo roleTransferAttackInfo)
     {
         StartCoroutine(m_Hurt.ToHurt(roleTransferAttackInfo));
     }
@@ -451,14 +499,14 @@ public class RoleCtrl : MonoBehaviour
         //// 直接返回，
         //if (CurrRoleFSMMgr.CurrRoleStateEnum == RoleState.Die)
         //{
-           yield break; 
+        yield break;
         //}
         //yield return new WaitForSeconds(roleTransferAttackInfo.tim);
 
 #if DEBUG_ROLESTATE
         //m_Hurt.ToHurt(roleTransferAttackInfo);
 
-#else 
+#else
         ////计算得出伤害数值
         int hurt = (int)(attackValue * Random.Range(0.5f, 1f));
 
@@ -525,7 +573,7 @@ public class RoleCtrl : MonoBehaviour
         CurrRoleFSMMgr.ChangeState(RoleState.Select);
     }
 
-    public void ToAttackByIndex(  )
+    public void ToAttackByIndex()
     {
 
     }

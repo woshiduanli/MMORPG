@@ -64,7 +64,7 @@ public class GameSceneCtrlbase : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
 
-
+        ///  判断玩家点击， 获取敌人
         RaycastHit[] hitArr = Physics.RaycastAll(ray, Mathf.Infinity, 1 << LayerMask.NameToLayer("Role"));
         if (hitArr.Length > 0)
         {
@@ -76,6 +76,7 @@ public class GameSceneCtrlbase : MonoBehaviour
             }
         }
 
+        // 如果是点击的地面， 那么主玩家需要移动过去
         RaycastHit hitInfo;
         if (Physics.Raycast(ray, out hitInfo, 1000, 1 << LayerMask.NameToLayer("Ground")))
         {

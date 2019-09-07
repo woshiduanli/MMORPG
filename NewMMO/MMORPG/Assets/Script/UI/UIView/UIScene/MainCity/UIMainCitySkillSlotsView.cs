@@ -69,7 +69,7 @@ public class UIMainCitySkillSlotsView : UISubViewBase
         //如果没有装配技能 直接返回
         if (SkillId < 1)
         {
-            OnSkillClick(109);
+            //OnSkillClick(109);
             // 强制改变数据
 
             return;

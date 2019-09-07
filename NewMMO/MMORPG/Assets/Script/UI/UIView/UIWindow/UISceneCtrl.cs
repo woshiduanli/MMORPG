@@ -35,9 +35,7 @@ public class UISceneCtrl : Singleton<UISceneCtrl>
         MainCity
     }
 
-    /// <summary>
-    /// 当前场景UI
-    /// </summary>
+    
     public UISceneViewBase CurrentUIScene;
 
     //public void LoadSceneUI(string path, XLuaCustomExport.OnCreate OnCreate)

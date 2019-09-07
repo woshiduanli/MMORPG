@@ -40,7 +40,7 @@ public class RoleInfoMainPlayer : RoleInfoBase
         this.Gold = roleInfoProto.Gold; //金币
         this.Exp = roleInfoProto.Exp; //经验
         this.MaxHP = roleInfoProto.MaxHP; //最大HP
-        this.MaxMP = roleInfoProto.MaxHP; //最大MP
+        this.MaxMP = roleInfoProto.MaxMP; //最大MP
         this.CurrHP = roleInfoProto.CurrHP; //当前HP
         this.CurrMP = roleInfoProto.MaxMP; //当前MP
         this.Attack = roleInfoProto.Attack; //攻击力

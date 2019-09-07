@@ -33,7 +33,7 @@ public class RoleFSMMgr
     /// 构造函数
     /// </summary>
     /// <param name="currRoleCtrl"></param>
-    public RoleFSMMgr(RoleCtrl currRoleCtrl)
+    public RoleFSMMgr(RoleCtrl currRoleCtrl, System.Action onDie=null, System.Action onDestroy = null)
     {
         CurrRoleCtrl = currRoleCtrl;
         m_RoleStateDic = new Dictionary<RoleState, RoleStateAbstract>();
@@ -43,6 +43,12 @@ public class RoleFSMMgr
         m_RoleStateDic[RoleState.Hurt] = new RoleStateHurt(this);
         m_RoleStateDic[RoleState.Die] = new RoleStateDie(this);
         m_RoleStateDic[RoleState.Select] = new RoleStateSelect(this);
+
+
+        RoleStateDie dieState = (RoleStateDie)m_RoleStateDic[RoleState.Die];
+        dieState.OnDie = onDie;
+        dieState.OnDestroy = onDestroy; 
+
 
         if (m_RoleStateDic.ContainsKey(CurrRoleStateEnum))
         {

@@ -7,6 +7,9 @@ using System.Collections;
 /// </summary>
 public class RoleStateDie : RoleStateAbstract
 {
+    public System.Action OnDie;
+    public System.Action OnDestroy;
+    public float m_BeginDieTime = 0f; 
     /// <summary>
     /// 构造函数
     /// </summary>
@@ -23,7 +26,13 @@ public class RoleStateDie : RoleStateAbstract
     public override void OnEnter()
     {
         base.OnEnter();
+        Transform trans = EffectMgr.Instance.PlayEffect("Effect_PenXue");
+        trans.position = CurrRoleFSMMgr.CurrRoleCtrl.gameObject.transform.position;
+        trans.rotation = CurrRoleFSMMgr.CurrRoleCtrl.gameObject.transform.rotation;
+        EffectMgr.Instance.DestroyEffect(trans, 6);
         CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetBool(ToAnimatorCondition.ToDie.ToString(), true);
+        m_BeginDieTime = 0;  
+        if (OnDie != null) OnDie();
     }
 
     /// <summary>
@@ -32,6 +41,15 @@ public class RoleStateDie : RoleStateAbstract
     public override void OnUpdate()
     {
         base.OnUpdate();
+        m_BeginDieTime += Time.deltaTime;
+        if (m_BeginDieTime >= 6)
+        {
+            if (OnDestroy != null)
+            {
+                OnDestroy();
+            }
+            return; 
+        }
         CurrRoleAnimatorStateInfo = CurrRoleFSMMgr.CurrRoleCtrl.Animator.GetCurrentAnimatorStateInfo(0);
         if (CurrRoleAnimatorStateInfo.IsName(RoleAnimatorState.Die.ToString()))
         {
@@ -43,6 +61,7 @@ public class RoleStateDie : RoleStateAbstract
                 CurrRoleFSMMgr.CurrRoleCtrl.OnRoleDie(CurrRoleFSMMgr.CurrRoleCtrl);
             }
         }
+       
     }
 
     /// <summary>

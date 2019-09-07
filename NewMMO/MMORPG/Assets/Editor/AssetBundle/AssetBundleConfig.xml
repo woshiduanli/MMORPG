@@ -67,6 +67,13 @@
     <!--角色end-->
 
 
+    <Item Name="Effect_Hurt" Tag="Effect" Version="1" Size="0" ToPath="/Effect">
+      <Path Value="Assets\Download\Prefab\Effect\Common\Effect_Hurt.prefab" />
+    </Item>
+    <Item Name="Effect_PenXue" Tag="Effect" Version="1" Size="0" ToPath="/Effect">
+      <Path Value="Assets\Download\Prefab\Effect\Common\Effect_PenXue.prefab" />
+    </Item>
+
     <!--场景--><!--
     <Item Name="GameScene_CunZhuang" Tag="Scene" Version="1" Size="0" ToPath="/Role/">
       <Path Value="Assets\Download\Scene\Scene_SelectRole.unity" />

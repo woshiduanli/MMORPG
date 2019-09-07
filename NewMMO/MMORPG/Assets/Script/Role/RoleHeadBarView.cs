@@ -2,15 +2,24 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-
+using System;
 
 public class RoleHeadBarView : MonoBehaviour
 {
+    
     /// <summary>
     /// 昵称
     /// </summary>
     [SerializeField]
     private Text lblNickName;
+
+    [SerializeField]
+    private UIFollowTarget followTarget;
+    [SerializeField]
+    private HUDText hudText;
+
+    [SerializeField]
+    public Slider sliderHp; 
 
     /// </summary>
     private Transform m_Target;
@@ -49,12 +58,21 @@ public class RoleHeadBarView : MonoBehaviour
     /// <param name="target"></param>
     /// <param name="nickName"></param>
     /// <param name="isShowHPBar">是否显示血条</param>
-    public void Init(Transform target, string nickName, bool isShowHPBar = false)
+    public void Init(Transform target, string nickName, bool isShowHPBar = false, float SliderValue=1)
     {
         m_Target = target;
         lblNickName.text = nickName;
+        if (sliderHp == null) sliderHp=transform.Find("sliderHP").GetComponent<Slider> ();
+        sliderHp.gameObject.SetActive(isShowHPBar);
 
-        //NGUITools.SetActive(pbHP.gameObject, isShowHPBar);
+        Debug.LogError("fuzhi le ::::::::::::::::::::::");
+        sliderHp.value = SliderValue; 
+    }
+
+
+    public void SetSliderHp(float SliderValue = 1)
+    {
+        sliderHp.value = SliderValue;
     }
 
     /// <summary>
@@ -65,5 +83,21 @@ public class RoleHeadBarView : MonoBehaviour
     {
         //hudText.Add(string.Format("-{0}", hurtValue), Color.red, 0.1f);
         //pbHP.value = pbHPValue;
+    }
+
+    internal void BloodFly()
+    {
+
+
+
+        //if (followTarget==null) followTarget = transform.Find("follow").GetComponent<UIFollowTarget> ();
+
+        //if (hudText==null)
+        //{
+        //    hudText=transform.Find("hudtext").GetComponent<HUDText>();
+        //}
+        //followTarget.target = hudText.transform;
+        //followTarget.uiCamera = GameObject.Find("UICamera").GetComponent<Camera> (); 
+        //hudText.Add("-5", Color.red, 1f);
     }
 }

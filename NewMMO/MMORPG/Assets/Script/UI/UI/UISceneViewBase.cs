@@ -5,6 +5,13 @@ using System;
 
 public class UISceneViewBase : UIViewBase
 {
+    //[System.Serializable]
+public   bl_HUDText HudText;
+
+    /// <summary>
+    /// 当前场景UI
+  
+
     /// <summary>
     /// 当前画布
     /// </summary>
