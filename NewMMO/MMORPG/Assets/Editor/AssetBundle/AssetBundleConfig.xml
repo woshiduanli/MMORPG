@@ -31,6 +31,27 @@
       <Path Value="Assets\Download\Prefab\Effect\Role\CiKe\Role_MainPlayer_Cike_Effect_Skill_6.prefab" />
     </Item>
 
+    <!--怪物受伤死亡特效-->
+    <Item Name="Effect_Hurt" Tag="Effect" Version="1" Size="0" ToPath="/Effect">
+      <Path Value="Assets\Download\Prefab\Effect\Common\Effect_Hurt.prefab" />
+    </Item>
+    <Item Name="Effect_PenXue" Tag="Effect" Version="1" Size="0" ToPath="/Effect">
+      <Path Value="Assets\Download\Prefab\Effect\Common\Effect_PenXue.prefab" />
+    </Item>
+
+    <!--截匪攻击特效-->
+    <Item Name="Role_Monster_LanLuJieFei_Effect_Phy_1" Tag="Effect" Version="1" Size="0" ToPath="/Effect">
+      <Path Value="Assets\Download\Prefab\Effect\Role\LanLuJieFei\Role_Monster_LanLuJieFei_Effect_Phy_1.prefab" />
+    </Item>
+
+    <!--女妖攻击特效-->
+    <Item Name="Role_Monster_NvYao_Effect_Phy_1" Tag="Effect" Version="1" Size="0" ToPath="/Effect">
+      <Path Value="Assets\Download\Prefab\Effect\Role\NvYao\Role_Monster_NvYao_Effect_Phy_1.prefab" />
+    </Item>
+    <Item Name="Role_Monster_NvYao_Effect_Phy_2" Tag="Effect" Version="1" Size="0" ToPath="/Effect">
+      <Path Value="Assets\Download\Prefab\Effect\Role\NvYao\Role_Monster_NvYao_Effect_Phy_2.prefab" />
+    </Item>
+
     <!--特效end-->
 
     <!--角色-->
@@ -67,12 +88,7 @@
     <!--角色end-->
 
 
-    <Item Name="Effect_Hurt" Tag="Effect" Version="1" Size="0" ToPath="/Effect">
-      <Path Value="Assets\Download\Prefab\Effect\Common\Effect_Hurt.prefab" />
-    </Item>
-    <Item Name="Effect_PenXue" Tag="Effect" Version="1" Size="0" ToPath="/Effect">
-      <Path Value="Assets\Download\Prefab\Effect\Common\Effect_PenXue.prefab" />
-    </Item>
+   
 
     <!--场景--><!--
     <Item Name="GameScene_CunZhuang" Tag="Scene" Version="1" Size="0" ToPath="/Role/">

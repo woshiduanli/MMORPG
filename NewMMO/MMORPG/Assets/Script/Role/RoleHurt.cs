@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +6,7 @@ public class RoleHurt
 {
     RoleFSMMgr m_CurrRoleFSMMgr = null;
     public System.Action OnRoleHurt;
-    // µ±½ÇÉ«ÊÜÉËµÄÊ±ºò£¬
+    // å½“è§’è‰²å—ä¼¤çš„æ—¶å€™ï¼Œ
     public RoleHurt(RoleFSMMgr mgr)
     {
         m_CurrRoleFSMMgr = mgr;
@@ -27,20 +27,20 @@ public class RoleHurt
     public IEnumerator ToHurt(RoleTransferAttackInfo roleTransferAttackInfo)
     {
         if (m_CurrRoleFSMMgr == null) yield break;
-        // Ö±½Ó·µ»Ø£¬
+        // ç›´æ¥è¿”å›ï¼Œ
         if (m_CurrRoleFSMMgr.CurrRoleStateEnum == RoleState.Die) yield break;
 
         SkillEntity skillEntity = SkillDBModel.Instance.Get(roleTransferAttackInfo.SkillId);
         SkillLevelEntity skillLevelEntity = SkillLevelDBModel.Instance.Get(roleTransferAttackInfo.SKillLevel);
         if (skillEntity == null || skillLevelEntity == null) yield break;
 
-        // ÑÓ³ÙÊ±¼ä
+        // å»¶è¿Ÿæ—¶é—´
         yield return new WaitForSeconds(skillEntity.ShowHurtEffectDelaySecond);
 
-        Debug.LogError("juese shoushang1 £º" + roleTransferAttackInfo.BeAttackRoleId + "  " + m_CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.CurrHP+ "  "+ roleTransferAttackInfo.HurtValue);
-        // 1 ¼õÑª ____ ÕâÊÇ²ÅÊÇÕæÊµÖµ
+        Debug.LogError("juese shoushang1 ï¼š" + roleTransferAttackInfo.BeAttackRoleId + "  " + m_CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.CurrHP+ "  "+ roleTransferAttackInfo.HurtValue);
+        // 1 å‡è¡€ ____ è¿™æ˜¯æ‰æ˜¯çœŸå®å€¼
         //m_CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.CurrHP -= roleTransferAttackInfo.HurtValue;
-        // ___²âÊÔÖµÄ¬ÈÏ£¬ ¼õÑª20 
+        // ___æµ‹è¯•å€¼é»˜è®¤ï¼Œ å‡è¡€20 
         m_CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.CurrHP -= 5;
         int fontSize = 1;
         Color c = Color.red;
@@ -49,33 +49,33 @@ public class RoleHurt
             fontSize = 8;
             c = Color.yellow; 
         }
-        // ¼õÑªµÄÆ®Ñ©¶¯»­²¥·Å
+        // å‡è¡€çš„é£˜é›ªåŠ¨ç”»æ’­æ”¾
         UISceneCtrl.Instance.CurrentUIScene.HudText.NewText("- 5", m_CurrRoleFSMMgr.CurrRoleCtrl.gameObject.transform, c, fontSize, 20,-1,2.2f,   Random.Range(0,2)==1?bl_Guidance.RightDown: bl_Guidance.LeftDown);
     
 
         //m_CurrRoleFSMMgr.CurrRoleCtrl.bar
 
-        // Í·¶¥ÑªÌõµÄ±ä»¯
+        // å¤´é¡¶è¡€æ¡çš„å˜åŒ–
         if (OnRoleHurt != null) OnRoleHurt();
-        // 1.1 Èç¹ûËÀÍö
+        // 1.1 å¦‚æœæ­»äº¡
 
         if (m_CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.CurrHP <= 0)
         {
-            Debug.LogError("die £º" + roleTransferAttackInfo.BeAttackRoleId);
+            Debug.LogError("die ï¼š" + roleTransferAttackInfo.BeAttackRoleId);
             m_CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.CurrHP = 0;
             m_CurrRoleFSMMgr.CurrRoleCtrl.ToDie();
             yield break;
         }
 
-        //Debug.LogError("juese shoushang 2£º" + roleTransferAttackInfo.BeAttackRoleId + "  " + m_CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.CurrHP);
-        // 2 ²¥·ÅÊÜÉËÌØĞ§
+        //Debug.LogError("juese shoushang 2ï¼š" + roleTransferAttackInfo.BeAttackRoleId + "  " + m_CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.CurrHP);
+        // 2 æ’­æ”¾å—ä¼¤ç‰¹æ•ˆ
         Transform trans = EffectMgr.Instance.PlayEffect("Effect_Hurt");
         trans.position = m_CurrRoleFSMMgr.CurrRoleCtrl.gameObject.transform.position;
         trans.rotation = m_CurrRoleFSMMgr.CurrRoleCtrl.gameObject.transform.rotation;
         EffectMgr.Instance.DestroyEffect(trans, 2);
 
-        // 3 µ¯³öÊÜÉËÊı×Ö¡£ÈôÓĞ±©»÷£¬ ÏÔÊ¾±©»÷Êı×Ö
-        // 4 ÆÁÄ»·ººì
+        // 3 å¼¹å‡ºå—ä¼¤æ•°å­—ã€‚è‹¥æœ‰æš´å‡»ï¼Œ æ˜¾ç¤ºæš´å‡»æ•°å­—
+        // 4 å±å¹•æ³›çº¢
         // 5 
         m_CurrRoleFSMMgr.ChangeState(RoleState.Hurt);
 

@@ -198,6 +198,7 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
         Debug.LogError("monsterId:" + monsterId);
         if (entity != null)
         {
+            monsterInfo.SpriteEntity = entity;
             monsterInfo.RoldId = ++m_MonsterTemp;
             monsterInfo.RoleNickName = entity.Name;
             monsterInfo.Level = entity.Level;
@@ -213,9 +214,11 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
             monsterInfo.Cri = entity.Cri;
             monsterInfo.Res = entity.Res;
             monsterInfo.Fighting = entity.Fighting;
+
+            roleMonsterCtrl.ViewRange = entity.Range_View;
         }
 
-        roleMonsterCtrl.Init(RoleType.Monster, monsterInfo, new RoleMonsterAI(roleMonsterCtrl));
+        roleMonsterCtrl.Init(RoleType.Monster, monsterInfo, new GameLevel_RoleMonsterAI(roleMonsterCtrl, monsterInfo));
         roleMonsterCtrl.OnRoleDestroy = OnRoleDestroyCallBack;
         roleMonsterCtrl.Born(trans.position);
 

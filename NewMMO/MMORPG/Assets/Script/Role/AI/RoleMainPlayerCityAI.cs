@@ -18,11 +18,14 @@ public class RoleMainPlayerCityAI : IRoleAI
     {
         CurrRole = roleCtrl;
     }
-    int m_PhyIndex = 0; 
+    int m_PhyIndex = 0;
     public void DoAI()
     {
         //执行AI
-
+        if (CurrRole.LockEnemy!=null&& CurrRole.LockEnemy.CurrRoleInfo.RoldId == CurrRole.CurrRoleInfo.RoldId)
+        {
+            CurrRole.LockEnemy = null;
+        }
         //1.如果我有锁定敌人 就行攻击
         if (CurrRole.LockEnemy != null)
         {

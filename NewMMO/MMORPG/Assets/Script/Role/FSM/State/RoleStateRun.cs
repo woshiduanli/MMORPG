@@ -44,22 +44,6 @@ public class RoleStateRun : RoleStateAbstract
     {
         base.OnUpdate();
 
-        
-        if (CurrRoleFSMMgr.CurrRoleCtrl.AStartPath == null)
-        {
-            if (CurrRoleAnimatorStateInfo.IsName(RoleAnimatorState.Run.ToString()))
-            {
-                //MyDebug.debug("111111run");
-                CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), (int)RoleAnimatorState.Run);
-            }
-            else
-            {
-                CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), 0);
-            }
-            return;
-        }
-        // 以上为测试-------------------------------
-
 
         CurrRoleAnimatorStateInfo = CurrRoleFSMMgr.CurrRoleCtrl.Animator.GetCurrentAnimatorStateInfo(0);
         if (CurrRoleAnimatorStateInfo.IsName(RoleAnimatorState.Run.ToString()))

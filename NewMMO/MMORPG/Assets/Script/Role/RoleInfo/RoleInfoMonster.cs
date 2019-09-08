@@ -7,5 +7,5 @@ using System.Collections;
 /// </summary>
 public class RoleInfoMonster : RoleInfoBase
 {
-
+    public SpriteEntity SpriteEntity;
 }

@@ -184,7 +184,7 @@ public class RoleCtrl : MonoBehaviour
         {
             ToIdle(RoleIdleState.IdelNormal);
         }
-        InitHeadBar();
+        //InitHeadBar();
     }
 
 
@@ -198,6 +198,7 @@ public class RoleCtrl : MonoBehaviour
 
         if (roleHeadBarView!=null)
         {
+            Debug.LogError("xiaohui你的头顶文字被删除了："+ this.CurrRoleInfo.RoleNickName);
             Destroy(roleHeadBarView.gameObject);
             roleHeadBarView = null; 
         }
@@ -230,6 +231,7 @@ public class RoleCtrl : MonoBehaviour
 
     public void Born(Vector3 bornPos)
     {
+        BornPoint=bornPos;
         transform.position = bornPos;
         InitHeadBar();
     }

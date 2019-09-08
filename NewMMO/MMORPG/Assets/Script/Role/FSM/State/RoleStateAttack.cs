@@ -35,6 +35,11 @@ public class RoleStateAttack : RoleStateAbstract
     /// </summary>
     public override void OnEnter()
     {
+        if (RoleType.Monster == CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleType)
+        {
+            //Debug.LogError("进来了   "+ CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.RoleNickName+ "    AnimatorCurState:"+ AnimatorCurState +
+            //    "   AnimatorConditionValue:"+ AnimatorConditionValue+ "   AnimatorCondition:"+ AnimatorCondition); 
+        }
         base.OnEnter();
         m_OldAnimatorCondition = AnimatorCondition;
 
@@ -51,6 +56,11 @@ public class RoleStateAttack : RoleStateAbstract
     /// </summary>
     public override void OnUpdate()
     {
+        if (RoleType.Monster == CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleType)
+        {
+            Debug.LogError("update 了   " + CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.RoleNickName + "    AnimatorCurState:" + AnimatorCurState +
+                "   AnimatorConditionValue:" + AnimatorConditionValue + "   AnimatorCondition:" + AnimatorCondition);
+        }
         base.OnUpdate();
         CurrRoleFSMMgr.CurrRoleCtrl.IsRigidity = true; 
         CurrRoleAnimatorStateInfo = CurrRoleFSMMgr.CurrRoleCtrl.Animator.GetCurrentAnimatorStateInfo(0);
@@ -77,6 +87,11 @@ public class RoleStateAttack : RoleStateAbstract
     public override void OnLeave()
     {
         base.OnLeave();
+        if (RoleType.Monster == CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleType)
+        {
+            //Debug.LogError("离开了   " + CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.RoleNickName + "    AnimatorCurState:" + AnimatorCurState +
+            //    "   AnimatorConditionValue:" + AnimatorConditionValue + "   AnimatorCondition:" + AnimatorCondition);
+        }
         CurrRoleFSMMgr.CurrRoleCtrl.IsRigidity = false; 
         CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(m_OldAnimatorCondition, 0);
         CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), 0);

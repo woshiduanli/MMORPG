@@ -83,7 +83,7 @@ public class PlayerCtrl : Singleton<PlayerCtrl>, ISystemCtrl
             mainPlayerRoleinfo.CurrHP, mainPlayerRoleinfo.MaxHP, mainPlayerRoleinfo.CurrMP, mainPlayerRoleinfo.MaxMP);
     }
 
-    // ÉèÖÃÖ÷³ÇuiÉÏ½ÇÉ«¼¼ÄÜĞÅÏ¢
+    // è®¾ç½®ä¸»åŸuiä¸Šè§’è‰²æŠ€èƒ½ä¿¡æ¯
     public void SetMainCityRoleSkillInfo()
     {
         RoleInfoMainPlayer mainPlayerRoleInfo = (RoleInfoMainPlayer)GlobalInit.Instance.CurrPlayer.CurrRoleInfo;
@@ -125,7 +125,7 @@ public class PlayerCtrl : Singleton<PlayerCtrl>, ISystemCtrl
         bool isSuccess = GlobalInit.Instance.CurrPlayer.ToAttackBySkilId(RoleAttackType.SkillAttack, SKillId: SkillId);
         if (isSuccess)
         {
-            Debug.LogError("Ê¹ÓÃ¼¼ÄÜ³É¹¦ÁË");
+            Debug.LogError("ä½¿ç”¨æŠ€èƒ½æˆåŠŸäº†");
             UIMainCitySkillView.Instance.BeginCD(SkillId);
         }
 

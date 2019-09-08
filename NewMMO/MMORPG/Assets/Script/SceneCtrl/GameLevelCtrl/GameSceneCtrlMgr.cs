@@ -40,6 +40,16 @@ public class GameSceneCtrlMgr : MonoBehaviour
 
     }
 
+    // 返回 用center用圆心， radius为半径的圆上的随机点 
+    private Vector3 OnPostRender(Vector3 center, float radius)
+    {
+        Vector3 v = new Vector3(0, 0, 1);
+        v = Quaternion.Euler(0, Random.Range(0, 360), 0) * v;
+        Vector3 pos = v * radius * Random.Range(0.8f, 1);
+        Vector3 newPos = center + pos;
+        return newPos;
+    }
+
     // Update is called once per frame
     void Update()
     {

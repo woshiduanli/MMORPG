@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [System.Serializable]
@@ -10,7 +10,7 @@ public class RoleAttack
     RoleCtrl m_CurRoleCtrl;
     List<RoleCtrl> m_EnenmyList;
     List<Collider> m_SerachList;
-    // µ±½ÇÉ«ÊÜÉËµÄÊ±ºò£¬
+    // å½“è§’è‰²å—ä¼¤çš„æ—¶å€™ï¼Œ
     public void SetFSM(RoleFSMMgr mgr)
     {
         m_CurrRoleFSMMgr = mgr;
@@ -19,14 +19,14 @@ public class RoleAttack
         m_SerachList = new List<Collider>();
     }
 
-    // ¹¥»÷ĞÅÏ¢£¬ÊÇ²ß»®µÄÅäÖÃ±í Ïà¹ØµÄÊı¾İ 
+    // æ”»å‡»ä¿¡æ¯ï¼Œæ˜¯ç­–åˆ’çš„é…ç½®è¡¨ ç›¸å…³çš„æ•°æ® 
     public List<RoleAttackInfo> PhyAttackInfoList;
 
     public List<RoleAttackInfo> SkillAttackInfoList;
 
     private RoleStateAttack m_RoleStateAttack;
 
-    // ¸ù¾İË÷ÒıºÅ»ñÈ¡¹¥»÷ĞÅÏ¢
+    // æ ¹æ®ç´¢å¼•å·è·å–æ”»å‡»ä¿¡æ¯
     private RoleAttackInfo GetRoleAttackInfoByIndex(RoleAttackType type, int index)
     {
         if (type == RoleAttackType.PhyAttack)
@@ -76,88 +76,70 @@ public class RoleAttack
 
     public void ToAttackByIndex(RoleAttackType type, int index)
     {
-        if (m_CurrRoleFSMMgr == null || m_CurrRoleFSMMgr.CurrRoleCtrl.IsRigidity) return;
-        // ¹¥»÷ºÍÆÕÍ¨µÄĞĞ¶¯²»Ò»Ñù£¬Ê×ÏÈ²É¼¯¹¥»÷ĞÅÏ¢£¬ È»ºó¸ù¾İ¹¥»÷ĞÅÏ¢£¬ ·Ö±ğ½øĞĞ×´Ì¬»úµÄ×ª»»£¬ ÌØĞ§µÄ×÷ÓÃ
-        RoleAttackInfo info = GetRoleAttackInfoByIndex(type, index);
-        if (info == null) return;
-        if (info != null)
-        {
-            // ÔÚ±à¼­Æ÷´°¿ÚÖĞ»æÖÆ£¬Ñ²Âß·¶Î§µÈ
-            m_CurrRoleFSMMgr.CurrRoleCtrl.roleAttackInfo = info;
-            m_CurrRoleFSMMgr.CurrRoleCtrl.CurrAttackRange = info.AttackRange;
-            if (info.EffectObject != null)
-            {
-                GameObject obj = GameObject.Instantiate(info.EffectObject);
-                // ÌØĞ§µÄÎ»ÖÃºÍ×ªÏòºÍÖ÷½ÇµÄÎ»ÖÃºÍ×ªÏòÒªÒ»¸ö·½Ïò
-                obj.transform.position = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.position;
-                obj.transform.rotation = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.rotation;
-                Object.Destroy(obj, info.EffectLifeTime);
-            }
-        }
+        //if (m_CurrRoleFSMMgr == null || m_CurrRoleFSMMgr.CurrRoleCtrl.IsRigidity) return;
+        //// æ”»å‡»å’Œæ™®é€šçš„è¡ŒåŠ¨ä¸ä¸€æ ·ï¼Œé¦–å…ˆé‡‡é›†æ”»å‡»ä¿¡æ¯ï¼Œ ç„¶åæ ¹æ®æ”»å‡»ä¿¡æ¯ï¼Œ åˆ†åˆ«è¿›è¡ŒçŠ¶æ€æœºçš„è½¬æ¢ï¼Œ ç‰¹æ•ˆçš„ä½œç”¨
+        //RoleAttackInfo info = GetRoleAttackInfoByIndex(type, index);
+        //if (info == null) return;
+        //if (info != null)
+        //{
+        //    // åœ¨ç¼–è¾‘å™¨çª—å£ä¸­ç»˜åˆ¶ï¼Œå·¡é€»èŒƒå›´ç­‰
+        //    m_CurrRoleFSMMgr.CurrRoleCtrl.roleAttackInfo = info;
+        //    m_CurrRoleFSMMgr.CurrRoleCtrl.CurrAttackRange = info.AttackRange;
+        //    if (info.EffectObject != null)
+        //    {
+        //        GameObject obj = GameObject.Instantiate(info.EffectObject);
+        //        // ç‰¹æ•ˆçš„ä½ç½®å’Œè½¬å‘å’Œä¸»è§’çš„ä½ç½®å’Œè½¬å‘è¦ä¸€ä¸ªæ–¹å‘
+        //        obj.transform.position = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.position;
+        //        obj.transform.rotation = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.rotation;
+        //        Object.Destroy(obj, info.EffectLifeTime);
+        //    }
+        //}
 
 
-        if (info != null && CameraCtrl.Instance != null && info.IsDoCameraShake)
-        {
-            CameraCtrl.Instance.ToDoCameraShake(info.CameraShakeDelay);
-        }
+        //if (info != null && CameraCtrl.Instance != null && info.IsDoCameraShake)
+        //{
+        //    CameraCtrl.Instance.ToDoCameraShake(info.CameraShakeDelay);
+        //}
 
-        if (m_RoleStateAttack == null)
-        {
-            // ÄÃµ½Õâ¸ö¹¥»÷µÄ¶¯»­×´Ì¬»ú£¬ È»ºó¸³Öµ¸æËßÕâ¸ö×´Ì¬»ú£¬´ËÊ±ÊÇÎïÀí¹¥»÷¼¸£¬»òÕßÊÇ¼¼ÄÜ¹¥»÷¼¸  
-            m_RoleStateAttack = (RoleStateAttack)m_CurrRoleFSMMgr.GetRoleState(RoleState.Attack);
-        }
+        //if (m_RoleStateAttack == null)
+        //{
+        //    // æ‹¿åˆ°è¿™ä¸ªæ”»å‡»çš„åŠ¨ç”»çŠ¶æ€æœºï¼Œ ç„¶åèµ‹å€¼å‘Šè¯‰è¿™ä¸ªçŠ¶æ€æœºï¼Œæ­¤æ—¶æ˜¯ç‰©ç†æ”»å‡»å‡ ï¼Œæˆ–è€…æ˜¯æŠ€èƒ½æ”»å‡»å‡   
+        //    m_RoleStateAttack = (RoleStateAttack)m_CurrRoleFSMMgr.GetRoleState(RoleState.Attack);
+        //}
 
-        m_RoleStateAttack.AnimatorCondition = string.Format(type == RoleAttackType.PhyAttack ? "ToPhyAttack" : "ToSkill");
-        m_RoleStateAttack.AnimatorConditionValue = index;
-        m_RoleStateAttack.AnimatorCurState = GameUtil.GetRoleAnimatorState(type, index);
-        // ÇĞ»»³É¹¥»÷×´Ì¬
-        m_CurrRoleFSMMgr.ChangeState(RoleState.Attack);
+        //m_RoleStateAttack.AnimatorCondition = string.Format(type == RoleAttackType.PhyAttack ? "ToPhyAttack" : "ToSkill");
+        //m_RoleStateAttack.AnimatorConditionValue = index;
+        //m_RoleStateAttack.AnimatorCurState = GameUtil.GetRoleAnimatorState(type, index);
+        //// åˆ‡æ¢æˆæ”»å‡»çŠ¶æ€
+        //m_CurrRoleFSMMgr.ChangeState(RoleState.Attack);
 
     }
 
     public bool ToAttack(RoleAttackType type = RoleAttackType.PhyAttack, int SkillID = 0, int SkillLevel = 0)
     {
         if (m_CurrRoleFSMMgr == null || m_CurrRoleFSMMgr.CurrRoleCtrl.IsRigidity) return false;
-        // ¹¥»÷ºÍÆÕÍ¨µÄĞĞ¶¯²»Ò»Ñù£¬Ê×ÏÈ²É¼¯¹¥»÷ĞÅÏ¢£¬ È»ºó¸ù¾İ¹¥»÷ĞÅÏ¢£¬ ·Ö±ğ½øĞĞ×´Ì¬»úµÄ×ª»»£¬ ÌØĞ§µÄ×÷ÓÃ
-        RoleAttackInfo info = GetRoleAttackInfoBySkillID(SkillID);
-        if (info == null) return false;
-        //DEBUG_ROLESTATE
+        // æ”»å‡»å’Œæ™®é€šçš„è¡ŒåŠ¨ä¸ä¸€æ ·ï¼Œé¦–å…ˆé‡‡é›†æ”»å‡»ä¿¡æ¯ï¼Œ ç„¶åæ ¹æ®æ”»å‡»ä¿¡æ¯ï¼Œ åˆ†åˆ«è¿›è¡ŒçŠ¶æ€æœºçš„è½¬æ¢ï¼Œ ç‰¹æ•ˆçš„ä½œç”¨
 #if DEBUG_ROLESTATE
-
-
-        //if (info != null)
-        //{
-        //    // ÔÚ±à¼­Æ÷´°¿ÚÖĞ»æÖÆ£¬Ñ²Âß·¶Î§µÈ
-        //    m_CurrRoleFSMMgr.CurrRoleCtrl.roleAttackInfo = info;
-        //    m_CurrRoleFSMMgr.CurrRoleCtrl.CurrAttackRange = info.AttackRange;
-        //    if (info.EffectObject != null)
-        //    {
-        //        GameObject obj = GameObject.Instantiate(info.EffectObject);
-        //        // ÌØĞ§µÄÎ»ÖÃºÍ×ªÏòºÍÖ÷½ÇµÄÎ»ÖÃºÍ×ªÏòÒªÒ»¸ö·½Ïò
-        //        obj.transform.position = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.position;
-        //        obj.transform.rotation = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.rotation;
-        //        Object.Destroy(obj, info.EffectLifeTime);
-        //    }
-        //}
 #else
-       // 
-
-
-
 #endif
-
-        // 1 Ö»ÒªÖ÷½ÇºÍ¹Ö²ÅÄÜ²ÎÓë¼¼ÄÜÊıÖµ¼ÆËã
+        SkillLevelEntity skillLevelEntity = SkillLevelDBModel.Instance.GetEntityBySkillIdAndLevel(SkillID, m_CurRoleCtrl.CurrRoleInfo.GetSkillLevel(SkillID));
+        if (skillLevelEntity == null)
+        {
+            Debug.LogError("æ‰¾ä¸åˆ°æŠ€èƒ½ç­‰çº§idï¼Œ æŠ€èƒ½id-------------------:" + SkillID);
+            return false;
+        }
+        // 1 åªè¦ä¸»è§’å’Œæ€ªæ‰èƒ½å‚ä¸æŠ€èƒ½æ•°å€¼è®¡ç®—
         if (m_CurRoleCtrl.CurrRoleType == RoleType.MainPlayer || m_CurRoleCtrl.CurrRoleType == RoleType.Monster)
         {
-            // 2 »ñÈ¡¼¼ÄÜĞÅÏ¢
+            // 2 è·å–æŠ€èƒ½ä¿¡æ¯
             SkillEntity skillEntity = SkillDBModel.Instance.Get(SkillID);
             if (skillEntity == null) return false;
 
-            // 3 ÑéÖ¤Ö÷½ÇµÄmp 
-            SkillLevelEntity skillLevelEntity = SkillLevelDBModel.Instance.GetEntityBySkillIdAndLevel(SkillID, m_CurRoleCtrl.CurrRoleInfo.GetSkillLevel(SkillID));
+            // 3 éªŒè¯ä¸»è§’çš„mp 
+
             if (m_CurRoleCtrl.CurrRoleType == RoleType.MainPlayer)
             {
-                // Èç¹û mp ²»×ã£¬ ²»ÄÜÊ¹ÓÃÊÍ·Å¼¼ÄÜ
+                // å¦‚æœ mp ä¸è¶³ï¼Œ ä¸èƒ½ä½¿ç”¨é‡Šæ”¾æŠ€èƒ½
                 if (skillLevelEntity.SpendMP > m_CurRoleCtrl.CurrRoleInfo.CurrMP)
                 {
                     return false;
@@ -165,22 +147,55 @@ public class RoleAttack
             }
             m_EnenmyList.Clear();
 
-            // ÉËº¦Ä¿±êÊıÁ¿
-            int attackTargetCount = skillEntity.AttackTargetCount;
-            // 4 ¿ªÊ¼ÕÒµĞÈË
-
-            // ´ËÊ±±íÊ¾Ã»ÓĞËø¶¨µĞÈË£¬ ´ËÊ±µ¥Ìå¹¥»÷
-            if (attackTargetCount == 1)
+            // ä¸»è§’çš„è¯ï¼Œå¼€å§‹æ‰¾æ•Œäºº
+            if (m_CurRoleCtrl.CurrRoleType == RoleType.MainPlayer)
             {
-                #region µ¥Ìå¹¥»÷
-                if (m_CurRoleCtrl.LockEnemy != null)
+                // 4 å¼€å§‹æ‰¾æ•Œäºº
+                int attackTargetCount = skillEntity.AttackTargetCount;
+
+                // æ­¤æ—¶è¡¨ç¤ºæ²¡æœ‰é”å®šæ•Œäººï¼Œ æ­¤æ—¶å•ä½“æ”»å‡»
+                if (attackTargetCount == 1)
                 {
-                    // ´ËÊ±±íÊ¾ÓĞËø¶¨µĞÈË
-                    m_EnenmyList.Add(m_CurRoleCtrl.LockEnemy);
+                    #region å•ä½“æ”»å‡»
+                    if (m_CurRoleCtrl.LockEnemy != null)
+                    {
+                        // æ­¤æ—¶è¡¨ç¤ºæœ‰é”å®šæ•Œäºº
+                        m_EnenmyList.Add(m_CurRoleCtrl.LockEnemy);
+                    }
+                    else
+                    {
+                        // æ­¤æ—¶è¦æ‰¾æ€ªï¼Œé€šè¿‡å‘å°„åœ†å½¢å°„çº¿ï¼Œ æ‰¾åˆ°æœ€è¿‘çš„æ€ª
+                        Collider[] serachList = Physics.OverlapSphere(m_CurRoleCtrl.gameObject.transform.position, skillEntity.AreaAttackRadius, 1 << LayerMask.NameToLayer("Role"));
+                        if (serachList != null && serachList.Length > 0)
+                            m_SerachList = new List<Collider>(serachList);
+                        if (m_SerachList.Count > 0)
+                        {
+                            m_SerachList.Sort((c1, c2) =>
+                            {
+                                int ret = 0;
+                                if (Vector3.Distance(c1.gameObject.transform.position, m_CurRoleCtrl.gameObject.transform.position) <
+                                  Vector3.Distance(c2.gameObject.transform.position, m_CurRoleCtrl.gameObject.transform.position))
+                                {
+                                    ret = -1;
+                                }
+                                else
+                                {
+                                    ret = 1;
+                                }
+                                return ret;
+                            });
+                            m_CurRoleCtrl.LockEnemy = m_SerachList[0].GetComponent<RoleCtrl>();
+                            m_EnenmyList.Add(m_CurRoleCtrl.LockEnemy);
+                        }
+                    }
+                    #endregion
                 }
                 else
                 {
-                    // ´ËÊ±ÒªÕÒ¹Ö£¬Í¨¹ı·¢ÉäÔ²ĞÎÉäÏß£¬ ÕÒµ½×î½üµÄ¹Ö
+                    #region ç¾¤ä½“æ”»å‡»
+
+                    int needAttackCount = attackTargetCount;
+                    //// æ­¤æ—¶è¦æ‰¾æ€ªï¼Œé€šè¿‡å‘å°„åœ†å½¢å°„çº¿ï¼Œ æ‰¾åˆ°æœ€è¿‘çš„æ€ª
                     Collider[] serachList = Physics.OverlapSphere(m_CurRoleCtrl.gameObject.transform.position, skillEntity.AreaAttackRadius, 1 << LayerMask.NameToLayer("Role"));
                     if (serachList != null && serachList.Length > 0)
                         m_SerachList = new List<Collider>(serachList);
@@ -200,104 +215,93 @@ public class RoleAttack
                             }
                             return ret;
                         });
-                        m_CurRoleCtrl.LockEnemy = m_SerachList[0].GetComponent<RoleCtrl>();
+                    }
+
+                    // ç¾¤æ”»ä¹Ÿæ˜¯çœ‹æ˜¯å¦æœ‰é”å®šæ•Œäºº
+                    if (m_CurRoleCtrl.LockEnemy != null)
+                    {
+                        // æ­¤æ—¶è¡¨ç¤ºæœ‰é”å®šæ•Œäºº
                         m_EnenmyList.Add(m_CurRoleCtrl.LockEnemy);
+                        needAttackCount--;
+
+                        if (m_SerachList.Count > 0)
+                        {
+                            for (int i = 0; i < m_SerachList.Count; i++)
+                            {
+                                //&& ctrl.CurrRoleInfo.RoldId != m_CurRoleCtrl.LockEnemy.CurrRoleInfo.RoldId)
+                                RoleCtrl ctrl = m_SerachList[i].GetComponent<RoleCtrl>();
+                                if (ctrl.CurrRoleType == RoleType.MainPlayer) continue;
+                                if (ctrl.CurrRoleInfo.RoldId == m_CurRoleCtrl.LockEnemy.CurrRoleInfo.RoldId) continue;
+                                if ((i + 1 > needAttackCount)) break;
+                                m_EnenmyList.Add(ctrl);
+                            }
+
+                        }
                     }
+                    else
+                    {
+
+                        if (m_SerachList.Count > 0)
+                        {
+                            m_CurRoleCtrl.LockEnemy = m_SerachList[0].GetComponent<RoleCtrl>();
+
+                            for (int i = 0; i < m_SerachList.Count; i++)
+                            {
+                                RoleCtrl ctrl = m_SerachList[i].GetComponent<RoleCtrl>();
+                                if (ctrl.CurrRoleType != RoleType.MainPlayer)
+                                {
+                                    if ((i + 1 > needAttackCount)) break;
+                                    m_EnenmyList.Add(ctrl);
+                                }
+                            }
+                        }
+                    }
+
+                    #endregion
                 }
-                #endregion
             }
-            else
+            else if (m_CurRoleCtrl.CurrRoleType == RoleType.Monster)
             {
-                #region ÈºÌå¹¥»÷
-
-                int needAttackCount = attackTargetCount;
-                //// ´ËÊ±ÒªÕÒ¹Ö£¬Í¨¹ı·¢ÉäÔ²ĞÎÉäÏß£¬ ÕÒµ½×î½üµÄ¹Ö
-                Collider[] serachList = Physics.OverlapSphere(m_CurRoleCtrl.gameObject.transform.position, skillEntity.AreaAttackRadius, 1 << LayerMask.NameToLayer("Role"));
-                if (serachList != null && serachList.Length > 0)
-                    m_SerachList = new List<Collider>(serachList);
-                if (m_SerachList.Count > 0)
+                if (m_CurRoleCtrl.LockEnemy)
                 {
-                    m_SerachList.Sort((c1, c2) =>
-                    {
-                        int ret = 0;
-                        if (Vector3.Distance(c1.gameObject.transform.position, m_CurRoleCtrl.gameObject.transform.position) <
-                          Vector3.Distance(c2.gameObject.transform.position, m_CurRoleCtrl.gameObject.transform.position))
-                        {
-                            ret = -1;
-                        }
-                        else
-                        {
-                            ret = 1;
-                        }
-                        return ret;
-                    });
-                }
-
-                // Èº¹¥Ò²ÊÇ¿´ÊÇ·ñÓĞËø¶¨µĞÈË
-                if (m_CurRoleCtrl.LockEnemy != null)
-                {
-                    // ´ËÊ±±íÊ¾ÓĞËø¶¨µĞÈË
                     m_EnenmyList.Add(m_CurRoleCtrl.LockEnemy);
-                    needAttackCount--;
-
-                    if (m_SerachList.Count > 0)
-                    {
-                        for (int i = 0; i < m_SerachList.Count; i++)
-                        {
-                            RoleCtrl ctrl = m_SerachList[i].GetComponent<RoleCtrl>();
-                            if (ctrl.CurrRoleType != RoleType.MainPlayer && ctrl.CurrRoleInfo.RoldId != m_CurRoleCtrl.LockEnemy.CurrRoleInfo.RoldId)
-                            {
-                                if ((i + 1 > needAttackCount)) break;
-                                m_EnenmyList.Add(ctrl);
-                            }
-                            // ¼ÓÈë
-                        }
-
-                    }
                 }
-                else
-                {
-
-                    if (m_SerachList.Count > 0)
-                    {
-                        m_CurRoleCtrl.LockEnemy = m_SerachList[0].GetComponent<RoleCtrl>();
-
-                        for (int i = 0; i < m_SerachList.Count; i++)
-                        {
-                            RoleCtrl ctrl = m_SerachList[i].GetComponent<RoleCtrl>();
-                            if (ctrl.CurrRoleType != RoleType.MainPlayer)
-                            {
-                                if ((i + 1 > needAttackCount)) break;
-                                m_EnenmyList.Add(ctrl);
-                            }
-                        }
-                    }
-                }
-
-                #endregion
             }
-
-            // 5 ÈÃµĞÈËÊÜÉË
+            // 5 è®©æ•Œäººå—ä¼¤
             for (int i = 0; i < m_EnenmyList.Count; i++)
             {
                 RoleTransferAttackInfo roleTransferAttackInfo = CalCulateHurtValue(m_EnenmyList[i], skillLevelEntity);
-                m_EnenmyList[i].ToHurt(roleTransferAttackInfo);
+                if (roleTransferAttackInfo != null)
+                {
+                    if (m_EnenmyList[i].CurrRoleInfo.RoldId != m_CurRoleCtrl.CurrRoleInfo.RoldId)
+                        m_EnenmyList[i].ToHurt(roleTransferAttackInfo);
+                }
+                else
+                {
+                    Debug
+                        .Log("æ”»å‡»ä¿¡æ¯ä¸ºç©º");
+                }
             }
         }
 
-        #region       ¶¯»­ÌØĞ§Ïà¹Ø
-        // ab°üÖĞ¼ÓÔØÌØĞ§ if (info != null)
+        #region       åŠ¨ç”»ç‰¹æ•ˆç›¸å…³
+        RoleAttackInfo info = GetRoleAttackInfoBySkillID(SkillID);
+        if (info == null) return false;
+        // abåŒ…ä¸­åŠ è½½ç‰¹æ•ˆ if (info != null)
         if (info != null)
         {
-            // ÔÚ±à¼­Æ÷´°¿ÚÖĞ»æÖÆ£¬Ñ²Âß·¶Î§µÈ
+            // åœ¨ç¼–è¾‘å™¨çª—å£ä¸­ç»˜åˆ¶ï¼Œå·¡é€»èŒƒå›´ç­‰
             m_CurrRoleFSMMgr.CurrRoleCtrl.roleAttackInfo = info;
             m_CurrRoleFSMMgr.CurrRoleCtrl.CurrAttackRange = info.AttackRange;
+            if (info.EffectName != null)
+            {
+                GameObject obj = EffectMgr.Instance.PlayEffect(info.EffectName).gameObject;
+                obj.transform.position = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.position;
+                obj.transform.rotation = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.rotation;
+                EffectMgr.Instance.DestroyEffect(obj.transform, info.EffectLifeTime);
+            }
 
-            GameObject obj = EffectMgr.Instance.PlayEffect(info.EffectName).gameObject;
-            // ÌØĞ§µÄÎ»ÖÃºÍ×ªÏòºÍÖ÷½ÇµÄÎ»ÖÃºÍ×ªÏòÒªÒ»¸ö·½Ïò
-            obj.transform.position = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.position;
-            obj.transform.rotation = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.rotation;
-            EffectMgr.Instance.DestroyEffect(obj.transform, info.EffectLifeTime);
+            // ç‰¹æ•ˆçš„ä½ç½®å’Œè½¬å‘å’Œä¸»è§’çš„ä½ç½®å’Œè½¬å‘è¦ä¸€ä¸ªæ–¹å‘
         }
 
 
@@ -309,14 +313,23 @@ public class RoleAttack
 
         if (m_RoleStateAttack == null)
         {
-            // ÄÃµ½Õâ¸ö¹¥»÷µÄ¶¯»­×´Ì¬»ú£¬ È»ºó¸³Öµ¸æËßÕâ¸ö×´Ì¬»ú£¬´ËÊ±ÊÇÎïÀí¹¥»÷¼¸£¬»òÕßÊÇ¼¼ÄÜ¹¥»÷¼¸  
+            // æ‹¿åˆ°è¿™ä¸ªæ”»å‡»çš„åŠ¨ç”»çŠ¶æ€æœºï¼Œ ç„¶åèµ‹å€¼å‘Šè¯‰è¿™ä¸ªçŠ¶æ€æœºï¼Œæ­¤æ—¶æ˜¯ç‰©ç†æ”»å‡»å‡ ï¼Œæˆ–è€…æ˜¯æŠ€èƒ½æ”»å‡»å‡   
             m_RoleStateAttack = (RoleStateAttack)m_CurrRoleFSMMgr.GetRoleState(RoleState.Attack);
         }
 
         m_RoleStateAttack.AnimatorCondition = string.Format(type == RoleAttackType.PhyAttack ? "ToPhyAttack" : "ToSkill");
+        
         m_RoleStateAttack.AnimatorConditionValue = info.Index;
+        if (m_RoleStateAttack.AnimatorConditionValue == 0)
+        {
+            Debug.LogError("1é‡‡é›†æ•°æ®æœ‰é—®é¢˜");
+        }
         m_RoleStateAttack.AnimatorCurState = GameUtil.GetRoleAnimatorState(type, info.Index);
-        // ÇĞ»»³É¹¥»÷×´Ì¬
+        if (m_RoleStateAttack.AnimatorCurState == 0)
+        {
+            Debug.LogError("2é‡‡é›†æ•°æ®æœ‰é—®é¢˜");
+        }
+        // åˆ‡æ¢æˆæ”»å‡»çŠ¶æ€
         m_CurrRoleFSMMgr.ChangeState(RoleState.Attack);
         #endregion
 
@@ -325,7 +338,7 @@ public class RoleAttack
     }
 
     /// <summary>
-    ///  ¼ÆËã¹¥»÷ĞÅÏ¢
+    ///  è®¡ç®—æ”»å‡»ä¿¡æ¯
     /// </summary>
     /// <param name="enemy"></param>
     /// <param name="skillLevel"></param>
@@ -350,31 +363,31 @@ public class RoleAttack
         roleTransferAttackInfo.SkillId = skillLevelEntity.SkillId;
         roleTransferAttackInfo.SKillLevel = skillLevelEntity.Level;
         roleTransferAttackInfo.IsAbNormal = skillLevelEntity.AbnormalRatio == 1;
-        // ¼ÆËãÉËº¦
-        // 1 ¹¥»÷ÊıÖµ£¬ = ¹¥»÷·½µÄ×ÛºÏÕ½¶·Á¦* (¼¼ÄÜÉËº¦±¶ÂÊ*0.01f) ¼ÆËã¹¥»÷ÊıÖµµÄ×÷ÓÃÊÇÎªÁË¼ÆËã»ù´¡ÉËº¦
+        // è®¡ç®—ä¼¤å®³
+        // 1 æ”»å‡»æ•°å€¼ï¼Œ = æ”»å‡»æ–¹çš„ç»¼åˆæˆ˜æ–—åŠ›* (æŠ€èƒ½ä¼¤å®³å€ç‡*0.01f) è®¡ç®—æ”»å‡»æ•°å€¼çš„ä½œç”¨æ˜¯ä¸ºäº†è®¡ç®—åŸºç¡€ä¼¤å®³
         float attackValue = m_CurRoleCtrl.CurrRoleInfo.Fighting * (skillLevelEntity.HurtValueRate * 0.01f);
 
-        // 2 »ù´¡ÉËº¦ =  ¹¥»÷ÊıÖµ * ¹¥»÷ÊıÖµ/(¹¥»÷ÊıÖµ+±»¹¥»÷ÕßµÄ·ÀÓù)
+        // 2 åŸºç¡€ä¼¤å®³ =  æ”»å‡»æ•°å€¼ * æ”»å‡»æ•°å€¼/(æ”»å‡»æ•°å€¼+è¢«æ”»å‡»è€…çš„é˜²å¾¡)
         float baseHurt = attackValue * attackValue / (attackValue + enemy.CurrRoleInfo.Defense);
 
 
-        // 3 ±©»÷¸ÅÂÊ  0.05f  + £¨¹¥»÷·½µÄ±©»÷/(¹¥»÷·½µÄ±©»÷+ ·ÀÓù·½µÄ¿¹ĞÔ)£©* 0.1f ;
+        // 3 æš´å‡»æ¦‚ç‡  0.05f  + ï¼ˆæ”»å‡»æ–¹çš„æš´å‡»/(æ”»å‡»æ–¹çš„æš´å‡»+ é˜²å¾¡æ–¹çš„æŠ—æ€§)ï¼‰* 0.1f ;
         float cri = 0.05f + m_CurRoleCtrl.CurrRoleInfo.Cri / (m_CurRoleCtrl.CurrRoleInfo.Cri + enemy.CurrRoleInfo.Res) * 0.1f;
 
         //
         if (cri > 0.5f) cri = 0.5f;
 
-        // 4 ÊÇ·ñ±©»÷ 0-1µÄËæ»úÊı < ±©»÷¸ÅÂÊ
+        // 4 æ˜¯å¦æš´å‡» 0-1çš„éšæœºæ•° < æš´å‡»æ¦‚ç‡
 
         bool isCri = Random.Range(0, 1f) <= cri;
 
-        // 5 ±©»÷µÄÉËº¦±¶ÂÊ ÓĞ±©»÷?1.5f:1f
+        // 5 æš´å‡»çš„ä¼¤å®³å€ç‡ æœ‰æš´å‡»?1.5f:1f
         float criHurt = isCri ? 1.5f : 1f;
 
-        // 6 Ëæ»úÊı = 0.9f µ½1.1 Ö®¼ä
+        // 6 éšæœºæ•° = 0.9f åˆ°1.1 ä¹‹é—´
         float random = Random.Range(0.9f, 1.1f);
 
-        // 7 ×îÖÕÉËº¦ = »ù´¡ÉËº¦*±©»÷ÉËº¦ÂÊ * Ëæ»úÊı
+        // 7 æœ€ç»ˆä¼¤å®³ = åŸºç¡€ä¼¤å®³*æš´å‡»ä¼¤å®³ç‡ * éšæœºæ•°
         float hurtValue = Mathf.RoundToInt(baseHurt * criHurt * random);
         if (hurtValue < 1) hurtValue = 1;
 

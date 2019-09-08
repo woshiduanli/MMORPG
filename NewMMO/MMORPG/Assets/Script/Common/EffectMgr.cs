@@ -1,4 +1,4 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,10 +30,10 @@ public class EffectMgr : Singleton<EffectMgr>
         {
             m_EffectDic[effectName] = LoadEffect(effectName).transform;
             if (m_EffectDic[effectName] == null)
-                Debug.LogError("texiao ø’¡À");
+                Debug.LogError("texiao Á©∫‰∫Ü");
             else
             {
-                Debug.LogError("texiao bu ø’¡À");
+                Debug.LogError("texiao bu Á©∫‰∫Ü");
 
             }
 
