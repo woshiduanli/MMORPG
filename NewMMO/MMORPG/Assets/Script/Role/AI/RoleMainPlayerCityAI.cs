@@ -21,8 +21,19 @@ public class RoleMainPlayerCityAI : IRoleAI
     int m_PhyIndex = 0;
     public void DoAI()
     {
+        if (CurrRole.CurrRoleFSMMgr.CurrRoleStateEnum == RoleState.Die) return;
+        if (CurrRole.PreFightTime != 0)
+        {
+            if (Time.time > CurrRole.PreFightTime + 30)
+            {
+                CurrRole.ToIdle();
+                CurrRole.PreFightTime = 0;
+            }
+        }
+
+
         //执行AI
-        if (CurrRole.LockEnemy!=null&& CurrRole.LockEnemy.CurrRoleInfo.RoldId == CurrRole.CurrRoleInfo.RoldId)
+        if (CurrRole.LockEnemy != null && CurrRole.LockEnemy.CurrRoleInfo.RoldId == CurrRole.CurrRoleInfo.RoldId)
         {
             CurrRole.LockEnemy = null;
         }

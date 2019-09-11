@@ -58,14 +58,32 @@ public class RoleStateRun : RoleStateAbstract
         // 如果没有路
         if (CurrRoleFSMMgr.CurrRoleCtrl.AStartPath == null)
         {
-            CurrRoleFSMMgr.CurrRoleCtrl.ToIdle();
+            if (Time.time > CurrRoleFSMMgr.CurrRoleCtrl.PreFightTime + 30)
+            {
+                CurrRoleFSMMgr.CurrRoleCtrl.ToIdle();
+            }
+            else
+            {
+                CurrRoleFSMMgr.CurrRoleCtrl.ToIdle(RoleIdleState.IdelFight);
+            }
             return;
         }
 
         if (CurrRoleFSMMgr.CurrRoleCtrl.AstartCurrWayPointIndex >= CurrRoleFSMMgr.CurrRoleCtrl.AStartPath.vectorPath.Count)
         {
             CurrRoleFSMMgr.CurrRoleCtrl.AStartPath = null;
-            CurrRoleFSMMgr.CurrRoleCtrl.ToIdle();
+
+
+            if (Time.time > CurrRoleFSMMgr.CurrRoleCtrl.PreFightTime + 30)
+            {
+                CurrRoleFSMMgr.CurrRoleCtrl.ToIdle();
+            }
+            else
+            {
+                CurrRoleFSMMgr.CurrRoleCtrl.ToIdle(RoleIdleState.IdelFight);
+            }
+
+            //CurrRoleFSMMgr.CurrRoleCtrl.ToIdle();
             return;
         }
 

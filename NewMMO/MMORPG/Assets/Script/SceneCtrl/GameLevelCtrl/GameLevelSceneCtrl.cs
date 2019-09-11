@@ -173,11 +173,11 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
     void CreateMonster()
     {
         // ÁÙÊ±²âÊÔ
-        if (m_curRegionCreateMonsterCount >= 1)
-        {
-            return;
+        //if (m_curRegionCreateMonsterCount >= 1)
+        //{
+        //    return;
 
-        }
+        //}
         m_index =UnityEngine. Random.Range(0, m_regionMonster.Count);
 
         int monsterId = m_regionMonster[m_index].SpriteId;

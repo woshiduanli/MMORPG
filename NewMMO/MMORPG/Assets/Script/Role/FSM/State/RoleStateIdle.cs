@@ -127,11 +127,16 @@ public class RoleStateIdle : RoleStateAbstract
         }
         else
         {
+            // 这里怪物的状态机
             CurrRoleAnimatorStateInfo = CurrRoleFSMMgr.CurrRoleCtrl.Animator.GetCurrentAnimatorStateInfo(0);
             if (CurrRoleAnimatorStateInfo.IsName(RoleAnimatorState.Idle_Fight.ToString()))
             {
                 CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), (int)RoleAnimatorState.Idle_Fight);
                 IsChangeOver = true;
+            }
+            else {
+                // 防止怪物原地跑步
+                CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), 0);
             }
         }
 

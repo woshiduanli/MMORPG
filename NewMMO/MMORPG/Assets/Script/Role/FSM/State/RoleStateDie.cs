@@ -51,6 +51,8 @@ public class RoleStateDie : RoleStateAbstract
             return; 
         }
         CurrRoleAnimatorStateInfo = CurrRoleFSMMgr.CurrRoleCtrl.Animator.GetCurrentAnimatorStateInfo(0);
+
+        // 如果现在状态已经是死亡了，那么，
         if (CurrRoleAnimatorStateInfo.IsName(RoleAnimatorState.Die.ToString()))
         {
             CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), (int)RoleAnimatorState.Die);

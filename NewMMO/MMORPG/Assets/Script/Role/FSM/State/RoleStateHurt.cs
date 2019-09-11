@@ -22,6 +22,7 @@ public class RoleStateHurt : RoleStateAbstract
     public override void OnEnter()
     {
         base.OnEnter();
+        CurrRoleFSMMgr.CurrRoleCtrl.PreFightTime = Time.time;
         CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetBool(ToAnimatorCondition.ToHurt.ToString(), true);
     }
 
@@ -40,7 +41,7 @@ public class RoleStateHurt : RoleStateAbstract
             //如果动画执行了一遍 就切换待机
             if (CurrRoleAnimatorStateInfo.normalizedTime > 1)
             {
-                CurrRoleFSMMgr.CurrRoleCtrl.ToIdle();
+                CurrRoleFSMMgr.CurrRoleCtrl.ToIdle(RoleIdleState.IdelFight);
             }
         }
     }

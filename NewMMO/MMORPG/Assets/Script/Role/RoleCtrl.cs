@@ -187,8 +187,10 @@ public class RoleCtrl : MonoBehaviour
         //InitHeadBar();
     }
 
+    // 上次战斗的时间， 用来判断， 玩家是否进入战斗待机状态还是普通待机状态
+    public float PreFightTime; 
 
- public   System.Action<Transform> OnRoleDestroy;
+    public System.Action<Transform> OnRoleDestroy;
     private void OnDestroyCallBack()
     {
         if (OnRoleDestroy != null)
@@ -196,11 +198,11 @@ public class RoleCtrl : MonoBehaviour
             OnRoleDestroy(transform);
         }
 
-        if (roleHeadBarView!=null)
+        if (roleHeadBarView != null)
         {
-            Debug.LogError("xiaohui你的头顶文字被删除了："+ this.CurrRoleInfo.RoleNickName);
+            Debug.LogError("xiaohui你的头顶文字被删除了：" + this.CurrRoleInfo.RoleNickName);
             Destroy(roleHeadBarView.gameObject);
-            roleHeadBarView = null; 
+            roleHeadBarView = null;
         }
     }
 
@@ -231,7 +233,7 @@ public class RoleCtrl : MonoBehaviour
 
     public void Born(Vector3 bornPos)
     {
-        BornPoint=bornPos;
+        BornPoint = bornPos;
         transform.position = bornPos;
         InitHeadBar();
     }
@@ -418,6 +420,7 @@ public class RoleCtrl : MonoBehaviour
 
     public void MoveTo(Vector3 targetPos)
     {
+        if (CurrRoleFSMMgr.CurrRoleStateEnum == RoleState.Die) return;
         //如果目标点不是原点 进行移动
         if (targetPos == Vector3.zero) return;
 

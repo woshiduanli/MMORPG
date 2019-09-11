@@ -36,7 +36,7 @@ public class GameLevel_RoleMonsterAI : IRoleAI
     public void DoAI()
     {
         if (GlobalInit.Instance == null || GlobalInit.Instance.CurrPlayer == null) return;
-        if (CurrRole.CurrRoleFSMMgr.CurrRoleStateEnum == RoleState.Die) return;
+        if (CurrRole.CurrRoleFSMMgr.CurrRoleStateEnum == RoleState.Die || CurrRole.IsRigidity) return;
 
         if (CurrRole.LockEnemy == null)
         {
@@ -65,11 +65,17 @@ public class GameLevel_RoleMonsterAI : IRoleAI
         }
         else
         {
+            //----------------------------此时有锁定敌人-------------------------------
+            // 锁定敌人已经死亡
             if (CurrRole.LockEnemy.CurrRoleInfo.CurrHP <= 0)
             {
                 CurrRole.LockEnemy = null;
                 return;
             }
+
+            // 但是当前怪物或许在跑步等， 那么要直接返回，就是怪物不是在空闲状态，那么就不去追击敌人 , 如果怪物在跑步， 那么怪物就会在跑步的过程中， 朝向主角，不真实,所以这里要返回
+            if (CurrRole.CurrRoleFSMMgr.CurrRoleStateEnum != RoleState.Idle)
+                return;
 
             //如果有锁定敌人
             //1.如果我和锁定敌人的距离 超过了我的视野范围 则取消锁定
@@ -103,11 +109,12 @@ public class GameLevel_RoleMonsterAI : IRoleAI
             // 判断角色是否在攻击范围内， 
             if (Vector3.Distance(CurrRole.transform.position, GlobalInit.Instance.CurrPlayer.transform.position) <= entity.AttackRange)
             {
-                //2.如果在攻击范围 直接攻击
+                //2.如果在攻击范围首先怪物朝向主角，然后攻击 直接攻击
+                CurrRole.transform.LookAt(new Vector3(CurrRole.LockEnemy.transform.position.x, CurrRole.transform.position.y, CurrRole.LockEnemy.transform.position.z));
 
                 if (Time.time > m_NextAttackTime && CurrRole.CurrRoleFSMMgr.CurrRoleStateEnum != RoleState.Attack)
                 {
-                    m_NextAttackTime = Time.time + UnityEngine.Random.Range(0f, 1f)+ m_info.SpriteEntity.Attack_Interval;
+                    m_NextAttackTime = Time.time + UnityEngine.Random.Range(0f, 1f) + m_info.SpriteEntity.Attack_Interval;
                     CurrRole.ToAttackBySkilId(m_RoleAttackType, useSkillId);
                 }
             }
