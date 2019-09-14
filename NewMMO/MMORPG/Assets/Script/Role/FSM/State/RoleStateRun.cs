@@ -74,7 +74,7 @@ public class RoleStateRun : RoleStateAbstract
             CurrRoleFSMMgr.CurrRoleCtrl.AStartPath = null;
 
 
-            if (Time.time > CurrRoleFSMMgr.CurrRoleCtrl.PreFightTime + 30)
+            if (CurrRoleFSMMgr.CurrRoleCtrl.PreFightTime == 0 || Time.time > CurrRoleFSMMgr.CurrRoleCtrl.PreFightTime + 30)
             {
                 CurrRoleFSMMgr.CurrRoleCtrl.ToIdle();
             }

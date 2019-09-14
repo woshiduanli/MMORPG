@@ -76,6 +76,10 @@ public class RoleStateIdle : RoleStateAbstract
                                 IsChangeOver = true;
                             }
                         }
+                        else
+                        {
+                            CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), 0);
+                        }
                     }
                     else
                     {
@@ -94,7 +98,15 @@ public class RoleStateIdle : RoleStateAbstract
                     {
                         // 防止进入相同动画
                         CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), (int)RoleAnimatorState.Idle_Fight);
-                        IsChangeOver = true;
+                        m_RuningTime += Time.deltaTime;
+                        if (m_RuningTime > 0.2f)
+                        {
+                            IsChangeOver = true;
+                        }
+                    }
+                    else
+                    {
+                        CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), 0);
                     }
                 }
             }
@@ -134,7 +146,8 @@ public class RoleStateIdle : RoleStateAbstract
                 CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), (int)RoleAnimatorState.Idle_Fight);
                 IsChangeOver = true;
             }
-            else {
+            else
+            {
                 // 防止怪物原地跑步
                 CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), 0);
             }

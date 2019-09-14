@@ -219,6 +219,14 @@ public enum ToAnimatorCondition
     CurrState
 }
 
+
+public enum ValueChangeType
+{
+   Add = 0,
+   SubTrack = 1
+}
+
+
 public enum GameLevelGrade
 {
     Normal = 0,

@@ -65,8 +65,11 @@ public partial class GameLevelMonsterDBModel
         int count = 0;
         for (int i = 0; i < m_List.Count; i++)
         {
+            //if (m_List[i].SpriteId==1003)
             if (m_List[i].GameLevelId == gameLevelId && m_List[i].Grade == (int)grade && m_List[i].RegionId == regionId)
             {
+
+
                 count += m_List[i].SpriteCount;
             }
         }

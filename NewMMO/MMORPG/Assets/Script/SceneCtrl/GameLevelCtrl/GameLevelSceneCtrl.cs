@@ -41,7 +41,9 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
         for (int i = 0; i < m_monsterId.Length; i++)
         {
             PrefabPool prefabPool = null;
+            //m_monsterId[i] = 1003;
             if (RoleMgr.Instance.LoadSprite(m_monsterId[i]) != null)
+                //if (RoleMgr.Instance.LoadSprite(1003) != null)
                 prefabPool = new PrefabPool(RoleMgr.Instance.LoadSprite(m_monsterId[i]).transform);
             if (prefabPool != null)
             {
@@ -69,8 +71,11 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
     // 当前怪的数量
     int m_allMonsterCount;
 
+
     // 当前关卡的难度等级
     GameLevelGrade m_curGrade;
+
+    int m_curRegionKillMonsterCount;
 
     int m_curRegionMonsterCount;
 
@@ -89,7 +94,7 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
         if (m_curRegionCtrl == null) return;
 
         m_curRegionCreateMonsterCount = 0;
-
+        m_curRegionKillMonsterCount = 0;
         if (regionIndex == 0)
         {
             GlobalInit.Instance.CurrPlayer.Born(m_curRegionCtrl.RoleBornPos.position);
@@ -170,6 +175,7 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
     // 临时怪的id
     int m_MonsterTemp;
     int m_index = 0;
+    bool isfrat = false;
     void CreateMonster()
     {
         // 临时测试
@@ -178,18 +184,39 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
         //    return;
 
         //}
-        m_index =UnityEngine. Random.Range(0, m_regionMonster.Count);
+        //if (isfrat) return; isfrat = true; 
+        m_index = UnityEngine.Random.Range(0, m_regionMonster.Count);
 
-        int monsterId = m_regionMonster[m_index].SpriteId;
+        //int monsterId = 1003;
+        int monsterId = UnityEngine.Random.Range(1001, 1004);
+
+        //if (isfrat) return; isfrat = true;
+        //int monsterId = m_regionMonster[m_index].SpriteId;
+
+        List<SpriteEntity> list = SpriteDBModel.Instance.GetList();
+        //for (int i = 0; i < list.Count; i++)
+        //{
+
+        //}
+
+
 
         Transform trans = null;
-        if (SpriteDBModel.Instance.Get(monsterId) != null && SpriteDBModel.Instance.Get(monsterId).IsBoss != 1)
+        if (SpriteDBModel.Instance.Get(monsterId) != null)
             trans = m_monsterPool.Spawn(SpriteDBModel.Instance.Get(monsterId).PrefabName);
+
+
         if (trans == null) return;
+        if (m_curRegionCtrl.MonsterBornPos.Length == 0)
+        {
+            trans.position = new Vector3(0, -19, 7);
+        }
+        else
+        {
+            Transform monsterBornPos = m_curRegionCtrl.MonsterBornPos[UnityEngine.Random.Range(0, m_curRegionCtrl.MonsterBornPos.Length)];
+            trans.position = monsterBornPos.TransformPoint(UnityEngine.Random.Range(-0.5f, 0.5f), 0, UnityEngine.Random.Range(0.5f, 0.5f));
+        }
 
-        Transform monsterBornPos = m_curRegionCtrl.MonsterBornPos[UnityEngine.Random.Range(0, m_curRegionCtrl.MonsterBornPos.Length)];
-
-        trans.position = monsterBornPos.TransformPoint(UnityEngine.Random.Range(-0.5f, 0.5f), 0, UnityEngine.Random.Range(0.5f, 0.5f));
 
         RoleCtrl roleMonsterCtrl = trans.GetComponent<RoleCtrl>();
         RoleInfoMonster monsterInfo = new RoleInfoMonster();
@@ -215,11 +242,16 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
             monsterInfo.Res = entity.Res;
             monsterInfo.Fighting = entity.Fighting;
 
+
+            roleMonsterCtrl.Speed = entity.MoveSpeed;
             roleMonsterCtrl.ViewRange = entity.Range_View;
         }
 
         roleMonsterCtrl.Init(RoleType.Monster, monsterInfo, new GameLevel_RoleMonsterAI(roleMonsterCtrl, monsterInfo));
+
+        Debug.LogError("怪物id ::::::::::" + monsterInfo.SpriteEntity.Id);
         roleMonsterCtrl.OnRoleDestroy = OnRoleDestroyCallBack;
+        roleMonsterCtrl.OnRoleDie = OnRoleDieCallBack;
         roleMonsterCtrl.Born(trans.position);
 
         m_regionMonster[m_index].SpriteCount--;
@@ -228,6 +260,29 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
         //m_regionMonster[monsterId]--;
 
         ++m_curRegionCreateMonsterCount;
+    }
+
+    void OnRoleDieCallBack(RoleCtrl roleId)
+    {
+        m_curRegionKillMonsterCount++;
+        Debug.LogError("  " + m_curRegionKillMonsterCount + "   " + m_curRegionMonsterCount);
+        //if (m_curRegionKillMonsterCount >= m_curRegionMonsterCount-1)
+        //{
+        m_curRegionIndex++;
+        Debug.LogError("  " + m_curRegionKillMonsterCount + "   :331333");
+
+        if (m_curRegionIndex >= m_regionList.Count)
+        {
+            // TO DO 弹出胜利界面
+
+            Debug.LogError("弹出胜利界面   ---------------------------------------------------------------");
+            return;
+        }
+        // 能进入下一个区域
+        Debug.LogError("  " + m_curRegionKillMonsterCount + "   :333");
+        //m_curRegionKillMonsterCount = 0
+        EnterRegion(m_curRegionIndex);
+        //}
     }
 
     private void OnRoleDestroyCallBack(Transform obj)

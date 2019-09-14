@@ -71,16 +71,30 @@ public class PlayerCtrl : Singleton<PlayerCtrl>, ISystemCtrl
         PlayerCtrl.Instance.SetMainCityRoleSkillInfo();
     }
 
-
+    RoleInfoMainPlayer m_MainPlayerRoleinfo; 
     public void SetMainCityRoleInfo()
     {
-        RoleInfoMainPlayer mainPlayerRoleinfo = (RoleInfoMainPlayer)GlobalInit.Instance.CurrPlayer.CurrRoleInfo;
+        m_MainPlayerRoleinfo = (RoleInfoMainPlayer)GlobalInit.Instance.CurrPlayer.CurrRoleInfo;
+        string headPic = JobDBModel.Instance.Get(m_MainPlayerRoleinfo.JobId).HeadPic;
 
-        string headPic = JobDBModel.Instance.Get(mainPlayerRoleinfo.JobId).HeadPic;
 
+        GlobalInit.Instance.CurrPlayer.OnHpChangeHandler = OnHpChangeCallBack;
+        GlobalInit.Instance.CurrPlayer.OnMpChangeHandler = OnMpChangeCallBack;
 
-        UIMainCityRoleInfoView.Instance.SetUI(headPic, mainPlayerRoleinfo.RoleNickName, 1, mainPlayerRoleinfo.Money, mainPlayerRoleinfo.Gold,
-            mainPlayerRoleinfo.CurrHP, mainPlayerRoleinfo.MaxHP, mainPlayerRoleinfo.CurrMP, mainPlayerRoleinfo.MaxMP);
+        UIMainCityRoleInfoView.Instance.SetUI(headPic, m_MainPlayerRoleinfo.RoleNickName, 1, m_MainPlayerRoleinfo.Money, m_MainPlayerRoleinfo.Gold,
+            m_MainPlayerRoleinfo.CurrHP, m_MainPlayerRoleinfo.MaxHP, m_MainPlayerRoleinfo.CurrMP, m_MainPlayerRoleinfo.MaxMP);
+    }
+
+    private void OnMpChangeCallBack(ValueChangeType type)
+    {
+        if (m_MainPlayerRoleinfo == null) return;
+        UIMainCityRoleInfoView.Instance.SetMP(m_MainPlayerRoleinfo.CurrMP, m_MainPlayerRoleinfo.MaxMP);
+    }
+
+    private void OnHpChangeCallBack(ValueChangeType type)
+    {
+        if (m_MainPlayerRoleinfo == null) return; 
+        UIMainCityRoleInfoView.Instance.SetHP(m_MainPlayerRoleinfo.CurrHP, m_MainPlayerRoleinfo.MaxHP);
     }
 
     // 设置主城ui上角色技能信息

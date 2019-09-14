@@ -63,7 +63,7 @@ public class RoleMgr : Singleton<RoleMgr>
 
         SpriteEntity s = SpriteDBModel.Instance.Get(spriteId);
         if (s == null) return null;
-        if (s.IsBoss == 1) return null; 
+        //if (s.IsBoss == 1) return null; 
         return AssetBundleMgr.Instance.Load("role/" + s.PrefabName.ToLower() + ".assetbundle", s.PrefabName);
     }
 

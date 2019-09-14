@@ -37,21 +37,21 @@ public class RoleHurt
         // 延迟时间
         yield return new WaitForSeconds(skillEntity.ShowHurtEffectDelaySecond);
 
-        Debug.LogError("juese shoushang1 ：" + roleTransferAttackInfo.BeAttackRoleId + "  " + m_CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.CurrHP+ "  "+ roleTransferAttackInfo.HurtValue);
+        Debug.LogError("juese shoushang1 ：" + roleTransferAttackInfo.BeAttackRoleId + "  " + m_CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.CurrHP + "  " + roleTransferAttackInfo.HurtValue);
         // 1 减血 ____ 这是才是真实值
         //m_CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.CurrHP -= roleTransferAttackInfo.HurtValue;
         // ___测试值默认， 减血20 
-        m_CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.CurrHP -= 5;
+        m_CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.CurrHP -= 50;
         int fontSize = 1;
         Color c = Color.red;
         if (roleTransferAttackInfo.isCri)
         {
             fontSize = 8;
-            c = Color.yellow; 
+            c = Color.yellow;
         }
         // 减血的飘雪动画播放
-        UISceneCtrl.Instance.CurrentUIScene.HudText.NewText("- 5", m_CurrRoleFSMMgr.CurrRoleCtrl.gameObject.transform, c, fontSize, 20,-1,2.2f,   Random.Range(0,2)==1?bl_Guidance.RightDown: bl_Guidance.LeftDown);
-    
+        UISceneCtrl.Instance.CurrentUIScene.HudText.NewText("- 50", m_CurrRoleFSMMgr.CurrRoleCtrl.gameObject.transform, c, fontSize, 20, -1, 2.2f, Random.Range(0, 2) == 1 ? bl_Guidance.RightDown : bl_Guidance.LeftDown);
+
 
         //m_CurrRoleFSMMgr.CurrRoleCtrl.bar
 
@@ -77,10 +77,10 @@ public class RoleHurt
         // 3 弹出受伤数字。若有暴击， 显示暴击数字
         // 4 屏幕泛红
         // 5 
-        m_CurrRoleFSMMgr.ChangeState(RoleState.Hurt);
-
-
-
+        if (!m_CurrRoleFSMMgr.CurrRoleCtrl.IsRigidity)
+        {
+            m_CurrRoleFSMMgr.ChangeState(RoleState.Hurt);
+        }
     }
 
 }

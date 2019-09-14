@@ -9,6 +9,7 @@ public class RoleStateDie : RoleStateAbstract
 {
     public System.Action OnDie;
     public System.Action OnDestroy;
+    public bool m_Is_Destory = false;
     public float m_BeginDieTime = 0f; 
     /// <summary>
     /// 构造函数
@@ -26,6 +27,10 @@ public class RoleStateDie : RoleStateAbstract
     public override void OnEnter()
     {
         base.OnEnter();
+        MyDebug.debug("角色死亡");
+
+
+
         Transform trans = EffectMgr.Instance.PlayEffect("Effect_PenXue");
         trans.position = CurrRoleFSMMgr.CurrRoleCtrl.gameObject.transform.position;
         trans.rotation = CurrRoleFSMMgr.CurrRoleCtrl.gameObject.transform.rotation;
@@ -46,6 +51,9 @@ public class RoleStateDie : RoleStateAbstract
         {
             if (OnDestroy != null)
             {
+                if (m_Is_Destory) return;
+
+                m_Is_Destory = true;
                 OnDestroy();
             }
             return; 
@@ -58,10 +66,10 @@ public class RoleStateDie : RoleStateAbstract
             CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetInteger(ToAnimatorCondition.CurrState.ToString(), (int)RoleAnimatorState.Die);
 
             //如果动画执行了一遍 就切换待机
-            if (CurrRoleAnimatorStateInfo.normalizedTime > 1 && CurrRoleFSMMgr.CurrRoleCtrl.OnRoleDie != null)
-            {
-                CurrRoleFSMMgr.CurrRoleCtrl.OnRoleDie(CurrRoleFSMMgr.CurrRoleCtrl);
-            }
+            //if (CurrRoleAnimatorStateInfo.normalizedTime > 1 && CurrRoleFSMMgr.CurrRoleCtrl.OnRoleDie != null)
+            //{
+            //    CurrRoleFSMMgr.CurrRoleCtrl.OnRoleDie(CurrRoleFSMMgr.CurrRoleCtrl);
+            //}
         }
        
     }

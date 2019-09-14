@@ -144,6 +144,18 @@ public class RoleAttack
                 {
                     return false;
                 }
+                else
+                {
+                    m_CurRoleCtrl.CurrRoleInfo.CurrMP -= skillLevelEntity.SpendMP;
+                    if (m_CurRoleCtrl.CurrRoleInfo.CurrMP < 0) m_CurRoleCtrl.CurrRoleInfo.CurrMP = 0;
+
+
+                    if (m_CurRoleCtrl.OnMpChangeHandler != null)
+                    {
+                        m_CurRoleCtrl.OnMpChangeHandler(ValueChangeType.SubTrack);
+                    }
+
+                }
             }
             m_EnenmyList.Clear();
 
@@ -285,6 +297,10 @@ public class RoleAttack
         }
 
         #region       动画特效相关
+        if (m_CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleType == RoleType.Monster)
+        {
+            Debug.LogError("sdfsf");
+        }
         RoleAttackInfo info = GetRoleAttackInfoBySkillID(SkillID);
         if (info == null) return false;
         // ab包中加载特效 if (info != null)
@@ -296,6 +312,8 @@ public class RoleAttack
             if (info.EffectName != null)
             {
                 GameObject obj = EffectMgr.Instance.PlayEffect(info.EffectName).gameObject;
+                obj.gameObject.SetActive(true
+                    );
                 obj.transform.position = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.position;
                 obj.transform.rotation = m_CurrRoleFSMMgr.CurrRoleCtrl.transform.rotation;
                 EffectMgr.Instance.DestroyEffect(obj.transform, info.EffectLifeTime);
@@ -318,7 +336,7 @@ public class RoleAttack
         }
 
         m_RoleStateAttack.AnimatorCondition = string.Format(type == RoleAttackType.PhyAttack ? "ToPhyAttack" : "ToSkill");
-        
+
         m_RoleStateAttack.AnimatorConditionValue = info.Index;
         if (m_RoleStateAttack.AnimatorConditionValue == 0)
         {

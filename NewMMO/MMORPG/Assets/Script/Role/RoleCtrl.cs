@@ -122,12 +122,15 @@ public class RoleCtrl : MonoBehaviour
     [HideInInspector]
     public int AstartCurrWayPointIndex = 1;
 
+    public delegate void OnValueChangeHandler(ValueChangeType type);
+    public OnValueChangeHandler OnHpChangeHandler;
+    public OnValueChangeHandler OnMpChangeHandler;
 
 
     public RoleAttack m_Attack;
     public bool IsRigidity;
 
-
+    bool m_IsInit;
 
     private RoleHurt m_Hurt;
     /// <summary>
@@ -145,6 +148,7 @@ public class RoleCtrl : MonoBehaviour
         {
             CharacterController.enabled = true;
         }
+        m_IsInit = true;
     }
 
     void Start()
@@ -187,8 +191,10 @@ public class RoleCtrl : MonoBehaviour
         //InitHeadBar();
     }
 
+    public System.Action<int> OnDie;
+
     // 上次战斗的时间， 用来判断， 玩家是否进入战斗待机状态还是普通待机状态
-    public float PreFightTime; 
+    public float PreFightTime;
 
     public System.Action<Transform> OnRoleDestroy;
     private void OnDestroyCallBack()
@@ -200,9 +206,14 @@ public class RoleCtrl : MonoBehaviour
 
         if (roleHeadBarView != null)
         {
-            Debug.LogError("xiaohui你的头顶文字被删除了：" + this.CurrRoleInfo.RoleNickName);
+            //Debug.LogError("xiaohui你的头顶文字被删除了：" + this.CurrRoleInfo.RoleNickName);
             Destroy(roleHeadBarView.gameObject);
             roleHeadBarView = null;
+        }
+
+        if (OnRoleDie != null)
+        {
+            OnRoleDie(this);
         }
     }
 
@@ -216,6 +227,12 @@ public class RoleCtrl : MonoBehaviour
 
     private void OnRoleHurtCallBack()
     {
+        // 测试----------------
+        if (CurrRoleType == RoleType.MainPlayer)
+        {
+            //CurrRoleInfo.CurrHP = 100000;
+            //CurrRoleInfo.CurrMP = 100000;
+        }
         Debug.LogError("dongxi1");
         // 角色受伤的回调
         if (roleHeadBarView != null)
@@ -229,6 +246,12 @@ public class RoleCtrl : MonoBehaviour
             //UISceneCtrl.Instance.CurrentUIScene.HUDText.Add("-" + 5, Color.red, 0.6f);
 
         }
+
+        if (OnHpChangeHandler!=null)
+        {
+            OnHpChangeHandler(ValueChangeType.SubTrack  ); 
+        }
+
     }
 
     public void Born(Vector3 bornPos)
@@ -240,6 +263,7 @@ public class RoleCtrl : MonoBehaviour
 
     void Update()
     {
+
         if (CurrRoleFSMMgr != null)
             CurrRoleFSMMgr.OnUpdate();
 
@@ -247,7 +271,18 @@ public class RoleCtrl : MonoBehaviour
         if (CurrRoleAI == null) return;
         CurrRoleAI.DoAI();
 
-
+        if (m_IsInit)
+        {
+            m_IsInit = false;
+            if (this.CurrRoleType == RoleType.Monster)
+            {
+                ToIdle(RoleIdleState.IdelFight);
+            }
+            else
+            {
+                ToIdle(RoleIdleState.IdelNormal);
+            }
+        }
 
         if (CharacterController == null) return;
 

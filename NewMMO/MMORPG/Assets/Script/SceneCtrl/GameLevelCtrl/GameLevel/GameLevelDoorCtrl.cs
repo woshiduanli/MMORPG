@@ -6,7 +6,7 @@ public class GameLevelDoorCtrl : MonoBehaviour
 {
 
     public GameLevelDoorCtrl connectToDoor;
-
+    public int OwnerRegionId; 
     // Use this for initialization
     void Start()
     {
