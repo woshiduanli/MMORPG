@@ -5,6 +5,10 @@ using UnityEngine;
 public class RoleAttack
 {
 
+    // 后续技能编号
+    int m_FollowSkillId;
+    // 
+    //int FollowSkillId; 
 
     RoleFSMMgr m_CurrRoleFSMMgr = null;
     RoleCtrl m_CurRoleCtrl;
@@ -25,6 +29,16 @@ public class RoleAttack
     public List<RoleAttackInfo> SkillAttackInfoList;
 
     private RoleStateAttack m_RoleStateAttack;
+
+    public int FollowSkillId
+    {
+        get
+        {
+            return m_FollowSkillId;
+        }
+
+
+    }
 
     // 根据索引号获取攻击信息
     private RoleAttackInfo GetRoleAttackInfoByIndex(RoleAttackType type, int index)
@@ -117,7 +131,17 @@ public class RoleAttack
 
     public bool ToAttack(RoleAttackType type = RoleAttackType.PhyAttack, int SkillID = 0, int SkillLevel = 0)
     {
-        if (m_CurrRoleFSMMgr == null || m_CurrRoleFSMMgr.CurrRoleCtrl.IsRigidity) return false;
+        if (m_CurrRoleFSMMgr == null || m_CurrRoleFSMMgr.CurrRoleCtrl.IsRigidity)
+        {
+            if (RoleAttackType.SkillAttack == type)
+            {
+                Debug.LogError("设置成功了---------------------------------------------前置技能id ");
+                m_FollowSkillId = SkillID;
+            }
+            // 设置后续技能  
+            return false;
+        }
+        m_FollowSkillId = -1;
         // 攻击和普通的行动不一样，首先采集攻击信息， 然后根据攻击信息， 分别进行状态机的转换， 特效的作用
 #if DEBUG_ROLESTATE
 #else

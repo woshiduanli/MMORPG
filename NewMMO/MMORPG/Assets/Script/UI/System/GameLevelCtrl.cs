@@ -21,6 +21,19 @@ public class GameLevelCtrl : SystemCtrlBase<GameLevelCtrl>, ISystemCtrl
         }
     }
 
+
+    void OpenGameLevelVictiryView()
+    {
+        UIViewUtil.Instance.OpenWindow(WindowUIType.GameLevelVictory);
+
+    }
+
+    void OpenGameLevelFailView()
+    {
+        UIViewUtil.Instance.OpenWindow(WindowUIType.GameLevelVictory);
+
+    }
+
     void OpenGameLevelMapView()
     {
         m_UIGameLevelMapView = UIViewUtil.Instance.OpenWindow(WindowUIType.GameLevelMap).GetComponent<UIGameLevelMapView>();

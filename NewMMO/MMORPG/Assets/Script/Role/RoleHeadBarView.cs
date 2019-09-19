@@ -6,7 +6,7 @@ using System;
 
 public class RoleHeadBarView : MonoBehaviour
 {
-    
+
     /// <summary>
     /// 昵称
     /// </summary>
@@ -19,7 +19,7 @@ public class RoleHeadBarView : MonoBehaviour
     private HUDText hudText;
 
     [SerializeField]
-    public Slider sliderHp; 
+    public Slider sliderHp;
 
     /// </summary>
     private Transform m_Target;
@@ -49,24 +49,29 @@ public class RoleHeadBarView : MonoBehaviour
 
     void Update()
     {
-        WolrdPostionToRectTransfromToWorldPos(m_Target.position, m_Trans, UI_Camera222.Instance.camera);
+        if (m_Target != null)
+        {
+            WolrdPostionToRectTransfromToWorldPos(m_Target.position, m_Trans, UI_Camera222.Instance.camera);
+            //m_Target = ctrl.transform.Find("TitleBarPos");
+        }
     }
-
+    RoleCtrl ctrl;
     /// <summary>
     /// 
     /// </summary>
     /// <param name="target"></param>
     /// <param name="nickName"></param>
     /// <param name="isShowHPBar">是否显示血条</param>
-    public void Init(Transform target, string nickName, bool isShowHPBar = false, float SliderValue=1)
+    public void Init(RoleCtrl ctrl, Transform target, string nickName, bool isShowHPBar = false, float SliderValue = 1)
     {
+        this.ctrl = ctrl;
         m_Target = target;
         lblNickName.text = nickName;
-        if (sliderHp == null) sliderHp=transform.Find("sliderHP").GetComponent<Slider> ();
+        if (sliderHp == null) sliderHp = transform.Find("sliderHP").GetComponent<Slider>();
         sliderHp.gameObject.SetActive(isShowHPBar);
 
         Debug.LogError("fuzhi le ::::::::::::::::::::::");
-        sliderHp.value = SliderValue; 
+        sliderHp.value = SliderValue;
     }
 
 

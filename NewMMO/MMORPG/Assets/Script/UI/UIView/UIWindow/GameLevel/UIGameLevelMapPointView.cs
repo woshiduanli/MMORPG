@@ -3,6 +3,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using DG.Tweening;
 
 /// <summary>
 /// 关卡地图上的连线点
@@ -19,6 +20,7 @@ public class UIGameLevelMapPointView : UISubViewBase
     {
         if (isPass)
         {
+            //DOTweenanimation
             imgPass.gameObject.SetActive(true);
         }
         else

@@ -23,18 +23,23 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
 
     protected override void OnLoadUIMainCityViewComplete(GameObject obj)
     {
+        
+
         base.OnLoadUIMainCityViewComplete(obj);
         m_CurrGameLevelId = SceneMgr.Instance.CurGameLevelId;
 
-
+        //GameObject.Find("");
         m_regionList = GameLevelRegionDBModel.Instance.GetListByGameLevelId(m_CurrGameLevelId);
 
 
         m_allMonsterCount = GameLevelMonsterDBModel.Instance.GetGameLevelMonsterCount(m_CurrGameLevelId, m_curGrade);
         m_monsterId = GameLevelMonsterDBModel.Instance.GetGameLevelMonsterId(m_CurrGameLevelId, m_curGrade);
 
-        // ´´½¨¹ÖÎï³Ø
+        // åˆ›å»ºæ€ªç‰©æ± 
         m_monsterPool = PoolManager.Pools.Create("Monster");
+
+
+
         m_monsterPool.group.parent = null;
         m_monsterPool.group.localPosition = Vector3.zero;
 
@@ -48,16 +53,16 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
             if (prefabPool != null)
             {
                 prefabPool.preloadAmount = 5;
-                // ÊÇ·ñ¿ªÆô×Ô¶¯ÇåÀí
+                // æ˜¯å¦å¼€å¯è‡ªåŠ¨æ¸…ç†
                 prefabPool.cullDespawned = true;
 
-                // ×Ô¶¯ÇåÀí£¬ µ«ÊÇ±£´æ5¸ö²»ÇåÀí
+                // è‡ªåŠ¨æ¸…ç†ï¼Œ ä½†æ˜¯ä¿å­˜5ä¸ªä¸æ¸…ç†
                 prefabPool.cullAbove = 5;
 
-                // ¶à³¤Ê±¼äÇåÀíÒ»´Î
+                // å¤šé•¿æ—¶é—´æ¸…ç†ä¸€æ¬¡
                 prefabPool.cullDelay = 2;
 
-                // Ã¿´ÎÇåÀí¼¸¸ö
+                // æ¯æ¬¡æ¸…ç†å‡ ä¸ª
                 prefabPool.cullMaxPerPass = 2;
 
                 m_monsterPool.CreatePrefabPool(prefabPool);
@@ -66,13 +71,38 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
 
         m_curRegionIndex = 0;
         EnterRegion(m_curRegionIndex);
+
+
+        pool = GameObject.Find("MonsterPool").transform;
+        if (pool == null)
+        {
+            Debug.LogError("åƒå­ç©ºäº†");
+        }
+        else
+        {
+            Debug.LogError("åƒå­ç©º bu  äº†");
+        }
+
+        GlobalInit.Instance.CurrPlayer.OnRoleDie += (a) =>
+        {
+            StartCoroutine(ShowFailView()); 
+        };
     }
 
-    // µ±Ç°¹ÖµÄÊıÁ¿
+    IEnumerator ShowFailView()
+    {
+        yield return new WaitForSeconds(3);
+
+        UIViewUtil.Instance.OpenWindow(WindowUIType.GameLevelFail);
+    }
+
+    Transform pool;
+
+    // å½“å‰æ€ªçš„æ•°é‡
     int m_allMonsterCount;
 
 
-    // µ±Ç°¹Ø¿¨µÄÄÑ¶ÈµÈ¼¶
+    // å½“å‰å…³å¡çš„éš¾åº¦ç­‰çº§
     GameLevelGrade m_curGrade;
 
     int m_curRegionKillMonsterCount;
@@ -172,19 +202,19 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
         hecheng(level, trans);
     }
 
-    // ÁÙÊ±¹ÖµÄid
+    // ä¸´æ—¶æ€ªçš„id
     int m_MonsterTemp;
     int m_index = 0;
     bool isfrat = false;
     void CreateMonster()
     {
-        // ÁÙÊ±²âÊÔ
+        // ä¸´æ—¶æµ‹è¯•
         //if (m_curRegionCreateMonsterCount >= 1)
         //{
         //    return;
 
         //}
-        //if (isfrat) return; isfrat = true; 
+        if (isfrat) return; isfrat = true; 
         m_index = UnityEngine.Random.Range(0, m_regionMonster.Count);
 
         //int monsterId = 1003;
@@ -244,12 +274,12 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
 
 
             roleMonsterCtrl.Speed = entity.MoveSpeed;
-            roleMonsterCtrl.ViewRange = entity.Range_View;
+            roleMonsterCtrl.ViewRange = entity.Range_View+ 30;
         }
 
         roleMonsterCtrl.Init(RoleType.Monster, monsterInfo, new GameLevel_RoleMonsterAI(roleMonsterCtrl, monsterInfo));
 
-        Debug.LogError("¹ÖÎïid ::::::::::" + monsterInfo.SpriteEntity.Id);
+        Debug.LogError("æ€ªç‰©id ::::::::::" + monsterInfo.SpriteEntity.Id);
         roleMonsterCtrl.OnRoleDestroy = OnRoleDestroyCallBack;
         roleMonsterCtrl.OnRoleDie = OnRoleDieCallBack;
         roleMonsterCtrl.Born(trans.position);
@@ -261,9 +291,20 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
 
         ++m_curRegionCreateMonsterCount;
     }
-
+    int count;
     void OnRoleDieCallBack(RoleCtrl roleId)
     {
+
+        if (UnityEngine.Random.Range(0, 5) > 2)
+        {
+            TimeMgr.Instance.ChangeTimeScale(0.5f, 3);
+        }
+
+        int ran = UnityEngine.Random.Range(1, 4);
+        UITipView.Instance.ShowTip(1, "+ " + ran);
+        ran = UnityEngine.Random.Range(1, 4);
+        UITipView.Instance.ShowTip(0, "+ " + ran);
+
         m_curRegionKillMonsterCount++;
         Debug.LogError("  " + m_curRegionKillMonsterCount + "   " + m_curRegionMonsterCount);
         //if (m_curRegionKillMonsterCount >= m_curRegionMonsterCount-1)
@@ -271,14 +312,32 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
         m_curRegionIndex++;
         Debug.LogError("  " + m_curRegionKillMonsterCount + "   :331333");
 
-        if (m_curRegionIndex >= m_regionList.Count)
+        ++count;
+        int isShengyu = 0;
+        for (int i = 0; i < pool.transform.childCount; i++)
         {
-            // TO DO µ¯³öÊ¤Àû½çÃæ
+            if (pool.transform.gameObject.activeInHierarchy == true)
+            {
+                isShengyu++;
+            }
+        }
+        Debug.LogError("æ•°é‡æ˜¯ ------------ï¼š" + isShengyu);
+        //m_monsterPool.
+        if (count >= 15)
+        {
 
-            Debug.LogError("µ¯³öÊ¤Àû½çÃæ   ---------------------------------------------------------------");
+            UIViewUtil.Instance.OpenWindow(WindowUIType.GameLevelVictory);
             return;
         }
-        // ÄÜ½øÈëÏÂÒ»¸öÇøÓò
+
+        if (m_curRegionIndex >= m_regionList.Count)
+        {
+            // TO DO å¼¹å‡ºèƒœåˆ©ç•Œé¢
+            //GameLevelCtrl.Instance.OpenView(WindowUIType.vi);
+            Debug.LogError("å¼¹å‡ºèƒœåˆ©ç•Œé¢   ---------------------------------------------------------------");
+            return;
+        }
+        // èƒ½è¿›å…¥ä¸‹ä¸€ä¸ªåŒºåŸŸ
         Debug.LogError("  " + m_curRegionKillMonsterCount + "   :333");
         //m_curRegionKillMonsterCount = 0
         EnterRegion(m_curRegionIndex);
@@ -287,7 +346,7 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
 
     private void OnRoleDestroyCallBack(Transform obj)
     {
-        // »Ø³Ø²Ù×÷
+        // å›æ± æ“ä½œ
         m_monsterPool.Despawn(obj);
     }
 }

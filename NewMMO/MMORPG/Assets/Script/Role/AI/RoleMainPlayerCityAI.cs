@@ -50,12 +50,22 @@ public class RoleMainPlayerCityAI : IRoleAI
             // 主玩家在idle 那么直接攻击
             if (CurrRole.CurrRoleFSMMgr.CurrRoleStateEnum == RoleState.Idle)
             {
-                int skillId = CurrRole.CurrRoleInfo.PhySKillIds[m_PhyIndex];
+                // 如果有后续技能， 那么使用技能
+                if (CurrRole.m_Attack.FollowSkillId > 0)
+                {
+                    Debug.LogError("11111111111111111111111111111执行后续技能"+ CurrRole.m_Attack.FollowSkillId);
+                   CurrRole.ToAttackBySkilId(RoleAttackType.PhyAttack, CurrRole.m_Attack.FollowSkillId);
+                }
+                else
+                {
+                    // 否则这里物理连击 
+                    int skillId = CurrRole.CurrRoleInfo.PhySKillIds[m_PhyIndex];
 
-                // 循环物理攻击
-                CurrRole.ToAttackBySkilId(RoleAttackType.PhyAttack, skillId);
-                ++m_PhyIndex;
-                if (m_PhyIndex >= CurrRole.CurrRoleInfo.PhySKillIds.Length) m_PhyIndex = 0;
+                    // 循环物理攻击
+                    CurrRole.ToAttackBySkilId(RoleAttackType.PhyAttack, skillId);
+                    ++m_PhyIndex;
+                    if (m_PhyIndex >= CurrRole.CurrRoleInfo.PhySKillIds.Length) m_PhyIndex = 0;
+                }
             }
         }
 

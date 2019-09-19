@@ -8,6 +8,10 @@ using System;
 /// </summary>
 public class GameLevel_RoleMonsterAI : IRoleAI
 {
+    // 下次思考时间
+    float m_NextThinkTime = 0;
+    // 是否发呆
+    bool m_IsDaze; 
     /// <summary>
     /// 当前角色控制器
     /// </summary>
@@ -72,6 +76,28 @@ public class GameLevel_RoleMonsterAI : IRoleAI
                 CurrRole.LockEnemy = null;
                 return;
             }
+            // 总结， 这里代码意思就是怪物， 每隔，3.几秒就会停下来  休息 1.几秒左右，
+            // 当前的时间大于当前思考时间，怪物开始待机， 发呆休息
+            if (Time.time > m_NextThinkTime + UnityEngine.Random.Range(3, 3.6f))
+            {
+                CurrRole.ToIdle(RoleIdleState.IdelFight);
+                m_NextThinkTime = Time.time; // 让角色休息
+                m_IsDaze = true;// 开始休息
+            }
+
+            if (m_IsDaze)
+            {
+                // 休息结束
+                if (Time.time > m_NextThinkTime + UnityEngine.Random.Range(1, 1.5f))
+                {
+                    m_IsDaze = false;
+                }
+                else
+                {
+                    return; 
+                }
+            }
+
 
             // 但是当前怪物或许在跑步等， 那么要直接返回，就是怪物不是在空闲状态，那么就不去追击敌人 , 如果怪物在跑步， 那么怪物就会在跑步的过程中， 朝向主角，不真实,所以这里要返回
             if (CurrRole.CurrRoleFSMMgr.CurrRoleStateEnum != RoleState.Idle)
@@ -124,19 +150,21 @@ public class GameLevel_RoleMonsterAI : IRoleAI
                 if (CurrRole.CurrRoleFSMMgr.CurrRoleStateEnum == RoleState.Idle)
                 {
                     // 移动到敌人，攻击范围内的随机点
-                    CurrRole.MoveTo(OnPostRender(CurrRole.LockEnemy.transform.position, entity.AttackRange * UnityEngine.Random.Range(0.8f, 1)));
+                    CurrRole.MoveTo(OnPostRender(CurrRole.transform.position,     CurrRole.LockEnemy.transform.position, entity.AttackRange * UnityEngine.Random.Range(0.8f, 1)));
                 }
             }
         }
     }
 
     // 返回 用center用圆心， radius为半径的圆上的随机点 
-    public Vector3 OnPostRender(Vector3 center, float radius)
+    public Vector3 OnPostRender(Vector3 curPos,  Vector3 enePos, float radius)
     {
-        Vector3 v = new Vector3(0, 0, 1);
-        v = Quaternion.Euler(0, UnityEngine.Random.Range(0, 360), 0) * v;
+        Vector3 v = (curPos - enePos).normalized;
+
+        //Vector3 v = new Vector3(0, 0, 1);
+        v = Quaternion.Euler(0, UnityEngine.Random.Range(-90, 90), 0) * v;
         Vector3 pos = v * radius;
-        Vector3 newPos = center + pos;
+        Vector3 newPos = enePos + pos;
         return newPos;
     }
 

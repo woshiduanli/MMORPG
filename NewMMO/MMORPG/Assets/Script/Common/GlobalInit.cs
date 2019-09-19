@@ -32,9 +32,9 @@ public class GlobalInit : MonoBehaviour
     /// </summary>
     public const string MMO_PWD = "MMO_PWD";
 
-    public Shader MogoSkyboxShader; 
+    public Shader MogoSkyboxShader;
     #endregion
-
+    public int LastInWorldMapId; 
     public static GlobalInit Instance;
 
     [HideInInspector]
@@ -118,7 +118,7 @@ public class GlobalInit : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            PlayerPrefs.DeleteAll();
+            //PlayerPrefs.DeleteAll();
 
         }
 

@@ -128,7 +128,7 @@ public class RoleCtrl : MonoBehaviour
 
 
     public RoleAttack m_Attack;
-    public bool IsRigidity;
+    private bool isRigidity;
 
     bool m_IsInit;
 
@@ -191,7 +191,28 @@ public class RoleCtrl : MonoBehaviour
         //InitHeadBar();
     }
 
-    public System.Action<int> OnDie;
+    public void Resume()
+    {
+        if (CharacterController!=null)
+        {
+            CharacterController.enabled = true; 
+        }
+        // 血量， 
+        CurrRoleInfo.MaxHP = CurrRoleInfo.CurrHP;
+        CurrRoleInfo.MaxMP = CurrRoleInfo.CurrMP ;
+        // 动作
+        ToIdle(RoleIdleState.IdelFight);
+        // 敌人
+        LockEnemy = null;
+        InitHeadBar(); 
+        //if (roleHeadBarView == null)
+        //{
+        //    roleHeadBarView = m_HeadBar.GetComponent<RoleHeadBarView>();
+        //}
+        //roleHeadBarView.Init(this, m_HeadBarPos, CurrRoleInfo.RoleNickName, CurrRoleType != RoleType.MainPlayer, SliderValue: this.CurrRoleInfo.CurrHP / CurrRoleInfo.MaxHP);
+    }
+
+    
 
     // 上次战斗的时间， 用来判断， 玩家是否进入战斗待机状态还是普通待机状态
     public float PreFightTime;
@@ -230,9 +251,17 @@ public class RoleCtrl : MonoBehaviour
         // 测试----------------
         if (CurrRoleType == RoleType.MainPlayer)
         {
-            //CurrRoleInfo.CurrHP = 100000;
-            //CurrRoleInfo.CurrMP = 100000;
+            CurrRoleInfo.CurrHP = 100000;
+            CurrRoleInfo.CurrMP = 100000;
         }
+        else
+        {
+            CurrRoleInfo.CurrHP = 100000;
+            CurrRoleInfo.CurrMP = 100000;
+        }
+
+
+
         Debug.LogError("dongxi1");
         // 角色受伤的回调
         if (roleHeadBarView != null)
@@ -247,9 +276,9 @@ public class RoleCtrl : MonoBehaviour
 
         }
 
-        if (OnHpChangeHandler!=null)
+        if (OnHpChangeHandler != null)
         {
-            OnHpChangeHandler(ValueChangeType.SubTrack  ); 
+            OnHpChangeHandler(ValueChangeType.SubTrack);
         }
 
     }
@@ -261,6 +290,8 @@ public class RoleCtrl : MonoBehaviour
         InitHeadBar();
     }
 
+
+    public int LastInWorldMapId;
     void Update()
     {
 
@@ -339,6 +370,21 @@ public class RoleCtrl : MonoBehaviour
     public float m_Radius = 1; // 圆环的半径
     public float m_Theta = 0.1f; // 值越低圆环越平滑
     public Color m_Color = Color.green; // 线框颜色
+
+    public bool IsRigidity
+    {
+        get
+        {
+            return isRigidity;
+        }
+
+        set
+        {
+            Debug.LogError("是否值得：" + value);
+
+            isRigidity = value;
+        }
+    }
 
     //public RoleAttackInfo roleAttackInfo;
 
@@ -425,9 +471,12 @@ public class RoleCtrl : MonoBehaviour
         //CharacterController d;
         //d.Move
         roleHeadBarView = m_HeadBar.GetComponent<RoleHeadBarView>();
-
+        if (CurrRoleInfo.MaxHP == 0) {
+            CurrRoleInfo.MaxHP = 1;
+            this.CurrRoleInfo.CurrHP=1;
+        } 
         // 角色血条赋值
-        roleHeadBarView.Init(m_HeadBarPos, CurrRoleInfo.RoleNickName, CurrRoleType != RoleType.MainPlayer, SliderValue: this.CurrRoleInfo.CurrHP / CurrRoleInfo.MaxHP);
+        roleHeadBarView.Init( this,  m_HeadBarPos, CurrRoleInfo.RoleNickName, CurrRoleType != RoleType.MainPlayer, SliderValue: this.CurrRoleInfo.CurrHP / CurrRoleInfo.MaxHP);
     }
 
 
@@ -494,6 +543,7 @@ public class RoleCtrl : MonoBehaviour
         m_Attack.ToAttackByIndex(type, index);
     }
 
+    // 这个才是真实环境用的
     public bool ToAttackBySkilId(RoleAttackType type = RoleAttackType.PhyAttack, int SKillId = 0)
     {
         //Debug.LogError(SKillId);

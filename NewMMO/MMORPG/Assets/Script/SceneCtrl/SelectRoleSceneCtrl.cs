@@ -184,6 +184,9 @@ public class SelectRoleSceneCtrl : MonoBehaviour
         {
             DeleteRole(m_curSelectRoleId);
             m_UISceneSelectRoleView.CloseDeleteRoleView();
+
+
+
         }
         else
         {
@@ -252,6 +255,8 @@ public class SelectRoleSceneCtrl : MonoBehaviour
         if (protoValue.IsSuccess)
         {
             GlobalInit.Instance.MainPlayerInfo = new RoleInfoMainPlayer(protoValue);
+         GlobalInit.Instance .LastInWorldMapId = protoValue.LastInWorldMapId; 
+
             MyDebug.debug("玩家当前的地图"+ GlobalInit.Instance.MainPlayerInfo.LastInWorldMapId);
             // 进入主城
             SceneMgr.Instance.LoadToWorldMap(GlobalInit.Instance.MainPlayerInfo.LastInWorldMapId);

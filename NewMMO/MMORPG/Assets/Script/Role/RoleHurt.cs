@@ -41,7 +41,9 @@ public class RoleHurt
         // 1 减血 ____ 这是才是真实值
         //m_CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.CurrHP -= roleTransferAttackInfo.HurtValue;
         // ___测试值默认， 减血20 
-        m_CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.CurrHP -= 50;
+        // 这里是测试随机一个伤害值  
+        int rang = UnityEngine.Random.Range(50, 70);
+        m_CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.CurrHP -= rang;
         int fontSize = 1;
         Color c = Color.red;
         if (roleTransferAttackInfo.isCri)
@@ -50,7 +52,7 @@ public class RoleHurt
             c = Color.yellow;
         }
         // 减血的飘雪动画播放
-        UISceneCtrl.Instance.CurrentUIScene.HudText.NewText("- 50", m_CurrRoleFSMMgr.CurrRoleCtrl.gameObject.transform, c, fontSize, 20, -1, 2.2f, Random.Range(0, 2) == 1 ? bl_Guidance.RightDown : bl_Guidance.LeftDown);
+        UISceneCtrl.Instance.CurrentUIScene.HudText.NewText("- " + rang, m_CurrRoleFSMMgr.CurrRoleCtrl.gameObject.transform, c, fontSize, 20, -1, 2.2f, Random.Range(0, 2) == 1 ? bl_Guidance.RightDown : bl_Guidance.LeftDown);
 
 
         //m_CurrRoleFSMMgr.CurrRoleCtrl.bar

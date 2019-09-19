@@ -44,7 +44,13 @@ public enum WindowUIType
 
     GameServerEnter,
     GameServerSelect,
-    WorldMap
+    WorldMap, 
+    //Victory,
+
+    GameLevelVictory,
+    GameLevelFail, 
+    Fail , 
+
 }
 #endregion
 

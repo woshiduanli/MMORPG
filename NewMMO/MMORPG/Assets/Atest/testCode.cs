@@ -179,10 +179,10 @@ public class TestCode : MonoBehaviour
         OnPlayerClick();
         if (Input.GetKeyDown(KeyCode.A))
         {
-            MyDebug.debug("sf");
+            //MyDebug.debug("sf");
 
-            CharacterController c = this.GetComponent<CharacterController>();
-            c.Move(Vector3.one * 20);
+            //CharacterController c = this.GetComponent<CharacterController>();
+            //c.Move(Vector3.one * 20);
             //WWWLoad w = new WWWLoad();
             //string str = @"file://G:\FanFanKeTang\MMORPG2\NewMMO\MMORPG\AssetBundles\Android\Role\role_mainplayer_cike.assetbundle";
             //MyDebug.debug(Application.dataPath);

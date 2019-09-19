@@ -59,6 +59,7 @@ public class GameSceneCtrlbase : MonoBehaviour
     /// </summary>
     private void OnPlayerClick()
     {
+        //Debug.LogError(GlobalInit.Instance.CurrPlayer.IsRigidity);
         if (EventSystem.current.IsPointerOverGameObject()) return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -81,8 +82,10 @@ public class GameSceneCtrlbase : MonoBehaviour
         if (Physics.Raycast(ray, out hitInfo, 1000, 1 << LayerMask.NameToLayer("Ground")))
         {
             if (GlobalInit.Instance.CurrPlayer != null && !GlobalInit.Instance.CurrPlayer.IsRigidity)
-            {
-                GlobalInit.Instance.CurrPlayer.LockEnemy = null;
+                //if (GlobalInit.Instance.CurrPlayer != null )
+
+                {
+                    GlobalInit.Instance.CurrPlayer.LockEnemy = null;
                 GlobalInit.Instance.CurrPlayer.MoveTo(hitInfo.point);
             }
         }
