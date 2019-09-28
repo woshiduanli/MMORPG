@@ -58,4 +58,39 @@ public class RoleInfoBase
             PhySKillIds[i] = ids[i].ToInt();
         }
     }
+
+    public void SetSkillCdEndTime(int skillId)
+    {
+        if (SkillList.Count > 0)
+        {
+
+            for (int i = 0; i < SkillList.Count; i++)
+            {
+                if (SkillList[i].SkillId == skillId)
+                {
+                    SkillList[i].SkillCDendTime = SkillList[i].SkillCDendTime + Time.time;
+                    break;
+                }
+            }
+
+        }
+    }
+
+    public int GetCanUseSkillId()
+    {
+        if (SkillList.Count > 0)
+        {
+
+            for (int i = 0; i < SkillList.Count; i++)
+            {
+                if (Time.time > SkillList[i].SkillCDendTime && CurrMP >= SkillList[i].SpendMP)
+                {
+
+                    return SkillList[i].SkillId;
+                }
+            }
+
+        }
+        return 0;
+    }
 }

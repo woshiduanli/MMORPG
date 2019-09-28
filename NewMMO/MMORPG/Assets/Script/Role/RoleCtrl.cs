@@ -141,6 +141,7 @@ public class RoleCtrl : MonoBehaviour
     /// <param name="ai">AI</param>
     public void Init(RoleType roleType, RoleInfoBase roleInfo, IRoleAI ai)
     {
+        gameObject.SetActive(true);
         CurrRoleType = roleType;
         CurrRoleInfo = roleInfo;
         CurrRoleAI = ai;
@@ -191,20 +192,33 @@ public class RoleCtrl : MonoBehaviour
         //InitHeadBar();
     }
 
+    public void SetDieState()
+    {
+        if (CurrRoleFSMMgr != null)
+        {
+
+            RoleStateDie r = CurrRoleFSMMgr.GetRoleState(RoleState.Die) as RoleStateDie;
+            if (r != null)
+            {
+                r.m_Is_Destory = false;
+            }
+        }
+    }
+
     public void Resume()
     {
-        if (CharacterController!=null)
+        if (CharacterController != null)
         {
-            CharacterController.enabled = true; 
+            CharacterController.enabled = true;
         }
         // 血量， 
         CurrRoleInfo.MaxHP = CurrRoleInfo.CurrHP;
-        CurrRoleInfo.MaxMP = CurrRoleInfo.CurrMP ;
+        CurrRoleInfo.MaxMP = CurrRoleInfo.CurrMP;
         // 动作
         ToIdle(RoleIdleState.IdelFight);
         // 敌人
         LockEnemy = null;
-        InitHeadBar(); 
+        InitHeadBar();
         //if (roleHeadBarView == null)
         //{
         //    roleHeadBarView = m_HeadBar.GetComponent<RoleHeadBarView>();
@@ -212,7 +226,7 @@ public class RoleCtrl : MonoBehaviour
         //roleHeadBarView.Init(this, m_HeadBarPos, CurrRoleInfo.RoleNickName, CurrRoleType != RoleType.MainPlayer, SliderValue: this.CurrRoleInfo.CurrHP / CurrRoleInfo.MaxHP);
     }
 
-    
+
 
     // 上次战斗的时间， 用来判断， 玩家是否进入战斗待机状态还是普通待机状态
     public float PreFightTime;
@@ -232,10 +246,7 @@ public class RoleCtrl : MonoBehaviour
             roleHeadBarView = null;
         }
 
-        if (OnRoleDie != null)
-        {
-            OnRoleDie(this);
-        }
+
     }
 
     private void OnDieCallBack()
@@ -243,6 +254,11 @@ public class RoleCtrl : MonoBehaviour
         if (CharacterController != null)
         {
             CharacterController.enabled = false;
+        }
+
+        if (OnRoleDie != null)
+        {
+            OnRoleDie(this);
         }
     }
 
@@ -256,8 +272,8 @@ public class RoleCtrl : MonoBehaviour
         }
         else
         {
-            CurrRoleInfo.CurrHP = 100000;
-            CurrRoleInfo.CurrMP = 100000;
+            //CurrRoleInfo.CurrHP = 100000;
+            //CurrRoleInfo.CurrMP = 100000;
         }
 
 
@@ -380,7 +396,7 @@ public class RoleCtrl : MonoBehaviour
 
         set
         {
-            Debug.LogError("是否值得：" + value);
+            //Debug.LogError("是否值得：" + value);
 
             isRigidity = value;
         }
@@ -471,12 +487,13 @@ public class RoleCtrl : MonoBehaviour
         //CharacterController d;
         //d.Move
         roleHeadBarView = m_HeadBar.GetComponent<RoleHeadBarView>();
-        if (CurrRoleInfo.MaxHP == 0) {
+        if (CurrRoleInfo.MaxHP == 0)
+        {
             CurrRoleInfo.MaxHP = 1;
-            this.CurrRoleInfo.CurrHP=1;
-        } 
+            this.CurrRoleInfo.CurrHP = 1;
+        }
         // 角色血条赋值
-        roleHeadBarView.Init( this,  m_HeadBarPos, CurrRoleInfo.RoleNickName, CurrRoleType != RoleType.MainPlayer, SliderValue: this.CurrRoleInfo.CurrHP / CurrRoleInfo.MaxHP);
+        roleHeadBarView.Init(this, m_HeadBarPos, CurrRoleInfo.RoleNickName, CurrRoleType != RoleType.MainPlayer, SliderValue: this.CurrRoleInfo.CurrHP / CurrRoleInfo.MaxHP);
     }
 
 
@@ -546,6 +563,14 @@ public class RoleCtrl : MonoBehaviour
     // 这个才是真实环境用的
     public bool ToAttackBySkilId(RoleAttackType type = RoleAttackType.PhyAttack, int SKillId = 0)
     {
+        if (CurrRoleType == RoleType.MainPlayer)
+        {
+            if (type == RoleAttackType.SkillAttack)
+            {
+
+                //Debug.LogError("攻击--------------------------------------" + SKillId);
+            }
+        }
         //Debug.LogError(SKillId);
         // 去攻击的时候，要判定他是物理的， 还是技能的攻击
         return m_Attack.ToAttack(type, SKillId);

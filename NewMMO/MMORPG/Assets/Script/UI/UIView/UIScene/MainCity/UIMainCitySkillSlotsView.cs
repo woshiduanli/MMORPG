@@ -75,7 +75,7 @@ public class UIMainCitySkillSlotsView : UISubViewBase
             return;
         }
         //  ≤‚ ‘πÿ±’¿‰»¥ 
-        //if (m_IsCD) return;
+        if (m_IsCD) return;
 
         if (OnSkillClick != null)
         {

@@ -134,12 +134,13 @@ public class PlayerCtrl : Singleton<PlayerCtrl>, ISystemCtrl
 
     }
 
-    private void OnSkillClick(int SkillId)
+    public void OnSkillClick(int SkillId)
     {
         bool isSuccess = GlobalInit.Instance.CurrPlayer.ToAttackBySkilId(RoleAttackType.SkillAttack, SKillId: SkillId);
         if (isSuccess)
         {
-            Debug.LogError("使用技能成功了");
+            GlobalInit.Instance.CurrPlayer.CurrRoleInfo.SetSkillCdEndTime(SkillId); 
+            //Debug.LogError("使用技能成功了");
             UIMainCitySkillView.Instance.BeginCD(SkillId);
         }
 

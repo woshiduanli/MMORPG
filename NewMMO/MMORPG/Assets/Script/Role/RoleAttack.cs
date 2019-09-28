@@ -7,9 +7,9 @@ public class RoleAttack
 
     // 后续技能编号
     int m_FollowSkillId;
-    // 
-    //int FollowSkillId; 
 
+    // 
+    public bool IsAutoFight;
     RoleFSMMgr m_CurrRoleFSMMgr = null;
     RoleCtrl m_CurRoleCtrl;
     List<RoleCtrl> m_EnenmyList;
@@ -135,7 +135,7 @@ public class RoleAttack
         {
             if (RoleAttackType.SkillAttack == type)
             {
-                Debug.LogError("设置成功了---------------------------------------------前置技能id ");
+                //Debug.LogError("设置成功了---------------------------------------------前置技能id ");
                 m_FollowSkillId = SkillID;
             }
             // 设置后续技能  

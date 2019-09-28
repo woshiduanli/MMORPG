@@ -25,9 +25,9 @@ public class RoleInfoMainPlayer : RoleInfoBase
     public int LastInWorldMapId;
     public int TotalRechargeMoney;
 
-    public RoleInfoMainPlayer():base ()
+    public RoleInfoMainPlayer() : base()
     {
-      
+
     }
     public RoleInfoMainPlayer(RoleOperation_SelectRoleInfoReturnProto roleInfoProto)
     {
@@ -59,17 +59,21 @@ public class RoleInfoMainPlayer : RoleInfoBase
     ///  加载主角学会的技能
     /// </summary>
     /// <param name="proto"></param>
- public   void LoadSkill(RoleData_SkillReturnProto proto)
+    public void LoadSkill(RoleData_SkillReturnProto proto)
     {
-        SkillList.Clear(); 
+        SkillList.Clear();
         for (int i = 0; i < proto.CurrSkillDataList.Count; i++)
         {
-            SkillList.Add( new RoleInfoSkill() { SkillId =  proto.CurrSkillDataList[i].SkillId,
+            SkillList.Add(new RoleInfoSkill()
+            {
+                SkillId = proto.CurrSkillDataList[i].SkillId,
 
-                SkillLevel= proto.CurrSkillDataList[i].SkillLevel,
+                SkillLevel = proto.CurrSkillDataList[i].SkillLevel,
                 SlotsNo = proto.CurrSkillDataList[i].SlotsNo
             }
-                ); 
+                );
         }
     }
+
+    
 }

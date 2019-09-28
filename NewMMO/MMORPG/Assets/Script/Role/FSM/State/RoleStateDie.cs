@@ -38,6 +38,7 @@ public class RoleStateDie : RoleStateAbstract
         CurrRoleFSMMgr.CurrRoleCtrl.Animator.SetBool(ToAnimatorCondition.ToDie.ToString(), true);
         m_BeginDieTime = 0;  
         if (OnDie != null) OnDie();
+
     }
 
     /// <summary>

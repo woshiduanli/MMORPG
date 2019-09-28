@@ -70,15 +70,15 @@ public class RoleStateAttack : RoleStateAbstract
         CurrRoleAnimatorStateInfo = CurrRoleFSMMgr.CurrRoleCtrl.Animator.GetCurrentAnimatorStateInfo(0);
         if (RoleType.MainPlayer == CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleType)
         {
-            Debug.LogError("update 了   " + CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.RoleNickName + "    AnimatorCurState:" + AnimatorCurState +
-              "   AnimatorConditionValue:" + AnimatorConditionValue + "   AnimatorCondition:" + AnimatorCondition+ "   CurrRoleAnimatorStateInfo:"+ CurrRoleAnimatorStateInfo.ToString());
+            //Debug.LogError("update 了   " + CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.RoleNickName + "    AnimatorCurState:" + AnimatorCurState +
+            //  "   AnimatorConditionValue:" + AnimatorConditionValue + "   AnimatorCondition:" + AnimatorCondition+ "   CurrRoleAnimatorStateInfo:"+ CurrRoleAnimatorStateInfo.ToString());
         }
         if (CurrRoleAnimatorStateInfo.IsName(AnimatorCurState.ToString()))
         {
             if (RoleType.MainPlayer == CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleType)
             {
-                Debug.LogError("22update 了   " + CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.RoleNickName + "    AnimatorCurState:" + AnimatorCurState +
-                  "   AnimatorConditionValue:" + AnimatorConditionValue + "   AnimatorCondition:" + AnimatorCondition);
+                //Debug.LogError("22update 了   " + CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.RoleNickName + "    AnimatorCurState:" + AnimatorCurState +
+                //  "   AnimatorConditionValue:" + AnimatorConditionValue + "   AnimatorCondition:" + AnimatorCondition);
             }
 
             // 如果是当前状态， 那么此时， 让状态机在当前状态， 不出来，卡在这里，除非这次动作已经执行完毕
@@ -95,8 +95,8 @@ public class RoleStateAttack : RoleStateAbstract
         {
             if (RoleType.MainPlayer == CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleType)
             {
-                Debug.LogError("32update 了   " + CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.RoleNickName + "    AnimatorCurState:" + AnimatorCurState +
-                  "   AnimatorConditionValue:" + AnimatorConditionValue + "   AnimatorCondition:" + AnimatorCondition);
+                //Debug.LogError("32update 了   " + CurrRoleFSMMgr.CurrRoleCtrl.CurrRoleInfo.RoleNickName + "    AnimatorCurState:" + AnimatorCurState +
+                //  "   AnimatorConditionValue:" + AnimatorConditionValue + "   AnimatorCondition:" + AnimatorCondition);
             }
 
             // 如果 不是当前需要的状态， 等于0的时候， 就是让他进入当前状态，

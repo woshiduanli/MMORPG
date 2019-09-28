@@ -17,7 +17,7 @@ SubShader {
 	}
 CGPROGRAM
 #pragma surface surf Lambert exclude_path:prepass  
-#pragma exclude_renderers xbox360 ps3 flash
+#pragma exclude_renderers ps3 flash
 
 struct Input {
 

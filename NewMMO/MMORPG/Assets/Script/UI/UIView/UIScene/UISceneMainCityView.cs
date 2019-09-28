@@ -84,9 +84,9 @@ public class UISceneMainCityView : UISceneViewBase
     {
         BtnAutoFight.SetActive(!isAutoFight);
         BtnCancelAutoFight.SetActive(isAutoFight);
-
+        Debug.LogError("点击了自动战斗");
         //设置主角自动战斗状态
-        //GlobalInit.Instance.CurrPlayer.Attack.IsAutoFight = isAutoFight;
+        GlobalInit.Instance.CurrPlayer.m_Attack.IsAutoFight = isAutoFight;
     }
 
     /// <summary>

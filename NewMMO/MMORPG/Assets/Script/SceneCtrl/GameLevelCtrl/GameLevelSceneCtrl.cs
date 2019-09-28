@@ -23,7 +23,7 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
 
     protected override void OnLoadUIMainCityViewComplete(GameObject obj)
     {
-        
+
 
         base.OnLoadUIMainCityViewComplete(obj);
         m_CurrGameLevelId = SceneMgr.Instance.CurGameLevelId;
@@ -52,7 +52,7 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
                 prefabPool = new PrefabPool(RoleMgr.Instance.LoadSprite(m_monsterId[i]).transform);
             if (prefabPool != null)
             {
-                prefabPool.preloadAmount = 5;
+                prefabPool.preloadAmount = 50;
                 // 是否开启自动清理
                 prefabPool.cullDespawned = true;
 
@@ -60,7 +60,7 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
                 prefabPool.cullAbove = 5;
 
                 // 多长时间清理一次
-                prefabPool.cullDelay = 2;
+                prefabPool.cullDelay = 200000;
 
                 // 每次清理几个
                 prefabPool.cullMaxPerPass = 2;
@@ -85,7 +85,7 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
 
         GlobalInit.Instance.CurrPlayer.OnRoleDie += (a) =>
         {
-            StartCoroutine(ShowFailView()); 
+            StartCoroutine(ShowFailView());
         };
     }
 
@@ -117,7 +117,13 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
 
     void EnterRegion(int regionIndex)
     {
-        // 
+        if (regionIndex > 90)
+        {
+            UIViewUtil.Instance.OpenWindow(WindowUIType.GameLevelVictory);
+            GlobalInit.Instance.CurrPlayer.LockEnemy = null; 
+            return;
+        }
+        Debug.LogError("当前区域id :" + regionIndex);
         GameLevelRegionEntity entity = GetGameLevelRegionEntityByIndex(regionIndex);
         if (entity != null)
             m_curRegionCtrl = GetRegionCtrlByRegionId(entity.RegionId);
@@ -134,10 +140,13 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
         if (DelegateDefine.Instance.OnSceneLoadOk != null)
             DelegateDefine.Instance.OnSceneLoadOk();
 
+        //if (regionIndex == 0)
+        //{
+        ++m_curRegionIndex;
+        //}
+        m_curRegionMonsterCount = GameLevelMonsterDBModel.Instance.GetGameLevelMonsterCount(m_CurrGameLevelId, m_curGrade, m_curRegionIndex);
 
-        m_curRegionMonsterCount = GameLevelMonsterDBModel.Instance.GetGameLevelMonsterCount(m_CurrGameLevelId, m_curGrade, regionIndex + 1);
-
-        m_regionMonster = GameLevelMonsterDBModel.Instance.GetGameLevelMonster(m_CurrGameLevelId, m_curGrade, regionIndex + 1);
+        m_regionMonster = GameLevelMonsterDBModel.Instance.GetGameLevelMonster(m_CurrGameLevelId, m_curGrade, m_curRegionIndex);
 
     }
 
@@ -168,11 +177,37 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
         base.OnUpdate();
         if (m_curRegionCreateMonsterCount < m_curRegionMonsterCount)
         {
+            Debug.LogError("创建的怪物：" + m_curRegionCreateMonsterCount + "    " + m_curRegionMonsterCount);
             if (Time.time > m_nextCreateMonterTime)
             {
                 m_nextCreateMonterTime = Time.time + 1;
                 CreateMonster();
             }
+        }
+
+        bool isCanEnter = true;
+
+        if (m_monsterPool != null)
+        {
+
+            for (int i = 0; i < m_monsterPool.transform.childCount; i++)
+            {
+
+                if (m_monsterPool.transform.GetChild(i).gameObject.activeSelf == true)
+                {
+                    isCanEnter = false;
+                    break;
+                }
+
+            }
+            if (isCanEnter)
+            {
+                EnterRegion(m_curRegionIndex);
+                return;
+                //m_curRegionCreateMonsterCount = m_curRegionMonsterCount; 
+
+            }
+            //Debug.LogError("显示值的：：：：：：：：：：：：：：：：：：：：：：：：" + isCanEnter + "   " + m_monsterPool.transform.childCount);
         }
     }
 
@@ -214,14 +249,21 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
         //    return;
 
         //}
-        if (isfrat) return; isfrat = true; 
+        //if (isfrat) return; isfrat = true; 
         m_index = UnityEngine.Random.Range(0, m_regionMonster.Count);
 
         //int monsterId = 1003;
-        int monsterId = UnityEngine.Random.Range(1001, 1004);
+        //int monsterId = UnityEngine.Random.Range(1001, 1004);
 
         //if (isfrat) return; isfrat = true;
-        //int monsterId = m_regionMonster[m_index].SpriteId;
+        int monsterId = m_regionMonster[m_index].SpriteId;
+
+
+        for (int i = 0; i < m_regionMonster.Count; i++)
+        {
+            Debug.LogError("所有怪物id：" + m_regionMonster[i].SpriteId);
+
+        }
 
         List<SpriteEntity> list = SpriteDBModel.Instance.GetList();
         //for (int i = 0; i < list.Count; i++)
@@ -249,6 +291,9 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
 
 
         RoleCtrl roleMonsterCtrl = trans.GetComponent<RoleCtrl>();
+        roleMonsterCtrl.SetDieState();
+        roleMonsterCtrl.gameObject.SetActive(true);
+        roleMonsterCtrl.gameObject.name = roleMonsterCtrl.gameObject.name + "_" + m_curRegionCreateMonsterCount + "_" + m_curRegionMonsterCount + "   " + m_curRegionIndex;
         RoleInfoMonster monsterInfo = new RoleInfoMonster();
 
         SpriteEntity entity = SpriteDBModel.Instance.Get(monsterId);
@@ -274,7 +319,7 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
 
 
             roleMonsterCtrl.Speed = entity.MoveSpeed;
-            roleMonsterCtrl.ViewRange = entity.Range_View+ 30;
+            roleMonsterCtrl.ViewRange = entity.Range_View + 30;
         }
 
         roleMonsterCtrl.Init(RoleType.Monster, monsterInfo, new GameLevel_RoleMonsterAI(roleMonsterCtrl, monsterInfo));
@@ -290,15 +335,21 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
         //m_regionMonster[monsterId]--;
 
         ++m_curRegionCreateMonsterCount;
+
+
+        
+        //.get
+
+        //if (m_curRegionCreateMonsterCount)
     }
     int count;
     void OnRoleDieCallBack(RoleCtrl roleId)
     {
 
-        if (UnityEngine.Random.Range(0, 5) > 2)
-        {
-            TimeMgr.Instance.ChangeTimeScale(0.5f, 3);
-        }
+        //if (UnityEngine.Random.Range(0, 5) > 2)
+        //{
+        //    TimeMgr.Instance.ChangeTimeScale(0.5f, 3);
+        //}
 
         int ran = UnityEngine.Random.Range(1, 4);
         UITipView.Instance.ShowTip(1, "+ " + ran);
@@ -309,7 +360,7 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
         Debug.LogError("  " + m_curRegionKillMonsterCount + "   " + m_curRegionMonsterCount);
         //if (m_curRegionKillMonsterCount >= m_curRegionMonsterCount-1)
         //{
-        m_curRegionIndex++;
+        //m_curRegionIndex++;
         Debug.LogError("  " + m_curRegionKillMonsterCount + "   :331333");
 
         ++count;
@@ -326,21 +377,61 @@ public class GameLevelSceneCtrl : GameSceneCtrlbase
         if (count >= 15)
         {
 
-            UIViewUtil.Instance.OpenWindow(WindowUIType.GameLevelVictory);
-            return;
+            //UIViewUtil.Instance.OpenWindow(WindowUIType.GameLevelVictory);
+            //return;
         }
+        Debug.LogError("当前区域id :" + m_curRegionIndex + "    m_regionList.Count: " + m_regionList.Count);
 
-        if (m_curRegionIndex >= m_regionList.Count)
+        if (m_curRegionIndex >= m_regionList.Count  )
         {
+            bool isCanEnter = true;
+
+            if (m_monsterPool != null)
+            {
+
+                for (int i = 0; i < m_monsterPool.transform.childCount; i++)
+                {
+
+                    if (m_monsterPool.transform.GetChild(i).gameObject.activeSelf == true)
+                    {
+                        isCanEnter = false;
+                        break;
+                    }
+
+                }
+                if (isCanEnter)
+                {
+                    UIViewUtil.Instance.OpenWindow(WindowUIType.GameLevelVictory);
+                    return;
+                    //m_curRegionCreateMonsterCount = m_curRegionMonsterCount; 
+
+                }
+                //Debug.LogError("显示值的：：：：：：：：：：：：：：：：：：：：：：：：" + isCanEnter + "   " + m_monsterPool.transform.childCount);
+            }
+
             // TO DO 弹出胜利界面
-            //GameLevelCtrl.Instance.OpenView(WindowUIType.vi);
+            //UIViewUtil.Instance.OpenWindow(WindowUIType.GameLevelVictory);
             Debug.LogError("弹出胜利界面   ---------------------------------------------------------------");
             return;
         }
         // 能进入下一个区域
-        Debug.LogError("  " + m_curRegionKillMonsterCount + "   :333");
-        //m_curRegionKillMonsterCount = 0
-        EnterRegion(m_curRegionIndex);
+        Debug.LogError(" 当前区域杀死怪物的数量 " + m_curRegionKillMonsterCount + "   当前区域总数量" + m_curRegionMonsterCount);
+
+
+
+        if (m_curRegionIndex >= m_regionList.Count) return; 
+
+
+        if (m_curRegionKillMonsterCount >= m_curRegionMonsterCount)
+        {
+            if (m_curRegionIndex == 0)
+            {
+
+                m_curRegionIndex = 1;
+            }
+            EnterRegion(m_curRegionIndex);
+            //m_curRegionKillMonsterCount = 0
+        }
         //}
     }
 
