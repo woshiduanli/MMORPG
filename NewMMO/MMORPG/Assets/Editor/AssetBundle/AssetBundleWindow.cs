@@ -23,15 +23,16 @@ public class AssetBundleWindow : EditorWindow
     private static string[] arrBuildTarget = { "Windows", "Android", "iOS" };
 
     private int selectBuildTargetIndex = -1; //选择的打包平台索引
-#if UNITY_STANDALONE_WIN
-    private BuildTarget target = BuildTarget.StandaloneWindows;
-    private static int buildTargetIndex = 0; //打包的平台索引
-#elif UNITY_ANDROID
+
+#if UNITY_ANDROID
     private BuildTarget target = BuildTarget.Android;
     private static int buildTargetIndex = 1;
 #elif UNITY_IPHONE
     private BuildTarget target = BuildTarget.iOS;
     private int buildTargetIndex = 2;
+#else
+      private BuildTarget target = BuildTarget.StandaloneWindows;
+    private static int buildTargetIndex = 0; //打包的平台索引
 #endif
 
 
@@ -67,7 +68,7 @@ public class AssetBundleWindow : EditorWindow
     {
         if (m_List == null) return;
 
-        #region 按钮行
+#region 按钮行
         GUILayout.BeginHorizontal("box");
 
         selectTagIndex = EditorGUILayout.Popup(tagIndex, arrTag, GUILayout.Width(100));
@@ -113,7 +114,7 @@ public class AssetBundleWindow : EditorWindow
         EditorGUILayout.Space();
 
         GUILayout.EndHorizontal();
-        #endregion
+#endregion
 
         GUILayout.BeginHorizontal("box");
         GUILayout.Label("包名");
