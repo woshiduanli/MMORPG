@@ -2,7 +2,7 @@
 <Root>
   <AssetBundle>
 
-    <Item Name="Player预设" Tag="Role" IsFoleder="true" IsFirstData="true" >
+    <Item Name="Player预设" Tag="Role" IsFolder="true" IsFirstData="true" >
       <Path Value="Download\Prefab\RolePrefab\Player" />
     </Item>
 

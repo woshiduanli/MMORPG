@@ -24,16 +24,9 @@ public class AssetBundleWindow : EditorWindow
 
     private int selectBuildTargetIndex = -1; //选择的打包平台索引
 
-#if UNITY_ANDROID
     private BuildTarget target = BuildTarget.Android;
     private static int buildTargetIndex = 1;
-#elif UNITY_IPHONE
-    private BuildTarget target = BuildTarget.iOS;
-   private static int buildTargetIndex = 2;
-#else
-      private BuildTarget target = BuildTarget.StandaloneWindows;
-    private static int buildTargetIndex = 0; //打包的平台索引
-#endif
+
 
 
     private Vector2 pos;
@@ -120,7 +113,14 @@ public class AssetBundleWindow : EditorWindow
 
         if (GUILayout.Button("打AssetBundle包", GUILayout.Width(200)))
         {
+            OnCopyDataTableCallBack(); 
+            OnSaveAssetBundleCallBack(); 
             EditorApplication.delayCall = OnAssetBundleCallBack;
+            
+            OnCreateVersionFileCallBack(); 
+
+
+
         }
 
         if (GUILayout.Button("拷贝数据表", GUILayout.Width(200)))
@@ -359,32 +359,32 @@ public class AssetBundleWindow : EditorWindow
     private void OnAssetBundleCallBack()
     {
 
-        List<AssetBundleEntity> listNeed = new List<AssetBundleEntity>();
+        //List<AssetBundleEntity> listNeed = new List<AssetBundleEntity>();
 
 
-        foreach (var item in m_List)
-        {
-            if (m_Dic[item.Key])
-            {
-                listNeed.Add(item);
-            }
-        }
-        //return;
-        for (int i = 0; i < listNeed.Count; i++)
-        {
-
-            Debug.Log("打包:" + (i + 1) + "/" + listNeed.Count);
-            BuildAssetBundle(listNeed[i]);
-        }
-
-        //string toPath = Application.dataPath + "/../AssetBundles/" + arrBuildTarget[buildTargetIndex];
-        //if (!Directory.Exists(toPath))
+        //foreach (var item in m_List)
         //{
-        //    Directory.CreateDirectory(toPath);
+        //    if (m_Dic[item.Key])
+        //    {
+        //        listNeed.Add(item);
+        //    }
+        //}
+        //return;
+        //for (int i = 0; i < listNeed.Count; i++)
+        //{
+
+        //    Debug.Log("打包:" + (i + 1) + "/" + listNeed.Count);
+        //    BuildAssetBundle(listNeed[i]);
         //}
 
+        string toPath = Application.dataPath + "/../AssetBundles/" + arrBuildTarget[buildTargetIndex];
+        if (!Directory.Exists(toPath))
+        {
+            Directory.CreateDirectory(toPath);
+        }
+
         ////打包方法就是一句话
-        //BuildPipeline.BuildAssetBundles(toPath, BuildAssetBundleOptions.None, target);
+        BuildPipeline.BuildAssetBundles(toPath, BuildAssetBundleOptions.None, target);
         Debug.Log("打包完毕");
     }
 
@@ -607,6 +607,6 @@ public class AssetBundleWindow : EditorWindow
         }
 
         IOUtil.CreateTextFile(strVersionFilePath, sbContent.ToString());
-        Debug.Log("创建版本文件成功");
+        Debug.Log("创建版本文件成功："+ strVersionFilePath);
     }
 }
