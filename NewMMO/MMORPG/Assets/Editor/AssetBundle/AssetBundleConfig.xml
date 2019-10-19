@@ -2,119 +2,11 @@
 <Root>
   <AssetBundle>
 
-    <!--特效-->
-    <Item Name="Role_MainPlayer_Cike_Effect_Phy_1" Tag="Effect" Version="1" Size="0" ToPath="/Role">
-      <Path Value="Assets\Download\Prefab\Effect\Role\CiKe\Role_MainPlayer_Cike_Effect_Phy_1.prefab" />
-    </Item>
-    <Item Name="Role_MainPlayer_Cike_Effect_Phy_2" Tag="Effect" Version="1" Size="0" ToPath="/Role">
-      <Path Value="Assets\Download\Prefab\Effect\Role\CiKe\Role_MainPlayer_Cike_Effect_Phy_2.prefab" />
-    </Item>
-    <Item Name="Role_MainPlayer_Cike_Effect_Phy_3" Tag="Effect" Version="1" Size="0" ToPath="/Role">
-      <Path Value="Assets\Download\Prefab\Effect\Role\CiKe\Role_MainPlayer_Cike_Effect_Phy_3.prefab" />
-    </Item>
-    <Item Name="Role_MainPlayer_Cike_Effect_Skill_1" Tag="Effect" Version="1" Size="0" ToPath="/Role">
-      <Path Value="Assets\Download\Prefab\Effect\Role\CiKe\Role_MainPlayer_Cike_Effect_Skill_1.prefab" />
-    </Item>
-    <Item Name="Role_MainPlayer_Cike_Effect_Skill_2" Tag="Effect" Version="1" Size="0" ToPath="/Role">
-      <Path Value="Assets\Download\Prefab\Effect\Role\CiKe\Role_MainPlayer_Cike_Effect_Skill_2.prefab" />
-    </Item>
-    <Item Name="Role_MainPlayer_Cike_Effect_Skill_3" Tag="Effect" Version="1" Size="0" ToPath="/Role">
-      <Path Value="Assets\Download\Prefab\Effect\Role\CiKe\Role_MainPlayer_Cike_Effect_Skill_3.prefab" />
-    </Item>
-    <Item Name="Role_MainPlayer_Cike_Effect_Skill_4" Tag="Effect" Version="1" Size="0" ToPath="/Role">
-      <Path Value="Assets\Download\Prefab\Effect\Role\CiKe\Role_MainPlayer_Cike_Effect_Skill_4.prefab" />
-    </Item>
-    <Item Name="Role_MainPlayer_Cike_Effect_Skill_5" Tag="Effect" Version="1" Size="0" ToPath="/Role">
-      <Path Value="Assets\Download\Prefab\Effect\Role\CiKe\Role_MainPlayer_Cike_Effect_Skill_5.prefab" />
-    </Item>
-    <Item Name="Role_MainPlayer_Cike_Effect_Skill_6" Tag="Effect" Version="1" Size="0" ToPath="/Role">
-      <Path Value="Assets\Download\Prefab\Effect\Role\CiKe\Role_MainPlayer_Cike_Effect_Skill_6.prefab" />
+    <Item Name="Player预设" Tag="Role" IsFoleder="true" IsFirstData="true" >
+      <Path Value="Download\Prefab\RolePrefab\Player" />
     </Item>
 
-    <!--怪物受伤死亡特效-->
-    <Item Name="Effect_Hurt" Tag="Effect" Version="1" Size="0" ToPath="/Effect">
-      <Path Value="Assets\Download\Prefab\Effect\Common\Effect_Hurt.prefab" />
-    </Item>
-    <Item Name="Effect_PenXue" Tag="Effect" Version="1" Size="0" ToPath="/Effect">
-      <Path Value="Assets\Download\Prefab\Effect\Common\Effect_PenXue.prefab" />
-    </Item>
-
-    <!--截匪攻击特效-->
-    <Item Name="Role_Monster_LanLuJieFei_Effect_Phy_1" Tag="Effect" Version="1" Size="0" ToPath="/Effect">
-      <Path Value="Assets\Download\Prefab\Effect\Role\LanLuJieFei\Role_Monster_LanLuJieFei_Effect_Phy_1.prefab" />
-    </Item>
-
-    <!--女妖攻击特效-->
-    <Item Name="Role_Monster_NvYao_Effect_Phy_1" Tag="Effect" Version="1" Size="0" ToPath="/Effect">
-      <Path Value="Assets\Download\Prefab\Effect\Role\NvYao\Role_Monster_NvYao_Effect_Phy_1.prefab" />
-    </Item>
-    <Item Name="Role_Monster_NvYao_Effect_Phy_2" Tag="Effect" Version="1" Size="0" ToPath="/Effect">
-      <Path Value="Assets\Download\Prefab\Effect\Role\NvYao\Role_Monster_NvYao_Effect_Phy_2.prefab" />
-    </Item>
-
-    <!--boss攻击特效-->
-    <Item Name="Role_Monster_JiaKeChong_Effect_Phy_1" Tag="Effect" Version="1" Size="0" ToPath="/Effect">
-      <Path Value="Assets\Download\Prefab\Effect\Role\JiaKeChong\Role_Monster_JiaKeChong_Effect_Phy_1.prefab" />
-    </Item>
-    <Item Name="Role_Monster_JiaKeChong_Effect_Skill_1" Tag="Effect" Version="1" Size="0" ToPath="/Effect">
-      <Path Value="Assets\Download\Prefab\Effect\Role\JiaKeChong\Role_Monster_JiaKeChong_Effect_Skill_1.prefab" />
-    </Item>
-    <Item Name="Role_Monster_JiaKeChong_Effect_Skill_2" Tag="Effect" Version="1" Size="0" ToPath="/Effect">
-      <Path Value="Assets\Download\Prefab\Effect\Role\JiaKeChong\Role_Monster_JiaKeChong_Effect_Skill_2.prefab" />
-    </Item>
-    <Item Name="Role_Monster_JiaKeChong_Effect_Skill_3" Tag="Effect" Version="1" Size="0" ToPath="/Effect">
-      <Path Value="Assets\Download\Prefab\Effect\Role\JiaKeChong\Role_Monster_JiaKeChong_Effect_Skill_3.prefab" />
-    </Item>
-
-    <!--特效end-->
-
-    <!--角色-->
-    <Item Name="Role_Monster_1" Tag="Role" Version="1" Size="0" ToPath="/Role">
-      <Path Value="Assets\Download\Prefab\RolePrefab\Monster\Role_Monster_1.prefab" />
-    </Item>
-
-    <Item Name="Role_Monster_2" Tag="Role" Version="1" Size="0" ToPath="/Role">
-      <Path Value="Assets\Download\Prefab\RolePrefab\Monster\Role_Monster_2.prefab" />
-    </Item>
-
-    <Item Name="Role_Monster_JiaKeChong" Tag="Role" Version="1" Size="0" ToPath="/Role">
-      <Path Value="Assets\Download\Prefab\RolePrefab\Monster\Role_Monster_JiaKeChong.prefab" />
-    </Item>
-
-    <Item Name="Role_MainPlayer_Cike" Tag="Role" Version="1" Size="0" ToPath="/Role">
-      <Path Value="Assets\Download\Prefab\RolePrefab\Player\Role_MainPlayer_Cike.prefab" />
-    </Item>
-    <Item Name="Role_MainPlayer_Fashi" Tag="Role" Version="1" Size="0" ToPath="/Role">
-      <Path Value="Assets\Download\Prefab\RolePrefab\Player\Role_MainPlayer_Fashi.prefab" />
-    </Item>
-
-    <Item Name="Role_MainPlayer_Juchui" Tag="Role" Version="1" Size="0" ToPath="/Role">
-      <Path Value="Assets\Download\Prefab\RolePrefab\Player\Role_MainPlayer_Juchui.prefab" />
-    </Item>
-
-    <Item Name="Role_MainPlayer_Zhanshi" Tag="Role" Version="1" Size="0" ToPath="/Role">
-      <Path Value="Assets\Download\Prefab\RolePrefab\Player\Role_MainPlayer_Zhanshi.prefab" />
-    </Item>
-
-    <Item Name="NPC_ZhuJian" Tag="Role" Version="1" Size="0" ToPath="/Role">
-      <Path Value="Assets\Download\Prefab\RolePrefab\NPC\NPC_ZhuJian.prefab" />
-    </Item>
-
-    <!--角色end-->
-
-
-
-
-    <!--场景-->
-    <!--
-    <Item Name="GameScene_CunZhuang" Tag="Scene" Version="1" Size="0" ToPath="/Role/">
-      <Path Value="Assets\Download\Scene\Scene_SelectRole.unity" />
-    </Item>-->
-    <!--场景end-->
-
-
-
-    <!--<Item Name="NPC预设" Tag="Role" IsFolder="True" IsFirstData="True">
+    <Item Name="NPC预设" Tag="Role" IsFolder="True" IsFirstData="True">
       <Path Value="Download\Prefab\RolePrefab\NPC" />
     </Item>
 
@@ -135,7 +27,7 @@
       <Path Value="Download\Scene\GameScene_HuPaoCun.unity" />
     </Item>
     <Item Name="其他场景" Tag="Scene" IsFolder="False" IsFirstData="True">
- 
+
       <Path Value="Download\Scene\GameScene_ChangAn.unity" />
       <Path Value="Download\Scene\GameScene_DiGong1.unity" />
       <Path Value="Download\Scene\GameScene_DiGong2.unity" />
@@ -150,11 +42,17 @@
       <Path Value="Download\Scene\GameScene_XueDi1.unity" />
       <Path Value="Download\Scene\GameScene_XueDi2.unity" />
     </Item>
+
+
+  <!--=unity" />
+      <Path Value="Download\Scene\GameScene_XueDi1.unity" />
+      <Path Value="Download\Scene\GameScene_XueDi2.unity" />
+    </Item>
     <Item Name="UI预设" Tag="UI" IsFolder="True" IsFirstData="False">
       <Path Value="Download\Prefab\UIPrefab" />
     </Item>
     <Item Name="UI资源" Tag="UI" IsFolder="True" IsFirstData="False">
       <Path Value="Download\Source\UISource" />
-    </Item>-->
+    </Item>-->-->
   </AssetBundle>
 </Root>

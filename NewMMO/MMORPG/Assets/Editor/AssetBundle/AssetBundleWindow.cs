@@ -29,7 +29,7 @@ public class AssetBundleWindow : EditorWindow
     private static int buildTargetIndex = 1;
 #elif UNITY_IPHONE
     private BuildTarget target = BuildTarget.iOS;
-    private int buildTargetIndex = 2;
+   private static int buildTargetIndex = 2;
 #else
       private BuildTarget target = BuildTarget.StandaloneWindows;
     private static int buildTargetIndex = 0; //打包的平台索引
@@ -45,9 +45,25 @@ public class AssetBundleWindow : EditorWindow
     {
 
     }
+    void SetTargetIndex()
+    {
+        if (Application.platform == RuntimePlatform.OSXEditor)
+        {
+            target = BuildTarget.iOS;
+            buildTargetIndex = 2;
+        }
+        else if (Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            target = BuildTarget.Android;
+            buildTargetIndex = 1;
+        }
+    }
 
     void OnEnable()
     {
+        SetTargetIndex();
+
+
         string xmlPath = Application.dataPath + @"\Editor\AssetBundle\AssetBundleConfig.xml";
         dal = new AssetBundleDAL(xmlPath);
         m_List = dal.GetList();
@@ -66,9 +82,15 @@ public class AssetBundleWindow : EditorWindow
     /// </summary>
     void OnGUI()
     {
+        //Debug.LogError(Application.platform);
+        //if (Application.platform)
+        //{
+
+        //}
+
         if (m_List == null) return;
 
-#region 按钮行
+        #region 按钮行
         GUILayout.BeginHorizontal("box");
 
         selectTagIndex = EditorGUILayout.Popup(tagIndex, arrTag, GUILayout.Width(100));
@@ -114,7 +136,7 @@ public class AssetBundleWindow : EditorWindow
         EditorGUILayout.Space();
 
         GUILayout.EndHorizontal();
-#endregion
+        #endregion
 
         GUILayout.BeginHorizontal("box");
         GUILayout.Label("包名");
@@ -375,7 +397,7 @@ public class AssetBundleWindow : EditorWindow
         {
             if (d[i] is GameObject)
             {
-                BuildAsset(d[i], "assetbundle", path );
+                BuildAsset(d[i], "assetbundle", path);
             }
         }
     }
@@ -411,7 +433,7 @@ public class AssetBundleWindow : EditorWindow
         arrBuild[0] = build;
         Debug.LogError("entity.Name:" + entity.Name);
         // 包名
-        build.assetBundleName = entity.Name; 
+        build.assetBundleName = entity.Name;
         // 后缀
         build.assetBundleVariant = (entity.Tag.Equals("Scene", StringComparison.CurrentCultureIgnoreCase) ? "unity3d" : "assetbundle");
 

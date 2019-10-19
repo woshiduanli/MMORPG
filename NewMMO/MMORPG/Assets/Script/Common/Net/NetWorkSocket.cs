@@ -50,7 +50,9 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
         client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         try
         {
+            //client.Connect(new IPEndPoint(IPAddress.Parse(ip), 6688));
             client.Connect(new IPEndPoint(IPAddress.Parse(ip), port));
+
             m_checkSendQueue = OnCheckSendQueueCallBack;
             ReceiveMsg();
             if (OnConnectOk!=null)

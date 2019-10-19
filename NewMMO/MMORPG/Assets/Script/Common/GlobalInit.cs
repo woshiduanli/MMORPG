@@ -111,6 +111,7 @@ public class GlobalInit : MonoBehaviour
 
     void Start()
     {
+        //UnityEngine.PlayerPrefs.DeleteAll();
         NetWorkHttp.Instance.SendData(WebAccountUrl + "api/time", OnGetTimeCallBack);
     }
 

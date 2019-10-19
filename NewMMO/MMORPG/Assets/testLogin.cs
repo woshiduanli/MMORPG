@@ -5,7 +5,7 @@ using UnityEngine;
 public class testLogin : MonoBehaviour {
 
 	// Use this for initialization
-	void Start () {
+	void Start () { 
         //UISceneCtrl.Instance.LoadSceneUI(UISceneCtrl.SceneUIType.LogOn);  
 	}
 	
