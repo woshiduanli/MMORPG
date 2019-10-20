@@ -8,8 +8,8 @@ using System.IO;
 /// </summary>
 public class LocalFileMgr : Singleton<LocalFileMgr>
 {
-    //public readonly string LocalFilePath = Application.persistentDataPath + "/";
-    public readonly string LocalFilePath = Application.dataPath + "/../AssetBundles/Windows/";
+  public readonly string LocalFilePath = Application.persistentDataPath + "/";
+    //public readonly string LocalFilePath = Application.dataPath + "/../AssetBundles/Windows/";
 
 
     /// <summary>

@@ -40,4 +40,20 @@ public class Menu
         AssetDatabase.Refresh();
         Debug.Log("拷贝完毕");
     }
+
+    [MenuItem("悠游工具/出包拷贝初始资源到StreamingAsstes")]
+    public static void AssetBundleCopyToStreamingAsstes2()
+    {
+        string toPath = Application.streamingAssetsPath + "/AssetBundles/";
+
+        if (Directory.Exists(toPath))
+        {
+            Directory.Delete(toPath, true);
+        }
+        Directory.CreateDirectory(toPath);
+
+        IOUtil.CopyDirectory(Application.persistentDataPath, toPath);
+        AssetDatabase.Refresh();
+        Debug.Log("拷贝完毕");
+    }
 }

@@ -108,7 +108,7 @@ public class GlobalInit : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        DownloadMgr.Instance.InitCheckVersion(); 
+        DownloadMgr.Instance.InitStreamingAssets( ()=> { } ); 
     }
 
     void Start()

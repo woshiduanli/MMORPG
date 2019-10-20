@@ -119,95 +119,95 @@ public class AssetBundleMgr : Singleton<AssetBundleMgr>
 
                 //AppDebug.Log("fullPath=" + fullPath);
 
-            //#region 下载或者加载主资源
-            //    if (!File.Exists(fullPath))
-            //    {
-            //#region 如果文件不存在 需要下载
-            //        DownloadDataEntity entity = DownloadMgr.Instance.GetServerData(path);
-            //        if (entity != null)
-            //        {
-            //            AssetBundleDownload.Instance.StartCoroutine(AssetBundleDownload.Instance.DownloadData(entity,
-            //                (bool isSuccess) =>
-            //                {
-            //                    if (isSuccess)
-            //                    {
+                #region 下载或者加载主资源
+                if (!File.Exists(fullPath))
+                {
+                    #region 如果文件不存在 需要下载
+                    DownloadDataEntity entity = DownloadMgr.Instance.GetServerData(path);
+                    if (entity != null)
+                    {
+                        AssetBundleDownload.Instance.StartCoroutine(AssetBundleDownload.Instance.DownloadData(entity,
+                            (bool isSuccess) =>
+                            {
+                                if (isSuccess)
+                                {
 
-            //                        if (m_AssetDic.ContainsKey(fullPath))
-            //                        {
-            //                            if (onComplete != null)
-            //                            {
-            //                                onComplete(m_AssetDic[fullPath] as T);
-            //                            }
-            //                            return;
-            //                        }
+                                    if (m_AssetDic.ContainsKey(fullPath))
+                                    {
+                                        if (onComplete != null)
+                                        {
+                                            onComplete(m_AssetDic[fullPath] as T);
+                                        }
+                                        return;
+                                    }
 
-            //                        for (int i = 0; i < arrDps.Length; i++)
-            //                        {
-            //                            if (!m_AssetDic.ContainsKey((LocalFileMgr.Instance.LocalFilePath + arrDps[i]).ToLower()))
-            //                            {
-            //                                AssetBundleLoader loader = new AssetBundleLoader(arrDps[i]);
-            //                                Object obj = loader.LoadAsset(GameUtil.GetFileName(arrDps[i]));
-            //                                m_AssetBundleDic[(LocalFileMgr.Instance.LocalFilePath + arrDps[i]).ToLower()] = loader;
-            //                                m_AssetDic[(LocalFileMgr.Instance.LocalFilePath + arrDps[i]).ToLower()] = obj;
-            //                            }
-            //                        }
+                                    for (int i = 0; i < arrDps.Length; i++)
+                                    {
+                                        if (!m_AssetDic.ContainsKey((LocalFileMgr.Instance.LocalFilePath + arrDps[i]).ToLower()))
+                                        {
+                                            AssetBundleLoader loader = new AssetBundleLoader(arrDps[i]);
+                                            Object obj = loader.LoadAsset(GameUtil.GetFileName(arrDps[i]));
+                                            m_AssetBundleDic[(LocalFileMgr.Instance.LocalFilePath + arrDps[i]).ToLower()] = loader;
+                                            m_AssetDic[(LocalFileMgr.Instance.LocalFilePath + arrDps[i]).ToLower()] = obj;
+                                        }
+                                    }
 
-            //                        //直接加载
-            //                        using (AssetBundleLoader loader = new AssetBundleLoader(fullPath, isFullPath: true))
-            //                        {
-            //                            if (onComplete != null)
-            //                            {
-            //                                Object obj = loader.LoadAsset<T>(name);
-            //                                m_AssetDic[fullPath] = obj;
-            //                                //进行回调
-            //                                onComplete(obj as T);
-            //                            }
+                                        //直接加载
+                                        using (AssetBundleLoader loader = new AssetBundleLoader(fullPath, isFullPath: true))
+                                    {
+                                        if (onComplete != null)
+                                        {
+                                            Object obj = loader.LoadAsset<T>(name);
+                                            m_AssetDic[fullPath] = obj;
+                                                //进行回调
+                                                onComplete(obj as T);
+                                        }
 
-            //                            //todu 进行xlua的回调
-            //                        }
-            //                    }
-            //                }));
-            //        }
-            //#endregion
-                //}
-                //else
-                //{
-                //    if (m_AssetDic.ContainsKey(fullPath))
-                //    {
-                //        if (onComplete != null)
-                //        {
-                //            onComplete(m_AssetDic[fullPath] as T);
-                //        }
-                //        return;
-                //    }
+                                            //todu 进行xlua的回调
+                                        }
+                                }
+                            }));
+                    }
+                    #endregion
+                }
+                else
+                {
+                    if (m_AssetDic.ContainsKey(fullPath))
+                    {
+                        if (onComplete != null)
+                        {
+                            onComplete(m_AssetDic[fullPath] as T);
+                        }
+                        return;
+                    }
 
-                //    //===================================
-                //    for (int i = 0; i < arrDps.Length; i++)
-                //    {
-                //        if (!m_AssetDic.ContainsKey((LocalFileMgr.Instance.LocalFilePath + arrDps[i]).ToLower()))
-                //        {
-                //            AssetBundleLoader loader = new AssetBundleLoader(arrDps[i]);
-                //            Object obj = loader.LoadAsset(GameUtil.GetFileName(arrDps[i]));
-                //            m_AssetBundleDic[(LocalFileMgr.Instance.LocalFilePath + arrDps[i]).ToLower()] = loader;
-                //            m_AssetDic[(LocalFileMgr.Instance.LocalFilePath + arrDps[i]).ToLower()] = obj;
-                //        }
-                //    }
-                //    //===================================
-                //    //直接加载
-                //    using (AssetBundleLoader loader = new AssetBundleLoader(fullPath, isFullPath: true))
-                //    {
-                //        if (onComplete != null)
-                //        {
-                //            Object obj = loader.LoadAsset<T>(name);
-                //            m_AssetDic[fullPath] = obj;
-                //            //进行回调
-                //            onComplete(obj as T);
-                //        }
+                    //===================================
+                    for (int i = 0; i < arrDps.Length; i++)
+                    {
+                        if (!m_AssetDic.ContainsKey((LocalFileMgr.Instance.LocalFilePath + arrDps[i]).ToLower()))
+                        {
+                            AssetBundleLoader loader = new AssetBundleLoader(arrDps[i]);
+                            Object obj = loader.LoadAsset(GameUtil.GetFileName(arrDps[i]));
+                            m_AssetBundleDic[(LocalFileMgr.Instance.LocalFilePath + arrDps[i]).ToLower()] = loader;
+                            m_AssetDic[(LocalFileMgr.Instance.LocalFilePath + arrDps[i]).ToLower()] = obj;
+                        }
+                    }
+                    //===================================
+                    //直接加载
+                    using (AssetBundleLoader loader = new AssetBundleLoader(fullPath, isFullPath: true))
+                    {
+                        if (onComplete != null)
+                        {
+                            Object obj = loader.LoadAsset<T>(name);
+                            m_AssetDic[fullPath] = obj;
+                            //进行回调
+                            onComplete(obj as T);
+                        }
 
-                //        //todu 进行xlua的回调
-                //    }
-                //}
-            //#endregion
+                        //todu 进行xlua的回调
+                    }
+                }
+                #endregion
 
                 //=============下载主资源结束===================
             });
@@ -235,23 +235,23 @@ public class AssetBundleMgr : Singleton<AssetBundleMgr>
 
             if (!File.Exists(fullPath))
             {
-                ////如果文件不存在 需要下载
-                //DownloadDataEntity entity = DownloadMgr.Instance.GetServerData(arrDps[index]);
-                //if (entity != null)
-                //{
-                //    AssetBundleDownload.Instance.StartCoroutine(AssetBundleDownload.Instance.DownloadData(entity,
-                //        (bool isSuccess) =>
-                //        {
-                //            index++;
-                //            if (index == arrDps.Length)
-                //            {
-                //                if (onComplete != null) onComplete();
-                //                return;
-                //            }
+                //如果文件不存在 需要下载
+                DownloadDataEntity entity = DownloadMgr.Instance.GetServerData(arrDps[index]);
+                if (entity != null)
+                {
+                    AssetBundleDownload.Instance.StartCoroutine(AssetBundleDownload.Instance.DownloadData(entity,
+                        (bool isSuccess) =>
+                        {
+                            index++;
+                            if (index == arrDps.Length)
+                            {
+                                if (onComplete != null) onComplete();
+                                return;
+                            }
 
-                //            CheckDps(index, arrDps, onComplete);
-                //        }));
-                //}
+                            CheckDps(index, arrDps, onComplete);
+                        }));
+                }
             }
             else
             {

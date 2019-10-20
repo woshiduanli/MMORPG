@@ -16,7 +16,7 @@ public class DownloadMgr : Singleton<DownloadMgr>
     public const int DownloadRoutineNum = 1; //下载器的数量
 
 
-    public static string DownloadUrl = DownloadBaseUrl+ ""; 
+    public static string DownloadUrl = DownloadBaseUrl + "";
 
 
     public string LocalFilePath = Application.persistentDataPath + "/"; //本地资源路径
@@ -43,7 +43,7 @@ public class DownloadMgr : Singleton<DownloadMgr>
     {
 
         SetDownLoadPath();
-
+        Debug.LogError("进来初始化了"); 
         OnInitComplete = onInitComplete;
 
         m_LoaclVersionPath = LocalFilePath + m_VersionFileName;
@@ -76,9 +76,14 @@ public class DownloadMgr : Singleton<DownloadMgr>
         {
             DownloadUrl = DownloadBaseUrl + "iOS/";
         }
-        else if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.Android)
+        else if (Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            DownloadUrl = DownloadBaseUrl + "Windows/";
+        }
+        else if (Application.platform == RuntimePlatform.Android)
         {
             DownloadUrl = DownloadBaseUrl + "Android/";
+
         }
     }
 
@@ -150,6 +155,8 @@ public class DownloadMgr : Singleton<DownloadMgr>
         //解压版本文件
         yield return GlobalInit.Instance.StartCoroutine(AssetLoadToLocal(m_StreamingAssetsPath + m_VersionFileName, LocalFilePath + m_VersionFileName));
 
+        //Debug.LogError("技术了-------------------");
+        //yield break; 
         //检查跟新
         InitCheckVersion();
     }
@@ -195,7 +202,7 @@ public class DownloadMgr : Singleton<DownloadMgr>
     {
         m_LoaclVersionPath = LocalFilePath + m_VersionFileName;
         //UISceneInitCtrl.Instance.SetProgress("正在检查版本更新", 0);
-        SetDownLoadPath(); 
+        SetDownLoadPath();
         string strVersionUrl = DownloadUrl + m_VersionFileName; //版本文件路径
 
         //读取这个文件

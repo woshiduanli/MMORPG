@@ -129,7 +129,7 @@ public class AssetBundleDownload : SingletonMono<AssetBundleDownload>
         }
         else
         {
-            AppDebug.Log("下载失败 原因:" + www.error);
+            AppDebug.LogError("下载失败 原因:" + www.error);
         }
     }
 

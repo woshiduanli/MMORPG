@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class SceneLoadingCtrl : MonoBehaviour
 {
@@ -57,7 +58,7 @@ public class SceneLoadingCtrl : MonoBehaviour
                 strSceneName = "Scene_LogOn";
                 break;
             case SceneType.SelectRole:
-                strSceneName = "Scene_SelectRole";
+                strSceneName = "GameScene_SelectRole";
                 break;
             case SceneType.WorldMap:
 
@@ -74,25 +75,77 @@ public class SceneLoadingCtrl : MonoBehaviour
                 break;
         }
         if (string.IsNullOrEmpty(strSceneName)) yield break;
-        //if (SceneMgr.Instance.CurrentSceneType == SceneType.City  )
-        //{
-        //    // 加载渲染场景的时候，本来是加载ab包的
-        //    AssetBundleMgr.Instance.LoadAsync("scene/gamescene_cunzhuang.unity3d", "Scene_SelectRole").OnLoadComplete = (AssetObj) =>
-        //    {
-        //        m_Async = SceneManager.LoadSceneAsync(strSceneName, LoadSceneMode.Additive);
-        //        m_Async.allowSceneActivation = false;
-        //    };
-        //}
-        //else
-        //{
-        MyDebug.debug("要去的场景：" + strSceneName);
-        m_Async = SceneManager.LoadSceneAsync(strSceneName, LoadSceneMode.Additive);
-        m_Async.allowSceneActivation = false;
-        yield return m_Async;
-        //}
+        if (SceneMgr.Instance.CurrentSceneType == SceneType.SelectRole || SceneMgr.Instance.CurrentSceneType == SceneType.WorldMap
+            || SceneMgr.Instance.CurrentSceneType == SceneType.GameLevel
+            )
+        {
+            MyDebug.debug("要去的场景2：" + strSceneName);
+            StartCoroutine(Load("download/scene/gamescene_"+ SceneMgr.Instance.CurrentSceneType.ToString().ToLower()+ ".unity3d", strSceneName));
+
+        }
+        else
+        {
+            MyDebug.debug("要去的场景：" + strSceneName);
+            m_Async = SceneManager.LoadSceneAsync(strSceneName, LoadSceneMode.Additive);
+            m_Async.allowSceneActivation = false;
+            yield return m_Async;
+        }
+
+    }
+    IEnumerator Load(string path, string sceneName)
+    {
+
+        string fullPath = LocalFileMgr.Instance.LocalFilePath + path;
+
+        if (!File.Exists(fullPath))
+        {
+            DownloadDataEntity en = DownloadMgr.Instance.GetServerData(path);
+            if (en==null)
+            {
+                Debug.LogError("取出来为空-");
+
+                yield break;
+            }
+
+            StartCoroutine(AssetBundleDownload.Instance.DownloadData(en, (b) =>
+            {
+
+                if (b)
+                {
+                    Debug.LogError("下载成功， 开始加载1-"+ fullPath+ "   "+ sceneName);
+                    StartCoroutine(LoadScene(fullPath, sceneName)); 
+                }
+            }) );
+
+            // 如果路径不存在， 进行下载
+
+            Debug.LogError("路径不存在-");
+        }
+        else
+        {
+            Debug.LogError("下载成功， 开始加载2-" + fullPath + "   " + sceneName);
+            StartCoroutine(LoadScene(fullPath, sceneName));
+        }
+
+
 
     }
 
+    IEnumerator LoadScene(string fullPath, string sceneName )
+    {
+        AssetBundleCreateRequest request = AssetBundle.LoadFromMemoryAsync(LocalFileMgr.Instance.GetBuffer(fullPath));
+        yield return request;
+        AssetBundle bundle = request.assetBundle;
+        if (sceneName.Contains("selectrole"))
+        {
+            //sceneName = "GameScene_SelectRole"; 
+           
+        }
+        m_Async = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        m_Async.allowSceneActivation = false;
+        //加载渲染场景的时候，本来是加载ab包的
+
+    }
     void Update()
     {
         if (m_Async == null) return;

@@ -23,7 +23,7 @@
     </Item>
 
     <Item Name="初始场景" Tag="Scene" IsFolder="False" IsFirstData="True">
-      <Path Value="Download\Scene\Scene_SelectRole.unity" />
+      <Path Value="Download\Scene\GameScene_SelectRole.unity" />
       <Path Value="Download\Scene\GameScene_HuPaoCun.unity" />
     </Item>
     <Item Name="其他场景" Tag="Scene" IsFolder="False" IsFirstData="True">
@@ -41,6 +41,7 @@
       <Path Value="Download\Scene\GameScene_ShanGu3.unity" />
       <Path Value="Download\Scene\GameScene_XueDi1.unity" />
       <Path Value="Download\Scene\GameScene_XueDi2.unity" />
+      <Path Value="Download\Scene\GameScene_SelectRole.unity" />
     </Item>
 
 

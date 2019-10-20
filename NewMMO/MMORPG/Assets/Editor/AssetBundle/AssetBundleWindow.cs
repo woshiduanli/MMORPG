@@ -45,6 +45,12 @@ public class AssetBundleWindow : EditorWindow
             target = BuildTarget.iOS;
             buildTargetIndex = 2;
         }
+        else if (Application.platform == RuntimePlatform.Android)
+        {
+            target = BuildTarget.Android;
+            buildTargetIndex = 1;
+        }
+
         else if (Application.platform == RuntimePlatform.WindowsEditor)
         {
             target = BuildTarget.Android;
