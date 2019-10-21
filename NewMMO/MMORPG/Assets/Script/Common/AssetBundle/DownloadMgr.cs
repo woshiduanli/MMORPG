@@ -43,7 +43,7 @@ public class DownloadMgr : Singleton<DownloadMgr>
     {
 
         SetDownLoadPath();
-        Debug.LogError("进来初始化了"); 
+        Debug.LogError("进来初始化了");
         OnInitComplete = onInitComplete;
 
         m_LoaclVersionPath = LocalFilePath + m_VersionFileName;
@@ -215,6 +215,7 @@ public class DownloadMgr : Singleton<DownloadMgr>
     /// <param name="obj"></param>
     private void OnInitVersionCallBack(List<DownloadDataEntity> serverDownloadData)
     {
+        //  拿到服务器版本文件信息
         m_ServerDataList = serverDownloadData;
 
         if (File.Exists(m_LoaclVersionPath))
@@ -278,10 +279,18 @@ public class DownloadMgr : Singleton<DownloadMgr>
             }
             return;
         }
-
+        // --------------------------------  真正开始下载资源的地方 ----------------------------------
         //进行下载 资源服务器和客户端比较， 如果客户单没有，那么就下载，如果， 有，但是mds不一样， 也要下载
-        AssetBundleDownload.Instance.DownloadFiles(m_NeedDownloadDataList);
+            AssetBundleDownload.Instance.DownloadFiles(m_NeedDownloadDataList, isUseWWWDownLoad);
+
+
     }
+
+
+
+
+
+    public bool isUseWWWDownLoad = false;
 
     /// <summary>
     /// 根据资源名称 获取资源实体

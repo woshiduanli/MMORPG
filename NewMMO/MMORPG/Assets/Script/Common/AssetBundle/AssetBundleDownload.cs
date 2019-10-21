@@ -4,6 +4,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 
 /// <summary>
 /// 主下载器
@@ -15,6 +16,10 @@ public class AssetBundleDownload : SingletonMono<AssetBundleDownload>
 
     //下载器的数组
     private AssetBundleDownloadRoutine[] m_Routine = new AssetBundleDownloadRoutine[DownloadMgr.DownloadRoutineNum];
+
+    //下载器的数组
+    private HttpThreadDownLoad[] m_thread = new HttpThreadDownLoad[DownloadMgr.DownloadRoutineNum];
+
 
     private int m_RoutineIndex = 0; //下载器索引
 
@@ -189,7 +194,7 @@ public class AssetBundleDownload : SingletonMono<AssetBundleDownload>
     /// 下载文件
     /// </summary>
     /// <param name="downloadList"></param>
-    public void DownloadFiles(List<DownloadDataEntity> downloadList)
+    public void DownloadFiles(List<DownloadDataEntity> downloadList, bool isUseThread = true )
     {
         TotalSize = 0;
         TotalCount = 0;
@@ -215,15 +220,18 @@ public class AssetBundleDownload : SingletonMono<AssetBundleDownload>
             TotalSize += downloadList[i].Size;
             TotalCount++;
         }
-        Debug.LogError("下载器的长度：" + m_Routine.Length); 
+        Debug.LogError("下载器的长度：" + m_Routine.Length);
         //让下载器开始下载
         for (int i = 0; i < m_Routine.Length; i++)
         {
             if (m_Routine[i] == null) continue;
 
-            m_Routine[i].StartDownload();
+            m_Routine[i].StartDownload(isUseThread);
         }
     }
+
+  
+
 
 
     public IEnumerator DownloadData(DownloadDataEntity currDownloadData, Action<bool> onComplete)

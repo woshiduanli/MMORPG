@@ -7,11 +7,11 @@ using System.IO;
 /// <summary>
 /// 下载器
 /// </summary>
-public class AssetBundleDownloadRoutine : MonoBehaviour 
+public class AssetBundleDownloadRoutine : MonoBehaviour
 {
     private List<DownloadDataEntity> m_List = new List<DownloadDataEntity>(); //需要下载的文件列表
 
-    private DownloadDataEntity m_CurrDownloadData; //当前正在下载的数据
+    public DownloadDataEntity m_CurrDownloadData; //当前正在下载的数据
 
     /// <summary>
     /// 需要下载的数量
@@ -27,12 +27,12 @@ public class AssetBundleDownloadRoutine : MonoBehaviour
     /// </summary>
     public int CompleteCount
     {
-        private set;
+          set;
         get;
     }
 
-    private int m_DownloadSize; //已经下载好的文件的总大小
-    private int m_CurrDownloadSize; //当前下载的文件大小
+    public int m_DownloadSize; //已经下载好的文件的总大小
+    public int m_CurrDownloadSize; //当前下载的文件大小
 
     /// <summary>
     /// 这个下载器已经下载的大小
@@ -59,19 +59,28 @@ public class AssetBundleDownloadRoutine : MonoBehaviour
     {
         m_List.Add(entity);
     }
-
+    bool isUseThread = true;
+    HttpThreadDownLoad threadLoad; 
     /// <summary>
     /// 开始下载
     /// </summary>
-    public void StartDownload()
+    public void StartDownload(bool isUseThread = true)
     {
+        this.isUseThread = isUseThread;
         IsStartDownload = true;
         NeedDownloadCount = m_List.Count;
+
+
+        if (isUseThread)
+        {
+            threadLoad = new HttpThreadDownLoad(m_List, this );
+            threadLoad.DownLoad(); 
+        }
     }
 
     void Update()
     {
-        if (IsStartDownload)
+        if (IsStartDownload && !isUseThread)
         {
             IsStartDownload = false;
             StartCoroutine(DownloadData());
@@ -84,7 +93,7 @@ public class AssetBundleDownloadRoutine : MonoBehaviour
         m_CurrDownloadData = m_List[0];
 
         string dataUrl = DownloadMgr.DownloadUrl + m_CurrDownloadData.FullName; //资源下载路径
-        AppDebug.Log("dataUrl="+ dataUrl);
+        AppDebug.Log("dataUrl=" + dataUrl);
 
         int lastIndex = m_CurrDownloadData.FullName.LastIndexOf('\\');
 
