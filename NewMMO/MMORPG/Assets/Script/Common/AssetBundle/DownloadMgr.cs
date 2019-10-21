@@ -380,6 +380,7 @@ public class DownloadMgr : Singleton<DownloadMgr>
         {
             if (m_LocalDataList[i].FullName.Equals(entity.FullName, StringComparison.CurrentCultureIgnoreCase))
             {
+                // 这里是修改这个文件 
                 m_LocalDataList[i].MD5 = entity.MD5;
                 m_LocalDataList[i].Size = entity.Size;
                 m_LocalDataList[i].IsFirstData = entity.IsFirstData;
