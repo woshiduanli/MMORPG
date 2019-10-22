@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using UnityEngine.Networking;
+//using uni
 
 /// <summary>
 /// 主下载器
@@ -27,6 +29,7 @@ public class AssetBundleDownload : SingletonMono<AssetBundleDownload>
 
     protected override void OnStart()
     {
+     
         base.OnStart();
 
         //真正的运行
@@ -258,6 +261,7 @@ public class AssetBundleDownload : SingletonMono<AssetBundleDownload>
 
         if (!Directory.Exists(localFilePath))
         {
+           
             Directory.CreateDirectory(localFilePath);
         }
 
