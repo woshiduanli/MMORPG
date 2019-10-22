@@ -12,7 +12,7 @@ using System.Text;
 public class DownloadMgr : Singleton<DownloadMgr>
 {
     public const int DownloadTimeOut = 5; //超时时间
-    public static string DownloadBaseUrl = "http://192.168.0.103:81/resource/"; // 这个地址，以后应该改成从服务器读取
+    public static string DownloadBaseUrl = "http://127.0.0.1:81/resource/"; // 这个地址，以后应该改成从服务器读取
     public const int DownloadRoutineNum = 5; //下载器的数量
 
 
