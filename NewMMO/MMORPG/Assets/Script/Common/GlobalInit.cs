@@ -93,8 +93,15 @@ public class GlobalInit : MonoBehaviour
 
         }
     }
-
-  
+    public bool  isStopGame; 
+    private void OnDisable()
+    {
+       
+        this.isStopGame = true; 
+        //UIEventListener.Instantiate.add
+        //EventDispatcher.Instance.RegProto(protoCode, realContent);
+        //EventDispatcher.Instance.Dispatch(protoCode, realContent);
+    }
 
     public string WebAccountUrl = @"http://localhost:8081/";
 

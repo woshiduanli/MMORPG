@@ -56,7 +56,7 @@ public class HttpThreadDownLoad
         ro.m_CurrDownloadData = m_list[0];
 
         string dataUrl = DownloadMgr.DownloadUrl + ro.m_CurrDownloadData.FullName; //资源下载路径
-     //Debug.LogError("dataUrl=" + dataUrl);
+                                                                                   //Debug.LogError("dataUrl=" + dataUrl);
 
         int lastIndex = ro.m_CurrDownloadData.FullName.LastIndexOf('\\');
 
@@ -73,7 +73,7 @@ public class HttpThreadDownLoad
                 Directory.CreateDirectory(localFilePath);
             }
         }
-        
+
         //yield return www;
         //Debug.LogError("ssss:" + DownloadMgr.Instance.LocalFilePath + ro.m_CurrDownloadData.FullName);
         ToDownLoad(dataUrl, DownloadMgr.Instance.LocalFilePath + ro.m_CurrDownloadData.FullName, (isSuccess) =>
@@ -103,7 +103,7 @@ public class HttpThreadDownLoad
 
     private IEnumerator DownloadData()
     {
-        yield break; 
+        yield break;
         //if (NeedDownloadCount == 0) yield break;
         //m_CurrDownloadData = m_List[0];
 
@@ -209,18 +209,23 @@ public class HttpThreadDownLoad
             //断点续传核心，设置本地文件流的起始位置
             fs.Seek(fileLength, SeekOrigin.Begin);
 
+
             HttpWebRequest request = HttpWebRequest.Create(url) as HttpWebRequest;
 
             //断点续传核心，设置远程访问文件流的起始位置
             request.AddRange((int)fileLength);
             Stream stream = request.GetResponse().GetResponseStream();
 
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[1024*10];
             //使用流读取内容到buffer中
             //注意方法返回值代表读取的实际长度,并不是buffer有多大，stream就会读进去多少
             int length = stream.Read(buffer, 0, buffer.Length);
             while (length > 0)
             {
+                if (GlobalInit.Instance.isStopGame) return;
+
+                Debug.Log(Thread.CurrentThread.GetHashCode()+ "   "+ length+ "  "+ filePath);
+
                 //如果Unity客户端关闭，停止下载
                 if (isStop) break;
                 //将内容再写入本地文件中
@@ -250,7 +255,7 @@ public class HttpThreadDownLoad
         //如果下载完毕，执行回调
         if (progress == 1)
         {
-            
+
             isDone = true;
             if (callBack != null) callBack(true);
         }

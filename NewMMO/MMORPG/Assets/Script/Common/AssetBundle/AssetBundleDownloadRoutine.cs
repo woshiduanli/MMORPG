@@ -27,7 +27,7 @@ public class AssetBundleDownloadRoutine : MonoBehaviour
     /// </summary>
     public int CompleteCount
     {
-          set;
+        set;
         get;
     }
 
@@ -60,30 +60,53 @@ public class AssetBundleDownloadRoutine : MonoBehaviour
         m_List.Add(entity);
     }
     bool isUseThread = true;
-    HttpThreadDownLoad threadLoad; 
+    bool isWebRequst = true;
+    bool isWWW = true;
+    HttpThreadDownLoad threadLoad;
     /// <summary>
     /// 开始下载
     /// </summary>
     public void StartDownload(bool isUseThread = true)
     {
-        this.isUseThread = true;
+        this.isUseThread = false;
+        this.isWebRequst = true;
+        this.isWWW = false;
+
         IsStartDownload = true;
         NeedDownloadCount = m_List.Count;
 
-        Debug.LogError("sfsfsf:::::::::::::::::::-----------------------"); 
+        //Debug.LogError("sfsfsf:::::::::::::::::::-----------------------"); 
 
         if (this.isUseThread)
         {
             //Debug.LogError("开始哒哒哒哒哒哒多多");
-            threadLoad = new HttpThreadDownLoad(m_List, this );
-            threadLoad.DownLoad(); 
+            threadLoad = new HttpThreadDownLoad(m_List, this);
+            threadLoad.DownLoad();
+        }
+
+        if (this.isWebRequst)
+        {
+            //Debug.LogError("开始哒哒哒哒哒哒多多");
+            threadLoad = new HttpThreadDownLoad(m_List, this);
+            threadLoad.DownLoad();
         }
     }
 
+
+
+
+
     void Update()
     {
-        if (IsStartDownload && !this.isUseThread)
+        if (IsStartDownload && this.isWWW)
         {
+            IsStartDownload = false;
+            StartCoroutine(DownloadData());
+        }
+
+        if (IsStartDownload && this.isWebRequst)
+        {
+            
             IsStartDownload = false;
             StartCoroutine(DownloadData());
         }

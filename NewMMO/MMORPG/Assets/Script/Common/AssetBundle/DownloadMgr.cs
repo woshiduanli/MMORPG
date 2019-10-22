@@ -13,7 +13,7 @@ public class DownloadMgr : Singleton<DownloadMgr>
 {
     public const int DownloadTimeOut = 5; //超时时间
     public static string DownloadBaseUrl = "http://127.0.0.1:81/resource/"; // 这个地址，以后应该改成从服务器读取
-    public const int DownloadRoutineNum = 5; //下载器的数量
+    public const int DownloadRoutineNum = 30; //下载器的数量
 
 
     public static string DownloadUrl = DownloadBaseUrl + "";
@@ -272,17 +272,20 @@ public class DownloadMgr : Singleton<DownloadMgr>
 
         if (m_NeedDownloadDataList.Count == 0)
         {
+            Debug.LogError("没资源需要更新");
             //UISceneInitCtrl.Instance.SetProgress("资源更新完毕", 1);
             if (OnInitComplete != null)
             {
                 OnInitComplete();
             }
-            return;
         }
-        // --------------------------------  真正开始下载资源的地方 ----------------------------------
-        //进行下载 资源服务器和客户端比较， 如果客户单没有，那么就下载，如果， 有，但是mds不一样， 也要下载
-        Debug.LogError("开始下999999999999999载的： " + System.DateTime.Now.ToString());
-        AssetBundleDownload.Instance.DownloadFiles(m_NeedDownloadDataList, isUseWWWDownLoad);
+        else
+        {
+            //进行下载 资源服务器和客户端比较， 如果客户单没有，那么就下载，如果， 有，但是mds不一样， 也要下载
+            Debug.LogError("开始更新时间：" + System.DateTime.Now.ToString());
+            AssetBundleDownload.Instance.DownloadFiles(m_NeedDownloadDataList, isUseWWWDownLoad);
+        }
+
 
 
     }
@@ -376,35 +379,39 @@ public class DownloadMgr : Singleton<DownloadMgr>
         }
         return dic;
     }
-
+    private static System.Object modifyLockObj = new object();
     /// <summary>
     /// 修改本地文件
     /// </summary>
     /// <param name="entity"></param>
     public void ModifyLocalData(DownloadDataEntity entity)
     {
-        if (m_LocalDataList == null) return;
-        bool isExists = false;
-
-        for (int i = 0; i < m_LocalDataList.Count; i++)
+        lock (modifyLockObj)
         {
-            if (m_LocalDataList[i].FullName.Equals(entity.FullName, StringComparison.CurrentCultureIgnoreCase))
+
+            if (m_LocalDataList == null) return;
+            bool isExists = false;
+
+            for (int i = 0; i < m_LocalDataList.Count; i++)
             {
-                // 这里是修改这个文件 
-                m_LocalDataList[i].MD5 = entity.MD5;
-                m_LocalDataList[i].Size = entity.Size;
-                m_LocalDataList[i].IsFirstData = entity.IsFirstData;
-                isExists = true;
-                break;
+                if (m_LocalDataList[i].FullName.Equals(entity.FullName, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    // 这里是修改这个文件 
+                    m_LocalDataList[i].MD5 = entity.MD5;
+                    m_LocalDataList[i].Size = entity.Size;
+                    m_LocalDataList[i].IsFirstData = entity.IsFirstData;
+                    isExists = true;
+                    break;
+                }
             }
-        }
 
-        if (!isExists)
-        {
-            m_LocalDataList.Add(entity);
-        }
+            if (!isExists)
+            {
+                m_LocalDataList.Add(entity);
+            }
 
-        SavaLoaclVersion();
+            SavaLoaclVersion();
+        }
     }
 
     /// <summary>

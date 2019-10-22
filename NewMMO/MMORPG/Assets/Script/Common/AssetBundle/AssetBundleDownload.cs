@@ -76,6 +76,14 @@ public class AssetBundleDownload : SingletonMono<AssetBundleDownload>
             {
                 string strNeedTime = string.Format("剩余时间{0}秒", m_NeedTime);
             }
+            if (needCount != totalCompleteCount)
+            {
+
+                Debug.LogError("已经完成： " + totalCompleteCount + "   " + TotalCount);
+
+                needCount = totalCompleteCount; 
+
+            }
             //AppDebug.LogError(totalCompleteCount + "  "+ TotalCount+ "   "+  "下载2完成--------------------------------------------------： " + System.DateTime.Now.ToString());
             if (totalCompleteCount == TotalCount)
             {
@@ -89,6 +97,7 @@ public class AssetBundleDownload : SingletonMono<AssetBundleDownload>
             }
         }
     }
+    int needCount = 0; 
 
     /// <summary>
     /// 初始化服务器版本信息
