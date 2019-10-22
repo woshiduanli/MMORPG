@@ -65,20 +65,21 @@ public class AssetBundleDownload : SingletonMono<AssetBundleDownload>
             }
 
             string str = string.Format("正在下载{0}/{1}", totalCompleteCount, TotalCount);
-            //string strProgress = string.Format("下载进度={0}", totalCompleteSize / (float)TotalSize);
+            string strProgress = string.Format("下载进度={0}", totalCompleteSize / (float)TotalSize);
 
             //UISceneInitCtrl.Instance.SetProgress(str, totalCompleteCount / (float)TotalCount);
 
-            //AppDebug.Log(str);
-            //AppDebug.Log(strProgress);
+            //AppDebug.LogError(str);
+            //AppDebug.LogError(strProgress);
 
             if (m_NeedTime > 0)
             {
                 string strNeedTime = string.Format("剩余时间{0}秒", m_NeedTime);
             }
-
+            //AppDebug.LogError(totalCompleteCount + "  "+ TotalCount+ "   "+  "下载2完成--------------------------------------------------： " + System.DateTime.Now.ToString());
             if (totalCompleteCount == TotalCount)
             {
+                AppDebug.LogError("下载完成--------------------------------------------------： "+ System.DateTime.Now.ToString());
                 m_IsDownloadOver = true;
                 //UISceneInitCtrl.Instance.SetProgress("资源更新完毕", 1);
                 if (DownloadMgr.Instance.OnInitComplete != null)
@@ -212,6 +213,7 @@ public class AssetBundleDownload : SingletonMono<AssetBundleDownload>
         for (int i = 0; i < downloadList.Count; i++)
         {
             m_RoutineIndex = m_RoutineIndex % m_Routine.Length; //0-4
+            Debug.LogError("dddddddddddddddddddddddddddddddd:"+ m_RoutineIndex);
 
             //其中的一个下载器 给他分配一个文件
             m_Routine[m_RoutineIndex].AddDownload(downloadList[i]);

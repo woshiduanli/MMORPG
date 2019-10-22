@@ -41,6 +41,8 @@ public class HttpThreadDownLoad
         //开启子线程下载,使用匿名方法
         thread = new Thread(delegate ()
         {
+
+            //Debug.LogError("sfsfsf::::::::::::::3434:::::-----------------------");
             StartDownLoad();
         });
         //开启子线程
@@ -54,7 +56,7 @@ public class HttpThreadDownLoad
         ro.m_CurrDownloadData = m_list[0];
 
         string dataUrl = DownloadMgr.DownloadUrl + ro.m_CurrDownloadData.FullName; //资源下载路径
-        AppDebug.Log("dataUrl=" + dataUrl);
+     //Debug.LogError("dataUrl=" + dataUrl);
 
         int lastIndex = ro.m_CurrDownloadData.FullName.LastIndexOf('\\');
 
@@ -71,39 +73,14 @@ public class HttpThreadDownLoad
                 Directory.CreateDirectory(localFilePath);
             }
         }
-        //DownloadMgr.Instance.LocalFilePath + m_CurrDownloadData.FullName
-        // 开始下载
-        //WWW www = new WWW(dataUrl);
-
-        float timeout = Time.time;
-        //float progress = www.progress;
-
-        // 等待过程中
-        //while (www != null && !www.isDone)
-        //{
-        //    if (progress < www.progress)
-        //    {
-        //        timeout = Time.time;
-        //        progress = www.progress;
-
-        //        m_CurrDownloadSize = (int)(m_CurrDownloadData.Size * progress);
-        //    }
-
-        //    if ((Time.time - timeout) > DownloadMgr.DownloadTimeOut)
-        //    {
-        //        AppDebug.LogError("下载失败 超时");
-        //        yield break;
-        //    }
-
-        //    yield return null; //一定要等一帧
-        //}
-        // 下载完成
+        
         //yield return www;
-
+        //Debug.LogError("ssss:" + DownloadMgr.Instance.LocalFilePath + ro.m_CurrDownloadData.FullName);
         ToDownLoad(dataUrl, DownloadMgr.Instance.LocalFilePath + ro.m_CurrDownloadData.FullName, (isSuccess) =>
         {
             if (isSuccess)
             {
+                //Debug.LogError("成功："+ ro.m_CurrDownloadData.FullName);
                 DownloadMgr.Instance.ModifyLocalData(ro.m_CurrDownloadData);
             }
         });
@@ -126,6 +103,7 @@ public class HttpThreadDownLoad
 
     private IEnumerator DownloadData()
     {
+        yield break; 
         //if (NeedDownloadCount == 0) yield break;
         //m_CurrDownloadData = m_List[0];
 
@@ -173,43 +151,43 @@ public class HttpThreadDownLoad
         //    yield return null; //一定要等一帧
         //}
 
-        yield return www;
+        //yield return www;
 
-        if (www != null && www.error == null)
-        {
-            using (FileStream fs = new FileStream(DownloadMgr.Instance.LocalFilePath + m_CurrDownloadData.FullName, FileMode.Create, FileAccess.ReadWrite))
-            {
-                fs.Write(www.bytes, 0, www.bytes.Length);
-            }
-        }
+        //if (www != null && www.error == null)
+        //{
+        //    using (FileStream fs = new FileStream(DownloadMgr.Instance.LocalFilePath + m_CurrDownloadData.FullName, FileMode.Create, FileAccess.ReadWrite))
+        //    {
+        //        fs.Write(www.bytes, 0, www.bytes.Length);
+        //    }
+        //}
 
-        //下载成功
-        m_CurrDownloadSize = 0;
-        m_DownloadSize += m_CurrDownloadData.Size;
+        ////下载成功
+        //m_CurrDownloadSize = 0;
+        //m_DownloadSize += m_CurrDownloadData.Size;
 
-        //写入本地文件
-        DownloadMgr.Instance.ModifyLocalData(m_CurrDownloadData);
+        ////写入本地文件
+        //DownloadMgr.Instance.ModifyLocalData(m_CurrDownloadData);
 
-        m_List.RemoveAt(0);
-        CompleteCount++;
+        //m_List.RemoveAt(0);
+        //CompleteCount++;
 
-        if (m_List.Count == 0)
-        {
-            m_List.Clear();
-        }
-        else
-        {
-            IsStartDownload = true;
-        }
+        //if (m_List.Count == 0)
+        //{
+        //    m_List.Clear();
+        //}
+        //else
+        //{
+        //    IsStartDownload = true;
+        //}
     }
 
     private void ToDownLoad(string url, string savePath, Action<bool> callBack)
     {
         //判断保存路径是否存在
-        if (!Directory.Exists(savePath))
-        {
-            Directory.CreateDirectory(savePath);
-        }
+        //if (!Directory.Exists(savePath))
+        //{
+        //    Directory.CreateDirectory(savePath);
+        //}
         //这是要下载的文件名，比如从服务器下载a.zip到D盘，保存的文件名是test
         string filePath = savePath;
 
@@ -219,9 +197,9 @@ public class HttpThreadDownLoad
         long fileLength = fs.Length;
         ro.m_CurrDownloadSize = (int)fileLength;
         //获取下载文件的总长度
-        UnityEngine.Debug.Log(111);
+        //UnityEngine.Debug.Log(111);
         long totalLength = GetLength(url);
-        UnityEngine.Debug.Log(222);
+        //UnityEngine.Debug.Log(222);
 
 
         //如果没下载完
@@ -251,7 +229,7 @@ public class HttpThreadDownLoad
                 fileLength += length;
                 progress = (float)fileLength / (float)totalLength;
                 ro.m_CurrDownloadSize = (int)fileLength;
-                UnityEngine.Debug.Log(progress);
+                //UnityEngine.Debug.Log(progress);
                 //类似尾递归
                 length = stream.Read(buffer, 0, buffer.Length);
             }
@@ -272,10 +250,11 @@ public class HttpThreadDownLoad
         //如果下载完毕，执行回调
         if (progress == 1)
         {
+            
             isDone = true;
             if (callBack != null) callBack(true);
         }
-        UnityEngine.Debug.Log(1111);
+        //UnityEngine.Debug.LogError(1111);
     }
 
 
@@ -286,7 +265,7 @@ public class HttpThreadDownLoad
     /// <param name="url">URL.</param>
     long GetLength(string url)
     {
-        UnityEngine.Debug.Log(url);
+        //UnityEngine.Debug.Log(url);
 
         HttpWebRequest requet = HttpWebRequest.Create(url) as HttpWebRequest;
         requet.Method = "HEAD";

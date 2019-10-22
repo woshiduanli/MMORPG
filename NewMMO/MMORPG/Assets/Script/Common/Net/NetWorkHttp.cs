@@ -162,7 +162,7 @@ public class NetWorkHttp : SingletonMono<NetWorkHttp>
         }
         else
         {
-            Debug.Log("data.error=" + data.error);
+           Debug.Log("data.error=" + data.error);
             if (m_CallBack != null)
             {
                 m_CallBackArgs.HasError = true;

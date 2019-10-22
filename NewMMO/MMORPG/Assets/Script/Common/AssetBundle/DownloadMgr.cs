@@ -13,7 +13,7 @@ public class DownloadMgr : Singleton<DownloadMgr>
 {
     public const int DownloadTimeOut = 5; //超时时间
     public static string DownloadBaseUrl = "http://192.168.0.103:81/resource/"; // 这个地址，以后应该改成从服务器读取
-    public const int DownloadRoutineNum = 1; //下载器的数量
+    public const int DownloadRoutineNum = 5; //下载器的数量
 
 
     public static string DownloadUrl = DownloadBaseUrl + "";
@@ -281,7 +281,8 @@ public class DownloadMgr : Singleton<DownloadMgr>
         }
         // --------------------------------  真正开始下载资源的地方 ----------------------------------
         //进行下载 资源服务器和客户端比较， 如果客户单没有，那么就下载，如果， 有，但是mds不一样， 也要下载
-            AssetBundleDownload.Instance.DownloadFiles(m_NeedDownloadDataList, isUseWWWDownLoad);
+        Debug.LogError("开始下999999999999999载的： " + System.DateTime.Now.ToString());
+        AssetBundleDownload.Instance.DownloadFiles(m_NeedDownloadDataList, isUseWWWDownLoad);
 
 
     }
@@ -290,7 +291,7 @@ public class DownloadMgr : Singleton<DownloadMgr>
 
 
 
-    public bool isUseWWWDownLoad = false;
+    public bool isUseWWWDownLoad = true;
 
     /// <summary>
     /// 根据资源名称 获取资源实体

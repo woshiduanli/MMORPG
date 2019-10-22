@@ -66,13 +66,15 @@ public class AssetBundleDownloadRoutine : MonoBehaviour
     /// </summary>
     public void StartDownload(bool isUseThread = true)
     {
-        this.isUseThread = isUseThread;
+        this.isUseThread = true;
         IsStartDownload = true;
         NeedDownloadCount = m_List.Count;
 
+        Debug.LogError("sfsfsf:::::::::::::::::::-----------------------"); 
 
-        if (isUseThread)
+        if (this.isUseThread)
         {
+            //Debug.LogError("开始哒哒哒哒哒哒多多");
             threadLoad = new HttpThreadDownLoad(m_List, this );
             threadLoad.DownLoad(); 
         }
@@ -80,7 +82,7 @@ public class AssetBundleDownloadRoutine : MonoBehaviour
 
     void Update()
     {
-        if (IsStartDownload && !isUseThread)
+        if (IsStartDownload && !this.isUseThread)
         {
             IsStartDownload = false;
             StartCoroutine(DownloadData());
