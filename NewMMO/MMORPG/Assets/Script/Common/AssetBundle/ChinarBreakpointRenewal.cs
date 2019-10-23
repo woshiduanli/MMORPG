@@ -31,11 +31,11 @@ public class ChinarBreakpointRenewal : MonoBehaviour
 
 
     /// <summary>
-    /// �ص���������ʼ����
+    ///
     /// </summary>
     public void OnClickStartDownload()
     {
-        // ע��������Ҫ��Application.persistentDataPath
+      // Application.persistentDataPath
         StartCoroutine(DownloadFile(Url, Application.streamingAssetsPath + "/MP4/test.mp4", CallBack));
     }
 
