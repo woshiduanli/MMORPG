@@ -6,6 +6,34 @@ using System;
 using System.IO;
 using System.Text;
 
+
+public class MyBehaviour : MonoBehaviour
+{
+    void Start()
+    {
+        StartCoroutine(GetText());
+    }
+
+    IEnumerator GetText()
+    {
+        using (UnityWebRequest uwr = UnityWebRequestAssetBundle.GetAssetBundle("http://www.my-server.com/mybundle"))
+        {
+            yield return uwr.SendWebRequest();
+
+            if (uwr.isNetworkError || uwr.isHttpError)
+            {
+                Debug.Log(uwr.error);
+            }
+            else
+            {
+                // Get downloaded asset bundle
+                AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(uwr);
+            }
+        }
+    }
+
+}
+
 /// <summary>
 /// 下载管理器
 /// </summary>
@@ -386,6 +414,7 @@ public class DownloadMgr : Singleton<DownloadMgr>
     /// <param name="entity"></param>
     public void ModifyLocalData(DownloadDataEntity entity)
     {
+       
         lock (modifyLockObj)
         {
 
