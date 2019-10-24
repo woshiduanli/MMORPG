@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 using System.Text;
-
+using UnityEngine.Networking;
 
 public class MyBehaviour : MonoBehaviour
 {
@@ -16,20 +16,21 @@ public class MyBehaviour : MonoBehaviour
 
     IEnumerator GetText()
     {
-        using (UnityWebRequest uwr = UnityWebRequestAssetBundle.GetAssetBundle("http://www.my-server.com/mybundle"))
-        {
-            yield return uwr.SendWebRequest();
-
-            if (uwr.isNetworkError || uwr.isHttpError)
-            {
-                Debug.Log(uwr.error);
-            }
-            else
-            {
-                // Get downloaded asset bundle
-                AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(uwr);
-            }
-        }
+//        using (UnityWebRequest uwr = UnityWebRequestAssetBundle.GetAssetBundle("http://www.my-server.com/mybundle"))
+//        {
+//            yield return uwr.SendWebRequest();
+//
+//            if (uwr.isNetworkError || uwr.isHttpError)
+//            {
+//                Debug.Log(uwr.error);
+//            }
+//            else
+//            {
+//                // Get downloaded asset bundle
+//                AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(uwr);
+//            }
+//        }
+yield break;
     }
 
 }
