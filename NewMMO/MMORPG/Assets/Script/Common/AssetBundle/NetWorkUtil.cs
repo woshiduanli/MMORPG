@@ -39,16 +39,17 @@ public class NetWorkUtil : MonoBehaviour
 
     private static bool ReportUWRException(UnityWebRequest uwr)
     {
-//        if (!string.IsNullOrEmpty(uwr.error) || uwr.isNetworkError || uwr.isHttpError)
-//        {
+        if (!string.IsNullOrEmpty(uwr.error) || uwr.isNetworkError || uwr.isHttpError)
+        {
+            Debug.LogError("error:"+ uwr.error.ToString());
 //            Debug.LogError("commonUWRBack error " + uwr.error);
 //            Debug.LogError(uwr.error);
 //            Debug.LogError(uwr.url);
 //            Debug.LogError("uwr.isNetworkError " + uwr.isNetworkError);
 //            Debug.LogError("uwr.isHttpError " + uwr.isHttpError);
 //            Debug.LogError("uwr.responseCode " + uwr.responseCode);
-//            return true;
-//        }
+            return true;
+        }
         return false;
     }
 
@@ -177,7 +178,7 @@ public class NetWorkUtil : MonoBehaviour
     /// <param name="tex">ͼƬ</param>
     /// <param name="a">�ϴ��ص�</param>
     /// <param name="contentType">����ͷ ��������</param>
-    public void UploadPic(string serverURL, Texture2D tex, Action<UnityWebRequest> a = null, string contentType = Const.uploadImgContentType2, Hashtable headerParams = null)
+    public void UploadPic(string serverURL, Texture2D tex, Action<UnityWebRequest> a = null, string contentType = null, Hashtable headerParams = null)
     {
         //byte[] bytes = tex.EncodeToPNG();
         byte[] bytes = tex.EncodeToJPG(85);
@@ -193,7 +194,7 @@ public class NetWorkUtil : MonoBehaviour
     /// <param name="contentBytes">��Ҫ�ϴ����ֽ���</param>
     /// <param name="resultAction">�����ؽ����ί��</param>
     /// <param name="contentType">����ͷ ��������</param>
-    public void UploadByPut(string url, byte[] contentBytes, Action<UnityWebRequest> actionResult = null, string contentType = Const.contentType2, Hashtable headerParams = null)
+    public void UploadByPut(string url, byte[] contentBytes, Action<UnityWebRequest> actionResult = null, string contentType = null, Hashtable headerParams = null)
     {
         StartCoroutine(_UploadByPut(url, contentBytes, actionResult, contentType, headerParams));
     }
@@ -207,7 +208,7 @@ public class NetWorkUtil : MonoBehaviour
     /// <param name="contentType">����header�ļ��е�Content-Type����</param>
     /// <param name="headerParams">����ͷ���Ĳ����б�</param>
     /// <returns></returns>
-    IEnumerator _UploadByPut(string url, byte[] contentBytes, Action<UnityWebRequest> actionResult = null, string contentType = Const.contentType2, Hashtable headerParams = null)
+    IEnumerator _UploadByPut(string url, byte[] contentBytes, Action<UnityWebRequest> actionResult = null, string contentType =null, Hashtable headerParams = null)
     {
         using (UnityWebRequest uwr = UnityWebRequest.Put(url, contentBytes))
         {
@@ -356,7 +357,7 @@ public class NetWorkUtil : MonoBehaviour
     /// <param name="header">����ͷ</param>
     /// <param name="a">�����ؽ����ί��</param>
     /// <returns></returns>
-    IEnumerator _Post(string serverURL, WWWForm wwwform, Action<UnityWebRequest, Action<UnityWebRequest>> actionResult = null, Action<UnityWebRequest> a = null, string header = Const.contentType1)
+    IEnumerator _Post(string serverURL, WWWForm wwwform, Action<UnityWebRequest, Action<UnityWebRequest>> actionResult = null, Action<UnityWebRequest> a = null, string header =null)
     {
         //List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
         //formData.Add(new MultipartFormDataSection("field1=foo&field2=bar"));
@@ -381,7 +382,7 @@ public class NetWorkUtil : MonoBehaviour
     /// <param name="a">�����ؽ����ί��</param>
     /// <param name="header">����ͷ</param>
     /// <returns></returns>
-    IEnumerator _Post2(string serverURL, string jsonStr, Action<UnityWebRequest, Action<UnityWebRequest>> actionResult = null, Action<UnityWebRequest> a = null, string header = Const.contentType1)
+    IEnumerator _Post2(string serverURL, string jsonStr, Action<UnityWebRequest, Action<UnityWebRequest>> actionResult = null, Action<UnityWebRequest> a = null, string header = null)
     {
         var request = new UnityWebRequest(serverURL, "POST");
         byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonStr);
