@@ -15,22 +15,24 @@ public class ChinarBreakpointRenewal : MonoBehaviour
     private Button pauseBtn; //��ͣ��ť
     public string Url;
 
-    private string strName = "Download4.zip";
+    private string strName = "";
 
     /// <summary>
     /// ��ʼ��UI���漰����ť�󶨷���
     /// </summary>
     void Start()
     {
-        Url = DownloadMgr.DownloadBaseUrl + strName;
+        strName = "resource.zip";
+        Url = "http://a769135040.gnway.cc:40061/resource/" + strName;
 
         //��ʼ�����������ı���
-        ProgressBar.value = 0;
-        SliderValue.text = "0.0%";
-        startBtn = GameObject.Find("Start Button").GetComponent<Button>();
-        startBtn.onClick.AddListener(OnClickStartDownload);
-        pauseBtn = GameObject.Find("Pause Button").GetComponent<Button>();
-        pauseBtn.onClick.AddListener(OnClickStop);
+//        ProgressBar.value = 0;
+//        SliderValue.text = "0.0%";
+//        startBtn = GameObject.Find("Start Button").GetComponent<Button>();
+//        startBtn.onClick.AddListener(OnClickStartDownload);
+//        pauseBtn = GameObject.Find("Pause Button").GetComponent<Button>();
+//        pauseBtn.onClick.AddListener(OnCli2ckStop);
+        OnClickStartDownload();
     }
 
 
@@ -122,9 +124,8 @@ public class ChinarBreakpointRenewal : MonoBehaviour
                         while (uwr.isDone == false) //
                         {
                             if (_isStop) break;
-                            yield return null;
-                            yield return null;
-                            yield return null;
+                            for (int i = 0; i < 5; i++)
+                                yield return null;
                             byte[] data = uwr.downloadHandler.data;
 
                             if (data != null)
@@ -134,12 +135,12 @@ public class ChinarBreakpointRenewal : MonoBehaviour
                                 index += length;
                                 nowFileLength += length;
                                 progross2 = (float) nowFileLength / totalLength;
-                                Debug.Log(progross2);
+                                Debug.Log("下载百分比："+ progross2);
                                 progrossPrecent = Math.Floor((float) nowFileLength / totalLength * 100) + "%";
                                 if (nowFileLength >= totalLength) //��������������
                                 {
-                                    ProgressBar.value = 1; //�ı�Slider��ֵ
-                                    SliderValue.text = 100 + "%";
+//                                    ProgressBar.value = 1; //�ı�Slider��ֵ
+//                                    SliderValue.text = 100 + "%";
                                     if (callBack != null)
                                     {
                                         callBack.Invoke();
@@ -152,7 +153,7 @@ public class ChinarBreakpointRenewal : MonoBehaviour
 
                         if (uwr.isDone && totalLength != nowFileLength)
                         {
-                            StartCoroutine(DownloadFile(Url, Application.persistentDataPath + "/" + strName, null));
+                            StartCoroutine(DownloadFile(url, filePath, null));
                         }
                     }
                 }
