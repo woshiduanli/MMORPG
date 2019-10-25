@@ -7,19 +7,23 @@ using UnityEngine.UI;
 
 public class ChinarBreakpointRenewal : MonoBehaviour
 {
-    private bool _isStop;       //�Ƿ���ͣ
+    private bool _isStop; //�Ƿ���ͣ
 
     public Slider ProgressBar; //������
     public Text SliderValue; //������ֵ
-    private Button startBtn;    //��ʼ��ť
-    private Button pauseBtn;    //��ͣ��ť
-    public string Url = "http://www.linxinfa.test.mp4";
+    private Button startBtn; //��ʼ��ť
+    private Button pauseBtn; //��ͣ��ť
+    public string Url;
+
+    private string strName = "Download4.zip";
 
     /// <summary>
     /// ��ʼ��UI���漰����ť�󶨷���
     /// </summary>
     void Start()
     {
+        Url = DownloadMgr.DownloadBaseUrl + strName;
+
         //��ʼ�����������ı���
         ProgressBar.value = 0;
         SliderValue.text = "0.0%";
@@ -35,13 +39,41 @@ public class ChinarBreakpointRenewal : MonoBehaviour
     /// </summary>
     public void OnClickStartDownload()
     {
-      // Application.persistentDataPath
-        StartCoroutine(DownloadFile(Url, Application.streamingAssetsPath + "/MP4/test.mp4", CallBack));
+        // Application.persistentDataPath
+        StartCoroutine(DownloadFile(Url, Application.persistentDataPath + "/" + strName, null));
     }
 
 
+    IEnumerator _DownloadFile2(string url, string downloadFilePathAndName, Action<UnityWebRequest> actionResult = null)
+    {
+        var uwr = new UnityWebRequest(url, UnityWebRequest.kHttpVerbGET);
+//        uwr.downloadHandler = new DownloadHandlerFile(downloadFilePathAndName);
+
+        uwr.downloadHandler = new DownloadHandlerBuffer();
+
+
+        uwr.SetRequestHeader("Range", "bytes=" + 10000000 + "-");
+        UnityWebRequestAsyncOperation yi = uwr.SendWebRequest();
+
+        while (yi.isDone == false)
+        {
+            yield return null;
+            byte[] dddd = uwr.downloadHandler.data;
+
+            Debug.Log("长度:" + dddd.Length);
+        }
+
+        Debug.Log("最后长度：" + uwr.downloadHandler.data.Length);
+        Debug.Log("完成");
+    }
+
+    public float progross2;
     /// <summary>
-    /// Э�̣������ļ�
+    ///  百分比
+    /// </summary>
+    public string progrossPrecent;
+    /// <summary>
+    ///
     /// </summary>
     /// <param name="url">������Web��ַ</param>
     /// <param name="filePath">�ļ�����·��</param>
@@ -51,62 +83,76 @@ public class ChinarBreakpointRenewal : MonoBehaviour
     {
         UnityWebRequest huwr = UnityWebRequest.Head(url); //Head�������Ի�ȡ���ļ���ȫ������
         yield return huwr.SendWebRequest();
-        if (huwr.isNetworkError || huwr.isHttpError) //��������
+        if (huwr.isNetworkError || huwr.isHttpError || !string.IsNullOrEmpty(huwr.error)) //��������
         {
-            Debug.Log(huwr.error); //���� ������Ϣ
+            // 判断网络是不是通的  ，说明不通
+            Debug.LogError("error net is not connect");
         }
         else
         {
             long totalLength = long.Parse(huwr.GetResponseHeader("Content-Length")); //�����õ��ļ���ȫ������
             string dirPath = Path.GetDirectoryName(filePath);
-            if (!Directory.Exists(dirPath)) //�ж�·���Ƿ�����
+            if (!Directory.Exists(dirPath))
             {
                 Directory.CreateDirectory(dirPath);
             }
 
-            //����һ���ļ�����ָ��·��ΪfilePath,ģʽΪ�򿪻򴴽�������Ϊд��
+
             using (FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write))
             {
-                long nowFileLength = fs.Length; //��ǰ�ļ�����
+                long nowFileLength = fs.Length;
+                long downLoadLength = 0;
                 Debug.Log(fs.Length);
                 if (nowFileLength < totalLength)
                 {
-                    Debug.Log("��û��������");
-                    fs.Seek(nowFileLength, SeekOrigin.Begin);       //��ͷ��ʼ����������Ϊ��ǰ�ļ�����
-                    UnityWebRequest uwr = UnityWebRequest.Get(url); //����UnityWebRequest���󣬽�Url����
-                    uwr.SetRequestHeader("Range", "bytes=" + nowFileLength + "-" + totalLength);
-                    uwr.SendWebRequest();                      //��ʼ����
-                    if (uwr.isNetworkError || uwr.isHttpError) //��������
+                    Debug.Log("进入下载");
+                    fs.Seek(nowFileLength, SeekOrigin.Begin); 
+                    UnityWebRequest uwr = UnityWebRequest.Get(url);
+                    uwr.SetRequestHeader("Range", "bytes=" + nowFileLength + "-");
+                    Debug.Log("现在的长度：" + nowFileLength + "  " + totalLength);
+
+                    uwr.SendWebRequest(); //
+                    if (uwr.isNetworkError || uwr.isHttpError) 
                     {
-                        Debug.Log(uwr.error); //���� ������Ϣ
+                        Debug.Log("报错了");
                     }
                     else
                     {
-                        long index = 0;     //�Ӹ���������������
-                        while (!uwr.isDone) //ֻҪ����û�����ɣ�һֱִ�д�ѭ��
+                        long index = 0; //
+                        while (uwr.isDone == false) //
                         {
                             if (_isStop) break;
                             yield return null;
+                            yield return null;
+                            yield return null;
                             byte[] data = uwr.downloadHandler.data;
+
                             if (data != null)
                             {
                                 long length = data.Length - index;
-                                fs.Write(data, (int)index, (int)length); //д���ļ�
+                                fs.Write(data, (int) index, (int) length); //д���ļ�
                                 index += length;
                                 nowFileLength += length;
-                                ProgressBar.value = (float)nowFileLength / totalLength;
-                                SliderValue.text = Math.Floor((float)nowFileLength / totalLength * 100) + "%";
+                                progross2 = (float) nowFileLength / totalLength;
+                                Debug.Log(progross2);
+                                progrossPrecent = Math.Floor((float) nowFileLength / totalLength * 100) + "%";
                                 if (nowFileLength >= totalLength) //��������������
                                 {
                                     ProgressBar.value = 1; //�ı�Slider��ֵ
                                     SliderValue.text = 100 + "%";
-                                    if (callBack!=null)
+                                    if (callBack != null)
                                     {
-                                        callBack.Invoke(); 
+                                        callBack.Invoke();
                                     }
+
                                     //callBack?.Invoke();
                                 }
                             }
+                        }
+
+                        if (uwr.isDone && totalLength != nowFileLength)
+                        {
+                            StartCoroutine(DownloadFile(Url, Application.persistentDataPath + "/" + strName, null));
                         }
                     }
                 }
@@ -129,14 +175,14 @@ public class ChinarBreakpointRenewal : MonoBehaviour
     {
         if (_isStop)
         {
-            pauseBtn.GetComponentInChildren<Text>().text = "��ͣ����";
+            pauseBtn.GetComponentInChildren<Text>().text = "readP";
             Debug.Log("��������");
             _isStop = !_isStop;
             OnClickStartDownload();
         }
         else
         {
-            pauseBtn.GetComponentInChildren<Text>().text = "��������";
+            pauseBtn.GetComponentInChildren<Text>().text = "toStar";
             Debug.Log("��ͣ����");
             _isStop = !_isStop;
         }

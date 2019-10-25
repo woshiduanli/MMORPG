@@ -40,7 +40,7 @@ public class GameSceneCtrlMgr : MonoBehaviour
 
     }
 
-    // 返回 用center用圆心， radius为半径的圆上的随机点 
+    // 杩斿洖 鐢╟enter鐢ㄥ渾蹇冿紝 radius涓哄崐寰勭殑鍦嗕笂鐨勯殢鏈虹偣 
     private Vector3 OnPostRender(Vector3 center, float radius)
     {
         Vector3 v = new Vector3(0, 0, 1);

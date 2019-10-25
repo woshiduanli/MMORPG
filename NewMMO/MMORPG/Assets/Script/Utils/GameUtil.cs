@@ -220,6 +220,13 @@ public class GameUtil
         return targerPos + pos;
     }
 
+    /// <summary>
+    ///  获取目标点， 指向当前点的方向上的 已distance 为 半径  半圈上的随机点
+    /// </summary>
+    /// <param name="currPos"></param>
+    /// <param name="targerPos"></param>
+    /// <param name="distance"></param>
+    /// <returns></returns>
     public static Vector3 GetRandomPos(Vector3 currPos, Vector3 targerPos, float distance)
     {
         //1.定义一个向量
@@ -266,7 +273,10 @@ public class GameUtil
     /// <returns></returns>
     public static string GetFileName(string path)
     {
-        string fileName = path;
+//        System.IO.pa
+
+
+string fileName = path;
         int lastIndex = path.LastIndexOf('/');
         if (lastIndex > -1)
         {
