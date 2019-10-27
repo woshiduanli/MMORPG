@@ -103,7 +103,7 @@ public class GlobalInit : MonoBehaviour
         //EventDispatcher.Instance.Dispatch(protoCode, realContent);
     }
 
-    public string WebAccountUrl = @"http://localhost:8081/";
+    public string WebAccountUrl = @"http://49.232.165.108:80/";
 
     /// <summary>
     /// UI动画曲线

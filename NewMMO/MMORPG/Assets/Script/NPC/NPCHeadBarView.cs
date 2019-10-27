@@ -8,7 +8,7 @@ using DG.Tweening;
 public class NPCHeadBarView : MonoBehaviour
 {
     /// <summary>
-    /// êÇ³Æ
+    /// ï¿½Ç³ï¿½
     /// </summary>
     [SerializeField]
     private Text lblNickName;
@@ -57,7 +57,7 @@ public class NPCHeadBarView : MonoBehaviour
     }
 
     Vector3 m_screenPos; 
-    // ÈÃÒ»¸öui¹ÒÔÚÄ³¸öÊÀ½ç¿Õ¼äµÄµãÏÂ
+    // ï¿½ï¿½Ò»ï¿½ï¿½uiï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½Äµï¿½ï¿½ï¿½
     public void WolrdPostionToRectTransfromToWorldPos(Vector3 worldPos, RectTransform rect, Camera uiCamera)
     {
         Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
@@ -91,7 +91,7 @@ public class NPCHeadBarView : MonoBehaviour
     /// </summary>
     /// <param name="target"></param>
     /// <param name="nickName"></param>
-    /// <param name="isShowHPBar">ÊÇ·ñÏÔÊ¾ÑªÌõ</param>
+    /// <param name="isShowHPBar">ï¿½Ç·ï¿½ï¿½ï¿½Ê¾Ñªï¿½ï¿½</param>
     public void Init(Transform target, string nickName, bool isShowHPBar = false)
     {
         m_Target = target;

@@ -22,8 +22,9 @@ public class ChinarBreakpointRenewal : MonoBehaviour
     /// </summary>
     void Start()
     {
+//        "http://127.0.0.1:81/resource/"
         strName = "resource.zip";
-        Url = "http://a769135040.gnway.cc:40061/resource/" + strName;
+        Url = "http://49.232.165.108:80/resource/" + strName;
 
         //��ʼ�����������ı���
 //        ProgressBar.value = 0;
@@ -153,7 +154,7 @@ public class ChinarBreakpointRenewal : MonoBehaviour
 
                         if (uwr.isDone && totalLength != nowFileLength)
                         {
-                            StartCoroutine(DownloadFile(url, filePath, null));
+                            StartCoroutine(DownloadFile(url, filePath, callBack));
                         }
                     }
                 }

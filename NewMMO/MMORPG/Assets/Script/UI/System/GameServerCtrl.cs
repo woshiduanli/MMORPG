@@ -66,9 +66,18 @@ public class GameServerCtrl : SystemCtrlBase<GameServerCtrl>, ISystemCtrl
     {
         MyDebug.debug("点击了进入游戏");
         //UpdateLastLogOrServer(GlobalInit.Instance.CurAccount, GlobalInit.Instance.CurrSelectGameServer);
-        string str = "192.168.142.1";
+//        string str = "http://a769135040.gnway.cc";
+
+        string str = "49.232.165.108";
+//        string str = "123.206.56.9";
+//        string str = "25.158.185.82";
+
+//        string str = "192.168.0.103";
+
         //NetWorkSocket.Instance.Connect(GlobalInit.Instance.CurrSelectGameServer.Ip, GlobalInit.Instance.CurrSelectGameServer.Port);
         NetWorkSocket.Instance.Connect(str, 1011);
+//        NetWorkSocket.Instance.Connect(str, 1011);
+
 
     }
 
@@ -163,7 +172,7 @@ public class GameServerCtrl : SystemCtrlBase<GameServerCtrl>, ISystemCtrl
         dic1["userId"] = curAccount.Id;
         dic1["lastServerId"] = curGameServer.Id;
         dic1["lastServerName"] = curGameServer.Name;
-        NetWorkHttp.Instance.SendData("http://localhost:8081/api/gameserver", OnUpdateLastLogOrServerCallBack, true, JsonMapper.ToJson(dic1));
+        NetWorkHttp.Instance.SendData("http://49.232.165.108:80/api/gameserver", OnUpdateLastLogOrServerCallBack, true, JsonMapper.ToJson(dic1));
     }
 
 

@@ -20,8 +20,7 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
     // 快速登录
     public void QuickLogOn()
     {
-       
-
+//       PlayerPrefs.DeleteAll();
         //return; 
 
         // 1 如果本地账号没有， 就注册， 否则马上登录
@@ -30,13 +29,12 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
         {
             this.OpenView(WindowUIType.Reg);
             Debug.LogError("12233------------");
-        this.OpenView(WindowUIType.Reg);
+            this.OpenView(WindowUIType.Reg);
             // 手动登录
             this.OpenView(WindowUIType.Reg);
         }
         else
         {
-
             Debug.LogError("1223");
             m_IsAutoLogOn = true;
             // 自动登录
@@ -45,7 +43,8 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
             dic.Add("UserName", PlayerPrefs.GetString(ConstDefine.LogOn_AccountUserName));
             dic.Add("Pwd", PlayerPrefs.GetString(ConstDefine.LogOn_AccountPwd));
             dic.Add("ChannelId", 0);
-            NetWorkHttp.Instance.SendData("http://localhost:8081/api/account", OnLogOnCallBack, true, JsonMapper.ToJson(dic));
+            NetWorkHttp.Instance.SendData("http://49.232.165.108:80/api/account", OnLogOnCallBack, true,
+                JsonMapper.ToJson(dic));
         }
     }
 
@@ -56,6 +55,7 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
             MyDebug.debug("这里登录的问题, 我手动改了");
             m_LogOnView = UIViewUtil.Instance.OpenWindow(WindowUIType.LogOn).GetComponent<UILogOnView>();
         }
+
         if (m_LogOnView.txtUserName.text == null || m_LogOnView.txtUserName.text == "")
         {
             this.ShowMessage("提示", "用户名空");
@@ -69,7 +69,9 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
         dic.Add("Pwd", m_LogOnView.txtPwd.text);
         dic.Add("ChannelId", 0);
         Debug.LogError("12333333");
-        NetWorkHttp.Instance.SendData("http://localhost:8081/api/account", OnLogOnCallBack, true, JsonMapper.ToJson(dic));
+        NetWorkHttp.Instance.SendData("http://49.232.165.108:80/api/account", OnLogOnCallBack, true,
+            JsonMapper.ToJson(dic));
+        // NetWorkHttp.Instance.SendData("http://localhost:8081/api/account", OnLogOnCallBack, true, JsonMapper.ToJson(dic));
     }
 
 
@@ -91,12 +93,13 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
         Dictionary<string, object> dic = new Dictionary<string, object>();
         dic.Add("Type", 0);
 
-        dic.Add("UserName", "1212121");
+        dic.Add("UserName", "4242243208021");
         dic.Add("Pwd", "123456");
         dic.Add("ChannelId", 0);
 
-        NetWorkHttp.Instance.SendData("http://localhost:8081/api/account", OnRegCallBack, true, JsonMapper.ToJson(dic));
-
+        NetWorkHttp.Instance.SendData("http://49.232.165.108:80/api/account", OnRegCallBack, true,
+            JsonMapper.ToJson(dic));
+//        NetWorkHttp.Instance.SendData("http://localhost:8081/api/account", OnRegCallBack, true, JsonMapper.ToJson(dic));
     }
 
     public class RetData
@@ -109,7 +112,6 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
         if (obj.HasError)
         {
             MyDebug.debug(" 登录有错");
-
         }
         else
         {
@@ -119,6 +121,7 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
             {
                 return;
             }
+
             RetAccountEntity data = JsonMapper.ToObject<RetAccountEntity>(jsondata["objValue"].ToJson());
             if (!m_IsAutoLogOn)
             {
@@ -128,6 +131,7 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
                     PlayerPrefs.SetInt(ConstDefine.LogOn_AccountID, data.Id);
                     Stat.LogOn(data.Id, m_LogOnView.txtUserName.text);
                 }
+
                 PlayerPrefs.SetString(ConstDefine.LogOn_AccountUserName, m_LogOnView.txtUserName.text);
                 PlayerPrefs.SetString(ConstDefine.LogOn_AccountPwd, m_LogOnView.txtPwd.text);
                 m_LogOnView.CloseAndOpenNext(WindowUIType.GameServerEnter);
@@ -135,7 +139,8 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
             else
             {
                 // 是自动登录
-                Stat.LogOn(PlayerPrefs.GetInt(ConstDefine.LogOn_AccountID), PlayerPrefs.GetString(ConstDefine.LogOn_AccountUserName));
+                Stat.LogOn(PlayerPrefs.GetInt(ConstDefine.LogOn_AccountID),
+                    PlayerPrefs.GetString(ConstDefine.LogOn_AccountUserName));
                 GameServerCtrl.Instance.OpenView(WindowUIType.GameServerEnter);
             }
 
@@ -163,10 +168,10 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
         if (obj.HasError)
         {
             MyDebug.debug(" 注册有错");
-
         }
         else
         {
+            MyDebug.debug(" 注册没有有错");
             MyDebug.debug(obj.Value);
             RetAccountEntity data = JsonMapper.ToObject<RetAccountEntity>(obj.Value);
             if (data != null)
@@ -189,18 +194,15 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
             PlayerPrefs.SetString(ConstDefine.LogOn_AccountPwd, m_RegView.txtPwd.text);
             m_RegView.CloseAndOpenNext(WindowUIType.GameServerEnter);
         }
-
     }
 
     private void RegOrLoginOK()
     {
-
     }
 
     public void RegViewBtnToLogOnClick(string[] str)
     {
         m_RegView.CloseAndOpenNext(WindowUIType.LogOn);
-
     }
 
     public void OpenRegView()
@@ -232,7 +234,6 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
             default:
                 break;
         }
-
     }
 
     public void OpenLogOnView()
@@ -252,6 +253,4 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
         RemoveEventListener(ConstDefine.UILogOnView_btnLogOn, ClickReg);
         RemoveEventListener(ConstDefine.UILogOnView_btnToReg, RegViewBtnToLogOnClick);
     }
-
-
 }

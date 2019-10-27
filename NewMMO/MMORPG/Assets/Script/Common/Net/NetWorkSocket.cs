@@ -48,6 +48,7 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
         if (client != null && client.Connected)
             return;
         client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+//        client.Dispose();
         try
         {
             //client.Connect(new IPEndPoint(IPAddress.Parse(ip), 6688));
@@ -57,7 +58,7 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
             ReceiveMsg();
             if (OnConnectOk!=null)
             {
-                OnConnectOk(); 
+                OnConnectOk();
             }
         }
         catch (System.Exception)
