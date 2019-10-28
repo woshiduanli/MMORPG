@@ -67,7 +67,7 @@ public class GameServerCtrl : SystemCtrlBase<GameServerCtrl>, ISystemCtrl
         MyDebug.debug("点击了进入游戏");
         //UpdateLastLogOrServer(GlobalInit.Instance.CurAccount, GlobalInit.Instance.CurrSelectGameServer);
 //        string str = "http://a769135040.gnway.cc";
-
+//        conStr = "server=49.232.165.108;uid=sa1;pwd=Aa6671143 ; database=DBAccount";
         string str = "49.232.165.108";
 //        string str = "123.206.56.9";
 //        string str = "25.158.185.82";
