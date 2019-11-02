@@ -6,14 +6,16 @@ using LitJson;
 
 public class GameServerCtrl : SystemCtrlBase<GameServerCtrl>, ISystemCtrl
 {
-
     private UIGameServerEnterView m_GameServerEnterView;
     private UIGameServerSelectView m_GameServerSelectView;
 
     public GameServerCtrl()
     {
-        this.AddEventListener(ConstDefine.UIGmeServerEnterView_btnSelectGameServer, UIGameServerEnterViewzBtnSelectGameServer);
+        Transform tr;
+        this.AddEventListener(ConstDefine.UIGmeServerEnterView_btnSelectGameServer,
+            UIGameServerEnterViewzBtnSelectGameServer);
         this.AddEventListener(ConstDefine.UIGmeServerEnterView_btnEnterGame, GmeServerEnterViewBtnEnterGame);
+
 
         NetWorkSocket.Instance.OnConnectOk = OnConnectOkCallBack;
     }
@@ -61,29 +63,28 @@ public class GameServerCtrl : SystemCtrlBase<GameServerCtrl>, ISystemCtrl
     }
 
 
-
     private void GmeServerEnterViewBtnEnterGame(string[] param)
     {
         MyDebug.debug("点击了进入游戏");
         //UpdateLastLogOrServer(GlobalInit.Instance.CurAccount, GlobalInit.Instance.CurrSelectGameServer);
-//        string str = "http://a769135040.gnway.cc";
-//        conStr = "server=49.232.165.108;uid=sa1;pwd=Aa6671143 ; database=DBAccount";
-        string str = "49.232.165.108";
-//        string str = "123.206.56.9";
-//        string str = "25.158.185.82";
 
-//        string str = "192.168.0.103";
+        // 云服务器
+//        string str = "49.232.165.108";
+
+        /// 本地
+        string str = "192.168.0.103";
+
+
 
         //NetWorkSocket.Instance.Connect(GlobalInit.Instance.CurrSelectGameServer.Ip, GlobalInit.Instance.CurrSelectGameServer.Port);
         NetWorkSocket.Instance.Connect(str, 1011);
 //        NetWorkSocket.Instance.Connect(str, 1011);
-
-
     }
 
     private void UIGameServerEnterViewzBtnSelectGameServer(string[] param)
     {
-        m_GameServerSelectView = UIViewUtil.Instance.OpenWindow(WindowUIType.GameServerSelect).GetComponent<UIGameServerSelectView>();
+        m_GameServerSelectView = UIViewUtil.Instance.OpenWindow(WindowUIType.GameServerSelect)
+            .GetComponent<UIGameServerSelectView>();
 
         m_GameServerSelectView.OnGameServerClick = OnGameServerClick;
 
@@ -94,10 +95,7 @@ public class GameServerCtrl : SystemCtrlBase<GameServerCtrl>, ISystemCtrl
             GetGameServerPage();
             //GetGameServer();
         };
-        m_GameServerSelectView.OnPageClick = (a) =>
-        {
-            GetGameServer(a);
-        };
+        m_GameServerSelectView.OnPageClick = (a) => { GetGameServer(a); };
     }
 
     void OnGameServerClick(RetGameServerEntity go)
@@ -116,10 +114,13 @@ public class GameServerCtrl : SystemCtrlBase<GameServerCtrl>, ISystemCtrl
         dic.Add("Type", 0);
         dic["ChannelId"] = 0;
         dic["InnerVersion"] = 1001;
-        NetWorkHttp.Instance.SendData(GlobalInit.Instance.WebAccountUrl + "api/gameserver", OnGetGameServerPageCallBack, true, JsonMapper.ToJson(dic));
+        NetWorkHttp.Instance.SendData(GlobalInit.Instance.WebAccountUrl + "api/gameserver", OnGetGameServerPageCallBack,
+            true, JsonMapper.ToJson(dic));
     }
 
-    private Dictionary<int, List<RetGameServerEntity>> m_gameServerDic = new Dictionary<int, List<RetGameServerEntity>>();
+    private Dictionary<int, List<RetGameServerEntity>> m_gameServerDic =
+        new Dictionary<int, List<RetGameServerEntity>>();
+
     private int m_currentClickPageIndex = 0;
     private bool m_IsBusy = false;
 
@@ -131,6 +132,7 @@ public class GameServerCtrl : SystemCtrlBase<GameServerCtrl>, ISystemCtrl
             m_GameServerSelectView.SetGameServerUI(m_gameServerDic[pageIndex]);
             return;
         }
+
         if (m_IsBusy) return;
         m_IsBusy = true;
         Dictionary<string, object> dic1 = new Dictionary<string, object>();
@@ -138,7 +140,8 @@ public class GameServerCtrl : SystemCtrlBase<GameServerCtrl>, ISystemCtrl
         dic1["ChannelId"] = 0;
         dic1["InnerVersion"] = 1001;
         dic1["pageIndex"] = pageIndex;
-        NetWorkHttp.Instance.SendData(GlobalInit.Instance.WebAccountUrl + "api/gameserver", OnGetGameServerCallBack, true, JsonMapper.ToJson(dic1));
+        NetWorkHttp.Instance.SendData(GlobalInit.Instance.WebAccountUrl + "api/gameserver", OnGetGameServerCallBack,
+            true, JsonMapper.ToJson(dic1));
     }
 
     private void OnGetGameServerCallBack(NetWorkHttp.CallBackArgs obj)
@@ -161,6 +164,7 @@ public class GameServerCtrl : SystemCtrlBase<GameServerCtrl>, ISystemCtrl
             {
                 MyDebug.debug(item.Name + "  ---------   " + item.Id);
             }
+
             m_IsBusy = false;
         }
     }
@@ -172,7 +176,10 @@ public class GameServerCtrl : SystemCtrlBase<GameServerCtrl>, ISystemCtrl
         dic1["userId"] = curAccount.Id;
         dic1["lastServerId"] = curGameServer.Id;
         dic1["lastServerName"] = curGameServer.Name;
-        NetWorkHttp.Instance.SendData("http://49.232.165.108:80/api/gameserver", OnUpdateLastLogOrServerCallBack, true, JsonMapper.ToJson(dic1));
+//        NetWorkHttp.Instance.SendData("http://49.232.165.108:80/api/gameserver", OnUpdateLastLogOrServerCallBack, true,
+//            JsonMapper.ToJson(dic1));
+        NetWorkHttp.Instance.SendData("http://192.168.0.103:8081/api/gameserver", OnUpdateLastLogOrServerCallBack, true,
+            JsonMapper.ToJson(dic1));
     }
 
 
@@ -181,12 +188,10 @@ public class GameServerCtrl : SystemCtrlBase<GameServerCtrl>, ISystemCtrl
         if (arg.HasError)
         {
             MyDebug.debug(" -有错");
-
         }
         else
         {
         }
-
     }
 
     /// <summary>
@@ -198,7 +203,6 @@ public class GameServerCtrl : SystemCtrlBase<GameServerCtrl>, ISystemCtrl
         if (obj.HasError)
         {
             MyDebug.debug(" -有错");
-
         }
         else
         {
@@ -221,9 +225,8 @@ public class GameServerCtrl : SystemCtrlBase<GameServerCtrl>, ISystemCtrl
     public override void Dispose()
     {
         base.Dispose();
-        RemoveEventListener(ConstDefine.UIGmeServerEnterView_btnSelectGameServer, UIGameServerEnterViewzBtnSelectGameServer);
+        RemoveEventListener(ConstDefine.UIGmeServerEnterView_btnSelectGameServer,
+            UIGameServerEnterViewzBtnSelectGameServer);
         RemoveEventListener(ConstDefine.UIGmeServerEnterView_btnEnterGame, GmeServerEnterViewBtnEnterGame);
     }
-
-
 }

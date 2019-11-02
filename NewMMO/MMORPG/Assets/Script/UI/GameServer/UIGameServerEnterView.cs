@@ -38,11 +38,8 @@ public class UIGameServerEnterView : UIWindowViewBase
         //UpdateLastLogOrServer(GlobalInit.Instance.CurAccount, GlobalInit.Instance.CurrSelectGameServer);
 //        string str = "http://a769135040.gnway.cc";
 
-        string str = "49.232.165.108";
-//        string str = "123.206.56.9";
-//        string str = "25.158.185.82";
-
-//        string str = "192.168.0.103";
+//        string str = "49.232.165.108";
+        string str = "192.168.0.103";
 
         //NetWorkSocket.Instance.Connect(GlobalInit.Instance.CurrSelectGameServer.Ip, GlobalInit.Instance.CurrSelectGameServer.Port);
         NetWorkSocket.Instance.Connect(str, 1011);

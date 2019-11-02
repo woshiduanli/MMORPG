@@ -43,7 +43,11 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
             dic.Add("UserName", PlayerPrefs.GetString(ConstDefine.LogOn_AccountUserName));
             dic.Add("Pwd", PlayerPrefs.GetString(ConstDefine.LogOn_AccountPwd));
             dic.Add("ChannelId", 0);
-            NetWorkHttp.Instance.SendData("http://49.232.165.108:80/api/account", OnLogOnCallBack, true,
+                //
+//            NetWorkHttp.Instance.SendData("http://49.232.165.108:80/api/account", OnLogOnCallBack, true,
+//                JsonMapper.ToJson(dic));
+
+            NetWorkHttp.Instance.SendData("http://192.168.0.103:8081/api/account", OnLogOnCallBack, true,
                 JsonMapper.ToJson(dic));
         }
     }
@@ -69,9 +73,9 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
         dic.Add("Pwd", m_LogOnView.txtPwd.text);
         dic.Add("ChannelId", 0);
         Debug.LogError("12333333");
-        NetWorkHttp.Instance.SendData("http://49.232.165.108:80/api/account", OnLogOnCallBack, true,
-            JsonMapper.ToJson(dic));
-        // NetWorkHttp.Instance.SendData("http://localhost:8081/api/account", OnLogOnCallBack, true, JsonMapper.ToJson(dic));
+//        NetWorkHttp.Instance.SendData("http://49.232.165.108:80/api/account", OnLogOnCallBack, true,
+//            JsonMapper.ToJson(dic));
+         NetWorkHttp.Instance.SendData("http://localhost:8081/api/account", OnLogOnCallBack, true, JsonMapper.ToJson(dic));
     }
 
 
@@ -97,9 +101,9 @@ public class AccountCtrl : SystemCtrlBase<AccountCtrl>, ISystemCtrl
         dic.Add("Pwd", "123456");
         dic.Add("ChannelId", 0);
 
-        NetWorkHttp.Instance.SendData("http://49.232.165.108:80/api/account", OnRegCallBack, true,
-            JsonMapper.ToJson(dic));
-//        NetWorkHttp.Instance.SendData("http://localhost:8081/api/account", OnRegCallBack, true, JsonMapper.ToJson(dic));
+//        NetWorkHttp.Instance.SendData("http://49.232.165.108:80/api/account", OnRegCallBack, true,
+//            JsonMapper.ToJson(dic));
+        NetWorkHttp.Instance.SendData("http://localhost:8081/api/account", OnRegCallBack, true, JsonMapper.ToJson(dic));
     }
 
     public class RetData

@@ -42,7 +42,9 @@ public class NetWorkHttp : SingletonMono<NetWorkHttp>
     #endregion
 
 
-    string url = "http://49.232.165.108:80/api/account";
+//    string url = "http://49.232.165.108:80/api/account";
+// 不用
+   // string url = "http://192.168.0.103:8081/api/account";
     protected override void OnStart()
     {
         //Debug.Log 

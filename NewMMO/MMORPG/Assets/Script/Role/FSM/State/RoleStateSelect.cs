@@ -10,14 +10,17 @@ public class RoleStateSelect : RoleStateAbstract
     /// <summary>
     /// 构造函数
     /// </summary>
+    /// </summary>
     /// <param name="roleFSMMgr">有限状态机管理器</param>
     public RoleStateSelect(RoleFSMMgr roleFSMMgr)
         : base(roleFSMMgr)
     {
 
+
     }
 
     /// <summary>
+    /// 实现基类 进入状态
     /// 实现基类 进入状态
     /// </summary>
     public override void OnEnter()

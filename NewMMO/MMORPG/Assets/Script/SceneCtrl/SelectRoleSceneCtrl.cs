@@ -8,10 +8,10 @@ using UnityEngine;
 public class SelectRoleSceneCtrl : MonoBehaviour
 {
     List<JobEntity> m_JobList;
+
     /// <summary>
     ///  鑱屼笟闀滃儚瀛楀吀
     /// </summary>
-
     private Dictionary<int, RoleCtrl> m_JobRoleCtrl = new Dictionary<int, RoleCtrl>();
 
     UISceneSelectRoleView m_UISceneSelectRoleView;
@@ -19,13 +19,13 @@ public class SelectRoleSceneCtrl : MonoBehaviour
     public Transform[] CreateRoleSceneModel;
 
     public Transform[] roleContainer;
+
     private void Awake()
     {
-        m_UISceneSelectRoleView = UISceneCtrl.Instance.LoadSceneUI(UISceneCtrl.SceneUIType.SelectRole).GetComponent<UISceneSelectRoleView>();
-
-
-
+        m_UISceneSelectRoleView = UISceneCtrl.Instance.LoadSceneUI(UISceneCtrl.SceneUIType.SelectRole)
+            .GetComponent<UISceneSelectRoleView>();
     }
+
     // Use this for initialization
     void Start()
     {
@@ -39,37 +39,37 @@ public class SelectRoleSceneCtrl : MonoBehaviour
             m_UISceneSelectRoleView.SelectRoleDragView.OnSelectRoleDrag = OnSelectRoleDrag;
             if (m_UISceneSelectRoleView.JobItems != null && m_UISceneSelectRoleView.JobItems.Length > 0)
             {
-
                 for (int i = 0; i < m_UISceneSelectRoleView.JobItems.Length; i++)
                 {
                     m_UISceneSelectRoleView.JobItems[i].OnSelectJob = OnSelectJobCallBack;
                 }
             }
-
         }
 
         // 登录服务器返回
-        EventDispatcher.Instance.RegProto<RoleOperation_LogOnGameServerReturnProto>(ProtoCodeDef.RoleOperation_LogOnGameServerReturn, OnLogOnGameServerReturn);
+        EventDispatcher.Instance.RegProto<RoleOperation_LogOnGameServerReturnProto>(
+            ProtoCodeDef.RoleOperation_LogOnGameServerReturn, OnLogOnGameServerReturn);
         // 创建角色返回
-        EventDispatcher.Instance.RegProto<RoleOperation_CreateRoleReturnProto>(ProtoCodeDef.RoleOperation_CreateRoleReturn, OnCrateRoleReturn);
+        EventDispatcher.Instance.RegProto<RoleOperation_CreateRoleReturnProto>(
+            ProtoCodeDef.RoleOperation_CreateRoleReturn, OnCrateRoleReturn);
         // 进入游戏返回
-        EventDispatcher.Instance.RegProto<RoleOperation_EnterGameReturnProto>(ProtoCodeDef.RoleOperation_EnterGameReturn, OnEnterGameReturn);
+        EventDispatcher.Instance.RegProto<RoleOperation_EnterGameReturnProto>(
+            ProtoCodeDef.RoleOperation_EnterGameReturn, OnEnterGameReturn);
 
-        EventDispatcher.Instance.RegProto<RoleOperation_SelectRoleInfoReturnProto>(ProtoCodeDef.RoleOperation_SelectRoleInfoReturn, OnSelectRoleInfoReture);
+        EventDispatcher.Instance.RegProto<RoleOperation_SelectRoleInfoReturnProto>(
+            ProtoCodeDef.RoleOperation_SelectRoleInfoReturn, OnSelectRoleInfoReture);
 
-        EventDispatcher.Instance.RegProto<RoleOperation_DeleteRoleReturnProto>(ProtoCodeDef.RoleOperation_DeleteRoleReturn, OnRoleOperation_DelectRoleInfoReturnProto);
+        EventDispatcher.Instance.RegProto<RoleOperation_DeleteRoleReturnProto>(
+            ProtoCodeDef.RoleOperation_DeleteRoleReturn, OnRoleOperation_DelectRoleInfoReturnProto);
 
         // 服务器返回角色学会的技能信息
         EventDispatcher.Instance.RegProto<RoleData_SkillReturnProto>(ProtoCodeDef.RoleData_SkillReturn, OnSkillReture);
-
-
 
 
         m_UISceneSelectRoleView.OnBtnBeginGameClick = OnBtnBeginGameClick;
         m_UISceneSelectRoleView.OnBtnDeleteRoleClick = OnBtnDeleteRoleClick;
         m_UISceneSelectRoleView.OnBtnReturnClick = OnBtnReturnClick;
         m_UISceneSelectRoleView.OnBtnCreateRoleClick = OnBtnCreateRoleClick;
-
 
 
         LoadToObject();
@@ -79,10 +79,10 @@ public class SelectRoleSceneCtrl : MonoBehaviour
 
     void OnSkillReture(RoleData_SkillReturnProto proto)
     {
-        GlobalInit.Instance.MainPlayerInfo.LoadSkill(proto); 
+        GlobalInit.Instance.MainPlayerInfo.LoadSkill(proto);
     }
 
-        void ToCreateRoleUI()
+    void ToCreateRoleUI()
     {
         // 删除角色模型
         if (m_currenRoleModel != null) DestroyImmediate(m_currenRoleModel);
@@ -111,6 +111,7 @@ public class SelectRoleSceneCtrl : MonoBehaviour
     }
 
     List<GameObject> m_CloneCreateRoleList = new List<GameObject>();
+
     void ClearRole()
     {
         if (m_CloneCreateRoleList != null)
@@ -120,6 +121,7 @@ public class SelectRoleSceneCtrl : MonoBehaviour
                 if (m_CloneCreateRoleList[i] != null)
                     Destroy(m_CloneCreateRoleList[i]);
             }
+
             m_CloneCreateRoleList.Clear();
         }
     }
@@ -158,12 +160,11 @@ public class SelectRoleSceneCtrl : MonoBehaviour
 
                 // 创建3d模型
                 SetSelectRole(m_RoleList[0].RoleId);
-
             }
         }
         else
         {
-            //ToCreateRoleUI(); 
+            //ToCreateRoleUI();
             ////// 选择角色界面
             ////if (m_RoleList == null || m_RoleList.Count == 0)
             //{
@@ -184,9 +185,6 @@ public class SelectRoleSceneCtrl : MonoBehaviour
         {
             DeleteRole(m_curSelectRoleId);
             m_UISceneSelectRoleView.CloseDeleteRoleView();
-
-
-
         }
         else
         {
@@ -224,7 +222,6 @@ public class SelectRoleSceneCtrl : MonoBehaviour
             // 创建3d模型
             SetSelectRole(m_RoleList[0].RoleId);
         }
-
     }
 
     private void SetCreateRoleModelShow(bool show)
@@ -255,15 +252,14 @@ public class SelectRoleSceneCtrl : MonoBehaviour
         if (protoValue.IsSuccess)
         {
             GlobalInit.Instance.MainPlayerInfo = new RoleInfoMainPlayer(protoValue);
-         GlobalInit.Instance .LastInWorldMapId = protoValue.LastInWorldMapId; 
+            GlobalInit.Instance.LastInWorldMapId = protoValue.LastInWorldMapId;
 
-            MyDebug.debug("玩家当前的地图"+ GlobalInit.Instance.MainPlayerInfo.LastInWorldMapId);
+            MyDebug.debug("玩家当前的地图" + GlobalInit.Instance.MainPlayerInfo.LastInWorldMapId);
             // 进入主城
             SceneMgr.Instance.LoadToWorldMap(GlobalInit.Instance.MainPlayerInfo.LastInWorldMapId);
         }
         else
         {
-
         }
     }
 
@@ -309,18 +305,17 @@ public class SelectRoleSceneCtrl : MonoBehaviour
             if (m_CurSelectJobId == 0)
             {
                 m_CurSelectJobId = 4;
-
             }
         }
         else
         {
-
             ++m_CurSelectJobId;
             if (m_CurSelectJobId == 5)
             {
                 m_CurSelectJobId = 1;
             }
         }
+
         int d = m_CurSelectJobId - 1;
         m_target = m_UISceneSelectRoleView.JobItems[d].m_RotateAngle;
 
@@ -341,6 +336,7 @@ public class SelectRoleSceneCtrl : MonoBehaviour
                 return m_RoleList[i];
             }
         }
+
         return default(RoleOperation_LogOnGameServerReturnProto.RoleItem);
     }
 
@@ -367,7 +363,6 @@ public class SelectRoleSceneCtrl : MonoBehaviour
         //{
         //    m_JobRoleCtrl[m_JobList[i].Id] = rolec;
         //}
-
     }
 
     void SetSelectJob()
@@ -406,18 +401,20 @@ public class SelectRoleSceneCtrl : MonoBehaviour
     }
 
     bool m_IsCreateRole = false;
+
     private void OnBtnBeginGameClick()
     {
         MyDebug.debug("点击进入主城");
         if (m_IsCreateRole)
         {
             RoleOperation_CreateRoleProto roleOperation_CreateRoleProto = new RoleOperation_CreateRoleProto();
-            roleOperation_CreateRoleProto.JobId = (byte)m_CurSelectJobId;
+            roleOperation_CreateRoleProto.JobId = (byte) m_CurSelectJobId;
             if (string.IsNullOrEmpty(m_UISceneSelectRoleView.txtNickName.text))
             {
                 MessageCtrl.Instance.Show("提示", "请输入昵称");
                 return;
             }
+
             roleOperation_CreateRoleProto.RoleNickName = m_UISceneSelectRoleView.txtNickName.text;
             NetWorkSocket.Instance.SendMsg(roleOperation_CreateRoleProto.ToArray());
         }
@@ -441,7 +438,6 @@ public class SelectRoleSceneCtrl : MonoBehaviour
         }
         else
         {
-
         }
     }
 
@@ -456,7 +452,6 @@ public class SelectRoleSceneCtrl : MonoBehaviour
                 MyDebug.debug("ddd:" + m_CurSelectJobId);
                 m_isRotate = false;
                 dragTarget.eulerAngles = Vector3.up * toAngle;
-
             }
         }
     }
@@ -466,12 +461,15 @@ public class SelectRoleSceneCtrl : MonoBehaviour
         m_JobList = JobDBModel.Instance.GetList();
         for (int i = 0; i < m_JobList.Count; i++)
         {
-            GameObject obj = AssetBundleMgr.Instance.Load("Role/" + m_JobList[i].PrefabName.ToLower() + ".assetbundle", m_JobList[i].PrefabName);
-            if (obj != null)
-            {
-                GlobalInit.Instance.JobObjectDic[m_JobList[i].Id] = obj;
-
-            }
+            AssetBundleMgr.Instance.LoadOrDownload(
+                "Role/" + m_JobList[i].PrefabName.ToLower() + ".assetbundle", m_JobList[i].PrefabName,
+                obj =>
+                {
+                    if (obj != null)
+                    {
+                        GlobalInit.Instance.JobObjectDic[m_JobList[i].Id] = obj;
+                    }
+                });
         }
     }
 
@@ -512,8 +510,7 @@ public class SelectRoleSceneCtrl : MonoBehaviour
 
     private void OnLogOnGameServerReturn(RoleOperation_LogOnGameServerReturnProto buffer)
     {
-
-        MyDebug.debug("fsdff ffffffffffffffffffffffffffff"+buffer.RoleList.Count);
+        MyDebug.debug("fsdff ffffffffffffffffffffffffffff" + buffer.RoleList.Count);
 
         m_UISceneSelectRoleView.SetUICreateRoleActive(buffer.RoleCount == 0);
         m_UISceneSelectRoleView.SetUISelectRoleActive((buffer.RoleCount != 0));
@@ -546,6 +543,7 @@ public class SelectRoleSceneCtrl : MonoBehaviour
                 m_RoleList = buffer.RoleList;
                 m_UISceneSelectRoleView.SetRoleList(buffer.RoleList, SelectRoleCallBack);
             }
+
             m_UISceneSelectRoleView.SetSelected(buffer.RoleList[0].RoleId);
 
             if (CreateRoleSceneModel != null)
@@ -564,11 +562,9 @@ public class SelectRoleSceneCtrl : MonoBehaviour
     }
 
 
-
     // Update is called once per frame
     void Update()
     {
-
     }
 
     private void OnDestroy()
